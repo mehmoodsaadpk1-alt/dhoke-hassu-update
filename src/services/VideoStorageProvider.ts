@@ -22,7 +22,7 @@ class VideoStorageProvider {
    */
   async uploadVideo(userId: string, file: File, onProgress?: (progress: number) => void): Promise<StorageUploadResult> {
     try {
-      const url = await cloudinaryUploadVideo(file);
+      const url = await cloudinaryUploadVideo(file, onProgress);
       if (!url) throw new Error("Cloudinary upload failed");
       
       return {
@@ -37,9 +37,9 @@ class VideoStorageProvider {
   /**
    * Uploads a generated thumbnail image
    */
-  async uploadThumbnail(userId: string, file: File): Promise<StorageUploadResult> {
+  async uploadThumbnail(userId: string, file: File, onProgress?: (progress: number) => void): Promise<StorageUploadResult> {
     try {
-      const url = await uploadImage(file);
+      const url = await uploadImage(file, onProgress);
       if (!url) throw new Error("Cloudinary upload failed");
       
       return {

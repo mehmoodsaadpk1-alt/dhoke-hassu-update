@@ -1,6 +1,7 @@
 export async function uploadMedia(
   file: File | Blob,
-  resourceType: 'image' | 'video' | 'raw' = 'image'
+  resourceType: 'image' | 'video' | 'raw' = 'image',
+  onProgress?: (progress: number) => void
 ): Promise<string | null> {
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -14,32 +15,53 @@ export async function uploadMedia(
   formData.append('file', file);
   formData.append('upload_preset', uploadPreset);
 
-  try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
-      method: 'POST',
-      body: formData,
-    });
+  return new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`);
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Cloudinary upload failed:', errorData);
-      return null;
+    if (onProgress && xhr.upload) {
+      let lastPercent = -1;
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = Math.round((event.loaded / event.total) * 100);
+          if (percent > lastPercent) {
+            lastPercent = percent;
+            onProgress(percent);
+          }
+        }
+      };
     }
 
-    const data = await response.json();
-    return data.secure_url || data.url;
-  } catch (error) {
-    console.error('Exception during Cloudinary upload:', error);
-    return null;
-  }
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          resolve(data.secure_url || data.url);
+        } catch (e) {
+          console.error('Failed to parse Cloudinary response:', e);
+          resolve(null);
+        }
+      } else {
+        console.error('Cloudinary upload failed:', xhr.responseText);
+        resolve(null);
+      }
+    };
+
+    xhr.onerror = () => {
+      console.error('Exception during Cloudinary upload');
+      resolve(null);
+    };
+
+    xhr.send(formData);
+  });
 }
 
-export async function uploadImage(file: File | Blob): Promise<string | null> {
-  return uploadMedia(file, 'image');
+export async function uploadImage(file: File | Blob, onProgress?: (progress: number) => void): Promise<string | null> {
+  return uploadMedia(file, 'image', onProgress);
 }
 
-export async function uploadVideo(file: File | Blob): Promise<string | null> {
-  return uploadMedia(file, 'video');
+export async function uploadVideo(file: File | Blob, onProgress?: (progress: number) => void): Promise<string | null> {
+  return uploadMedia(file, 'video', onProgress);
 }
 
 export async function deleteMedia(publicId: string, resourceType: 'image' | 'video' = 'image'): Promise<boolean> {

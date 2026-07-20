@@ -35,14 +35,13 @@ export class VideoUploadService {
     try {
       checkAbort();
       onStageChange?.('Generating Thumbnail');
-      onProgress?.(5);
+      onProgress?.(0);
 
       // 1. Generate Thumbnail and Extract Metadata
       const { blob: thumbnailBlob, duration, width, height } = await videoProcessingService.generateThumbnail(file);
       const thumbnailFile = new File([thumbnailBlob], `thumb_${Date.now()}.jpg`, { type: 'image/jpeg' });
       
       checkAbort();
-      onProgress?.(15);
 
       // 2. Conditional Compression
       let videoToUpload: File | Blob = file;
@@ -53,15 +52,16 @@ export class VideoUploadService {
         onStageChange?.('Compressing');
         videoToUpload = await videoProcessingService.compressVideo(file, (p) => {
           checkAbort();
-          onProgress?.(15 + (p * 0.60)); // 15% to 75%
+          // We intentionally don't report compression progress on the upload progress bar
+          // to keep it purely for the upload phase as requested.
         });
         finalSize = videoToUpload.size;
         compressionRatio = file.size / finalSize;
       }
 
       checkAbort();
-      onStageChange?.('Uploading'); // We can treat Uploading Thumbnail and Uploading Video generally as 'Uploading' or specific.
-      onProgress?.(75);
+      onStageChange?.('Uploading'); 
+      onProgress?.(0);
 
       // 3. Upload Thumbnail
       const thumbResult = await videoStorageProvider.uploadThumbnail(userId, thumbnailFile);
@@ -73,7 +73,7 @@ export class VideoUploadService {
       // 4. Upload Video
       const videoResult = await videoStorageProvider.uploadVideo(userId, videoToUpload as File, (p) => {
         checkAbort();
-        onProgress?.(75 + (p * 0.20)); // 75% to 95%
+        onProgress?.(p);
       });
       if (videoResult.error) throw videoResult.error;
       uploadedVideoPath = videoResult.path;
