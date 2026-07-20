@@ -11,9 +11,10 @@ interface StoryViewerProps {
   viewerId: string;
   onDeleteStory?: (storyId: string) => void;
   navigate?: (path: string, state?: any) => void;
+  isAdminMode?: boolean;
 }
 
-export default function StoryViewer({ stories, initialIdx, onClose, viewerId, onDeleteStory, navigate }: StoryViewerProps) {
+export default function StoryViewer({ stories, initialIdx, onClose, viewerId, onDeleteStory, navigate, isAdminMode = false }: StoryViewerProps) {
   const [currentIdx, setCurrentIdx] = useState(initialIdx);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -41,7 +42,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
 
   useEffect(() => {
     // 3. Determine real media type
-    const hasVideoExtension = (url?: string) => !!url?.match(/\\.(mp4|webm|mov)$/i);
+    const hasVideoExtension = (url?: string) => !!url?.match(/\.(mp4|webm|mov)$/i);
     let realMediaType = currentStory?.type;
     
     if (realMediaType !== 'video' && hasVideoExtension(currentStory?.image)) {
@@ -132,13 +133,13 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
     if (currentStory && viewerId) {
       if (currentStory.isAd) {
         dbLogStoryAdAnalytics(currentStory.id, 'impression');
-      } else if (currentStory.userId !== viewerId) {
+      } else if (currentStory.userId !== viewerId && !isAdminMode) {
         dbLogStoryView(currentStory.id, viewerId);
         console.log("[STORY VIEWER] Story Viewed", currentStory.id);
       }
 
       // Fetch current reaction count
-      if (supabase) {
+      if (supabase && !isAdminMode) {
         supabase.from('story_reactions')
           .select('id', { count: 'exact', head: true })
           .eq('story_id', currentStory.id)
@@ -149,10 +150,11 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
           });
       }
     }
-  }, [currentStory, viewerId]);
+  }, [currentStory, viewerId, isAdminMode]);
 
   // Realtime subscription for reactions & insights
   useEffect(() => {
+    if (isAdminMode) return;
     if (!supabase) return;
     const channel = supabase.channel('public:story_realtime_events')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'story_reactions' }, (payload) => {
@@ -189,7 +191,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [currentStory, viewerId]);
+  }, [currentStory, viewerId, isAdminMode]);
 
   // Fetch insights when owner views their own story or opens the sheet
   useEffect(() => {
@@ -206,7 +208,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
       return;
     }
 
-    const isVideoStory = currentStory?.type === 'video' || currentStory?.videoUrl || currentStory?.video_url || currentStory?.mediaUrls?.some(url => url.match(/\\.(mp4|webm|mov)$/i));
+    const isVideoStory = currentStory?.type === 'video' || currentStory?.videoUrl || currentStory?.video_url || currentStory?.mediaUrls?.some(url => url.match(/\.(mp4|webm|mov)$/i));
 
     if (isVideoStory && videoRef.current) {
       const playPromise = videoRef.current.play();

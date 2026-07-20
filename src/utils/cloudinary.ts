@@ -41,3 +41,24 @@ export async function uploadImage(file: File | Blob): Promise<string | null> {
 export async function uploadVideo(file: File | Blob): Promise<string | null> {
   return uploadMedia(file, 'video');
 }
+
+export async function deleteMedia(publicId: string, resourceType: 'image' | 'video' = 'image'): Promise<boolean> {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return false;
+    
+    const { data, error } = await supabase.functions.invoke('delete-cloudinary-media', {
+      body: { publicId, resourceType }
+    });
+    
+    if (error) {
+      console.error('Failed to invoke delete-cloudinary-media edge function:', error);
+      return false;
+    }
+    
+    return data?.result === 'ok';
+  } catch (err) {
+    console.error('Exception calling Cloudinary delete edge function:', err);
+    return false;
+  }
+}

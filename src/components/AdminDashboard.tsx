@@ -165,6 +165,8 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   
   // Sidebar state (Supports wide mode and collapsed icon-only mode)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Mobile sidebar overlay state
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   
   // Sub-routes / Tabs
   const [adminPath, setAdminPath] = useState<string>(() => {
@@ -646,6 +648,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
     setSearchTerm('');
     setCurrentPage(1);
     setIsTabLoading(true);
+    // Close mobile sidebar on navigation
+    setIsMobileSidebarOpen(false);
+    document.body.style.overflow = '';
     setTimeout(() => {
       setIsTabLoading(false);
     }, 280);
@@ -659,6 +664,33 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // ESC key closes mobile sidebar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileSidebarOpen) {
+        setIsMobileSidebarOpen(false);
+        document.body.style.overflow = '';
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileSidebarOpen]);
+
+  // Lock body scroll when mobile sidebar is open
+  useEffect(() => {
+    if (isMobileSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileSidebarOpen]);
+
+  const closeMobileSidebar = () => {
+    setIsMobileSidebarOpen(false);
+    document.body.style.overflow = '';
+  };
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1552,14 +1584,24 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-850 selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-850 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
       
       {/* 1. TOP HEADER BAR */}
-      <header className="bg-white border-b border-slate-200/80 h-16 shrink-0 px-4 md:px-6 flex items-center justify-between sticky top-0 z-40 shadow-xs">
+      <header className="bg-white border-b border-slate-200/80 h-16 shrink-0 px-4 md:px-6 flex items-center justify-between sticky top-0 z-50 shadow-xs">
         <div className="flex items-center gap-3">
+          {/* Mobile hamburger — only visible below lg */}
+          <button 
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="lg:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+            title="Open menu"
+            aria-label="Open sidebar"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          {/* Desktop toggle — only visible at lg+ */}
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+            className="hidden lg:flex p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
             title="Toggle sidebar"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -1579,7 +1621,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 bg-green-50 border border-green-100 rounded-full text-[11px] font-bold text-green-700">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             {isEn ? 'Live Telemetry Active' : 'ڈیٹا بیس سے منسلک ہے'}
@@ -1597,15 +1639,46 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
       </header>
 
       {/* 2. SIDEBAR NAVIGATION + CENTRAL CONTENT */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden min-w-0">
+
+        {/* MOBILE DARK OVERLAY — shown when mobile sidebar is open */}
+        {isMobileSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={closeMobileSidebar}
+            aria-hidden="true"
+          />
+        )}
         
         {/* SIDEBAR */}
-        <aside className={`${isSidebarOpen ? 'w-64' : 'w-16'} shrink-0 border-r border-slate-200 bg-white transition-all duration-300 overflow-y-auto flex flex-col justify-between z-30 shadow-xs`}>
+        {/* Desktop: always visible, push layout (w-64 or w-16) */}
+        {/* Mobile: fixed overlay, slides in from left */}
+        <aside className={[
+          // Shared styles
+          'bg-white border-r border-slate-200 overflow-y-auto flex flex-col justify-between shadow-xs transition-all duration-300',
+          // Desktop behavior (lg+): inline, width-toggled
+          'lg:relative lg:shrink-0 lg:translate-x-0 lg:z-30',
+          isSidebarOpen ? 'lg:w-64' : 'lg:w-16',
+          // Mobile behavior (<lg): fixed overlay
+          'fixed inset-y-0 left-0 z-50 w-72',
+          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+        ].join(' ')}>
           <div className="p-3 space-y-6">
+            {/* Mobile: close button at top of sidebar */}
+            <div className="lg:hidden flex items-center justify-between mb-2 pb-2 border-b border-slate-100">
+              <span className="text-xs font-black text-slate-700 uppercase tracking-widest">Menu</span>
+              <button
+                onClick={closeMobileSidebar}
+                className="p-1.5 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
             
             {/* Group 1: CORE PORTAL CONTROLS */}
             <div>
-              {isSidebarOpen && (
+              {(isSidebarOpen || isMobileSidebarOpen) && (
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-2">
                   {isEn ? 'System Core' : 'نظام کا جائزہ'}
                 </p>
@@ -1618,7 +1691,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 >
                   <div className="flex items-center gap-2.5">
                     <BarChart2 className="w-4 h-4 text-slate-400 shrink-0" />
-                    {isSidebarOpen && <span>{isEn ? 'Dashboard Overview' : 'ڈیش بورڈ'}</span>}
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Dashboard Overview' : 'ڈیش بورڈ'}</span>}
                   </div>
                 </button>
                 
@@ -1629,9 +1702,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 >
                   <div className="flex items-center gap-2.5">
                     <Users className="w-4 h-4 text-slate-400 shrink-0" />
-                    {isSidebarOpen && <span>{isEn ? 'Users Management' : 'صارفین کا انتظام'}</span>}
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Users Management' : 'صارفین کا انتظام'}</span>}
                   </div>
-                  {isSidebarOpen && (
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
                     <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">{users.length}</span>
                   )}
                 </button>
@@ -1643,7 +1716,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 >
                   <div className="flex items-center gap-2.5">
                     <Settings className="w-4 h-4 text-slate-400 shrink-0" />
-                    {isSidebarOpen && <span>{isEn ? 'System Settings' : 'انتظامی ترتیبات'}</span>}
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'System Settings' : 'انتظامی ترتیبات'}</span>}
                   </div>
                 </button>
               </nav>
@@ -1651,7 +1724,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
 
             {/* Group 2: HYPERLOCAL DIRECTORY */}
             <div>
-              {isSidebarOpen && (
+              {(isSidebarOpen || isMobileSidebarOpen) && (
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-2">
                   {isEn ? 'Hyperlocal Directory' : 'کمیونٹی مواد'}
                 </p>
@@ -1681,9 +1754,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                   >
                     <div className="flex items-center gap-2.5">
                       <item.icon className="w-4 h-4 text-slate-400 shrink-0" />
-                      {isSidebarOpen && <span>{item.label}</span>}
+                      {(isSidebarOpen || isMobileSidebarOpen) && <span>{item.label}</span>}
                     </div>
-                    {isSidebarOpen && (
+                    {(isSidebarOpen || isMobileSidebarOpen) && (
                       <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">{item.count}</span>
                     )}
                   </button>
@@ -1693,7 +1766,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
 
             {/* Group 3: SECURITY & AUDIT */}
             <div>
-              {isSidebarOpen && (
+              {(isSidebarOpen || isMobileSidebarOpen) && (
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-3 mb-2">
                   {isEn ? 'Security & Moderation' : 'سیکیورٹی'}
                 </p>
@@ -1706,9 +1779,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 >
                   <div className="flex items-center gap-2.5">
                     <FileCheck className="w-4 h-4 text-slate-400 shrink-0" />
-                    {isSidebarOpen && <span>{isEn ? 'Verifications' : 'تصدیقیں'}</span>}
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Verifications' : 'تصدیقیں'}</span>}
                   </div>
-                  {isSidebarOpen && verificationRequests.filter(v => v.status === 'Pending').length > 0 && (
+                  {(isSidebarOpen || isMobileSidebarOpen) && verificationRequests.filter(v => v.status === 'Pending').length > 0 && (
                     <span className="bg-amber-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-md animate-pulse">
                       {verificationRequests.filter(v => v.status === 'Pending').length}
                     </span>
@@ -1722,9 +1795,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 >
                   <div className="flex items-center gap-2.5">
                     <Flag className="w-4 h-4 text-slate-400 shrink-0" />
-                    {isSidebarOpen && <span>{isEn ? 'Reports & Flags' : 'رپورٹس'}</span>}
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Reports & Flags' : 'رپورٹس'}</span>}
                   </div>
-                  {isSidebarOpen && reports.length > 0 && (
+                  {(isSidebarOpen || isMobileSidebarOpen) && reports.length > 0 && (
                     <span className="bg-red-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">
                       {reports.length}
                     </span>
@@ -1741,12 +1814,12 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
               className="w-full py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all border-0 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
-              {isSidebarOpen && <span>{isEn ? 'Portal View' : 'ایپ میں جائیں'}</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Portal View' : 'ایپ میں جائیں'}</span>}
             </button>
           </div>
         </aside>
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-slate-50/50">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 lg:p-8 bg-slate-50/50 min-w-0">
 
           
           {loading || isTabLoading ? (
@@ -1779,7 +1852,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                   </div>
 
                   {/* HIGH-AESTHETIC METRICS METRIC CARDS */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
                     {[
                       { label: isEn ? 'Total Users' : 'کل صارفین', value: users.length, icon: Users, color: 'bg-blue-50 text-blue-600 border-blue-100', trend: '↑ 12% growth' },
                       { label: isEn ? 'Active Feed Posts' : 'کمیونٹی پوسٹس', value: posts.length, icon: MessageSquare, color: 'bg-green-50 text-green-600 border-green-100', trend: '↑ 8% active' },
@@ -1811,7 +1884,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                   {/* SECONDARY SYSTEM STATUS DETAILS */}
                   <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                     <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">{isEn ? 'Extended Community Assets' : 'دیگر شعبہ جات'}</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                       {[
                         { label: isEn ? 'Jobs Board' : 'ملازمتیں', value: jobs.length, icon: Briefcase },
                         { label: isEn ? 'Marketplace' : 'سامان', value: marketplaceItems.length, icon: ShoppingBag },
@@ -2003,7 +2076,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   )}
 
                   {/* Revenue & Overview Statistics Cards */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                     {[
                       { label: 'Total Ads', value: ads.length, color: 'bg-blue-50 text-blue-600 border-blue-100' },
                       { label: 'Active Ads', value: ads.filter(a => a.status === 'Active').length, color: 'bg-green-50 text-green-600 border-green-100' },
@@ -2119,7 +2192,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   </div>
 
                   {/* Search, Sort & Filters Toolbar */}
-                  <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row gap-4 items-center justify-between">
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
                     <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full lg:max-w-md">
                       <Search className="w-4 h-4 text-slate-400 shrink-0" />
                       <input
@@ -2131,12 +2204,12 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       />
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end">
+                    <div className="flex flex-wrap items-center gap-2 w-full">
                       {/* Status Filter */}
                       <select
                         value={adFilterStatus}
                         onChange={(e) => setAdFilterStatus(e.target.value)}
-                        className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="all">All Statuses</option>
                         <option value="Active">Active</option>
@@ -2151,7 +2224,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       <select
                         value={adFilterPlacement}
                         onChange={(e) => setAdFilterPlacement(e.target.value)}
-                        className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="all">All Placements</option>
                         {[
@@ -2171,7 +2244,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           setAdSortField(field as keyof AdItem);
                           setAdSortOrder(order as 'asc' | 'desc');
                         }}
-                        className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="created_at-desc">Newest Created</option>
                         <option value="title-asc">Title (A-Z)</option>
@@ -2359,7 +2432,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   </div>
 
                   {/* Search and Filters */}
-                  <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-4 items-center justify-between">
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
                     <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full sm:max-w-md">
                       <Search className="w-4 h-4 text-slate-400 shrink-0" />
                       <input
@@ -2370,7 +2443,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         className="w-full bg-transparent border-none text-xs placeholder-slate-400 focus:outline-none"
                       />
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs text-slate-400 font-bold uppercase">Filter:</span>
                       {['all', 'verified', 'standard'].map(f => (
                         <button
@@ -2524,7 +2597,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     </div>
 
                     {/* Search & Filters */}
-                    <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
                       <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full sm:max-w-md">
                         <Search className="w-4 h-4 text-slate-400 shrink-0" />
                         <input
@@ -2535,12 +2608,12 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           className="w-full bg-transparent border-none text-xs placeholder-slate-400 focus:outline-none"
                         />
                       </div>
-                      <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs text-slate-400 font-bold uppercase">Filter:</span>
                         {[
                           { key: 'all', label: 'All' },
-                          { key: 'pending', label: 'Pending Approval' },
-                          { key: 'flagged', label: 'Reported / Flagged' },
+                          { key: 'pending', label: 'Pending' },
+                          { key: 'flagged', label: 'Flagged' },
                           { key: 'clean', label: 'Clean' }
                         ].map(tObj => (
                           <button

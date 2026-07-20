@@ -544,9 +544,18 @@ export async function dbArchiveStory(storyId: string): Promise<boolean> {
 }
 
 export async function dbLogStoryView(storyId: string, viewerId: string): Promise<void> {
+  const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
+  console.log("[DB] dbLogStoryView called with:", { storyId, viewerId });
+  if (!isUUID(storyId)) {
+    console.warn("[DB] dbLogStoryView skipped due to non-UUID:", storyId);
+    return;
+  }
   try {
-    const { error } = await supabase!.from('story_views').insert({ story_id: storyId, viewer_id: viewerId });
-    if (!error) {
+    const { error, data } = await supabase!.from('story_views').insert({ story_id: storyId, viewer_id: viewerId });
+    if (error) {
+      console.error("[DB] dbLogStoryView INSERT ERROR:", error);
+    } else {
+      console.log("[DB] dbLogStoryView INSERT SUCCESS:", data);
       // Fetch story to notify owner
       const { data: story } = await supabase!.from('stories').select('user_id').eq('id', storyId).single();
       if (story && story.user_id !== viewerId) {
@@ -566,11 +575,13 @@ export async function dbLogStoryView(storyId: string, viewerId: string): Promise
       }
     }
   } catch (e) {
-    console.warn("[STORY] View already logged or failed:", e);
+    console.error("[DB] dbLogStoryView EXCEPTION:", e);
   }
 }
 
 export async function dbReactToStory(storyId: string, reactorId: string, reactionType: string): Promise<boolean> {
+  const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
+  if (!isUUID(storyId)) return false;
   try {
     // Check if reaction exists
     const { data: existing } = await supabase!.from('story_reactions')
@@ -621,6 +632,8 @@ export async function dbReactToStory(storyId: string, reactorId: string, reactio
 
 export async function dbReplyToStory(storyId: string, senderId: string, replyType: string, content: string): Promise<boolean> {
   console.log("[STORY REPLY START]", { storyId, senderId, replyType, content });
+  const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
+  if (!isUUID(storyId)) return false;
   try {
     const { error } = await supabase!.from('story_replies').insert({
       story_id: storyId,
@@ -5190,6 +5203,8 @@ export interface StoryInsights {
 }
 
 export async function dbGetStoryInsights(storyId: string): Promise<StoryInsights> {
+  const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
+  if (!isUUID(storyId)) return { views: [], reactions: [], replies: [] };
   if (!supabase) return { views: [], reactions: [], replies: [] };
   try {
     // Fetch raw story interactions first
@@ -5630,7 +5645,7 @@ export async function dbCreateShareStory(data: { userId: string, entityType: str
   if (!supabase || !isSupabaseConfigured) return false;
   try {
     const { error } = await supabase.from('stories').insert({
-      id: `story_${Date.now()}_${Math.random().toString(36).substring(2,9)}`,
+      id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `story_${Date.now()}_${Math.random().toString(36).substring(2,9)}`,
       author: data.author,
       avatar: data.avatar,
       custom_audience_ids: [data.userId],
@@ -5676,5 +5691,195 @@ function getTableNameFromEntityType(type: string) {
     case 'poll': return 'posts';
     case 'alert': return 'posts';
     default: return 'posts';
+  }
+}
+
+// =========================================
+// ADMIN MANAGEMENT (STORIES & HIGHLIGHTS)
+// =========================================
+
+export async function dbGetAdminStories(
+  page_offset = 0,
+  page_limit = 50,
+  search_query = '',
+  filter_status = 'all',
+  filter_type = 'all',
+  sort_by = 'latest'
+) {
+  if (!supabase || !isSupabaseConfigured) return [];
+  try {
+    // Try the SECURITY DEFINER RPC first — it bypasses RLS and does proper COUNT aggregation
+    const { data: rpcData, error: rpcError } = await supabase.rpc('get_admin_stories_with_counts', {
+      page_offset,
+      page_limit,
+      search_query,
+      filter_status,
+      filter_type,
+      sort_by
+    });
+
+    if (!rpcError && rpcData) {
+      return rpcData.map((s: any) => ({
+        ...s,
+        author: s.author || 'Unknown',
+        avatar: s.avatar || '',
+        views_count: Number(s.views_count) || 0,
+        reactions_count: Number(s.reactions_count) || 0,
+        replies_count: Number(s.replies_count) || 0,
+      }));
+    }
+
+    // Fallback: direct query if RPC not available
+    console.warn('get_admin_stories_with_counts RPC not available, falling back to direct query. Error:', rpcError);
+
+    const { data: fallbackData, error: fallbackError } = await supabase
+      .from('stories')
+      .select(`*`)
+      .order('createdAt', { ascending: false })
+      .range(page_offset, page_offset + page_limit - 1);
+    
+    if (fallbackError) {
+      console.error('dbGetAdminStories direct query failed:', fallbackError);
+      return [];
+    }
+    
+    // Filter to valid UUIDs for relation queries to avoid PGRST errors
+    const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
+    const allStoryIds = fallbackData.map((s: any) => s.id);
+    const uuidStoryIds = allStoryIds.filter(isUUID);
+    
+    const viewCountMap: Record<string, number> = {};
+    const reactionCountMap: Record<string, number> = {};
+    const replyCountMap: Record<string, number> = {};
+
+    if (uuidStoryIds.length > 0) {
+      const [
+        { data: viewRows },
+        { data: reactionRows },
+        { data: replyRows }
+      ] = await Promise.all([
+        supabase.from('story_views').select('story_id').in('story_id', uuidStoryIds).limit(10000),
+        supabase.from('story_reactions').select('story_id').in('story_id', uuidStoryIds).limit(10000),
+        supabase.from('story_replies').select('story_id').in('story_id', uuidStoryIds).limit(10000)
+      ]);
+
+      if (viewRows) {
+        for (const row of viewRows) {
+          const sid = (row as any).story_id;
+          viewCountMap[sid] = (viewCountMap[sid] || 0) + 1;
+        }
+      }
+      if (reactionRows) {
+        for (const row of reactionRows) {
+          const sid = (row as any).story_id;
+          reactionCountMap[sid] = (reactionCountMap[sid] || 0) + 1;
+        }
+      }
+      if (replyRows) {
+        for (const row of replyRows) {
+          const sid = (row as any).story_id;
+          replyCountMap[sid] = (replyCountMap[sid] || 0) + 1;
+        }
+      }
+    }
+
+    return fallbackData.map((s: any) => ({
+      ...s,
+      author: s.author || 'Unknown',
+      avatar: s.avatar || '',
+      views_count: viewCountMap[s.id] ?? 0,
+      reactions_count: reactionCountMap[s.id] ?? 0,
+      replies_count: replyCountMap[s.id] ?? 0
+    }));
+  } catch (err) {
+    console.error('dbGetAdminStories error', err);
+    return [];
+  }
+}
+
+
+export async function dbGetAdminHighlights(page_offset = 0, page_limit = 50) {
+  if (!supabase || !isSupabaseConfigured) return [];
+  try {
+    // 1. Fetch highlights (no relational joins to avoid PGRST200)
+    const { data: highlights, error: hError } = await supabase
+      .from('story_highlights')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .range(page_offset, page_offset + page_limit - 1);
+      
+    if (hError || !highlights) {
+      console.error('dbGetAdminHighlights failed:', hError);
+      return [];
+    }
+    
+    // 2. Extract IDs for parallel fetching
+    const userIds = [...new Set(highlights.map(h => h.user_id).filter(Boolean))];
+    const highlightIds = highlights.map(h => h.id);
+    
+    // 3. Fetch profiles and items in parallel
+    const [profilesRes, itemsRes] = await Promise.all([
+      userIds.length > 0 ? supabase.from('profiles').select('user_id, full_name').in('user_id', userIds) : Promise.resolve({ data: [] }),
+      highlightIds.length > 0 ? supabase.from('story_highlight_items').select('highlight_id').in('highlight_id', highlightIds) : Promise.resolve({ data: [] })
+    ]);
+    
+    const profiles = profilesRes.data || [];
+    const items = itemsRes.data || [];
+    
+    // 4. Merge data in TypeScript
+    return highlights.map((h: any) => {
+      // Find author name
+      const profile = profiles.find((p: any) => p.user_id === h.user_id || p.id === h.user_id);
+      
+      // Count items for this highlight
+      const storyCount = items.filter((i: any) => i.highlight_id === h.id).length;
+      
+      return {
+        ...h,
+        author: profile?.full_name || 'Unknown',
+        stories_count: storyCount
+      };
+    });
+  } catch (err) {
+    console.error('dbGetAdminHighlights error', err);
+    return [];
+  }
+}
+
+export async function dbDeleteStoryPermanent(id: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured) return false;
+  try {
+    const { error } = await supabase.from('stories').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.error('dbDeleteStoryPermanent error', err);
+    return false;
+  }
+}
+
+export async function dbDeleteHighlight(id: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured) return false;
+  try {
+    const { error } = await supabase.from('story_highlights').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.error('dbDeleteHighlight error', err);
+    return false;
+  }
+}
+
+export async function dbRemoveStoryFromHighlight(highlightId: string, storyId: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured) return false;
+  try {
+    const { error } = await supabase.from('story_highlight_items')
+      .delete()
+      .match({ highlight_id: highlightId, story_id: storyId });
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.error('dbRemoveStoryFromHighlight error', err);
+    return false;
   }
 }
