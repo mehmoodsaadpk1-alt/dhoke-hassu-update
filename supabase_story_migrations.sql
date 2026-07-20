@@ -11,7 +11,8 @@ ADD COLUMN IF NOT EXISTS bg_music_url TEXT,
 ADD COLUMN IF NOT EXISTS music_volume NUMERIC DEFAULT 1.0,
 ADD COLUMN IF NOT EXISTS privacy TEXT DEFAULT 'public',
 ADD COLUMN IF NOT EXISTS custom_audience_ids UUID[],
-ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ,
+ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ DEFAULT (NOW() + interval '24 hour'),
+ADD COLUMN IF NOT EXISTS cloudinary_public_id TEXT,
 ADD COLUMN IF NOT EXISTS is_archived BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS stickers JSONB,
 ADD COLUMN IF NOT EXISTS text_styles JSONB;
@@ -96,3 +97,10 @@ CREATE TABLE IF NOT EXISTS public.story_moderation (
   status TEXT DEFAULT 'pending',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Set default for expires_at (already set above)
+-- Backfill existing rows
+UPDATE public.stories SET expires_at = created_at + interval '24 hour' WHERE expires_at IS NULL;
+
+-- Add index on expires_at for performance
+CREATE INDEX IF NOT EXISTS idx_stories_expires_at ON public.stories (expires_at);

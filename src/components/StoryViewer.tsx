@@ -39,6 +39,17 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
     };
   }, []);
 
+  useEffect(() => {
+    // 3. Determine real media type
+    const hasVideoExtension = (url?: string) => !!url?.match(/\\.(mp4|webm|mov)$/i);
+    let realMediaType = currentStory?.type;
+    
+    if (realMediaType !== 'video' && hasVideoExtension(currentStory?.image)) {
+      realMediaType = 'video';
+    }
+
+  }, [currentStory]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -195,11 +206,20 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
       return;
     }
 
-    if (currentStory?.type === 'video' && videoRef.current) {
-      videoRef.current.play().catch(e => {
-        console.warn("Video auto-play prevented:", e);
-        setMediaError(true);
-      });
+    const isVideoStory = currentStory?.type === 'video' || currentStory?.videoUrl || currentStory?.video_url || currentStory?.mediaUrls?.some(url => url.match(/\\.(mp4|webm|mov)$/i));
+
+    if (isVideoStory && videoRef.current) {
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(e => {
+          if (e.name === 'AbortError') {
+            console.log("Video play aborted by navigation.");
+            return;
+          }
+          console.warn("Video auto-play prevented:", e);
+          setMediaError(true);
+        });
+      }
       return;
     }
 
@@ -384,27 +404,55 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
             </div>
           ) : (
             <>
-              {currentStory.type === 'photo' && currentStory.image && (
-                <img 
-                  src={currentStory.image} 
-                  className="w-full h-full object-cover" 
-                  alt="Story" 
-                  onError={() => setMediaError(true)}
-                />
-              )}
+              {(() => {
+                const isVideoUrl = (url?: string) => !!url?.match(/\\.(mp4|webm|mov)$/i) || !!url?.includes('/video/upload/');
+                let realType = currentStory.type;
+                
+                if (realType !== 'video' && isVideoUrl(currentStory.image)) {
+                  realType = 'video';
+                }
 
-              {currentStory.type === 'video' && currentStory.image && (
-                <video 
-                  ref={videoRef}
-                  src={currentStory.image} 
-                  className="w-full h-full object-cover" 
-                  autoPlay 
-                  playsInline
-                  onTimeUpdate={handleVideoTimeUpdate}
-                  onEnded={handleVideoEnded}
-                  onError={() => setMediaError(true)}
-                />
-              )}
+                if (realType === 'photo' && currentStory.image) {
+                  return (
+                    <img 
+                      src={currentStory.image} 
+                      className="w-full h-full object-cover" 
+                      alt="Story" 
+                      onError={() => setMediaError(true)}
+                    />
+                  );
+                }
+
+                if (realType === 'video' || (currentStory.videoUrl || currentStory.video_url || currentStory.mediaUrls?.some(isVideoUrl))) {
+                  const videoSrc = currentStory.videoUrl || currentStory.video_url || 
+                                  currentStory.mediaUrls?.find(isVideoUrl) || 
+                                  currentStory.mediaUrls?.[0] || 
+                                  currentStory.image || '';
+                  return (
+                    <video
+                      key={currentStory.id}
+                      ref={videoRef}
+                      src={videoSrc}
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      playsInline
+                      preload="metadata"
+                      onLoadStart={undefined}
+                      onLoadedMetadata={undefined}
+                      onCanPlay={undefined}
+                      onPlaying={undefined}
+                      onTimeUpdate={handleVideoTimeUpdate}
+                      onEnded={handleVideoEnded}
+                      onError={(e) => {
+                        setMediaError(true);
+                      }}
+                    />
+                  );
+                }
+
+                return null;
+              })()}
 
               {currentStory.type === 'text' && (
                 <div className={`w-full h-full flex items-center justify-center p-8 ${currentStory.bgColor || 'bg-gradient-to-br from-purple-500 to-indigo-600'}`}>
