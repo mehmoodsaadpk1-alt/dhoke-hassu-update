@@ -9,7 +9,7 @@ interface ShortsCardProps {
   video: any;
   isActive: boolean;
   isMuted: boolean;
-  toggleMute: () => void;
+  toggleMute: (forceValue?: boolean) => void;
   onLike: (videoId: string, like: boolean) => void;
   onComment: (videoId: string) => void;
   onShare: (videoId: string) => void;

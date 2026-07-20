@@ -10,7 +10,7 @@ interface VideoPlayerProps {
   poster?: string;
   isActive?: boolean;
   isMuted?: boolean;
-  toggleMute?: () => void;
+  toggleMute?: (forceValue?: boolean) => void;
   onDoubleTap?: () => void;
   preloadType?: 'none' | 'metadata' | 'auto';
   className?: string;
@@ -47,6 +47,14 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   const [hasError, setHasError] = useState(false);
   const [cachedUrl, setCachedUrl] = useState<string>(src);
   const [visibilityRatio, setVisibilityRatio] = useState(0);
+
+  // Internal mute state for standalone usage (like in FeedCard)
+  const [internalMuted, setInternalMuted] = useState<boolean>(() => {
+    const saved = sessionStorage.getItem('watch_feed_muted');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  const effectiveMuted = isMuted !== undefined ? isMuted : internalMuted;
 
   const lastTapRef = useRef<number>(0);
   const [isHardwareCapable, setIsHardwareCapable] = useState(false);
@@ -109,6 +117,13 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     }
   }, [currentTime, isActive, isPlaying, visibilityRatio, videoId, userId, onViewRecorded]);
 
+  // Strict Sync for Mute State (Crucial for iOS/Safari where React prop 'muted' can lose sync)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = effectiveMuted;
+    }
+  }, [effectiveMuted]);
+
   // Playback Control Logic
   useEffect(() => {
     const video = videoRef.current;
@@ -119,6 +134,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     if (effectivelyActive && !hasError) {
       // Only attempt autoplay if we are not already playing
       if (video.paused) {
+        video.muted = effectiveMuted;
+        
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise
@@ -126,6 +143,22 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
             .catch((error) => {
               console.log("Auto-play prevented", error);
               setIsPlaying(false);
+              
+              // If we were trying to play unmuted and it failed, the browser likely requires muted autoplay
+              if (effectiveMuted === false) {
+                console.log("Retrying playback muted due to autoplay policy...");
+                video.muted = true;
+                
+                if (toggleMute) toggleMute(true);
+                else {
+                  setInternalMuted(true);
+                  sessionStorage.setItem('watch_feed_muted', JSON.stringify(true));
+                }
+                
+                video.play()
+                  .then(() => setIsPlaying(true))
+                  .catch(e => console.log("Still failed to play after muting", e));
+              }
             });
         }
       }
@@ -267,11 +300,19 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isActive, isPlaying, isMuted, toggleMute]);
+  }, [isActive, isPlaying, effectiveMuted, toggleMute]);
 
-  const handleMuteToggle = () => {
-    toggleMute();
-    videoAnalyticsService.reportEvent(videoId, isMuted ? 'unmute' : 'mute');
+  const handleMuteToggle = (forceValue?: boolean) => {
+    if (toggleMute) {
+      toggleMute(forceValue);
+    } else {
+      setInternalMuted(prev => {
+        const next = forceValue !== undefined ? forceValue : !prev;
+        sessionStorage.setItem('watch_feed_muted', JSON.stringify(next));
+        return next;
+      });
+    }
+    videoAnalyticsService.reportEvent(videoId, effectiveMuted ? 'unmute' : 'mute');
   };
 
   const handleContainerClick = (e: React.MouseEvent) => {
@@ -368,7 +409,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           className="absolute top-2 bottom-4 left-2 right-2 md:top-4 md:bottom-6 md:left-4 md:right-4 w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] h-[calc(100%-1.5rem)] md:h-[calc(100%-2.5rem)] object-cover rounded-2xl shadow-2xl z-10"
           loop={true} // TikTok style looping
           playsInline
-          muted={isMuted !== undefined ? isMuted : true}
+          muted={effectiveMuted}
         />
       )}
 
@@ -398,10 +439,22 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
                 e.stopPropagation();
                 togglePlay();
               }}
-              className="w-16 h-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/60 transition-all transform hover:scale-105"
+              className="w-16 h-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/60 transition-all transform hover:scale-105 shadow-lg"
               aria-label="Play Video"
             >
               <Play size={32} className="ml-1 fill-white" />
+            </button>
+          ) : effectiveMuted ? (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleMuteToggle(false);
+              }}
+              className="px-6 py-3 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/70 transition-all transform hover:scale-105 animate-pulse shadow-lg"
+              aria-label="Tap to Unmute"
+            >
+              <VolumeX size={24} className="mr-2" />
+              <span className="font-bold text-sm tracking-wide">Tap to Unmute</span>
             </button>
           ) : null}
         </div>
@@ -419,11 +472,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           <button 
             onClick={(e) => {
               e.stopPropagation();
-              if (toggleMute) toggleMute();
+              handleMuteToggle();
             }}
             className="p-2 bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition"
           >
-            {(isMuted !== undefined ? isMuted : true) ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            {effectiveMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
           </button>
         
         {document.pictureInPictureEnabled && (

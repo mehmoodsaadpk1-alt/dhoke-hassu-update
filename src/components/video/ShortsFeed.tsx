@@ -30,7 +30,10 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
   currentUserId
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState<boolean>(() => {
+    const saved = sessionStorage.getItem('watch_feed_muted');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   
   // Sheet States
   const [activeCommentVideo, setActiveCommentVideo] = useState<string | null>(null);
@@ -172,8 +175,12 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
     }
   }, [onVideoDeleted]);
   
-  const toggleMute = useCallback(() => {
-    setIsMuted(prev => !prev);
+  const toggleMute = useCallback((forceValue?: boolean) => {
+    setIsMuted(prev => {
+      const next = forceValue !== undefined ? forceValue : !prev;
+      sessionStorage.setItem('watch_feed_muted', JSON.stringify(next));
+      return next;
+    });
   }, []);
 
   if (loading && videos.length === 0) {

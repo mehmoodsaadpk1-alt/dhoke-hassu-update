@@ -1158,8 +1158,8 @@ export async function dbSavePost(post: any): Promise<boolean> {
   }
 }
 
-export async function dbUploadPostVideo(file: File): Promise<string | null> {
-  return uploadVideo(file);
+export async function dbUploadPostVideo(file: File, onProgress?: (progress: number) => void): Promise<string | null> {
+  return uploadVideo(file, onProgress);
 }
 
 export async function dbUploadPostImage(file: File): Promise<string | null> {

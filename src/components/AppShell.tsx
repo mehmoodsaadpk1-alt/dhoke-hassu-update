@@ -43,7 +43,8 @@ import {
   AlertTriangle,
   Clock,
   Award,
-  Upload
+  Upload,
+  CheckCircle
 } from 'lucide-react';
 import { Language, NavigationTab, User, Post, JobItem, BusinessItem, PropertyItem, BuySellItem, ServiceItem, AlertItem, EventItem, DealItem, Story, Comment, GroupItem, AdItem, Poll, PollOption } from '../types';
 import { translations } from '../translations';
@@ -1314,6 +1315,11 @@ export default function AppShell({
   const [composerLongitude, setComposerLongitude] = useState<number | null>(null);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
 
+  // Upload Progress States
+  const [composerUploadStage, setComposerUploadStage] = useState<'None' | 'Processing' | 'Uploading' | 'Saving Database' | 'Completed' | 'Failed'>('None');
+  const [composerUploadProgress, setComposerUploadProgress] = useState(0);
+  const [composerUploadError, setComposerUploadError] = useState('');
+
   // Lost & Found quick-post states
   const [showLostFoundComposer, setShowLostFoundComposer] = useState(false);
   const [lfPostType, setLfPostType] = useState<'lost' | 'found'>('lost');
@@ -2395,6 +2401,14 @@ export default function AppShell({
   const handleCreateComposerPost = async () => {
     if (!composerText?.trim() && !composerImage && !composerVideo) return;
     setIsSubmittingPost(true);
+    setComposerUploadError('');
+    setComposerUploadProgress(0);
+    
+    // Start progress UI if there is a video
+    if (composerVideo) {
+      setComposerUploadStage('Processing');
+    }
+
     try {
       let imageUrl = null;
       if (composerImage) {
@@ -2403,8 +2417,14 @@ export default function AppShell({
 
       let videoUrl = null;
       if (composerVideo) {
-        videoUrl = await dbUploadPostVideo(composerVideo);
+        setComposerUploadStage('Uploading');
+        videoUrl = await dbUploadPostVideo(composerVideo, (progress) => {
+          // Progress from 1 to 100
+          setComposerUploadProgress(Math.max(1, Math.round(progress)));
+        });
       }
+
+      if (composerVideo) setComposerUploadStage('Saving Database');
 
       const postContent = composerLocation ? `${composerText}\n\n📍 ${composerLocation}` : composerText;
 
@@ -2447,24 +2467,45 @@ export default function AppShell({
         };
         
         setPosts(prev => [localNewPost, ...prev]);
-        setComposerText('');
-        setComposerImage(null);
-        setComposerImagePreview(null);
-        setComposerVideo(null);
-        setComposerVideoPreview(null);
-        setComposerPostType('general');
-        setComposerLocation(null);
-        setComposerAreaId(null);
-        setComposerLatitude(null);
-        setComposerLongitude(null);
+        
+        if (composerVideo) {
+          setComposerUploadStage('Completed');
+          setComposerUploadProgress(100);
+          // Wait briefly so user sees 'Upload Complete!' then reset
+          setTimeout(() => {
+            setComposerUploadStage('None');
+            resetComposerState();
+          }, 1500);
+        } else {
+          resetComposerState();
+        }
       } else {
-        alert(currentLanguage === 'en' ? 'Failed to publish post. Please try again.' : 'پوسٹ کرنے میں خرابی۔ دوبارہ کوشش کریں۔');
+        throw new Error(currentLanguage === 'en' ? 'Failed to publish post. Please try again.' : 'پوسٹ کرنے میں خرابی۔ دوبارہ کوشش کریں۔');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error creating post:", err);
+      if (composerVideo) {
+        setComposerUploadStage('Failed');
+        setComposerUploadError(err.message || 'An error occurred during upload.');
+      } else {
+        alert(err.message || 'Error creating post');
+      }
     } finally {
       setIsSubmittingPost(false);
     }
+  };
+
+  const resetComposerState = () => {
+    setComposerText('');
+    setComposerImage(null);
+    setComposerImagePreview(null);
+    setComposerVideo(null);
+    setComposerVideoPreview(null);
+    setComposerPostType('general');
+    setComposerLocation(null);
+    setComposerAreaId(null);
+    setComposerLatitude(null);
+    setComposerLongitude(null);
   };
 
   const handleLfFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -5234,6 +5275,68 @@ export default function AppShell({
               {communityBannerMap[0] && (
                 <div className="mb-4">
                   <AdBannerCard ad={communityBannerMap[0]} onNavigateToModule={handleNavigateToModule} />
+                </div>
+              )}
+
+              {/* Progress Overlay for Video Uploads */}
+              {composerUploadStage !== 'None' && (
+                <div className="fixed inset-0 z-[999] bg-white/90 backdrop-blur-sm flex items-center justify-center p-4">
+                  <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full border border-slate-100 text-center">
+                    {composerUploadStage === 'Completed' ? (
+                      <div className="flex flex-col items-center animate-in zoom-in duration-300">
+                        <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
+                        <h3 className="font-bold text-xl text-slate-800">Upload Complete!</h3>
+                        <p className="text-sm text-slate-500 mt-2">Your video is now live on the feed.</p>
+                      </div>
+                    ) : composerUploadStage === 'Failed' ? (
+                      <div className="flex flex-col items-center animate-in zoom-in duration-300">
+                        <AlertTriangle className="w-16 h-16 text-red-500 mb-4" />
+                        <h3 className="font-bold text-xl text-slate-800">Upload Failed</h3>
+                        <p className="text-sm text-red-500 mt-2">{composerUploadError}</p>
+                        <div className="mt-6 flex gap-3 w-full">
+                          <button 
+                            onClick={() => setComposerUploadStage('None')}
+                            className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors"
+                          >
+                            Cancel
+                          </button>
+                          <button 
+                            onClick={handleCreateComposerPost}
+                            className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors"
+                          >
+                            Retry
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <div className="relative inline-flex items-center justify-center mb-6">
+                          <svg className="w-24 h-24 transform -rotate-90">
+                            <circle className="text-slate-100" strokeWidth="8" stroke="currentColor" fill="transparent" r="40" cx="48" cy="48" />
+                            <circle 
+                              className="text-blue-600 transition-all duration-300 ease-out" 
+                              strokeWidth="8" 
+                              strokeDasharray={251.2} 
+                              strokeDashoffset={251.2 - (251.2 * composerUploadProgress) / 100} 
+                              strokeLinecap="round" 
+                              stroke="currentColor" 
+                              fill="transparent" 
+                              r="40" 
+                              cx="48" 
+                              cy="48" 
+                            />
+                          </svg>
+                          <div className="absolute text-lg font-bold text-slate-700">{composerUploadProgress}%</div>
+                        </div>
+                        <h3 className="font-bold text-lg text-slate-800">{composerUploadStage}</h3>
+                        <p className="text-sm text-slate-500 mt-1">
+                          {composerUploadStage === 'Processing' ? 'Processing video...' : 
+                           composerUploadStage === 'Saving Database' ? 'Finalizing post...' : 
+                           'Uploading to secure storage...'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
