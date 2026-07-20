@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { recommendationService } from '../../services/RecommendationService';
 import { videoService } from '../../services/VideoService';
 import { ShortsCard } from './ShortsCard';
 import { ShortsLoader } from './ShortsLoader';
@@ -41,40 +40,47 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Setup Intersection Observer for Infinite Scroll and Active Video Detection
+  // ─── TikTok-style IntersectionObserver ──────────────────────────────────────
+  // Threshold 0.85: video is only "active" when 85% visible — no mid-swipe firing
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || videos.length === 0) return;
 
-    const options = {
-      root: container,
-      rootMargin: '0px',
-      threshold: 0.5 // Video is active when 50% is visible
-    };
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
 
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const index = Number(entry.target.getAttribute('data-index'));
-          setActiveIndex(index);
-          
-          // Fetch more if we're near the end (e.g., 2 videos away)
-          if (index >= videos.length - 2 && hasMore && !loading) {
-            onLoadMore();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.85) {
+            const index = Number(entry.target.getAttribute('data-index'));
+            if (!isNaN(index)) {
+              setActiveIndex(index);
+              // Prefetch more when near the end
+              if (index >= videos.length - 2 && hasMore && !loading) {
+                onLoadMore();
+              }
+            }
           }
-        }
-      });
-    }, options);
+        });
+      },
+      {
+        root: container,
+        rootMargin: '0px',
+        threshold: [0, 0.85, 1.0],
+      }
+    );
 
-    const cards = container.querySelectorAll('.shorts-card-container');
-    cards.forEach(card => observerRef.current?.observe(card));
+    const cards = container.querySelectorAll('.shorts-snap-item');
+    cards.forEach((card) => observerRef.current?.observe(card));
 
     return () => {
       if (observerRef.current) {
         observerRef.current.disconnect();
       }
     };
-  }, [videos, hasMore, currentUserId]);
+  }, [videos.length, hasMore, loading]);
 
   // Keyboard Navigation
   useEffect(() => {
@@ -207,9 +213,9 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
   }
 
   return (
-    <div className="relative h-full w-full bg-black">
+    <div className="shorts-feed-root relative">
       {onBack && (
-        <button 
+        <button
           onClick={onBack}
           className="absolute top-4 left-4 z-30 p-2 bg-black/40 rounded-full text-white backdrop-blur-sm"
         >
@@ -217,27 +223,37 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
         </button>
       )}
 
-      {/* Infinite Scroll Container */}
-      <div 
+      {/*
+        ─── SNAP SCROLL CONTAINER ─────────────────────────────────────────────
+        Uses CSS classes defined in index.css for maximum cross-browser support.
+        scroll-snap-type: y mandatory forces ONE video per swipe.
+        overscroll-behavior: contain stops rubber-band leaking to body on iOS.
+        scroll-snap-stop: always on each child prevents fast-flick multi-skip.
+      */}
+      <div
         ref={containerRef}
-        className="h-full w-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide bg-black relative"
-        style={{ scrollBehavior: 'smooth' }}
+        className="shorts-scroll-container"
       >
         {videos.map((video, index) => {
-          // VIRTUALIZATION: Keep only prev, current, next mounted!
+          // Virtualization: only mount prev, current, next
           const isNearActive = Math.abs(activeIndex - index) <= 1;
           const isActive = activeIndex === index;
 
           return (
-            <div 
-              key={video.id} 
+            <div
+              key={video.id}
               data-index={index}
               data-id={video.id}
-              className="shorts-card-container w-full h-full snap-start relative"
+              className="shorts-snap-item"
             >
               {isNearActive ? (
                 <ShortsCard
-                  video={{ ...video, comments_count: commentCounts[video.id] !== undefined ? commentCounts[video.id] : video.comments_count }}
+                  video={{
+                    ...video,
+                    comments_count: commentCounts[video.id] !== undefined
+                      ? commentCounts[video.id]
+                      : video.comments_count
+                  }}
                   isActive={isActive}
                   isMuted={isMuted}
                   toggleMute={toggleMute}
@@ -253,35 +269,35 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
                   currentUserId={currentUserId}
                 />
               ) : (
-                // Keep the structural height to maintain scroll positions cleanly
-                <div className="w-full h-full bg-black"></div>
+                // Placeholder maintains snap height so positions stay correct
+                <div className="w-full h-full bg-black" />
               )}
             </div>
           );
         })}
+
         {loading && (
-          <div className="w-full h-32 flex items-center justify-center">
-            <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-full h-20 flex items-center justify-center bg-black">
+            <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
           </div>
         )}
       </div>
 
-      {/* Overlays */}
-      <ShortsComments 
-        videoId={activeCommentVideo} 
-        isOpen={!!activeCommentVideo} 
-        onClose={() => setActiveCommentVideo(null)} 
+      {/* Sheet Overlays - outside scroll container so they don't affect snapping */}
+      <ShortsComments
+        videoId={activeCommentVideo}
+        isOpen={!!activeCommentVideo}
+        onClose={() => setActiveCommentVideo(null)}
         currentUserId={currentUserId}
         onCommentAdded={handleCommentAdded}
         onCommentDeleted={handleCommentDeleted}
       />
 
-      <ShortsShare 
-        videoId={activeShareVideo} 
-        isOpen={!!activeShareVideo} 
-        onClose={() => setActiveShareVideo(null)} 
+      <ShortsShare
+        videoId={activeShareVideo}
+        isOpen={!!activeShareVideo}
+        onClose={() => setActiveShareVideo(null)}
       />
-
     </div>
   );
 };

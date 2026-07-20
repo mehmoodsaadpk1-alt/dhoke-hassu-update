@@ -149,3 +149,89 @@ input:focus, textarea:focus, select:focus {
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIKTOK-STYLE SHORTS / WATCH FEED
+   ─────────────────────────────────────────────────────────────────────────
+   These classes drive the one-video-per-screen snap behaviour.
+   Pure CSS is more reliable than Tailwind utilities for scroll-snap on iOS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The outer wrapper that fills the viewport */
+.videos-module-root {
+  /* Full dynamic viewport height minus mobile bottom nav (~64px) */
+  width: 100%;
+  height: calc(100dvh - 64px);  /* dvh = no address-bar bounce on mobile */
+  overflow: hidden;
+  background: #000;
+}
+/* On desktop (sidebar present) restore to full area */
+@media (min-width: 768px) {
+  .videos-module-root {
+    height: 100%;
+  }
+}
+
+/* The inner root of ShortsFeed — fills its parent fully */
+.shorts-feed-root {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ─── The magic snap scroll container ──────────────────────────────────── */
+.shorts-scroll-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;           /* force scroll even with single video */
+  overflow-x: hidden;
+
+  /* CSS Scroll Snap — mandatory forces landing on a snap point */
+  scroll-snap-type: y mandatory;
+
+  /* Prevent iOS rubber-band bounce propagating to the page body */
+  overscroll-behavior-y: contain;
+
+  /* Smooth on desktop, instant on mobile for TikTok feel */
+  scroll-behavior: auto;
+
+  /* Hide the scrollbar on all browsers */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE 11 */
+  background: #000;
+
+  /* GPU layer for 60fps */
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+}
+.shorts-scroll-container::-webkit-scrollbar {
+  display: none;                  /* Chrome / Safari / Edge */
+}
+
+/* ─── Each video slide ──────────────────────────────────────────────────── */
+.shorts-snap-item {
+  width: 100%;
+  height: 100%;            /* inherits from container which is 100dvh */
+  flex-shrink: 0;
+
+  /* Snap ALIGN — start = top of each item aligns to top of container */
+  scroll-snap-align: start;
+
+  /* scroll-snap-stop: always → prevents fast-flick skipping multiple videos */
+  scroll-snap-stop: always;
+
+  position: relative;
+  background: #000;
+  overflow: hidden;
+}
+
+/* ─── Scrollbar-hide utility (for any other elements) ────────────────────── */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
