@@ -1,0 +1,6 @@
+{
+  "name": "Dhoke Hassu Connect",
+  "description": "Community portal and portal for Dhoke Hassu, Dhoke Khabba, Satellite Town, and neighboring areas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

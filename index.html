@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dhoke Hassu Connect</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      (function() {
+        var values = {};
+        var keys = ['fetch', 'Request', 'Response', 'Headers'];
+        keys.forEach(function(key) {
+          try {
+            if (key in window) {
+              values[key] = window[key];
+              
+              // Try to define a getter/setter directly on window to make it writable
+              Object.defineProperty(window, key, {
+                get: function() {
+                  return values[key];
+                },
+                set: function(val) {
+                  values[key] = val;
+                },
+                configurable: true,
+                enumerable: true
+              });
+            }
+          } catch (e) {
+            console.warn('Failed to define on window:', key, e);
+            
+            // If defining on window directly fails (e.g. non-configurable), try defining it on the prototype chain
+            try {
+              var proto = window;
+              var targetProto = null;
+              while (proto) {
+                var desc = Object.getOwnPropertyDescriptor(proto, key);
+                if (desc) {
+                  targetProto = proto;
+                  break;
+                }
+                proto = Object.getPrototypeOf(proto);
+              }
+              if (!targetProto) {
+                targetProto = Window.prototype;
+              }
+              if (targetProto) {
+                Object.defineProperty(targetProto, key, {
+                  get: function() {
+                    return values[key];
+                  },
+                  set: function(val) {
+                    values[key] = val;
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (protoErr) {
+              console.warn('Failed to define on prototype:', key, protoErr);
+            }
+          }
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
