@@ -235,3 +235,30 @@ input:focus, textarea:focus, select:focus {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WATCH TAB MOBILE UX OVERRIDES
+   ─────────────────────────────────────────────────────────────────────────
+   Hide global floating UI elements like navigation menus and action buttons
+   when the Watch tab is active to provide a distraction-free full-screen
+   experience on mobile devices.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  body.watch-mode-active #mobile-bottom-navigation {
+    display: none !important;
+  }
+  
+  /* Hide the Upload and Short Text floating buttons (or any global fixed/floating buttons) */
+  body.watch-mode-active .fixed:not(.videos-module-root .fixed):not(#more-drawer-panel):not(.z-\\[110\\]):not(#story-viewer-modal):not(.z-50) {
+    display: none !important;
+  }
+  
+  /* Specifically hide common wrapper classes for floating action buttons */
+  body.watch-mode-active button.fixed,
+  body.watch-mode-active .fixed.bottom-4,
+  body.watch-mode-active .fixed.bottom-5,
+  body.watch-mode-active .fixed.bottom-6 {
+    display: none !important;
+  }
+}
+

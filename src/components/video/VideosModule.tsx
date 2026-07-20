@@ -57,6 +57,14 @@ export const VideosModule: React.FC<VideosModuleProps> = ({ userId }) => {
     fetchFeed(true);
   }, [userId]);
 
+  useEffect(() => {
+    // Add class to hide global mobile UI elements when in Watch tab
+    document.body.classList.add('watch-mode-active');
+    return () => {
+      document.body.classList.remove('watch-mode-active');
+    };
+  }, []);
+
   return (
     <div className="videos-module-root relative flex flex-col bg-black">
       {/* Absolute Header Overlay */}
