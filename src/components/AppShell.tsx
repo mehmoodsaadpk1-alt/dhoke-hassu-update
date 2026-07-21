@@ -3892,7 +3892,7 @@ export default function AppShell({
         </header>
 
         {/* MAIN CENTER CONTENT STAGE - SCROLLS SEPARATELY */}
-        <main className={`flex-1 overflow-y-auto bg-slate-50/30 ${activeTab === 'videos' ? 'p-0 md:px-6 md:py-6 md:pb-12' : 'px-4 sm:px-6 py-6 pb-24 md:pb-12'}`}>
+        <main className={`flex-1 overflow-y-auto overflow-x-hidden max-w-full w-full bg-slate-50/30 ${activeTab === 'videos' ? 'p-0 md:px-6 md:py-6 md:pb-12' : activeTab === 'chat' ? 'px-0 pt-0 pb-16 md:px-6 md:py-6 md:pb-12' : 'px-4 sm:px-6 py-6 pb-24 md:pb-12'}`}>
           
           {/* Welcome/Banner component visible at top of Feed */}
           {activeTab === 'feed' && !quickAction && (

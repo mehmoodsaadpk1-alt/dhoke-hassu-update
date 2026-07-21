@@ -1945,7 +1945,7 @@ export default function ChatModule({
   const currentT = isEn ? t.en : t.ur;
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md h-[calc(100vh-140px)] flex overflow-hidden relative" id="chat-module-container">
+    <div className="bg-white md:rounded-3xl border-0 md:border md:border-slate-200/80 md:shadow-md h-[calc(100dvh-128px)] md:h-[calc(100vh-140px)] w-full max-w-full flex overflow-hidden overflow-x-hidden relative" id="chat-module-container">
       
       {/* LEFT COLUMN: CHAT LIST (Hidden on mobile if activeContact is open) */}
       <div className={`w-full md:w-[300px] lg:w-[320px] border-r border-slate-100 flex flex-col shrink-0 ${activeContact ? 'hidden md:flex' : 'flex'}`} id="chat-list-column">
@@ -2358,7 +2358,7 @@ export default function ChatModule({
       </div>
 
       {/* RIGHT COLUMN: CHAT DETAIL (Hidden on mobile if no activeContact is selected) */}
-      <div className={`flex-1 flex flex-col bg-white ${activeContact ? 'flex' : 'hidden md:flex'}`} id="chat-detail-column">
+      <div className={`flex-1 flex flex-col min-w-0 bg-white ${activeContact ? 'flex' : 'hidden md:flex'}`} id="chat-detail-column">
         
         {activeConv ? (
           <>
@@ -2577,7 +2577,7 @@ export default function ChatModule({
               </button>
 
               {/* Message Input Container */}
-              <div className="flex-1 relative flex items-center bg-white border border-transparent focus-within:border-white rounded-lg px-2 py-1.5 transition-all">
+              <div className="flex-1 min-w-0 relative flex items-center bg-white border border-transparent focus-within:border-white rounded-lg px-2 py-1.5 transition-all">
                 {/* Emoji button */}
                 <button
                   type="button"
@@ -2626,7 +2626,7 @@ export default function ChatModule({
                   value={inputText}
                   onChange={(e) => handleUserInputChange(e.target.value)}
                   placeholder={currentT.typeMessage}
-                  className="flex-1 bg-transparent border-0 py-1 px-2 text-[15px] placeholder-[#8696A0] text-[#111B21] focus:outline-none"
+                  className="flex-1 min-w-0 bg-transparent border-0 py-1 px-2 text-[15px] placeholder-[#8696A0] text-[#111B21] focus:outline-none"
                   id="chat-message-input-field"
                 />
 
