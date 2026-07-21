@@ -3690,7 +3690,7 @@ export default function AppShell({
       <div className="h-full flex flex-col min-w-0 overflow-hidden relative ml-0 md:ml-[72px] lg:ml-[240px] transition-all duration-300">
         
         {/* MOBILE & DESKTOP HEADER */}
-        <header className="bg-white border-b border-slate-200/80 shrink-0 h-16 flex items-center justify-between px-4 sm:px-6 z-40">
+        <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>
           <div className="w-full flex items-center justify-between gap-4">
             
             {/* Brand Logo & Slogan (Only visible on Mobile since Desktop has it in sidebar) */}
@@ -3892,7 +3892,7 @@ export default function AppShell({
         </header>
 
         {/* MAIN CENTER CONTENT STAGE - SCROLLS SEPARATELY */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 pb-24 md:pb-12 bg-slate-50/30">
+        <main className={`flex-1 overflow-y-auto bg-slate-50/30 ${activeTab === 'videos' ? 'p-0 md:px-6 md:py-6 md:pb-12' : 'px-4 sm:px-6 py-6 pb-24 md:pb-12'}`}>
           
           {/* Welcome/Banner component visible at top of Feed */}
           {activeTab === 'feed' && !quickAction && (

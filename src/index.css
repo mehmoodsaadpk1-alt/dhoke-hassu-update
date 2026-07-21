@@ -159,9 +159,9 @@ input:focus, textarea:focus, select:focus {
 
 /* The outer wrapper that fills the viewport */
 .videos-module-root {
-  /* Full dynamic viewport height minus mobile bottom nav (~64px) */
+  /* Full dynamic viewport height */
   width: 100%;
-  height: calc(100dvh - 64px);  /* dvh = no address-bar bounce on mobile */
+  height: 100dvh;  /* dvh = no address-bar bounce on mobile */
   overflow: hidden;
   background: #000;
 }
