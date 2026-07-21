@@ -260,7 +260,7 @@ export default function PostCard({
             <img
               src={post.image}
               alt="Post content"
-              className="w-full rounded-xl max-h-[500px] object-contain block"
+              className="w-full max-h-[500px] object-contain block"
             />
             {post.images && post.images.length > 1 && (
               <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1.5 rounded-xl border border-white/20 flex items-center gap-1">
@@ -276,12 +276,12 @@ export default function PostCard({
 
       {post.videoUrl && (
           <div className="w-full flex justify-center mt-3 bg-black border-t border-b border-slate-900 relative">
-            <div className="w-full max-w-[700px] relative h-[500px]">
+            <div className="w-full max-w-[700px] relative aspect-[4/5] md:h-[500px]">
               <VideoPlayer
                 videoId={post.id}
                 src={post.videoUrl}
                 preloadType="metadata"
-                className="w-full h-full rounded-xl object-contain block"
+                className="w-full h-full object-contain block"
               />
               <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {post.viewsCount ?? 0}</div>
             </div>

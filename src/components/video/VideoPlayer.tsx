@@ -406,7 +406,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           src={cachedUrl}
           poster={poster}
           preload={preloadType}
-          className="absolute top-2 bottom-4 left-2 right-2 md:top-4 md:bottom-6 md:left-4 md:right-4 w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] h-[calc(100%-1.5rem)] md:h-[calc(100%-2.5rem)] object-cover rounded-2xl shadow-2xl z-10"
+          className="absolute inset-0 w-full h-full object-contain z-10 block"
           loop={true} // TikTok style looping
           playsInline
           muted={effectiveMuted}
