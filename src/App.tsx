@@ -371,6 +371,20 @@ export default function App() {
         console.warn("Failed to sign out from Supabase:", err);
       }
     }
+    
+    // Clear application cache to prevent data leakage (only keys for this project)
+    const keysToRemove: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith('dh_') || key.startsWith('dhoke_'))) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+
+    // Reset URL to root to prevent confusing Back-button behavior
+    window.history.replaceState({}, document.title, '/');
+
     setUser(null);
     setAuthState('LOGIN');
   };
@@ -397,7 +411,7 @@ export default function App() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
-        redirectTo: `${window.location.origin}/`
+        redirectTo: `${window.location.origin}${window.location.pathname}${window.location.search}`
       });
       if (error) {
         setForgotError(error.message);
