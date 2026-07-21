@@ -123,7 +123,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col md:flex-row animate-fade-in">
       {/* Sidebar Controls */}
-      <div className="w-full md:w-80 bg-gray-900 text-white flex flex-col h-[40vh] md:h-full border-r border-gray-800 p-4">
+      <div className="w-full md:w-80 bg-gray-900 text-white flex flex-col h-[40vh] md:h-full border-e border-gray-800 p-4">
         <div className="flex items-center justify-between mb-6">
           <button onClick={onClose} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition">
             <X className="w-5 h-5" />

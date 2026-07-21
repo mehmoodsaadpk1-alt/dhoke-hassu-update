@@ -201,13 +201,13 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <div className="relative flex-1 md:w-64">
-                <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+                <Search className="w-4 h-4 absolute start-3 top-3 text-slate-400" />
                 <input
                   type="text"
                   placeholder={isEn ? "Search pages..." : "صفحات تلاش کریں..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500"
+                  className="w-full ps-9 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500"
                 />
               </div>
               <button 
@@ -281,7 +281,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                         )}
                       </div>
                       <div className="px-5 pb-5 relative flex-1 flex flex-col">
-                        <div className="w-16 h-16 rounded-full border-4 border-white bg-slate-100 overflow-hidden absolute -top-8 left-5 shadow-sm">
+                        <div className="w-16 h-16 rounded-full border-4 border-white bg-slate-100 overflow-hidden absolute -top-8 start-5 shadow-sm">
                            {page.logo_url ? (
                              <img src={page.logo_url} alt="Logo" className="w-full h-full object-cover" />
                            ) : (

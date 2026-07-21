@@ -69,7 +69,7 @@ export default function TvsBadge({
 
   return (
     <div 
-      className={`relative inline-flex align-middle shrink-0 select-none ${isInline ? 'ml-1' : ''}`}
+      className={`relative inline-flex align-middle shrink-0 select-none ${isInline ? 'ms-1' : ''}`}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
@@ -86,7 +86,7 @@ export default function TvsBadge({
       {/* Premium Hover Tooltip */}
       {showTooltip && (
         <div 
-          className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 bg-slate-900 text-white text-[10px] p-3.5 rounded-2xl shadow-xl border border-slate-700/50 space-y-1.5 animate-fadeIn leading-normal"
+          className="absolute z-50 bottom-full start-1/2 -translate-x-1/2 mb-2 w-52 bg-slate-900 text-white text-[10px] p-3.5 rounded-2xl shadow-xl border border-slate-700/50 space-y-1.5 animate-fadeIn leading-normal"
           style={{ contentVisibility: 'auto' }}
         >
           <div className="flex items-center gap-1.5 font-black border-b border-slate-700/60 pb-1">

@@ -69,7 +69,7 @@ export const VideosModule: React.FC<VideosModuleProps> = ({ userId }) => {
     <div className="videos-module-root relative flex flex-col bg-black">
       {/* Absolute Header Overlay */}
       {!showUpload && (
-        <div className="absolute top-0 left-0 right-0 z-40 p-4 pt-6 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none">
+        <div className="absolute top-0 start-0 end-0 z-40 p-4 pt-6 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none">
           <h1 className="text-2xl font-bold text-white drop-shadow-md">Shorts</h1>
           <button 
             onClick={() => setShowUpload(true)}

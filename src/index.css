@@ -262,3 +262,25 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+/* RTL Specific Styles */
+[dir="rtl"] .lucide-arrow-left,
+[dir="rtl"] .lucide-chevron-left,
+[dir="rtl"] .lucide-chevron-right,
+[dir="rtl"] .lucide-send {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] input[type="text"],
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="password"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] textarea {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .ltr-text {
+  direction: ltr;
+  display: inline-block;
+  text-align: left;
+}

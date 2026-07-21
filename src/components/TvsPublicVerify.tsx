@@ -86,7 +86,7 @@ export default function TvsPublicVerify({
   if (loading) {
     return (
       <div className="flex items-center justify-center p-12 text-slate-400 font-bold leading-normal">
-        <Award className="w-8 h-8 animate-pulse text-indigo-600 mr-2" />
+        <Award className="w-8 h-8 animate-pulse text-indigo-600 me-2" />
         <span>Loading verification credentials...</span>
       </div>
     );
@@ -105,7 +105,7 @@ export default function TvsPublicVerify({
     <div className="min-h-[80vh] flex items-center justify-center p-4 sm:p-8 bg-slate-50/50 leading-normal">
       <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden p-6 sm:p-10 relative space-y-6">
         {onClose && (
-          <button onClick={onClose} className="absolute top-4 right-4 p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg border-none bg-transparent cursor-pointer">
+          <button onClick={onClose} className="absolute top-4 end-4 p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg border-none bg-transparent cursor-pointer">
             <X className="w-4 h-4" />
           </button>
         )}
@@ -128,7 +128,7 @@ export default function TvsPublicVerify({
 
         {/* Credentials Breakdown */}
         <div className="bg-slate-50/50 border border-slate-200/60 rounded-3xl p-6 space-y-4 relative">
-          <div className="absolute top-4 right-4 flex items-center gap-1 bg-green-50 text-green-700 font-black text-[9px] uppercase px-2 py-0.5 rounded-full border border-green-200">
+          <div className="absolute top-4 end-4 flex items-center gap-1 bg-green-50 text-green-700 font-black text-[9px] uppercase px-2 py-0.5 rounded-full border border-green-200">
             <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping" />
             {certificate.status}
           </div>
@@ -165,7 +165,7 @@ export default function TvsPublicVerify({
 
         {/* QR Section */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-slate-100">
-          <div className="space-y-1.5 text-center sm:text-left">
+          <div className="space-y-1.5 text-center sm:text-start">
             <h4 className="text-xs font-black text-slate-900">QR Code Credentials check</h4>
             <p className="text-[10px] text-slate-400 font-semibold leading-relaxed max-w-sm">
               Scan this QR code with any mobile device to load this certificate page dynamically and verify the trust credentials.

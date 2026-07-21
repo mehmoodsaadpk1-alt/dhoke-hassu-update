@@ -220,13 +220,13 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
           {/* Toolbar */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full md:w-64">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-4 h-4 absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input 
                 type="text" 
                 placeholder="Search by user name..." 
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full ps-9 pe-4 py-2 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
@@ -267,7 +267,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
                 )}
                 
                 {/* Type Icon */}
-                <div className="absolute top-2 left-2 bg-black/60 rounded-full p-1.5 backdrop-blur-md">
+                <div className="absolute top-2 start-2 bg-black/60 rounded-full p-1.5 backdrop-blur-md">
                   {story.type === 'video' || isVideoUrl(story.image) ? (
                     <PlayCircle className="w-3 h-3 text-white" />
                   ) : story.type === 'photo' ? (
@@ -279,7 +279,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
 
                 {/* Expiry Badge */}
                 {new Date(story.expires_at) <= new Date() && (
-                  <div className="absolute top-2 right-2 bg-rose-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                  <div className="absolute top-2 end-2 bg-rose-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
                     Expired
                   </div>
                 )}
@@ -337,14 +337,14 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
       {activeTab === 'highlights' && (
         <div className="bg-white rounded-3xl p-6 border border-slate-200/60 shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-start text-sm">
               <thead className="bg-slate-50 text-slate-600 font-bold uppercase text-[10px] tracking-wider">
                 <tr>
                   <th className="p-4 rounded-tl-xl">Highlight</th>
                   <th className="p-4">Owner</th>
                   <th className="p-4">Stories Count</th>
                   <th className="p-4">Created At</th>
-                  <th className="p-4 rounded-tr-xl text-right">Actions</th>
+                  <th className="p-4 rounded-tr-xl text-end">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -367,7 +367,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
                       <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-bold">{hl.stories_count} items</span>
                     </td>
                     <td className="p-4 text-slate-500">{new Date(hl.created_at).toLocaleDateString()}</td>
-                    <td className="p-4 text-right">
+                    <td className="p-4 text-end">
                       <div className="flex justify-end gap-2">
                         <button onClick={() => handleViewHighlight(hl)} className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition" title="View Highlight">
                           <Eye className="w-5 h-5" />

@@ -48,7 +48,7 @@ const PremiumAdPopup: React.FC<PremiumAdPopupProps> = ({ ad, onClose, onNavigate
           {/* Close button inside the card, as requested "Include a visible X (Close) button" */}
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full transition-all cursor-pointer z-10"
+            className="absolute top-4 end-4 p-2 bg-slate-800/50 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full transition-all cursor-pointer z-10"
             aria-label="Close"
           >
             <X className="w-5 h-5" />

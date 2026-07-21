@@ -152,7 +152,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
         className="bg-white w-full max-w-md h-[85vh] sm:h-[75vh] rounded-2xl shadow-2xl flex flex-col relative z-10"
       >
         <div className="flex items-center justify-between p-4 border-b border-slate-100">
-          <div className="w-8 h-1 rounded-full bg-slate-200 absolute -top-3 left-1/2 -translate-x-1/2 sm:hidden" />
+          <div className="w-8 h-1 rounded-full bg-slate-200 absolute -top-3 start-1/2 -translate-x-1/2 sm:hidden" />
           <h2 className="text-base font-black text-slate-900">
             {userId === viewerId ? (isEn ? 'Your Connections' : 'آپ کے رابطے') : (isEn ? 'Connections' : 'رابطے')}
           </h2>
@@ -179,13 +179,13 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
         {!isPrivateError && (
           <div className="p-4 pb-2 border-b border-slate-100">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="text" 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder={isEn ? 'Search users...' : 'صارفین تلاش کریں...'}
-                className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-blue-300 focus:bg-white transition-all font-medium"
+                className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl ps-10 pe-4 py-2.5 focus:outline-none focus:border-blue-300 focus:bg-white transition-all font-medium"
               />
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-medium text-slate-500 truncate">@{targetUser.full_name?.toLowerCase().replace(/\s+/g, '')}</span>
                         {mutualStatuses[targetId] && !isTargetSelf && (
-                          <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md ml-1 whitespace-nowrap">
+                          <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md ms-1 whitespace-nowrap">
                             {isEn ? 'Follows You' : 'آپ کو فالو کرتا ہے'}
                           </span>
                         )}

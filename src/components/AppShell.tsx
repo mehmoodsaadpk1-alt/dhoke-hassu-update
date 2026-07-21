@@ -378,7 +378,7 @@ export function DesktopSidebar({
   return (
     <aside 
       id="desktop-sidebar"
-      className="hidden md:flex flex-col fixed top-0 left-0 bottom-0 w-[72px] lg:w-[240px] bg-white border-r border-slate-200 z-50 h-screen shadow-sm shrink-0 transition-all duration-300"
+      className="hidden md:flex flex-col fixed top-0 start-0 bottom-0 w-[72px] lg:w-[240px] bg-white border-e border-slate-200 z-50 h-screen shadow-sm shrink-0 transition-all duration-300"
     >
       {/* Brand Logo & Slogan Area */}
       <div className="p-4 lg:p-5 border-b border-slate-100 flex items-center justify-center lg:justify-start gap-3.5 shrink-0 h-20">
@@ -407,7 +407,7 @@ export function DesktopSidebar({
               onClick={() => navigate(item.path)}
               className={`w-full flex items-center justify-center lg:justify-start gap-3 p-2 rounded-xl transition-all duration-200 group relative cursor-pointer ${
                 active 
-                  ? 'bg-blue-50/80 border-l-4 border-blue-600 pl-1 lg:pl-1.5 font-bold shadow-xs' 
+                  ? 'bg-blue-50/80 border-s-4 border-blue-600 ps-1 lg:ps-1.5 font-bold shadow-xs' 
                   : 'hover:bg-slate-50'
               }`}
               id={`sidebar-btn-${item.id}`}
@@ -425,7 +425,7 @@ export function DesktopSidebar({
               </div>
 
               {/* Text Label */}
-              <div className="hidden lg:flex flex-col min-w-0 text-left">
+              <div className="hidden lg:flex flex-col min-w-0 text-start">
                 <span className={`text-xs transition-colors font-semibold leading-tight ${
                   active 
                     ? 'text-blue-600 font-extrabold' 
@@ -438,12 +438,12 @@ export function DesktopSidebar({
               {/* Badge for Chat */}
               {item.id === 'chat' ? (
                 unreadChatCount > 0 && (
-                  <span className="absolute right-1 lg:right-4 top-1 lg:top-auto px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-black rounded-full leading-none flex items-center justify-center min-w-[14px]">
+                  <span className="absolute end-1 lg:end-4 top-1 lg:top-auto px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-black rounded-full leading-none flex items-center justify-center min-w-[14px]">
                     {unreadChatCount}
                   </span>
                 )
               ) : item.hasBadge && (
-                <span className="absolute right-2 lg:right-3 top-2 lg:top-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                <span className="absolute end-2 lg:end-3 top-2 lg:top-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
               )}
             </button>
           );
@@ -466,7 +466,7 @@ export function DesktopSidebar({
         <div className="space-y-3.5 w-full">
           <div 
             onClick={() => navigate('/profile')}
-            className="flex items-center justify-center lg:justify-start gap-3 pl-0 lg:pl-1 cursor-pointer hover:bg-slate-100/75 p-1.5 rounded-2xl transition-all group"
+            className="flex items-center justify-center lg:justify-start gap-3 ps-0 lg:ps-1 cursor-pointer hover:bg-slate-100/75 p-1.5 rounded-2xl transition-all group"
             title={currentLanguage === 'en' ? 'View Profile' : 'پروفائل دیکھیں'}
           >
             {user.profilePhoto ? (
@@ -480,7 +480,7 @@ export function DesktopSidebar({
                 {(user.fullName || '')?.substring(0, 2)?.toUpperCase()}
               </div>
             )}
-            <div className="hidden lg:block text-left min-w-0">
+            <div className="hidden lg:block text-start min-w-0">
               <p className="text-xs font-black text-slate-800 leading-tight truncate group-hover:text-blue-600 transition-colors">
                 {user.fullName}
               </p>
@@ -538,7 +538,7 @@ export function MobileBottomNav({
     <>
       <nav 
         id="mobile-bottom-navigation"
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200/80 py-2 px-1 flex justify-around items-center z-40 shadow-2xl overflow-x-hidden"
+        className="md:hidden fixed bottom-0 start-0 end-0 bg-white border-t border-slate-200/80 py-2 px-1 flex justify-around items-center z-40 shadow-2xl overflow-x-hidden"
       >
         {/* Render Direct items */}
         {directItems.map((item) => {
@@ -577,12 +577,12 @@ export function MobileBottomNav({
               {/* Badge */}
               {item.id === 'chat' ? (
                 unreadChatCount > 0 && (
-                  <span className="absolute top-0 right-[20%] px-1 py-0.5 bg-red-500 text-white text-[8px] font-black rounded-full leading-none flex items-center justify-center min-w-[12px] shadow-sm">
+                  <span className="absolute top-0 end-[20%] px-1 py-0.5 bg-red-500 text-white text-[8px] font-black rounded-full leading-none flex items-center justify-center min-w-[12px] shadow-sm">
                     {unreadChatCount}
                   </span>
                 )
               ) : item.hasBadge && (
-                <span className="absolute top-0 right-[20%] w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                <span className="absolute top-0 end-[20%] w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
               )}
             </button>
           );
@@ -627,7 +627,7 @@ export function MobileBottomNav({
 
       {/* Slide-Up Drawer Bottom Sheet */}
       <div 
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl border-t border-slate-200/80 z-50 p-6 pb-10 transition-transform duration-300 ease-out shadow-2xl md:hidden ${
+        className={`fixed bottom-0 start-0 end-0 bg-white rounded-t-3xl border-t border-slate-200/80 z-50 p-6 pb-10 transition-transform duration-300 ease-out shadow-2xl md:hidden ${
           isMoreOpen ? 'translate-y-0' : 'translate-y-full'
         }`}
         id="more-drawer-panel"
@@ -685,7 +685,7 @@ export function MobileBottomNav({
 
                 {/* Badges for items inside drawer if applicable */}
                 {item.hasBadge && (
-                  <span className="absolute top-0 right-[25%] w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                  <span className="absolute top-0 end-[25%] w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                 )}
               </button>
             );
@@ -2227,7 +2227,7 @@ export default function AppShell({
 
         {/* Category Search bar */}
         <div className="relative mb-6">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
             <Search className="w-4 h-4" />
           </div>
           <input
@@ -2235,7 +2235,7 @@ export default function AppShell({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
+            className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
           />
         </div>
 
@@ -2755,12 +2755,12 @@ export default function AppShell({
                         <button
                           type="button"
                           onClick={() => handleLfRemoveImage(index)}
-                          className="absolute top-1 right-1 p-1 bg-black/60 hover:bg-black text-white rounded-full transition-all cursor-pointer border-0"
+                          className="absolute top-1 end-1 p-1 bg-black/60 hover:bg-black text-white rounded-full transition-all cursor-pointer border-0"
                           title="Remove"
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
-                        <div className="absolute bottom-1 left-1 bg-emerald-500/90 text-white text-[8px] font-black px-1 py-0.5 rounded shadow-xs">
+                        <div className="absolute bottom-1 start-1 bg-emerald-500/90 text-white text-[8px] font-black px-1 py-0.5 rounded shadow-xs">
                           ✓ success
                         </div>
                       </div>
@@ -3086,14 +3086,14 @@ export default function AppShell({
         </div>
 
         {composerImagePreview && (
-          <div className="relative ml-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
+          <div className="relative ms-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
             <img src={composerImagePreview} alt="Selected upload" className="w-full h-auto object-contain block" />
             <button 
               onClick={() => {
                 setComposerImage(null);
                 setComposerImagePreview(null);
               }}
-              className="absolute top-2 right-2 bg-slate-900/80 hover:bg-slate-900 text-white p-1.5 rounded-full transition-colors cursor-pointer z-10"
+              className="absolute top-2 end-2 bg-slate-900/80 hover:bg-slate-900 text-white p-1.5 rounded-full transition-colors cursor-pointer z-10"
               title="Remove image"
             >
               <X className="w-3.5 h-3.5" />
@@ -3102,14 +3102,14 @@ export default function AppShell({
         )}
 
         {composerVideoPreview && (
-          <div className="relative ml-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
+          <div className="relative ms-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
             <video src={composerVideoPreview} controls preload="metadata" className="w-full h-auto max-h-[400px] object-contain block bg-black/5" />
             <button 
               onClick={() => {
                 setComposerVideo(null);
                 setComposerVideoPreview(null);
               }}
-              className="absolute top-2 right-2 bg-slate-900/80 hover:bg-slate-900 text-white p-1.5 rounded-full transition-colors cursor-pointer z-10"
+              className="absolute top-2 end-2 bg-slate-900/80 hover:bg-slate-900 text-white p-1.5 rounded-full transition-colors cursor-pointer z-10"
               title="Remove video"
             >
               <X className="w-3.5 h-3.5" />
@@ -3118,9 +3118,9 @@ export default function AppShell({
         )}
 
         {composerLocation !== null && (
-          <div className="flex items-center ml-12 mb-3 max-w-[240px]" id="composer-location-input-container">
+          <div className="flex items-center ms-12 mb-3 max-w-[240px]" id="composer-location-input-container">
             <div className="relative flex-1 flex items-center">
-              <MapPin className="absolute left-3 w-4 h-4 text-blue-500 shrink-0" />
+              <MapPin className="absolute start-3 w-4 h-4 text-blue-500 shrink-0" />
               <select
                 value={composerLocation}
                 onChange={(e) => {
@@ -3133,7 +3133,7 @@ export default function AppShell({
                     setComposerLongitude(matched.longitude);
                   }
                 }}
-                className="w-full pl-9 pr-8 py-2 text-xs bg-slate-50 border border-slate-200/80 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold appearance-none"
+                className="w-full ps-9 pe-8 py-2 text-xs bg-slate-50 border border-slate-200/80 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold appearance-none"
                 id="composer-location-input"
               >
                 {STATIC_AREAS.map((a) => (
@@ -3149,7 +3149,7 @@ export default function AppShell({
                   setComposerLatitude(null);
                   setComposerLongitude(null);
                 }}
-                className="absolute right-2.5 p-1 hover:bg-slate-200 text-slate-450 hover:text-slate-650 rounded-full transition-colors border-0 bg-transparent cursor-pointer flex items-center justify-center"
+                className="absolute end-2.5 p-1 hover:bg-slate-200 text-slate-450 hover:text-slate-650 rounded-full transition-colors border-0 bg-transparent cursor-pointer flex items-center justify-center"
                 title="Remove location"
               >
                 <X className="w-3.5 h-3.5" />
@@ -3302,7 +3302,7 @@ export default function AppShell({
                           playsInline 
                           className="w-full h-full object-cover scale-x-[-1]" 
                         />
-                        <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                        <div className="absolute bottom-3 start-0 end-0 flex justify-center">
                           <button
                             type="button"
                             onClick={captureStoryPhoto}
@@ -3372,7 +3372,7 @@ export default function AppShell({
                       <button
                         type="button"
                         onClick={() => setStoryPhoto(null)}
-                        className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all cursor-pointer"
+                        className="absolute top-2 end-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -3485,7 +3485,7 @@ export default function AppShell({
         <div className="relative bg-slate-900 w-full sm:max-w-md aspect-[9/16] sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between z-10">
           
           {/* Progress Indicators and Top info bar */}
-          <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent z-20 space-y-3">
+          <div className="absolute top-0 start-0 end-0 p-4 bg-gradient-to-b from-black/80 to-transparent z-20 space-y-3">
             {/* Progress Bars */}
             <div className="flex gap-1.5 w-full">
               {currentUserStories.map((_, sIdx) => {
@@ -3558,7 +3558,7 @@ export default function AppShell({
                   setStoryTimer(0);
                 }
               }}
-              className="flex-1 h-full cursor-west-resize bg-transparent text-left outline-none"
+              className="flex-1 h-full cursor-west-resize bg-transparent text-start outline-none"
               style={{ width: '30%' }}
             />
             {/* Pause Zone (Hold/Center) */}
@@ -3580,7 +3580,7 @@ export default function AppShell({
                   setViewingStoryIdx(null);
                 }
               }}
-              className="flex-1 h-full cursor-east-resize bg-transparent text-right outline-none"
+              className="flex-1 h-full cursor-east-resize bg-transparent text-end outline-none"
               style={{ width: '30%' }}
             />
           </div>
@@ -3604,7 +3604,7 @@ export default function AppShell({
                   className="w-full h-full object-cover select-none pointer-events-none" 
                 />
                 {story.text && (
-                  <div className="absolute bottom-6 left-4 right-4 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center text-white z-20">
+                  <div className="absolute bottom-6 start-4 end-4 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center text-white z-20">
                     <p className="text-xs font-bold leading-relaxed">{story.text}</p>
                   </div>
                 )}
@@ -3617,7 +3617,7 @@ export default function AppShell({
                   className="w-full h-full object-cover select-none pointer-events-none" 
                 />
                 {story.text && (
-                  <div className="absolute bottom-6 left-4 right-4 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center text-white z-20">
+                  <div className="absolute bottom-6 start-4 end-4 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center text-white z-20">
                     <p className="text-xs font-bold leading-relaxed">{story.text}</p>
                   </div>
                 )}
@@ -3626,7 +3626,7 @@ export default function AppShell({
           </div>
 
           {/* Previous & Next Arrow controls for desktops */}
-          <div className="absolute inset-y-1/2 left-4 right-4 flex justify-between z-20 pointer-events-none">
+          <div className="absolute inset-y-1/2 start-4 end-4 flex justify-between z-20 pointer-events-none">
             <button
               disabled={viewingStoryIdx === 0}
               onClick={(e) => {
@@ -3687,7 +3687,7 @@ export default function AppShell({
       />
 
       {/* 2. MAIN CONTAINER (Header + Scrollable Main Content on the right) */}
-      <div className="h-full flex flex-col min-w-0 overflow-hidden relative ml-0 md:ml-[72px] lg:ml-[240px] transition-all duration-300">
+      <div className="h-full flex flex-col min-w-0 overflow-hidden relative ms-0 md:ms-[72px] lg:ms-[240px] transition-all duration-300">
         
         {/* MOBILE & DESKTOP HEADER */}
         <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>
@@ -3729,7 +3729,7 @@ export default function AppShell({
             </div>
 
             {/* Actions: Bilingual Switcher + Quick Actions */}
-            <div className="flex items-center gap-2.5 ml-auto">
+            <div className="flex items-center gap-2.5 ms-auto">
               {/* Bilingual Switcher */}
               <button
                 onClick={() => onLanguageChange(currentLanguage === 'en' ? 'ur' : 'en')}
@@ -3761,14 +3761,14 @@ export default function AppShell({
                 >
                   <Bell className="w-4.5 h-4.5" />
                   {unreadNotificationsCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black rounded-full leading-none w-4.5 h-4.5 flex items-center justify-center border border-white animate-pulse">
+                    <span className="absolute -top-1 -end-1 bg-red-500 text-white text-[9px] font-black rounded-full leading-none w-4.5 h-4.5 flex items-center justify-center border border-white animate-pulse">
                       {unreadNotificationsCount}
                     </span>
                   )}
                 </button>
 
                 {isNotifDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-slate-200 shadow-xl z-50 overflow-hidden py-1">
+                  <div className="absolute end-0 mt-2 w-80 bg-white rounded-2xl border border-slate-200 shadow-xl z-50 overflow-hidden py-1">
                     <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100">
                       <span className="text-xs font-black text-slate-800">{currentLanguage === 'en' ? 'Notifications' : 'اطلاعات'}</span>
                       {unreadNotificationsCount > 0 && (
@@ -4014,10 +4014,10 @@ export default function AppShell({
                         <p className="flex items-center gap-1.5 font-bold text-blue-700 bg-blue-50/50 px-2.5 py-1 rounded-lg w-fit">
                           💰 <span className="truncate">{job.salary}</span>
                         </p>
-                        <p className="flex items-center gap-1.5 text-xs text-slate-500 pl-0.5">
+                        <p className="flex items-center gap-1.5 text-xs text-slate-500 ps-0.5">
                           📍 {job.area || 'Dhoke Hassu'}
                         </p>
-                        <p className="flex items-center gap-1.5 text-[11px] text-slate-400 pl-0.5">
+                        <p className="flex items-center gap-1.5 text-[11px] text-slate-400 ps-0.5">
                           🕒 {job.postedTime || '1 day ago'}
                         </p>
                       </div>
@@ -4097,7 +4097,7 @@ export default function AppShell({
                             alt={bus.name} 
                             className="w-full h-full object-cover"
                           />
-                          <span className="absolute bottom-1.5 right-1.5 bg-black/75 text-white text-[8px] font-extrabold px-1 py-0.5 rounded flex items-center gap-0.5 backdrop-blur-xs">
+                          <span className="absolute bottom-1.5 end-1.5 bg-black/75 text-white text-[8px] font-extrabold px-1 py-0.5 rounded flex items-center gap-0.5 backdrop-blur-xs">
                             ⭐ {bus.rating.toFixed(1)}
                           </span>
                         </div>
@@ -4218,10 +4218,10 @@ export default function AppShell({
                             alt={prop.title} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          <span className="absolute top-2.5 left-2.5 bg-black/75 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
+                          <span className="absolute top-2.5 start-2.5 bg-black/75 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
                             {prop.purpose === 'Rent' ? (currentLanguage === 'en' ? 'Rent' : 'کرایہ') : (currentLanguage === 'en' ? 'Sale' : 'فروخت')}
                           </span>
-                          <div className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-blue-600 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
                             {prop.price}
                           </div>
                         </div>
@@ -4335,10 +4335,10 @@ export default function AppShell({
                             alt={deal.title} 
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          <span className="absolute top-2.5 left-2.5 bg-green-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
+                          <span className="absolute top-2.5 start-2.5 bg-green-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
                             {deal.category}
                           </span>
-                          <div className="absolute bottom-2 left-2 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
                             {deal.discountText}
                           </div>
                         </div>
@@ -4460,10 +4460,10 @@ export default function AppShell({
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             referrerPolicy="no-referrer"
                           />
-                          <span className="absolute top-2.5 left-2.5 bg-[#2563eb] text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="absolute top-2.5 start-2.5 bg-[#2563eb] text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                             {item.category}
                           </span>
-                          <div className="absolute bottom-2 left-2 bg-[#22c55e] text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-[#22c55e] text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-sm">
                             {item.price}
                           </div>
                         </div>
@@ -4578,12 +4578,12 @@ export default function AppShell({
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             referrerPolicy="no-referrer"
                           />
-                          <span className={`absolute top-2 left-2 px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1 ${
+                          <span className={`absolute top-2 start-2 px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider shadow-sm flex items-center gap-1 ${
                             isAvailable ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'
                           }`}>
                             {isAvailable ? (currentLanguage === 'en' ? 'Available' : 'دستیاب') : (currentLanguage === 'en' ? 'Busy' : 'مصروف')}
                           </span>
-                          <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-1.5 py-0.5 rounded-md">
+                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-1.5 py-0.5 rounded-md">
                             🎓 {item.experience}
                           </div>
                         </div>
@@ -4804,10 +4804,10 @@ export default function AppShell({
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             referrerPolicy="no-referrer"
                           />
-                          <span className="absolute top-2.5 left-2.5 bg-[#2563eb]/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="absolute top-2.5 start-2.5 bg-[#2563eb]/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                             {item.category}
                           </span>
-                          <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
                             📅 {item.date}
                           </div>
                         </div>
@@ -4929,7 +4929,7 @@ export default function AppShell({
                         <div className="space-y-2">
                           <div className="relative h-24 rounded-lg overflow-hidden bg-slate-100">
                             <img src={group.coverImage} alt={group.name} className="w-full h-full object-cover" />
-                            <span className="absolute bottom-1.5 left-1.5 text-[8px] bg-slate-900/80 text-white px-2 py-0.5 rounded font-black">
+                            <span className="absolute bottom-1.5 start-1.5 text-[8px] bg-slate-900/80 text-white px-2 py-0.5 rounded font-black">
                               {catLabel}
                             </span>
                           </div>
@@ -5521,7 +5521,7 @@ export default function AppShell({
                                     return (
                                       <div key={opt.id || idx} className="w-full bg-slate-50 border border-slate-200/60 rounded-xl overflow-hidden relative h-10 flex items-center justify-between px-4 font-bold text-xs">
                                         <div 
-                                          className={`absolute left-0 top-0 bottom-0 transition-all duration-500 ${isUserChoice ? 'bg-green-500/10 border-r border-green-500/30' : 'bg-indigo-500/10 border-r border-indigo-500/30'}`} 
+                                          className={`absolute start-0 top-0 bottom-0 transition-all duration-500 ${isUserChoice ? 'bg-green-500/10 border-e border-green-500/30' : 'bg-indigo-500/10 border-e border-indigo-500/30'}`} 
                                           style={{ width: `${pct}%` }} 
                                         />
                                         <span className="relative z-10 flex items-center gap-1.5 text-slate-700">
@@ -5539,7 +5539,7 @@ export default function AppShell({
                                     <button
                                       key={opt.id || idx}
                                       onClick={() => handleInlineVote(poll.id, opt.id)}
-                                      className="w-full h-10 px-4 bg-white hover:bg-indigo-50/30 text-slate-700 hover:text-indigo-700 text-xs font-bold rounded-xl text-left border border-slate-200 hover:border-indigo-500/50 transition-all cursor-pointer shadow-2xs flex items-center justify-between"
+                                      className="w-full h-10 px-4 bg-white hover:bg-indigo-50/30 text-slate-700 hover:text-indigo-700 text-xs font-bold rounded-xl text-start border border-slate-200 hover:border-indigo-500/50 transition-all cursor-pointer shadow-2xs flex items-center justify-between"
                                     >
                                       <span>{opt.option_text}</span>
                                       <span className="w-4 h-4 rounded-full border border-slate-350 flex items-center justify-center shrink-0" />
@@ -5767,7 +5767,7 @@ export default function AppShell({
         <div className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <button
             onClick={() => setActiveGalleryImages(null)}
-            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border-0 cursor-pointer shadow-lg z-50"
+            className="absolute top-4 end-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border-0 cursor-pointer shadow-lg z-50"
             title="Close"
           >
             <X className="w-6 h-6" />
@@ -5777,7 +5777,7 @@ export default function AppShell({
           {activeGalleryImages.length > 1 && (
             <button
               onClick={() => setActiveGalleryIndex(prev => (prev > 0 ? prev - 1 : activeGalleryImages.length - 1))}
-              className="absolute left-4 p-3 bg-white/10 hover:bg-white/25 text-white rounded-full transition-all border-0 cursor-pointer z-50"
+              className="absolute start-4 p-3 bg-white/10 hover:bg-white/25 text-white rounded-full transition-all border-0 cursor-pointer z-50"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -5814,7 +5814,7 @@ export default function AppShell({
           {activeGalleryImages.length > 1 && (
             <button
               onClick={() => setActiveGalleryIndex(prev => (prev < activeGalleryImages.length - 1 ? prev + 1 : 0))}
-              className="absolute right-4 p-3 bg-white/10 hover:bg-white/25 text-white rounded-full transition-all border-0 cursor-pointer z-50"
+              className="absolute end-4 p-3 bg-white/10 hover:bg-white/25 text-white rounded-full transition-all border-0 cursor-pointer z-50"
             >
               <ChevronRight className="w-6 h-6" />
             </button>

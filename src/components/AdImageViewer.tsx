@@ -310,7 +310,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
       {/* Lightbox Header Bar */}
       <div className="w-full flex items-center justify-between z-10 px-2 sm:px-4">
         {/* Sponsored / Advertiser label */}
-        <div className="flex flex-col text-left">
+        <div className="flex flex-col text-start">
           <span className="bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full w-fit">
             📢 Sponsored
           </span>
@@ -374,7 +374,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
         {imagesList.length > 1 && (
           <button
             onClick={handlePrev}
-            className="absolute left-2 sm:left-4 p-2 bg-slate-900/60 hover:bg-slate-800/80 text-white rounded-full transition-all z-10 shadow-lg border border-slate-700/30 cursor-pointer"
+            className="absolute start-2 sm:start-4 p-2 bg-slate-900/60 hover:bg-slate-800/80 text-white rounded-full transition-all z-10 shadow-lg border border-slate-700/30 cursor-pointer"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -427,7 +427,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
         {imagesList.length > 1 && (
           <button
             onClick={handleNext}
-            className="absolute right-2 sm:right-4 p-2 bg-slate-900/60 hover:bg-slate-800/80 text-white rounded-full transition-all z-10 shadow-lg border border-slate-700/30 cursor-pointer"
+            className="absolute end-2 sm:end-4 p-2 bg-slate-900/60 hover:bg-slate-800/80 text-white rounded-full transition-all z-10 shadow-lg border border-slate-700/30 cursor-pointer"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />

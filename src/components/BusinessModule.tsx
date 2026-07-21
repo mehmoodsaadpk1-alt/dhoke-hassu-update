@@ -486,7 +486,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
           {/* Search bar & Saved Toggle Filter */}
           <div className="flex flex-col md:flex-row gap-3 items-stretch" id="business-search-section">
             <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
                 <Search className="w-5 h-5 text-slate-400" />
               </div>
               <input
@@ -494,7 +494,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={isEn ? 'Search business by name, category, or area (e.g., Main Road)...' : 'کاروبار کا نام، کیٹیگری یا علاقہ تلاش کریں (جیسے مین روڈ)...'}
-                className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
+                className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
                 id="business-search-input"
               />
             </div>
@@ -603,7 +603,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                             referrerPolicy="no-referrer"
                           />
                           {bus.featured && (
-                            <span className="absolute top-3 left-3 bg-yellow-400 text-slate-950 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-0.5 shadow-sm">
+                            <span className="absolute top-3 start-3 bg-yellow-400 text-slate-950 text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-0.5 shadow-sm">
                               <Sparkles className="w-2.5 h-2.5 fill-current" />
                               {isEn ? 'Featured' : 'نمایاں'}
                             </span>
@@ -612,7 +612,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                           {/* Fast Bookmark Toggle Button on Image */}
                           <button
                             onClick={(e) => toggleSave(bus.id, e)}
-                            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 flex items-center justify-center transition-all shadow-sm cursor-pointer border-0"
+                            className="absolute top-3 end-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 flex items-center justify-center transition-all shadow-sm cursor-pointer border-0"
                             title={isEn ? "Save Business" : "محفوظ کریں"}
                           >
                             {isSaved ? (
@@ -623,7 +623,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                           </button>
                           
                           {/* Rating bubble */}
-                          <span className="absolute bottom-3 right-3 bg-black/75 text-white text-[10px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 backdrop-blur-xs shadow-xs">
+                          <span className="absolute bottom-3 end-3 bg-black/75 text-white text-[10px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 backdrop-blur-xs shadow-xs">
                             ⭐ {bus.rating.toFixed(1)}
                           </span>
                         </div>
@@ -741,7 +741,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             {/* Back Arrow Overlay */}
             <button
               onClick={onNavigateToList}
-              className="absolute top-4 left-4 inline-flex items-center gap-1.5 text-xs font-black text-slate-700 hover:text-slate-950 bg-white/95 backdrop-blur-xs px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-md border-0"
+              className="absolute top-4 start-4 inline-flex items-center gap-1.5 text-xs font-black text-slate-700 hover:text-slate-950 bg-white/95 backdrop-blur-xs px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-md border-0"
               id="business-detail-back"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -749,12 +749,12 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             </button>
 
             {/* Quick stats rating badge */}
-            <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-xs text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm">
+            <div className="absolute top-4 end-4 bg-black/60 backdrop-blur-xs text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm">
               ⭐ {currentBusiness.rating.toFixed(1)} {isEn ? 'Rating' : 'درجہ بندی'}
             </div>
 
             {/* Profile Avatar overlay */}
-            <div className="absolute -bottom-12 left-6 sm:left-10 w-24 h-24 sm:w-28 sm:h-28 bg-white p-1 rounded-2xl shadow-md border border-slate-150 overflow-hidden">
+            <div className="absolute -bottom-12 start-6 sm:start-10 w-24 h-24 sm:w-28 sm:h-28 bg-white p-1 rounded-2xl shadow-md border border-slate-150 overflow-hidden">
               <img 
                 src={currentBusiness.image || currentBusiness.logo || 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=150'} 
                 alt={`${currentBusiness.name} logo`} 
@@ -805,7 +805,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                       />
                     ))}
                   </div>
-                  <span className="ml-1 text-slate-500">({currentBusiness.rating.toFixed(1)})</span>
+                  <span className="ms-1 text-slate-500">({currentBusiness.rating.toFixed(1)})</span>
                 </div>
               </div>
 
@@ -930,7 +930,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     className="w-full h-full object-contain"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute bottom-3 left-3 bg-black/70 text-white text-[10px] font-mono px-2 py-1 rounded">
+                  <div className="absolute bottom-3 start-3 bg-black/70 text-white text-[10px] font-mono px-2 py-1 rounded">
                     {activeGalleryIndex + 1} / {currentBusiness.images.length}
                   </div>
 
@@ -938,13 +938,13 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     <>
                       <button 
                         onClick={() => setActiveGalleryIndex(prev => (prev === 0 ? currentBusiness.images!.length - 1 : prev - 1))}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center cursor-pointer border-0"
+                        className="absolute start-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center cursor-pointer border-0"
                       >
                         <ChevronLeft className="w-5 h-5" />
                       </button>
                       <button 
                         onClick={() => setActiveGalleryIndex(prev => (prev === currentBusiness.images!.length - 1 ? 0 : prev + 1))}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center cursor-pointer border-0"
+                        className="absolute end-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center cursor-pointer border-0"
                       >
                         <ChevronRight className="w-5 h-5" />
                       </button>
@@ -991,7 +991,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               </div>
 
               {currentBusiness.ownerBio && (
-                <p className="text-xs text-slate-600 italic leading-relaxed pl-1 border-l-2 border-slate-300">
+                <p className="text-xs text-slate-600 italic leading-relaxed ps-1 border-s-2 border-slate-300">
                   "{currentBusiness.ownerBio}"
                 </p>
               )}
@@ -1108,7 +1108,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     </h4>
                     
                     <div className="flex items-center gap-1">
-                      <span className="text-xs text-slate-500 mr-2">{isEn ? 'Rating Star:' : 'درجہ:'}</span>
+                      <span className="text-xs text-slate-500 me-2">{isEn ? 'Rating Star:' : 'درجہ:'}</span>
                       {Array.from({ length: 5 }).map((_, i) => (
                         <button
                           key={i}
@@ -1405,13 +1405,13 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   <div className="grid grid-cols-4 gap-3">
                     {formCoverImage && (
                       <div className="space-y-1 relative">
-                        <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 left-1">{isEn ? 'Cover' : 'کور'}</span>
+                        <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 start-1">{isEn ? 'Cover' : 'کور'}</span>
                         <img src={formCoverImage} className="w-full aspect-square rounded-lg object-cover border border-slate-200" alt="Cover preview" referrerPolicy="no-referrer" />
                       </div>
                     )}
                     {formGallery.map((img, idx) => (
                       <div key={idx} className="space-y-1 relative">
-                        <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 left-1">{isEn ? `Item ${idx+1}` : `تصویر ${idx+1}`}</span>
+                        <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 start-1">{isEn ? `Item ${idx+1}` : `تصویر ${idx+1}`}</span>
                         <img src={img} className="w-full aspect-square rounded-lg object-cover border border-slate-200" alt="Gallery item" referrerPolicy="no-referrer" />
                       </div>
                     ))}

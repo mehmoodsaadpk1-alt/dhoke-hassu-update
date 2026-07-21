@@ -781,7 +781,7 @@ export default function DealsModule({
           {/* Back button */}
           <button
             onClick={onNavigateToList}
-            className="absolute top-4 left-4 z-10 p-2.5 bg-white/95 text-slate-800 hover:bg-white rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs border-0"
+            className="absolute top-4 start-4 z-10 p-2.5 bg-white/95 text-slate-800 hover:bg-white rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs border-0"
             id="deal-detail-back-btn"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -796,12 +796,12 @@ export default function DealsModule({
               className="w-full h-full object-cover"
             />
             {/* Gallery Indicator */}
-            <span className="absolute bottom-4 right-4 bg-black/75 text-white text-xs font-black px-3 py-1.5 rounded-xl backdrop-blur-xs">
+            <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-black px-3 py-1.5 rounded-xl backdrop-blur-xs">
               {activeImageIndex + 1} / {images.length}
             </span>
 
             {/* Discount Stamp */}
-            <div className="absolute bottom-4 left-4 bg-green-500 text-white font-black text-sm px-4 py-2 rounded-2xl shadow-lg border border-green-400">
+            <div className="absolute bottom-4 start-4 bg-green-500 text-white font-black text-sm px-4 py-2 rounded-2xl shadow-lg border border-green-400">
               🎉 {selectedDeal.discountText}
             </div>
 
@@ -1075,19 +1075,19 @@ export default function DealsModule({
                     <img src={displayImg} alt={deal.title} className="w-full h-full object-cover" />
                     
                     {/* Category Label */}
-                    <span className="absolute top-3 left-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs font-sans">
+                    <span className="absolute top-3 start-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs font-sans">
                       {t.categories[deal.category as keyof typeof t.categories] || deal.category}
                     </span>
 
                     {/* Expiry Badge / Stamp */}
                     {expired && (
-                      <span className="absolute top-3 right-3 bg-rose-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm font-sans">
+                      <span className="absolute top-3 end-3 bg-rose-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm font-sans">
                         {t.expiredBadge}
                       </span>
                     )}
 
                     {/* Discount Text Stamp */}
-                    <div className="absolute bottom-3 left-3 bg-green-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl shadow-md border border-green-400">
+                    <div className="absolute bottom-3 start-3 bg-green-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl shadow-md border border-green-400">
                       🎉 {deal.discountText}
                     </div>
                   </div>
@@ -1188,13 +1188,13 @@ export default function DealsModule({
       <div className="bg-white p-4 rounded-3xl border border-slate-200/60 shadow-xs space-y-4" id="deals-filters-dashboard">
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full pl-10 pr-4 py-3 bg-slate-100/70 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500 rounded-full text-sm focus:outline-none transition-all placeholder:text-slate-400 font-medium"
+            className="w-full ps-10 pe-4 py-3 bg-slate-100/70 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500 rounded-full text-sm focus:outline-none transition-all placeholder:text-slate-400 font-medium"
             id="deals-search-input"
           />
         </div>
@@ -1291,26 +1291,26 @@ export default function DealsModule({
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
                     {/* Category overlay label */}
-                    <span className="absolute top-3 left-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs font-sans">
+                    <span className="absolute top-3 start-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs font-sans">
                       {t.categories[deal.category as keyof typeof t.categories] || deal.category}
                     </span>
 
                     {/* Expired Label Stamp */}
                     {expired && (
-                      <span className="absolute top-3 right-3 bg-rose-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md font-sans border border-rose-500">
+                      <span className="absolute top-3 end-3 bg-rose-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md font-sans border border-rose-500">
                         ⚠️ {t.expiredBadge}
                       </span>
                     )}
 
                     {/* Discount Text Overlay (Bright Green or Blue background) */}
-                    <div className="absolute bottom-3 left-3 bg-emerald-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-xl shadow-lg border border-emerald-400 font-sans tracking-tight">
+                    <div className="absolute bottom-3 start-3 bg-emerald-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-xl shadow-lg border border-emerald-400 font-sans tracking-tight">
                       ⚡ {deal.discountText}
                     </div>
 
                     {/* Save toggle quick action */}
                     <button
                       onClick={(e) => handleToggleSave(deal.id, e)}
-                      className="absolute bottom-3 right-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md hover:scale-105 transition-all cursor-pointer border-0"
+                      className="absolute bottom-3 end-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md hover:scale-105 transition-all cursor-pointer border-0"
                       id={`deal-card-save-overlay-${deal.id}`}
                     >
                       <Heart className={`w-3.5 h-3.5 transition-colors ${isSaved ? 'fill-rose-500 text-rose-500' : 'text-slate-500'}`} />

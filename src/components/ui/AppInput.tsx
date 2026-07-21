@@ -35,7 +35,7 @@ export const AppInput: React.FC<AppInputProps> = ({
       )}
       <div className="relative">
         {leadingIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
             {leadingIcon}
           </div>
         )}
@@ -43,8 +43,8 @@ export const AppInput: React.FC<AppInputProps> = ({
           type={inputType}
           disabled={disabled}
           className={`w-full bg-slate-50 border rounded-xl text-sm placeholder-slate-400 transition-all duration-200 disabled:opacity-50 disabled:bg-slate-100/60
-            ${leadingIcon ? 'pl-10' : 'pl-4'}
-            ${trailingIcon || isPassword ? 'pr-10' : 'pr-4'}
+            ${leadingIcon ? 'ps-10' : 'ps-4'}
+            ${trailingIcon || isPassword ? 'pe-10' : 'pe-4'}
             ${error ? 'border-error focus:border-error focus:ring-red-100' : 'border-slate-200 focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100'}
             py-2.5 h-10.5
             ${className}`}
@@ -54,13 +54,13 @@ export const AppInput: React.FC<AppInputProps> = ({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            className="absolute inset-y-0 end-0 pe-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
           >
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         )}
         {!isPassword && trailingIcon && (
-          <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 end-0 pe-3.5 flex items-center pointer-events-none text-slate-400">
             {trailingIcon}
           </div>
         )}
@@ -135,22 +135,22 @@ export const AppSelect: React.FC<AppSelectProps> = ({
       )}
       <div className="relative">
         {leadingIcon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
             {leadingIcon}
           </div>
         )}
         <select
           disabled={disabled}
           className={`w-full bg-slate-50 border rounded-xl text-sm transition-all duration-200 appearance-none cursor-pointer disabled:opacity-50 disabled:bg-slate-100/60
-            ${leadingIcon ? 'pl-10' : 'pl-4'}
-            pr-10 py-2.5 h-10.5
+            ${leadingIcon ? 'ps-10' : 'ps-4'}
+            pe-10 py-2.5 h-10.5
             ${error ? 'border-error focus:border-error focus:ring-red-100' : 'border-slate-200 focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100'}
             ${className}`}
           {...props}
         >
           {children}
         </select>
-        <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+        <div className="absolute inset-y-0 end-0 pe-3.5 flex items-center pointer-events-none text-slate-400">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>

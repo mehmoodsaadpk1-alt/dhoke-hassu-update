@@ -135,7 +135,7 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
           
           {error && (
             <div className="flex items-center text-red-600 bg-red-50 p-3 rounded-lg text-sm">
-              <AlertCircle size={16} className="mr-2 flex-shrink-0" />
+              <AlertCircle size={16} className="me-2 flex-shrink-0" />
               <p>{error}</p>
             </div>
           )}

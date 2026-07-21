@@ -70,7 +70,7 @@ export const ShortsActions: React.FC<ShortsActionsProps> = React.memo(({
   const showToast = (message: string) => {
     // Basic toast implementation for stabilization
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded shadow-xl z-50 transition-opacity';
+    toast.className = 'fixed bottom-24 start-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded shadow-xl z-50 transition-opacity';
     toast.innerText = message;
     document.body.appendChild(toast);
     setTimeout(() => {
@@ -126,23 +126,23 @@ export const ShortsActions: React.FC<ShortsActionsProps> = React.memo(({
         </button>
         
         {showOptions && (
-          <div className="absolute right-14 bottom-0 bg-gray-900/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl w-40 overflow-hidden z-50 animate-in fade-in slide-in-from-right-4 duration-200">
+          <div className="absolute end-14 bottom-0 bg-gray-900/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl w-40 overflow-hidden z-50 animate-in fade-in slide-in-from-end-4 duration-200">
             {isOwner && onDelete && (
               <button 
-                className="w-full text-left px-4 py-3 text-red-500 hover:bg-gray-800 text-sm font-bold transition-colors border-b border-gray-700"
+                className="w-full text-start px-4 py-3 text-red-500 hover:bg-gray-800 text-sm font-bold transition-colors border-b border-gray-700"
                 onClick={(e) => { e.stopPropagation(); onDelete(videoId); setShowOptions(false); }}
               >
                 Delete Video
               </button>
             )}
             <button 
-              className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-800 text-sm font-medium transition-colors"
+              className="w-full text-start px-4 py-3 text-red-400 hover:bg-gray-800 text-sm font-medium transition-colors"
               onClick={(e) => { e.stopPropagation(); onReport(videoId); setShowOptions(false); }}
             >
               Report Video
             </button>
             <button 
-              className="w-full text-left px-4 py-3 text-white hover:bg-gray-800 text-sm font-medium transition-colors"
+              className="w-full text-start px-4 py-3 text-white hover:bg-gray-800 text-sm font-medium transition-colors"
               onClick={(e) => { e.stopPropagation(); setShowOptions(false); }}
             >
               Cancel

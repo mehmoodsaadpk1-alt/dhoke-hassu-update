@@ -573,13 +573,13 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search input */}
               <div className="relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder={isEn ? 'Search by business name, provider, keyword...' : 'سروس یا ہنرمند تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -714,7 +714,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       id={`service-card-${item.id}`}
                     >
                       {/* Featured / Verified / Pending status tags */}
-                      <div className="absolute top-5 left-5 flex items-center gap-1.5 z-10">
+                      <div className="absolute top-5 start-5 flex items-center gap-1.5 z-10">
                         {item.featured && (
                           <span className="bg-blue-600 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-0.5">
                             <Sparkles className="w-2.5 h-2.5" />
@@ -1337,7 +1337,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         <button
                           type="button"
                           onClick={() => setFormImage('')}
-                          className="absolute -top-1.5 -right-1.5 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-650"
+                          className="absolute -top-1.5 -end-1.5 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-650"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -1409,7 +1409,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                                     prev?.split('\n').filter((_, i) => i !== idx).join('\n')
                                   );
                                 }}
-                                className="absolute top-1 right-1 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-650 opacity-90"
+                                className="absolute top-1 end-1 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-650 opacity-90"
                               >
                                 <X className="w-2.5 h-2.5" />
                               </button>

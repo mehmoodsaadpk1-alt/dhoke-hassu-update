@@ -602,7 +602,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         <button
                           type="button"
                           onClick={handleRemoveCover}
-                          className="absolute top-2 right-2 p-1.5 bg-red-650 hover:bg-red-700 text-white rounded-lg transition-colors border-none cursor-pointer shadow-md"
+                          className="absolute top-2 end-2 p-1.5 bg-red-650 hover:bg-red-700 text-white rounded-lg transition-colors border-none cursor-pointer shadow-md"
                         >
                           <Trash className="w-4 h-4" />
                         </button>
@@ -639,7 +639,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       </button>
                     </label>
 
-                    <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                    <div className="space-y-2.5 max-h-48 overflow-y-auto pe-1">
                       {options.map((opt, idx) => (
                         <div key={idx} className="flex items-center gap-2">
                           <span className="text-xs text-slate-400 font-mono font-bold">#{idx + 1}</span>
@@ -807,14 +807,14 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-start border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                     <th className="py-3.5 px-6">Poll Topic Title</th>
                     <th className="py-3.5 px-6">Launch Details</th>
                     <th className="py-3.5 px-6">Status</th>
                     <th className="py-3.5 px-6">Votes Count</th>
-                    <th className="py-3.5 px-6 text-right">Actions</th>
+                    <th className="py-3.5 px-6 text-end">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-xs text-slate-700 font-semibold">
@@ -843,7 +843,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       <td className="py-4 px-6 font-mono font-bold text-slate-900 text-sm">
                         {poll.total_votes}
                       </td>
-                      <td className="py-4 px-6 text-right space-x-1.5 whitespace-nowrap">
+                      <td className="py-4 px-6 text-end space-x-1.5 whitespace-nowrap">
                         <button
                           onClick={() => {
                             setSelectedAnalyticsPoll(poll);

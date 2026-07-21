@@ -228,13 +228,13 @@ export default function PageCreateForm({
             <div className="space-y-1.5">
               <label className="text-sm font-bold text-slate-700">{isEn ? 'Username / Slug *' : 'یوزر نیم *'}</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">@</span>
+                <span className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">@</span>
                 <input 
                   type="text" 
                   value={slug} 
                   onChange={e => setSlug(e.target.value?.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} 
                   required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-9 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                   placeholder="alis-bakery"
                 />
               </div>
@@ -247,13 +247,13 @@ export default function PageCreateForm({
               <select 
                 value={category} 
                 onChange={e => setCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm font-semibold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-4 pe-10 py-3 text-sm font-semibold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <ChevronDown className="absolute end-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
@@ -275,52 +275,52 @@ export default function PageCreateForm({
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
-              <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Globe className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="url" 
                 value={website} 
                 onChange={e => setWebsite(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 placeholder={isEn ? "Website URL" : "ویب سائٹ کا ربط"}
               />
             </div>
             <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Phone className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="tel" 
                 value={phone} 
                 onChange={e => setPhone(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 placeholder={isEn ? "Phone Number" : "فون نمبر"}
               />
             </div>
             <div className="relative md:col-span-2">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Mail className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="email" 
                 value={email} 
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 placeholder={isEn ? "Email Address" : "ای میل ایڈریس"}
               />
             </div>
             <div className="relative md:col-span-2">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <MapPin className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="text" 
                 value={address} 
                 onChange={e => setAddress(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 placeholder={isEn ? "Street Address" : "گلی کا پتہ"}
               />
             </div>
             <div className="relative md:col-span-2">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <MapPin className="absolute start-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input 
                 type="text" 
                 value={location} 
                 onChange={e => setLocation(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 placeholder={isEn ? "City, Country" : "شہر، ملک"}
               />
             </div>
@@ -341,12 +341,12 @@ export default function PageCreateForm({
                 <select 
                   value={visibility} 
                   onChange={e => setVisibility(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl pl-4 pr-10 py-2.5 text-sm font-bold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-white border border-slate-200 rounded-xl ps-4 pe-10 py-2.5 text-sm font-bold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
                 >
                   <option value="Public">Public</option>
                   <option value="Private">Private</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <ChevronDown className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
               </div>
             </div>
 

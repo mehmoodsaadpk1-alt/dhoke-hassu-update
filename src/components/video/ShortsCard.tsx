@@ -125,13 +125,13 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
       )}
 
       {/* Bottom Gradient overlay for text readability */}
-      <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none z-10"></div>
+      <div className="absolute bottom-0 start-0 end-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none z-10"></div>
 
       {/* Info & Actions Container */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 pb-12 flex justify-between items-end z-20 pointer-events-none">
+      <div className="absolute bottom-0 start-0 end-0 p-4 pb-12 flex justify-between items-end z-20 pointer-events-none">
         
         {/* Left Info Section */}
-        <div className="flex-1 pr-12 text-white max-w-[80%] pointer-events-auto">
+        <div className="flex-1 pe-12 text-white max-w-[80%] pointer-events-auto">
           
           {/* Creator Profile Overlay */}
           <div className="flex items-center space-x-2 mb-3">
@@ -175,7 +175,7 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
               <button 
                 onClick={handleFollowToggle}
                 disabled={isFollowLoading}
-                className={`ml-2 px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                className={`ms-2 px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
                   followStatus === 'none' 
                     ? 'border border-white hover:bg-white hover:text-black' 
                     : 'border border-gray-400 text-gray-300 hover:bg-gray-800'
@@ -203,13 +203,13 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
           
           {/* Views count */}
           <div className="flex items-center text-xs opacity-90 font-medium mb-1">
-            <Eye size={14} className="mr-2" />
+            <Eye size={14} className="me-2" />
             <span>{localViewsCount} views</span>
           </div>
 
           {/* Music/Sound track ticker */}
           <div className="flex items-center text-xs opacity-90 font-medium">
-            <Music size={14} className="mr-2 animate-pulse" />
+            <Music size={14} className="me-2 animate-pulse" />
             <span className="truncate">Original Sound - {video.profiles?.full_name || 'Creator'}</span>
           </div>
         </div>

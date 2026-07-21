@@ -236,7 +236,7 @@ export default function PostComposer({
                   <button
                     type="button"
                     onClick={() => setComposerAttachedPhotos(prev => prev.filter((_, i) => i !== pIdx))}
-                    className="absolute top-1.5 right-1.5 p-1 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all cursor-pointer"
+                    className="absolute top-1.5 end-1.5 p-1 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all cursor-pointer"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -253,7 +253,7 @@ export default function PostComposer({
                 playsInline
                 className="w-full h-full object-cover scale-x-[-1]"
               />
-              <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+              <div className="absolute bottom-3 start-0 end-0 flex justify-center gap-2">
                 <button
                   type="button"
                   onClick={captureComposerPhoto}

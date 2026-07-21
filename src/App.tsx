@@ -26,6 +26,11 @@ export default function App() {
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
 
   useEffect(() => {
+    document.documentElement.dir = currentLanguage === 'ur' ? 'rtl' : 'ltr';
+    document.documentElement.lang = currentLanguage;
+  }, [currentLanguage]);
+
+  useEffect(() => {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
     };
@@ -480,8 +485,8 @@ export default function App() {
         <div className="flex-1 flex flex-col justify-center items-center px-4 py-12 bg-slate-50 relative overflow-hidden">
           
           {/* Ambient decorative background blobs */}
-          <div className="absolute top-0 left-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12" />
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12" />
+          <div className="absolute top-0 start-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12" />
+          <div className="absolute bottom-0 end-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12" />
 
           {/* Quick instructions bar */}
           <div className="w-full max-w-md text-center mb-6 z-10">

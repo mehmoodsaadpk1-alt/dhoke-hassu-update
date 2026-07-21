@@ -78,7 +78,7 @@ export default function FeedCard({
             </div>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
               {timestamp}
-              {location && <span className="ml-1.5 inline-flex items-center gap-0.5"><span className="text-[10px]">📍</span> {location}</span>}
+              {location && <span className="ms-1.5 inline-flex items-center gap-0.5"><span className="text-[10px]">📍</span> {location}</span>}
             </p>
           </div>
         </div>

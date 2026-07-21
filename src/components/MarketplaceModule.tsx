@@ -362,13 +362,13 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
 
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+                <Search className="absolute start-3 top-2.5 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder={currentLanguage === 'en' ? 'Search items...' : 'چیزیں تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-100 border border-slate-200 pl-9 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32] focus:bg-white"
+                  className="w-full bg-slate-100 border border-slate-200 ps-9 pe-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32] focus:bg-white"
                 />
               </div>
               <button
@@ -435,13 +435,13 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                           />
                           <button
                             onClick={(e) => handleToggleFav(item.id, e)}
-                            className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-slate-700 shadow-sm transition-colors"
+                            className="absolute top-2 end-2 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-slate-700 shadow-sm transition-colors"
                           >
                             <Heart
                               className={`w-4 h-4 ${favorites.includes(item.id) ? 'fill-red-500 text-red-500' : 'text-slate-600'}`}
                             />
                           </button>
-                          <span className={`absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold ${getConditionStyle(item.condition)}`}>
+                          <span className={`absolute bottom-2 start-2 px-2 py-0.5 rounded text-[10px] font-bold ${getConditionStyle(item.condition)}`}>
                             {item.condition}
                           </span>
                         </div>
@@ -713,7 +713,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                             e.stopPropagation();
                             setFormImages(formImages.filter((_, i) => i !== idx));
                           }}
-                          className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full shadow-md transition-colors"
+                          className="absolute top-1 end-1 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full shadow-md transition-colors"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -775,7 +775,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   className="w-full h-full max-h-[500px] object-contain block"
                 />
                              {selectedItem.images && selectedItem.images.length > 1 && (
-                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1">
+                <div className="absolute bottom-4 start-0 end-0 flex justify-center gap-1">
                   {selectedItem.images.map((_, i) => (
                     <button
                       key={i}
@@ -954,7 +954,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     }`}>
                       {!isMe && <span className="block text-[10px] font-bold text-slate-500 mb-0.5">{msg.sender_name}</span>}
                       <p>{msg.content}</p>
-                      <span className={`block text-[9px] text-right mt-1 ${isMe ? 'text-white/70' : 'text-slate-400'}`}>
+                      <span className={`block text-[9px] text-end mt-1 ${isMe ? 'text-white/70' : 'text-slate-400'}`}>
                         {formatRelativeTime(msg.sent_at)}
                       </span>
                     </div>

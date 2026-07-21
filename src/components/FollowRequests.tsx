@@ -63,7 +63,7 @@ export default function FollowRequests({ currentUser, onBack, isEn = true }: { c
                   </div>
                   <div className="flex gap-2">
                     <AppButton variant="primary" size="sm" onClick={() => handleAccept(req.follower_id)}>
-                      <UserCheck className="w-4 h-4 mr-1" />
+                      <UserCheck className="w-4 h-4 me-1" />
                       {isEn ? "Accept" : "قبول کریں"}
                     </AppButton>
                     <AppButton variant="outline" size="sm" onClick={() => handleReject(req.follower_id)}>

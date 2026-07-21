@@ -7,10 +7,10 @@ export const ShortsLoader: React.FC = () => {
       <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
       
       {/* UI Elements overlay skeleton */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 pb-20 flex flex-col justify-end">
+      <div className="absolute bottom-0 start-0 end-0 p-4 pb-20 flex flex-col justify-end">
         <div className="flex justify-between items-end">
           {/* Info section */}
-          <div className="flex-1 pr-4">
+          <div className="flex-1 pe-4">
             <div className="w-10 h-10 rounded-full bg-gray-700 mb-4"></div>
             <div className="h-4 w-32 bg-gray-700 rounded mb-2"></div>
             <div className="h-3 w-48 bg-gray-700 rounded mb-2"></div>

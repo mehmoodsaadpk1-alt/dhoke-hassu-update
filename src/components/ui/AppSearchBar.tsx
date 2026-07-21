@@ -21,7 +21,7 @@ export const AppSearchBar: React.FC<AppSearchBarProps> = ({
   return (
     <div className={`relative flex items-center gap-2 ${className}`}>
       <div className="relative flex-1">
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
           <Search className="w-4 h-4" />
         </div>
         <input
@@ -29,13 +29,13 @@ export const AppSearchBar: React.FC<AppSearchBarProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+          className="w-full ps-10 pe-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
         />
         {value && (
           <button
             type="button"
             onClick={() => onChange('')}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            className="absolute inset-y-0 end-0 pe-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
             aria-label="Clear search"
           >
             <X className="w-4 h-4" />

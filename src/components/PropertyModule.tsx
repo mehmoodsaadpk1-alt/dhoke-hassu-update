@@ -775,7 +775,7 @@ export default function PropertyModule({
           {/* Back button overlay */}
           <button
             onClick={onNavigateToList}
-            className="absolute top-4 left-4 z-10 p-2.5 bg-white/95 text-slate-800 hover:bg-white rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs border-0"
+            className="absolute top-4 start-4 z-10 p-2.5 bg-white/95 text-slate-800 hover:bg-white rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs border-0"
             id="detail-back-btn"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -792,7 +792,7 @@ export default function PropertyModule({
               />
               
               {/* Index label */}
-              <span className="absolute bottom-4 right-4 bg-black/75 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl backdrop-blur-xs z-10">
+              <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl backdrop-blur-xs z-10">
                 {activeImageIndex + 1} / {images.length}
               </span>
             
@@ -1096,21 +1096,21 @@ export default function PropertyModule({
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {/* Purpose badge */}
-                    <span className="absolute top-3 left-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">
+                    <span className="absolute top-3 start-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">
                       {prop.purpose === 'Rent' ? t.rent : t.sale}
                     </span>
                     
                     {/* Save button overlay */}
                     <button
                       onClick={() => handleToggleSave(prop.id)}
-                      className="absolute top-3 right-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md transition-all cursor-pointer border-0"
+                      className="absolute top-3 end-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md transition-all cursor-pointer border-0"
                       id={`saved-save-btn-overlay-${prop.id}`}
                     >
                       <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-500 text-rose-500' : 'text-slate-500'}`} />
                     </button>
 
                     {/* Price overlay */}
-                    <div className="absolute bottom-3 left-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
+                    <div className="absolute bottom-3 start-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
                       {prop.price}
                     </div>
 
@@ -1259,13 +1259,13 @@ export default function PropertyModule({
       {/* Top Controls: Category filters, Search Input */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200/60 shadow-xs space-y-4" id="property-list-controls">
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full bg-slate-50 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-blue-500 rounded-2xl py-2.5 pl-10 pr-4 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
+            className="w-full bg-slate-50 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-blue-500 rounded-2xl py-2.5 ps-10 pe-4 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
             id="list-search-input"
           />
         </div>
@@ -1352,21 +1352,21 @@ export default function PropertyModule({
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {/* Purpose badge */}
-                    <span className="absolute top-3 left-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">
+                    <span className="absolute top-3 start-3 bg-black/75 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">
                       {prop.purpose === 'Rent' ? t.rent : t.sale}
                     </span>
                     
                     {/* Save button overlay */}
                     <button
                       onClick={() => handleToggleSave(prop.id)}
-                      className="absolute top-3 right-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md transition-all cursor-pointer border-0"
+                      className="absolute top-3 end-3 p-2 bg-white/95 text-slate-600 hover:bg-white rounded-full shadow-md transition-all cursor-pointer border-0"
                       id={`save-btn-overlay-${prop.id}`}
                     >
                       <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-500 text-rose-500' : 'text-slate-500'}`} />
                     </button>
 
                     {/* Price overlay */}
-                    <div className="absolute bottom-3 left-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
+                    <div className="absolute bottom-3 start-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
                       {prop.price}
                     </div>
 

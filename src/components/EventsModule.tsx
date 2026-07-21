@@ -557,7 +557,7 @@ export default function EventsModule({
       
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
+        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
           {toast}
         </div>
       )}
@@ -630,13 +630,13 @@ export default function EventsModule({
               
               {/* Search */}
               <div className="relative md:col-span-2">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder={isEn ? 'Search by title, organizer, keyword...' : 'تقریب تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -773,7 +773,7 @@ export default function EventsModule({
                       />
                       
                       {/* Pinned & Featured Status Badges */}
-                      <div className="absolute top-4 left-4 flex gap-1.5 z-10">
+                      <div className="absolute top-4 start-4 flex gap-1.5 z-10">
                         {event.pinned && (
                           <span className="bg-blue-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 uppercase font-bold">
                             <Pin className="w-2.5 h-2.5 rotate-45" />
@@ -789,7 +789,7 @@ export default function EventsModule({
                       </div>
 
                       {/* Ticket price overlay */}
-                      <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1 rounded-lg">
+                      <div className="absolute bottom-4 end-4 bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1 rounded-lg">
                         {event.ticketPrice || 'Free'}
                       </div>
                     </div>
@@ -916,7 +916,7 @@ export default function EventsModule({
                     className="w-full max-h-[500px] object-contain block"
                   />
                   
-                  <div className="absolute top-4 left-4 flex gap-1.5 z-10">
+                  <div className="absolute top-4 start-4 flex gap-1.5 z-10">
                   {selectedEvent.pinned && (
                     <span className="bg-blue-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase font-bold">
                       {isEn ? 'Pinned' : 'پن شدہ'}

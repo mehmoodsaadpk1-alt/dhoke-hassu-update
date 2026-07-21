@@ -113,13 +113,13 @@ export default function AdminCommunityFeed({ posts, onUpdatePosts, currentLangua
       {/* Filters and Search */}
       <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 items-center">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder={isEn ? 'Search by author or content...' : 'مصنف یا مواد کے لحاظ سے تلاش کریں...'}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+            className="w-full ps-9 pe-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
         </div>
 
@@ -171,14 +171,14 @@ export default function AdminCommunityFeed({ posts, onUpdatePosts, currentLangua
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                   <th className="py-3.5 px-6">Author</th>
                   <th className="py-3.5 px-6">Content Snippet</th>
                   <th className="py-3.5 px-6">Metrics</th>
                   <th className="py-3.5 px-6">Status</th>
-                  <th className="py-3.5 px-6 text-right">Actions</th>
+                  <th className="py-3.5 px-6 text-end">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-xs text-slate-700 font-semibold">
@@ -249,7 +249,7 @@ export default function AdminCommunityFeed({ posts, onUpdatePosts, currentLangua
                           )}
                         </div>
                       </td>
-                      <td className="py-3 px-6 text-right space-x-1 whitespace-nowrap">
+                      <td className="py-3 px-6 text-end space-x-1 whitespace-nowrap">
                         <button
                           onClick={() => setSelectedPost(post)}
                           className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border-none bg-transparent cursor-pointer"

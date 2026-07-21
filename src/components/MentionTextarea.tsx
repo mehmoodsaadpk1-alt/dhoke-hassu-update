@@ -181,7 +181,7 @@ export default function MentionTextarea({ value, onChange, placeholder, classNam
         rows={rows}
       />
       {showSuggestions && (
-          <div className="absolute z-50 bottom-full left-0 mb-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute z-50 bottom-full start-0 mb-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
             {suggestions.length > 0 ? (
               <ul className="max-h-48 overflow-y-auto py-1">
                 {suggestions.map((s, index) => (

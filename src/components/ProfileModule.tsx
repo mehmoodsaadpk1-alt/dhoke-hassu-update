@@ -848,7 +848,7 @@ export default function ProfileModule({
                       playsInline 
                       className="w-full h-full object-cover scale-x-[-1]" 
                     />
-                    <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                    <div className="absolute bottom-3 start-0 end-0 flex justify-center">
                       <button 
                         type="button"
                         onClick={handleCapturePhoto}
@@ -1068,7 +1068,7 @@ export default function ProfileModule({
             </div>
 
             {/* Profile image customize overlay */}
-            <div className="absolute -bottom-10 left-6 sm:left-10 w-24 h-24 rounded-full border-4 border-white overflow-hidden bg-slate-200 shadow-md">
+            <div className="absolute -bottom-10 start-6 sm:start-10 w-24 h-24 rounded-full border-4 border-white overflow-hidden bg-slate-200 shadow-md">
               <img src={editAvatar} alt="Profile Customize" className="w-full h-full object-cover" />
               <button 
                 type="button"
@@ -1207,7 +1207,7 @@ export default function ProfileModule({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-600 focus-within:bg-white transition-all">
-                  <span className="p-3 bg-slate-100 text-blue-600 border-r border-slate-200">
+                  <span className="p-3 bg-slate-100 text-blue-600 border-e border-slate-200">
                     <Facebook className="w-4 h-4" />
                   </span>
                   <input
@@ -1220,7 +1220,7 @@ export default function ProfileModule({
                 </div>
 
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-600 focus-within:bg-white transition-all">
-                  <span className="p-3 bg-slate-100 text-sky-500 border-r border-slate-200">
+                  <span className="p-3 bg-slate-100 text-sky-500 border-e border-slate-200">
                     <Twitter className="w-4 h-4" />
                   </span>
                   <input
@@ -1233,7 +1233,7 @@ export default function ProfileModule({
                 </div>
 
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-600 focus-within:bg-white transition-all">
-                  <span className="p-3 bg-slate-100 text-blue-700 border-r border-slate-200">
+                  <span className="p-3 bg-slate-100 text-blue-700 border-e border-slate-200">
                     <Linkedin className="w-4 h-4" />
                   </span>
                   <input
@@ -1246,7 +1246,7 @@ export default function ProfileModule({
                 </div>
 
                 <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-600 focus-within:bg-white transition-all">
-                  <span className="p-3 bg-slate-100 text-slate-600 border-r border-slate-200">
+                  <span className="p-3 bg-slate-100 text-slate-600 border-e border-slate-200">
                     <Globe className="w-4 h-4" />
                   </span>
                   <input
@@ -1297,7 +1297,7 @@ export default function ProfileModule({
             <div className="p-2.5 bg-amber-100 text-amber-700 rounded-xl shrink-0">
               <Info className="w-5 h-5" />
             </div>
-            <div className="text-left">
+            <div className="text-start">
               <h3 className="text-xs font-bold text-amber-850 uppercase tracking-wider">
                 {currentLanguage === 'en' ? 'Complete Profile Demographics' : 'پروفائل کی معلومات مکمل کریں'}
               </h3>
@@ -1325,7 +1325,7 @@ export default function ProfileModule({
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           <button 
             onClick={() => navigate('/profile/edit')}
-            className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer"
+            className="absolute bottom-3 end-3 bg-black/60 hover:bg-black/80 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Camera className="w-3.5 h-3.5" />
             <span>{currentLanguage === 'en' ? 'Edit Layout' : 'تبدیل کریں'}</span>
@@ -1349,7 +1349,7 @@ export default function ProfileModule({
             </div>
 
             {/* Basic Info */}
-            <div className="w-full text-center sm:text-left space-y-1.5">
+            <div className="w-full text-center sm:text-start space-y-1.5">
               <div className="flex items-center sm:justify-start justify-center gap-2 flex-wrap">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                   {profileData.fullName}
@@ -1424,14 +1424,14 @@ export default function ProfileModule({
               <div className="flex items-center gap-6 pt-3 justify-center md:justify-start">
                 <button 
                   onClick={() => { setActiveFollowTab('followers'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-left bg-transparent border-none cursor-pointer p-0"
+                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-start bg-transparent border-none cursor-pointer p-0"
                 >
                   <span className="text-lg font-black text-slate-900 leading-none">{profileData.followers_count || 0}</span>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{currentLanguage === 'en' ? 'Followers' : 'فالوورز'}</span>
                 </button>
                 <button 
                   onClick={() => { setActiveFollowTab('following'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-left bg-transparent border-none cursor-pointer p-0"
+                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-start bg-transparent border-none cursor-pointer p-0"
                 >
                   <span className="text-lg font-black text-slate-900 leading-none">{profileData.following_count || 0}</span>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{currentLanguage === 'en' ? 'Following' : 'فالوونگ'}</span>
@@ -1441,7 +1441,7 @@ export default function ProfileModule({
           </div>
 
           {/* Edit Buttons */}
-          <div className="flex items-center gap-2 mt-4 sm:mt-0 sm:absolute sm:top-6 sm:right-6 justify-center">
+          <div className="flex items-center gap-2 mt-4 sm:mt-0 sm:absolute sm:top-6 sm:end-6 justify-center">
             <button
               onClick={() => navigate('/profile/edit')}
               className="flex items-center justify-center gap-2 py-2 px-5 bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs font-black rounded-full shadow-sm transition-all cursor-pointer border border-slate-300"
@@ -1455,7 +1455,7 @@ export default function ProfileModule({
 
         {/* Bio Text area */}
         {profileData.bio && (
-          <div className="px-6 pb-6 pt-3 border-t border-slate-100 text-slate-600 text-xs sm:text-sm leading-relaxed text-center md:text-left font-medium whitespace-pre-line italic">
+          <div className="px-6 pb-6 pt-3 border-t border-slate-100 text-slate-600 text-xs sm:text-sm leading-relaxed text-center md:text-start font-medium whitespace-pre-line italic">
             "{profileData.bio}"
           </div>
         )}
@@ -1493,7 +1493,7 @@ export default function ProfileModule({
 
       {/* 2. REPUTATION & LEVEL PROGRESS TRACKER CARD */}
       <div className="bg-white rounded-3xl border border-slate-200/70 p-6 shadow-sm space-y-4 relative overflow-hidden" id="reputation-tracker-card">
-        <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500" />
+        <div className="absolute top-0 start-0 w-2 h-full bg-emerald-500" />
         
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="space-y-1">
@@ -1510,7 +1510,7 @@ export default function ProfileModule({
             <span className="text-3xl font-black font-mono tracking-tight leading-none">
               {profileData.reputationScore}
             </span>
-            <div className="text-left leading-none">
+            <div className="text-start leading-none">
               <span className="block text-[9px] font-black uppercase tracking-wider text-emerald-600">Points</span>
               <span className="text-[10px] font-bold text-emerald-700 font-sans mt-0.5 block">{userRank.title}</span>
             </div>
@@ -1556,7 +1556,7 @@ export default function ProfileModule({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             <button
               onClick={() => addReputationPoints(10, 'Created useful community post', 'مفید کمیونٹی پوسٹ لکھنے پر', 'post')}
-              className="py-2 px-3 bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 shadow-xs group"
+              className="py-2 px-3 bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-start flex items-center gap-2 shadow-xs group"
             >
               <span className="text-xs bg-blue-50 text-blue-600 p-1 rounded-md group-hover:bg-blue-100">📝</span>
               <span className="truncate">{currentLangLabels.simPost}</span>
@@ -1564,7 +1564,7 @@ export default function ProfileModule({
 
             <button
               onClick={() => addReputationPoints(5, 'Received positive reaction on list', 'پوسٹ پر پسندیدگی ملنے پر', 'reaction')}
-              className="py-2 px-3 bg-white hover:bg-pink-50 border border-slate-200 hover:border-pink-300 text-slate-700 hover:text-pink-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 shadow-xs group"
+              className="py-2 px-3 bg-white hover:bg-pink-50 border border-slate-200 hover:border-pink-300 text-slate-700 hover:text-pink-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-start flex items-center gap-2 shadow-xs group"
             >
               <span className="text-xs bg-pink-50 text-pink-500 p-1 rounded-md group-hover:bg-pink-100">❤️</span>
               <span className="truncate">{currentLangLabels.simLike}</span>
@@ -1572,7 +1572,7 @@ export default function ProfileModule({
 
             <button
               onClick={() => addReputationPoints(15, 'Participated in neighborhood help chat', 'ہمسائے کی مدد کرنے پر', 'comment')}
-              className="py-2 px-3 bg-white hover:bg-green-50 border border-slate-200 hover:border-green-300 text-slate-700 hover:text-green-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 shadow-xs group"
+              className="py-2 px-3 bg-white hover:bg-green-50 border border-slate-200 hover:border-green-300 text-slate-700 hover:text-green-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-start flex items-center gap-2 shadow-xs group"
             >
               <span className="text-xs bg-green-50 text-green-600 p-1 rounded-md group-hover:bg-green-100">💬</span>
               <span className="truncate">{currentLangLabels.simComment}</span>
@@ -1580,7 +1580,7 @@ export default function ProfileModule({
 
             <button
               onClick={() => addReputationPoints(20, 'Reported municipal gas utility issue', 'مسئلے کی نشاندہی کرنے پر', 'report')}
-              className="py-2 px-3 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 shadow-xs group"
+              className="py-2 px-3 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer text-start flex items-center gap-2 shadow-xs group"
             >
               <span className="text-xs bg-amber-50 text-amber-600 p-1 rounded-md group-hover:bg-amber-100">⚠️</span>
               <span className="truncate">{currentLangLabels.simReport}</span>
@@ -1688,7 +1688,7 @@ export default function ProfileModule({
                   </div>
                 ) : (
                   ownPosts.map(post => (
-                    <div key={post.id} className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-xs space-y-3 text-left">
+                    <div key={post.id} className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-xs space-y-3 text-start">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2.5">
                           <img src={profileData.profilePhoto} alt={profileData.fullName} className="w-8 h-8 rounded-full object-cover" />
@@ -1731,11 +1731,11 @@ export default function ProfileModule({
                       {currentLangLabels.noActivity}
                     </div>
                   ) : (
-                    <div className="relative border-l-2 border-slate-100 pl-5 ml-2.5 space-y-6 text-left">
+                    <div className="relative border-s-2 border-slate-100 ps-5 ms-2.5 space-y-6 text-start">
                       {activities.map((act) => (
                         <div key={act.id} className="relative">
                           {/* Dot Badge */}
-                          <span className="absolute -left-[31px] top-0.5 bg-white border-2 border-[#2563eb] w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-sm">
+                          <span className="absolute -start-[31px] top-0.5 bg-white border-2 border-[#2563eb] w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-sm">
                             {act.icon}
                           </span>
 
@@ -1770,7 +1770,7 @@ export default function ProfileModule({
                   return (
                     <div 
                       key={badge.id}
-                      className={`bg-white rounded-2xl border p-4 shadow-xs flex flex-col justify-between text-left relative overflow-hidden transition-all duration-200 ${
+                      className={`bg-white rounded-2xl border p-4 shadow-xs flex flex-col justify-between text-start relative overflow-hidden transition-all duration-200 ${
                         unlocked 
                           ? 'border-emerald-200 hover:border-emerald-400' 
                           : 'border-slate-200 bg-slate-50/50 opacity-60'
@@ -1825,7 +1825,7 @@ export default function ProfileModule({
                     {savedItemsList.map((item) => (
                       <div 
                         key={item.id}
-                        className="bg-white rounded-2xl border border-slate-200/60 p-3 shadow-xs hover:border-blue-300 transition-all flex gap-3 text-left relative group cursor-pointer"
+                        className="bg-white rounded-2xl border border-slate-200/60 p-3 shadow-xs hover:border-blue-300 transition-all flex gap-3 text-start relative group cursor-pointer"
                         onClick={() => {
                           if (item.type === 'deal') navigate('/deals/detail', item.id);
                           if (item.type === 'property') navigate('/property/detail', item.id);
@@ -1855,7 +1855,7 @@ export default function ProfileModule({
                             e.stopPropagation();
                             setSavedItemsList(prev => prev.filter(i => i.id !== item.id));
                           }}
-                          className="absolute top-2.5 right-2.5 p-1 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg border border-slate-200/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                          className="absolute top-2.5 end-2.5 p-1 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg border border-slate-200/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                           title="Remove saved"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

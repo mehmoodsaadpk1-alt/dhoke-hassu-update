@@ -994,12 +994,12 @@ export default function NotificationsModule({
         transition={{ duration: 0.2 }}
         onClick={() => handleNotificationClick(notif)}
         className={`bg-white rounded-2xl border transition-all hover:border-slate-300 p-4 flex gap-3.5 relative overflow-hidden group cursor-pointer shadow-xs hover:shadow-sm ${
-          !notif.read ? 'border-l-4 border-l-blue-600 bg-blue-50/5' : 'border-slate-200/60'
+          !notif.read ? 'border-s-4 border-s-blue-600 bg-blue-50/5' : 'border-slate-200/60'
         }`}
       >
         {/* Unread indicator dot */}
         {!notif.read && (
-          <span className="absolute top-4 right-4 w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+          <span className="absolute top-4 end-4 w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
         )}
 
         {/* Sender avatar or default icon with badge overlay */}
@@ -1012,13 +1012,13 @@ export default function NotificationsModule({
             className="shadow-inner"
           />
           {/* Small Type Icon Overlay on Avatar */}
-          <span className={`absolute -bottom-1 -right-1 p-1 rounded-full border border-white shadow-xs ${badge.color}`}>
+          <span className={`absolute -bottom-1 -end-1 p-1 rounded-full border border-white shadow-xs ${badge.color}`}>
             {badge.icon}
           </span>
         </div>
 
         {/* Notification content text */}
-        <div className="flex-1 min-w-0 space-y-1 pr-4">
+        <div className="flex-1 min-w-0 space-y-1 pe-4">
           <div className="flex flex-wrap items-center gap-2">
             {/* Module Label badge */}
             <span className={`text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md border ${badge.color}`}>
@@ -1078,7 +1078,7 @@ export default function NotificationsModule({
             initial={{ opacity: 0, y: -40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-blue-600 text-white py-3 px-5 rounded-2xl shadow-xl border border-white/15 max-w-sm sm:max-w-md w-full flex items-center gap-3"
+            className="fixed top-6 start-1/2 -translate-x-1/2 z-50 bg-blue-600 text-white py-3 px-5 rounded-2xl shadow-xl border border-white/15 max-w-sm sm:max-w-md w-full flex items-center gap-3"
             id="notifications-toast"
           >
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
@@ -1265,7 +1265,7 @@ export default function NotificationsModule({
             {/* Today Group */}
             {groupedNotifications.today.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 flex items-center gap-1.5">
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>{currentLanguage === 'en' ? 'Today' : 'آج'}</span>
                 </h3>
@@ -1280,7 +1280,7 @@ export default function NotificationsModule({
             {/* Yesterday Group */}
             {groupedNotifications.yesterday.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 flex items-center gap-1.5">
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>{currentLanguage === 'en' ? 'Yesterday' : 'کل'}</span>
                 </h3>
@@ -1295,7 +1295,7 @@ export default function NotificationsModule({
             {/* Earlier Group */}
             {groupedNotifications.earlier.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 flex items-center gap-1.5">
+                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>{currentLanguage === 'en' ? 'Earlier' : 'پہلے'}</span>
                 </h3>

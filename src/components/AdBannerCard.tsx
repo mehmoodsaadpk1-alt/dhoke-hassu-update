@@ -93,7 +93,7 @@ export default function AdBannerCard({ ad, onNavigateToModule }: AdBannerCardPro
   return (
     <div className="bg-gradient-to-br from-amber-50/70 to-orange-50/40 border border-amber-200/80 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col md:flex-row gap-4 transition-all hover:shadow-md hover:border-amber-300">
       {/* Sponsored Badge */}
-      <span className="absolute top-3 right-3 bg-amber-500/10 text-amber-800 text-[9px] font-black tracking-widest px-2 py-0.5 rounded-full uppercase border border-amber-200/40">
+      <span className="absolute top-3 end-3 bg-amber-500/10 text-amber-800 text-[9px] font-black tracking-widest px-2 py-0.5 rounded-full uppercase border border-amber-200/40">
         📢 Sponsored Promotion
       </span>
 

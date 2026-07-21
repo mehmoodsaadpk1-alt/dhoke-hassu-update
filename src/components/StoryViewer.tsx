@@ -338,7 +338,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
       <div className="relative w-full max-w-md h-full md:h-[90vh] md:rounded-2xl overflow-hidden bg-gray-900 shadow-2xl flex flex-col">
         
         {/* Progress Bars */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex gap-1 px-2 pt-4">
+        <div className="absolute top-0 start-0 end-0 z-20 flex gap-1 px-2 pt-4">
           {stories.map((s, idx) => (
             <div key={s.id} className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden backdrop-blur-sm">
               <div 
@@ -352,7 +352,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
         </div>
 
         {/* Header */}
-        <div className="absolute top-6 left-0 right-0 z-20 px-4 flex items-center justify-between">
+        <div className="absolute top-6 start-0 end-0 z-20 px-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <AppAvatar avatar={currentStory.avatar} name={currentStory.author ?? "Unknown User"} size={10} className="border border-white/20" />
             <div>
@@ -498,14 +498,14 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
 
           {/* Pause Indicator */}
           {isPaused && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 rounded-full p-4 backdrop-blur-md pointer-events-none animate-fade-in">
+            <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 rounded-full p-4 backdrop-blur-md pointer-events-none animate-fade-in">
               <Pause className="w-8 h-8 text-white" />
             </div>
           )}
         </div>
 
         {/* Footer actions */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col gap-3 pointer-events-auto">
+        <div className="absolute bottom-0 start-0 end-0 z-20 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col gap-3 pointer-events-auto">
           
           {/* Reactions Tray (Phase 4) */}
           {currentStory.userId !== viewerId && !currentStory.isAd && (
@@ -605,7 +605,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
       </div>
 
       {/* Desktop Navigation Arrows outside container */}
-      <div className="hidden md:flex absolute inset-y-0 left-0 right-0 w-full max-w-3xl mx-auto items-center justify-between pointer-events-none px-4">
+      <div className="hidden md:flex absolute inset-y-0 start-0 end-0 w-full max-w-3xl mx-auto items-center justify-between pointer-events-none px-4">
         <button 
           onClick={(e) => { e.stopPropagation(); handlePrev(); }}
           disabled={currentIdx === 0}
@@ -701,7 +701,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-2xl animate-bounce-soft drop-shadow-md">{r.reaction_type}</span>
-                        <span className="text-white/50 text-xs w-16 text-right">
+                        <span className="text-white/50 text-xs w-16 text-end">
                           {new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -735,7 +735,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
                           </span>
                         </div>
                       </div>
-                      <span className="text-white/40 text-[10px] whitespace-nowrap ml-3">
+                      <span className="text-white/40 text-[10px] whitespace-nowrap ms-3">
                         {new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>

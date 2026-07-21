@@ -224,7 +224,7 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
       {onBack && (
         <button
           onClick={onBack}
-          className="absolute top-4 left-4 z-30 p-2 bg-black/40 rounded-full text-white backdrop-blur-sm"
+          className="absolute top-4 start-4 z-30 p-2 bg-black/40 rounded-full text-white backdrop-blur-sm"
         >
           &larr;
         </button>

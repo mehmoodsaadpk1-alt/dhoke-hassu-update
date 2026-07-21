@@ -718,7 +718,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
       
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
+        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
           {toast}
         </div>
       )}
@@ -870,13 +870,13 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Search */}
               <div className="relative md:col-span-2">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder={isEn ? 'Search by keyword, details, area...' : 'الرٹ تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -936,7 +936,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
           {/* CRITICAL BANNER (Dismissable sticky widget) */}
           {criticalCount > 0 && selectedCategory === 'All' && !searchQuery && (
             <div className="bg-red-600 text-white p-4 rounded-2xl flex items-center justify-between shadow-lg shadow-red-200 animate-pulse relative overflow-hidden" id="critical-banner">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 -translate-y-10" />
+              <div className="absolute top-0 end-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 -translate-y-10" />
               <div className="flex items-center gap-3">
                 <AlertCircle className="w-6 h-6 shrink-0" />
                 <div>
@@ -1230,7 +1230,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <h1 className="absolute bottom-5 left-5 right-5 text-xl md:text-2xl font-black text-white leading-tight">
+                <h1 className="absolute bottom-5 start-5 end-5 text-xl md:text-2xl font-black text-white leading-tight">
                   {selectedItem.title}
                 </h1>
               </div>

@@ -888,13 +888,13 @@ export default function VerificationModule({
                   {t.formContact} *
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
+                  <Phone className="absolute start-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
                   <input
                     type="tel"
                     required
                     value={formContact}
                     onChange={(e) => setFormContact(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
                     placeholder="e.g. 0333-1234567"
                   />
                 </div>
@@ -906,13 +906,13 @@ export default function VerificationModule({
                   {t.formEmail} *
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
+                  <Mail className="absolute start-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
                   <input
                     type="email"
                     required
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
                     placeholder="e.g. s.khan@domain.com"
                   />
                 </div>
@@ -924,11 +924,11 @@ export default function VerificationModule({
                   {t.formArea} *
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute left-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
+                  <MapPin className="absolute start-3.5 top-3 w-4.5 h-4.5 text-slate-400" />
                   <select
                     value={formArea}
                     onChange={(e) => setFormArea(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
                   >
                     {LOCAL_AREAS.map((a) => (
                       <option key={a} value={a}>{a}</option>
@@ -1017,7 +1017,7 @@ export default function VerificationModule({
                     {/* STATUS SUMMARY BANNER */}
                     <div className="bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm space-y-5 relative overflow-hidden">
                       {/* Top status indicator ribbon */}
-                      <div className={`absolute top-0 left-0 w-2.5 h-full ${
+                      <div className={`absolute top-0 start-0 w-2.5 h-full ${
                         req.status === 'Pending' ? 'bg-yellow-400' :
                         req.status === 'Under Review' ? 'bg-blue-500' :
                         req.status === 'Approved' ? 'bg-green-500' :
@@ -1025,7 +1025,7 @@ export default function VerificationModule({
                       }`} />
 
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                        <div className="space-y-1 pl-1">
+                        <div className="space-y-1 ps-1">
                           <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider">
                             {t.statusTitle}
                           </span>
@@ -1042,7 +1042,7 @@ export default function VerificationModule({
                         </div>
 
                         {/* Status chip */}
-                        <div className="shrink-0 pl-1 sm:pl-0">
+                        <div className="shrink-0 ps-1 sm:ps-0">
                           <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wide border ${
                             req.status === 'Pending' ? 'bg-yellow-50 text-yellow-800 border-yellow-200' :
                             req.status === 'Under Review' ? 'bg-blue-50 text-blue-800 border-blue-200' :
@@ -1094,7 +1094,7 @@ export default function VerificationModule({
                       {req.adminRemarks && (
                         <div className="pt-4 border-t border-slate-150" id="admin-remarks-card">
                           <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-2 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-3 text-slate-200">
+                            <div className="absolute top-0 end-0 p-3 text-slate-200">
                               <ShieldCheck className="w-12 h-12" />
                             </div>
                             <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5 relative z-10">

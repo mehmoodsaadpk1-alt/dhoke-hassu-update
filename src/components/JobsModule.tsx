@@ -329,7 +329,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
       {/* Toast Alert Notification */}
       {shareToast && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-800 text-xs font-bold animate-bounce" id="jobs-toast-notification">
+        <div className="fixed bottom-6 end-6 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-800 text-xs font-bold animate-bounce" id="jobs-toast-notification">
           <CheckCircle className="w-4 h-4 text-emerald-500" />
           <span>{shareToast}</span>
         </div>
@@ -402,7 +402,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
           {/* Search Box */}
           <div className="relative" id="jobs-search-bar-wrap">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute inset-y-0 start-0 ps-3.5 flex items-center pointer-events-none text-slate-400">
               <Search className="w-5 h-5" />
             </div>
             <input
@@ -410,7 +410,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={isEn ? 'Search jobs by title, company, skills, area...' : 'نوکری کا عنوان، کمپنی، ہنر یا علاقہ تلاش کریں...'}
-              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200/80 rounded-2xl text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100/50 transition-all shadow-xs"
+              className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200/80 rounded-2xl text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100/50 transition-all shadow-xs"
               id="jobs-search-input-field"
             />
           </div>
@@ -543,7 +543,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       </div>
 
                       {/* Posted Date */}
-                      <div className="absolute top-4 right-14 text-[9px] text-slate-400 font-semibold flex items-center gap-0.5">
+                      <div className="absolute top-4 end-14 text-[9px] text-slate-400 font-semibold flex items-center gap-0.5">
                         <Clock className="w-2.5 h-2.5 text-slate-300" />
                         {job.postedTime || '1 day ago'}
                       </div>
@@ -697,8 +697,8 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               </div>
 
               <div>
-                <span className="block text-[10px] text-slate-400 font-bold uppercase sm:text-right">{isEn ? 'Contact Number' : 'رابطہ فون'}</span>
-                <span className="text-sm font-extrabold text-slate-900 font-mono block sm:text-right">{currentJob.contact}</span>
+                <span className="block text-[10px] text-slate-400 font-bold uppercase sm:text-end">{isEn ? 'Contact Number' : 'رابطہ فون'}</span>
+                <span className="text-sm font-extrabold text-slate-900 font-mono block sm:text-end">{currentJob.contact}</span>
               </div>
             </div>
           </div>
@@ -1013,7 +1013,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                         </p>
                       )}
                       {app.message && (
-                        <p className="italic text-slate-500 border-l-2 border-slate-200 pl-2 mt-1">{app.message}</p>
+                        <p className="italic text-slate-500 border-s-2 border-slate-200 ps-2 mt-1">{app.message}</p>
                       )}
                     </div>
                   </div>
@@ -1059,7 +1059,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-left">
+            <div className="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-start">
               {applySuccess ? (
                 <div className="p-8 text-center space-y-3" id="apply-success-box">
                   <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">

@@ -376,7 +376,7 @@ export default function PollsModule({
                       key={opt.id}
                       onClick={() => handleVote(selectedPoll.id, opt.id)}
                       disabled={hasVotedThisPoll && !selectedPoll.allow_option_change}
-                      className={`w-full relative text-left p-4 rounded-2xl border transition-all cursor-pointer overflow-hidden flex items-center justify-between group ${
+                      className={`w-full relative text-start p-4 rounded-2xl border transition-all cursor-pointer overflow-hidden flex items-center justify-between group ${
                         isThisOptionVoted 
                           ? 'border-indigo-650 bg-indigo-50/20' 
                           : 'border-slate-200 hover:border-slate-405 bg-white'
@@ -385,7 +385,7 @@ export default function PollsModule({
                       {/* Animated Percentage bar */}
                       {showResults && (
                         <div 
-                          className="absolute left-0 top-0 bottom-0 bg-indigo-105 transition-all duration-700" 
+                          className="absolute start-0 top-0 bottom-0 bg-indigo-105 transition-all duration-700" 
                           style={{ width: `${percent}%` }}
                         />
                       )}
@@ -402,7 +402,7 @@ export default function PollsModule({
                       </div>
 
                       {showResults && (
-                        <div className="text-right relative z-10 shrink-0 font-black text-xs md:text-sm text-slate-700">
+                        <div className="text-end relative z-10 shrink-0 font-black text-xs md:text-sm text-slate-700">
                           <span>{percent}%</span>
                           <span className="text-[10px] text-slate-400 block font-bold">({votes} {isEn ? 'votes' : 'ووٹ'})</span>
                         </div>
@@ -434,7 +434,7 @@ export default function PollsModule({
 
                 <button
                   onClick={() => handleReportPoll(selectedPoll.id)}
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-red-50 hover:bg-red-100/80 text-red-650 text-xs font-black rounded-xl transition-all cursor-pointer border-none ml-auto"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-red-50 hover:bg-red-100/80 text-red-650 text-xs font-black rounded-xl transition-all cursor-pointer border-none ms-auto"
                 >
                   <Flag className="w-4 h-4" />
                   {isEn ? 'Report Poll' : 'سروے کی شکایت کریں'}
@@ -477,7 +477,7 @@ export default function PollsModule({
                   </p>
                 ) : (
                   comments.map((comm) => (
-                    <div key={comm.id} className="space-y-3.5 border-l-2 border-slate-100 pl-4 relative">
+                    <div key={comm.id} className="space-y-3.5 border-s-2 border-slate-100 ps-4 relative">
                       
                       {/* Root Comment details */}
                       <div className="space-y-1.5">
@@ -496,17 +496,17 @@ export default function PollsModule({
                             </span>
                           )}
 
-                          <span className="text-[10px] text-slate-400 font-bold ml-auto">
+                          <span className="text-[10px] text-slate-400 font-bold ms-auto">
                             {new Date(comm.created_at).toLocaleDateString()}
                           </span>
                         </div>
 
-                        <p className="text-xs md:text-sm text-slate-650 font-semibold leading-relaxed pl-8">
+                        <p className="text-xs md:text-sm text-slate-650 font-semibold leading-relaxed ps-8">
                           {comm.content}
                         </p>
 
                         {/* Comment Controls */}
-                        <div className="flex items-center gap-4 pl-8 text-[10px] font-black uppercase text-slate-400">
+                        <div className="flex items-center gap-4 ps-8 text-[10px] font-black uppercase text-slate-400">
                           <button
                             onClick={() => handleLikeComment(comm.id)}
                             className="flex items-center gap-1 border-none bg-transparent hover:text-indigo-655 cursor-pointer font-black"
@@ -543,7 +543,7 @@ export default function PollsModule({
 
                       {/* Reply Box */}
                       {activeReplyBox === comm.id && (
-                        <form onSubmit={(e) => handleAddComment(e, comm.id)} className="ml-8 mt-2 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-1.5">
+                        <form onSubmit={(e) => handleAddComment(e, comm.id)} className="ms-8 mt-2 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-1.5">
                           <input
                             type="text"
                             placeholder={isEn ? 'Write a reply...' : 'جواب لکھیں...'}
@@ -563,7 +563,7 @@ export default function PollsModule({
 
                       {/* Replies List */}
                       {comm.replies && comm.replies.length > 0 && (
-                        <div className="space-y-3.5 mt-3 ml-8 border-l border-slate-105 pl-4">
+                        <div className="space-y-3.5 mt-3 ms-8 border-s border-slate-105 ps-4">
                           {comm.replies.map((rep) => (
                             <div key={rep.id} className="space-y-1">
                               <div className="flex items-center gap-2">
@@ -573,14 +573,14 @@ export default function PollsModule({
                                   className="w-5 h-5 rounded-full object-cover bg-slate-100"
                                 />
                                 <span className="text-[11px] font-black text-slate-905">{rep.author_name}</span>
-                                <span className="text-[9px] text-slate-400 font-bold ml-auto">
+                                <span className="text-[9px] text-slate-400 font-bold ms-auto">
                                   {new Date(rep.created_at).toLocaleDateString()}
                                 </span>
                               </div>
-                              <p className="text-xs text-slate-600 font-medium pl-7">
+                              <p className="text-xs text-slate-600 font-medium ps-7">
                                 {rep.content}
                               </p>
-                              <div className="flex items-center gap-3 pl-7 text-[9px] font-black uppercase text-slate-400">
+                              <div className="flex items-center gap-3 ps-7 text-[9px] font-black uppercase text-slate-400">
                                 <button
                                   onClick={() => handleLikeComment(rep.id)}
                                   className="flex items-center gap-1 border-none bg-transparent hover:text-indigo-655 cursor-pointer font-black"
@@ -762,7 +762,7 @@ export default function PollsModule({
                           )}
 
                           {poll.publish_status === 'Closed' && (
-                            <span className="px-2.5 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black uppercase rounded-md tracking-wider ml-auto">
+                            <span className="px-2.5 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black uppercase rounded-md tracking-wider ms-auto">
                               {isEn ? 'Closed' : 'بند'}
                             </span>
                           )}

@@ -344,7 +344,7 @@ export default function UserProfileView({
             <img src={profileCover} alt="" className="w-full h-full object-cover" />
           )}
           <div className="absolute inset-0 bg-black/10" />
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
+          <div className="absolute bottom-0 start-0 end-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
         </div>
 
         {/* Avatar + Info */}
@@ -391,14 +391,14 @@ export default function UserProfileView({
               <div className="flex items-center gap-6 mt-4">
                 <button 
                   onClick={() => { setActiveFollowTab('followers'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-left bg-transparent border-none cursor-pointer p-0"
+                  className="flex flex-col hover:opacity-80 transition-opacity text-start bg-transparent border-none cursor-pointer p-0"
                 >
                   <span className="text-lg font-black text-slate-900 leading-none">{followersCount}</span>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{isEn ? 'Followers' : 'فالوورز'}</span>
                 </button>
                 <button 
                   onClick={() => { setActiveFollowTab('following'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-left bg-transparent border-none cursor-pointer p-0"
+                  className="flex flex-col hover:opacity-80 transition-opacity text-start bg-transparent border-none cursor-pointer p-0"
                 >
                   <span className="text-lg font-black text-slate-900 leading-none">{followingCount}</span>
                   <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{isEn ? 'Following' : 'فالوونگ'}</span>
@@ -409,7 +409,7 @@ export default function UserProfileView({
               <div className="flex items-center gap-2 mt-4">
                 {!isSelf && followStatus === 'blocked' ? (
                   <AppButton disabled variant="outline" size="sm" className="text-red-500 border-red-500">
-                    <ShieldAlert className="w-4 h-4 mr-1" /> {isEn ? 'Blocked' : 'بلاک شدہ'}
+                    <ShieldAlert className="w-4 h-4 me-1" /> {isEn ? 'Blocked' : 'بلاک شدہ'}
                   </AppButton>
                 ) : !isSelf ? (
                   <>
@@ -505,7 +505,7 @@ export default function UserProfileView({
           { labelEn: 'Listings', labelUr: 'فہرست', value: totalListings },
           { labelEn: 'Badges', labelUr: 'بیجز', value: badges.length },
         ].map((stat, idx) => (
-          <div key={idx} className="text-center py-3 border-r border-slate-100 last:border-r-0">
+          <div key={idx} className="text-center py-3 border-e border-slate-100 last:border-e-0">
             <p className="text-lg font-black text-slate-900">{stat.value}</p>
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
               {isEn ? stat.labelEn : stat.labelUr}

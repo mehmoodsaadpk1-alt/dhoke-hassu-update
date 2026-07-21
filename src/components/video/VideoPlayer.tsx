@@ -442,7 +442,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
               className="w-16 h-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/60 transition-all transform hover:scale-105 shadow-lg"
               aria-label="Play Video"
             >
-              <Play size={32} className="ml-1 fill-white" />
+              <Play size={32} className="ms-1 fill-white" />
             </button>
           ) : effectiveMuted ? (
             <button 
@@ -453,7 +453,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
               className="px-6 py-3 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/70 transition-all transform hover:scale-105 animate-pulse shadow-lg"
               aria-label="Tap to Unmute"
             >
-              <VolumeX size={24} className="mr-2" />
+              <VolumeX size={24} className="me-2" />
               <span className="font-bold text-sm tracking-wide">Tap to Unmute</span>
             </button>
           ) : null}
@@ -468,7 +468,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       )}
 
       {/* Top Right Controls */}
-      <div className={`absolute top-4 right-4 z-30 flex flex-col space-y-4 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`absolute top-4 end-4 z-30 flex flex-col space-y-4 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <button 
             onClick={(e) => {
               e.stopPropagation();
@@ -493,7 +493,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       </div>
 
       {/* Bottom Overlay - Progress & Time */}
-      <div className={`absolute bottom-0 left-0 right-0 z-20 transition-opacity duration-300 pointer-events-auto ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`absolute bottom-0 start-0 end-0 z-20 transition-opacity duration-300 pointer-events-auto ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex justify-between items-center px-4 mb-2 text-xs text-white font-medium drop-shadow-md pointer-events-none">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
@@ -507,12 +507,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
         >
           {/* Buffer Bar */}
           <div 
-            className="absolute top-0 left-0 h-full bg-white/40 pointer-events-none transition-all duration-200"
+            className="absolute top-0 start-0 h-full bg-white/40 pointer-events-none transition-all duration-200"
             style={{ width: `${bufferProgress}%` }}
           />
           {/* Active Progress Bar */}
           <div 
-            className="absolute top-0 left-0 h-full bg-red-500 pointer-events-none transition-all duration-75"
+            className="absolute top-0 start-0 h-full bg-red-500 pointer-events-none transition-all duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>

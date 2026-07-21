@@ -285,13 +285,13 @@ export default function AdminTvsView({
             <p className="p-16 text-center text-slate-400 text-xs font-semibold">No verification requests found.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-start border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                     <th className="py-3 px-5">Applicant Name</th>
                     <th className="py-3 px-5">Entity & Level</th>
                     <th className="py-3 px-5">Status</th>
-                    <th className="py-3 px-5 text-right">Action</th>
+                    <th className="py-3 px-5 text-end">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-xs font-semibold text-slate-700">
@@ -314,7 +314,7 @@ export default function AdminTvsView({
                           {req.status}
                         </span>
                       </td>
-                      <td className="py-3.5 px-5 text-right">
+                      <td className="py-3.5 px-5 text-end">
                         <button
                           onClick={() => handleSelectRequest(req)}
                           className="py-1 px-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[10px] font-black rounded-lg border-none cursor-pointer"

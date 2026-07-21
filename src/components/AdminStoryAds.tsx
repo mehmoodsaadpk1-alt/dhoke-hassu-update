@@ -178,7 +178,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                 ) : (
                   <img src={ad.media_url} className="w-full h-full object-cover opacity-80" />
                 )}
-                <div className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[8px] font-bold text-white uppercase ${ad.active ? 'bg-green-500' : 'bg-slate-500'}`}>
+                <div className={`absolute top-2 start-2 px-2 py-0.5 rounded text-[8px] font-bold text-white uppercase ${ad.active ? 'bg-green-500' : 'bg-slate-500'}`}>
                   {ad.active ? 'Active' : 'Paused'}
                 </div>
               </div>

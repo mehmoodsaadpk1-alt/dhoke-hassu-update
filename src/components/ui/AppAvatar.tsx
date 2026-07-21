@@ -107,14 +107,14 @@ export const AppAvatar: React.FC<AppAvatarProps> = ({
       {/* Online indicator badge */}
       {isOnline && (
         <span 
-          className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-success ring-2 ring-white" 
+          className="absolute bottom-0 end-0 block h-2.5 w-2.5 rounded-full bg-success ring-2 ring-white" 
           title="Online"
         />
       )}
 
       {/* Verified overlay badge */}
       {isVerified && !isOnline && (
-        <span className="absolute -bottom-0.5 -right-0.5 bg-primary text-white rounded-full p-0.5 shadow-sm border border-white" style={{ width: '13px', height: '13px' }}>
+        <span className="absolute -bottom-0.5 -end-0.5 bg-primary text-white rounded-full p-0.5 shadow-sm border border-white" style={{ width: '13px', height: '13px' }}>
           <svg className="w-full h-full stroke-white fill-none" viewBox="0 0 24 24" style={{ strokeWidth: 4 }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>

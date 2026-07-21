@@ -177,9 +177,9 @@ export default function ShareModal({
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
-                  <Send className="w-5 h-5 ml-0.5" />
+                  <Send className="w-5 h-5 ms-0.5" />
                 </div>
-                <div className="text-left">
+                <div className="text-start">
                   <h4 className="font-bold text-sm">{isEn ? 'Share Now' : 'ابھی شیئر کریں'}</h4>
                   <p className="text-xs text-blue-600/80 font-medium">{isEn ? 'Post to Community Feed' : 'کمیونٹی فیڈ پر پوسٹ کریں'}</p>
                 </div>
@@ -195,7 +195,7 @@ export default function ShareModal({
                 <div className="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center shadow-sm">
                   <PlusCircle className="w-5 h-5" />
                 </div>
-                <div className="text-left">
+                <div className="text-start">
                   <h4 className="font-bold text-sm">{isEn ? 'Share to Story' : 'سٹوری پر شیئر کریں'}</h4>
                   <p className="text-xs text-purple-600/80 font-medium">{isEn ? 'Add to your daily story' : 'اپنی روزمرہ سٹوری میں شامل کریں'}</p>
                 </div>
@@ -210,7 +210,7 @@ export default function ShareModal({
                 <div className="w-10 h-10 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shadow-sm">
                   <Link className="w-5 h-5" />
                 </div>
-                <div className="text-left">
+                <div className="text-start">
                   <h4 className="font-bold text-sm">{isEn ? 'Copy Link' : 'لنک کاپی کریں'}</h4>
                   <p className="text-xs text-slate-500 font-medium">{isEn ? 'Copy link to clipboard' : 'لنک کلپ بورڈ میں کاپی کریں'}</p>
                 </div>
@@ -222,7 +222,7 @@ export default function ShareModal({
 
       {/* Toast Alert Notification */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] bg-slate-900 text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-2 border border-slate-800 text-sm font-bold animate-in slide-in-from-bottom-5">
+        <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-[110] bg-slate-900 text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-2 border border-slate-800 text-sm font-bold animate-in slide-in-from-bottom-5">
           <CheckCircle className="w-4 h-4 text-emerald-500" />
           <span>{toast}</span>
         </div>

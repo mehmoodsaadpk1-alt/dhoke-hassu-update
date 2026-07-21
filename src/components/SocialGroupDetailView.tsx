@@ -205,7 +205,7 @@ export default function SocialGroupDetailView({
             </div>
           )}
           {/* Privacy Badge */}
-          <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <div className="absolute top-4 end-4 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
             {group.visibility === 'Public' && <Globe className="w-3.5 h-3.5" />}
             {group.visibility === 'Private' && <Lock className="w-3.5 h-3.5" />}
             {group.visibility === 'Hidden' && <EyeOff className="w-3.5 h-3.5" />}

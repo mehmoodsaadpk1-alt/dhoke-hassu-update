@@ -147,16 +147,16 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
                   </div>
                   
                   {activeOptionsId === c.id && (
-                    <div className="absolute right-0 top-6 bg-gray-800 border border-gray-700 rounded-lg shadow-xl w-32 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-100">
+                    <div className="absolute end-0 top-6 bg-gray-800 border border-gray-700 rounded-lg shadow-xl w-32 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-100">
                       <button 
                         onClick={() => startEditing(c)}
-                        className="w-full text-left px-3 py-2 text-white hover:bg-gray-700 text-xs font-medium transition-colors"
+                        className="w-full text-start px-3 py-2 text-white hover:bg-gray-700 text-xs font-medium transition-colors"
                       >
                         Edit Comment
                       </button>
                       <button 
                         onClick={() => handleDeleteComment(c.id)}
-                        className="w-full text-left px-3 py-2 text-red-400 hover:bg-gray-700 text-xs font-medium transition-colors"
+                        className="w-full text-start px-3 py-2 text-red-400 hover:bg-gray-700 text-xs font-medium transition-colors"
                       >
                         Delete Comment
                       </button>

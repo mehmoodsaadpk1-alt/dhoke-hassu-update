@@ -338,7 +338,7 @@ const VoiceMessageBubble = ({
             <span className="w-1 h-3.5 bg-white rounded-xs" />
           </span>
         ) : (
-          <Play className="w-4 h-4 ml-0.5" />
+          <Play className="w-4 h-4 ms-0.5" />
         )}
       </button>
 
@@ -1903,7 +1903,7 @@ export default function ChatModule({
             <h4 className="font-semibold text-[#111B21] text-base truncate">
               {conv.name}
             </h4>
-            <span className={`text-xs whitespace-nowrap ml-2 ${hasUnread ? 'text-[#25D366] font-medium' : 'text-[#667781]'}`}>
+            <span className={`text-xs whitespace-nowrap ms-2 ${hasUnread ? 'text-[#25D366] font-medium' : 'text-[#667781]'}`}>
               {conv.time}
             </span>
           </div>
@@ -1948,7 +1948,7 @@ export default function ChatModule({
     <div className="bg-white md:rounded-3xl border-0 md:border md:border-slate-200/80 md:shadow-md h-[calc(100dvh-128px)] md:h-[calc(100vh-140px)] w-full max-w-full flex overflow-hidden overflow-x-hidden relative" id="chat-module-container">
       
       {/* LEFT COLUMN: CHAT LIST (Hidden on mobile if activeContact is open) */}
-      <div className={`w-full md:w-[300px] lg:w-[320px] border-r border-slate-100 flex flex-col shrink-0 ${activeContact ? 'hidden md:flex' : 'flex'}`} id="chat-list-column">
+      <div className={`w-full md:w-[300px] lg:w-[320px] border-e border-slate-100 flex flex-col shrink-0 ${activeContact ? 'hidden md:flex' : 'flex'}`} id="chat-list-column">
         
         {/* WhatsApp-style Header Area */}
         <div className="bg-[#F0F2F5] pt-4 pb-2 px-4 shrink-0 flex flex-col gap-3">
@@ -1996,7 +1996,7 @@ export default function ChatModule({
                   if (val && !isSearchActive) setIsSearchActive(true);
                 }}
                 placeholder={isEn ? "Search or start new chat" : "تلاش کریں یا نئی چیٹ شروع کریں"}
-                className="w-full bg-transparent border-0 outline-none text-sm text-[#111B21] placeholder:text-[#54656F] py-2 pl-3"
+                className="w-full bg-transparent border-0 outline-none text-sm text-[#111B21] placeholder:text-[#54656F] py-2 ps-3"
               />
             </div>
             {isSearchActive && (
@@ -2119,7 +2119,7 @@ export default function ChatModule({
                 {/* 1. People Section */}
                 {(searchFilter === 'all' || searchFilter === 'people') && searchResults.people.length > 0 && (
                   <div className="space-y-2.5">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1">
                       👤 {isEn ? 'People' : 'لوگ'}
                     </h4>
                     <div className="space-y-2">
@@ -2175,7 +2175,7 @@ export default function ChatModule({
                   return true;
                 }).length > 0 && (
                   <div className="space-y-2.5">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1">
                       💬 {isEn ? 'Chats' : 'چیٹس'}
                     </h4>
                     <div className="space-y-2">
@@ -2207,7 +2207,7 @@ export default function ChatModule({
                               </div>
                             )}
                           </div>
-                          <div className="flex-1 min-w-0 pr-6">
+                          <div className="flex-1 min-w-0 pe-6">
                             <h5 className="text-xs font-extrabold text-slate-900 truncate">
                               {highlightMatch(c.name, searchQuery)}
                             </h5>
@@ -2216,7 +2216,7 @@ export default function ChatModule({
                             </p>
                           </div>
                           {c.unreadCount > 0 && (
-                            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">
+                            <span className="absolute end-3.5 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">
                               {c.unreadCount}
                             </span>
                           )}
@@ -2229,7 +2229,7 @@ export default function ChatModule({
                 {/* 3. Messages Section */}
                 {(searchFilter === 'all' || searchFilter === 'messages') && searchResults.messages.length > 0 && (
                   <div className="space-y-2.5">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ps-1">
                       📝 {isEn ? 'Messages' : 'پیغامات'}
                     </h4>
                     <div className="space-y-2">
@@ -2268,7 +2268,7 @@ export default function ChatModule({
                           <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-baseline mb-0.5">
                               <span className="text-[10px] font-black text-slate-800 truncate">{m.conversationName}</span>
-                              <span className="text-[8px] text-slate-400 font-bold whitespace-nowrap ml-2">{m.time}</span>
+                              <span className="text-[8px] text-slate-400 font-bold whitespace-nowrap ms-2">{m.time}</span>
                             </div>
                             <span className="text-[9px] font-extrabold text-blue-600 block mb-0.5">{m.senderName}:</span>
                             <p className="text-[10px] text-slate-500 font-semibold leading-normal break-words">
@@ -2363,8 +2363,8 @@ export default function ChatModule({
         {activeConv ? (
           <>
             {/* Detail Header */}
-            <div className="h-[60px] w-full px-4 py-2.5 flex items-center justify-between bg-[#F0F2F5] sticky top-0 z-10 shrink-0 box-border border-l border-[#D1D7DB]" id="chat-detail-header">
-              <div className="flex items-center flex-1 min-w-0 mr-4 cursor-pointer" onClick={() => {
+            <div className="h-[60px] w-full px-4 py-2.5 flex items-center justify-between bg-[#F0F2F5] sticky top-0 z-10 shrink-0 box-border border-s border-[#D1D7DB]" id="chat-detail-header">
+              <div className="flex items-center flex-1 min-w-0 me-4 cursor-pointer" onClick={() => {
                 const resolvedId = activeConv.recipientId || activeConv.contact || activeConv.name;
                 const url = `/profile/${encodeURIComponent(resolvedId)}?name=${encodeURIComponent(activeConv.name)}${activeConv.avatar ? `&avatar=${encodeURIComponent(activeConv.avatar)}` : ''}`;
                 window.history.pushState({}, '', url);
@@ -2376,14 +2376,14 @@ export default function ChatModule({
                     e.stopPropagation();
                     handleBackToList();
                   }}
-                  className="md:hidden p-2 -ml-2 mr-1 text-[#54656F] hover:bg-[#E9EDEF] rounded-full transition-colors border-0 flex items-center justify-center shrink-0"
+                  className="md:hidden p-2 -ms-2 me-1 text-[#54656F] hover:bg-[#E9EDEF] rounded-full transition-colors border-0 flex items-center justify-center shrink-0"
                   id="chat-back-to-list-btn"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
 
                 {/* Profile Photo */}
-                <div className="pr-[15px] shrink-0">
+                <div className="pe-[15px] shrink-0">
                   <ClickableAvatar 
                     userId={activeConv.recipientId || activeConv.contact}
                     name={activeConv.name}
@@ -2483,7 +2483,7 @@ export default function ChatModule({
                   return (
                     <div
                       key={msg.id}
-                      className={`flex flex-col max-w-[75%] ${isMe ? 'ml-auto items-end' : 'mr-auto items-start'} ${isGrouped ? 'mt-1' : 'mt-4 animate-fade-in'}`}
+                      className={`flex flex-col max-w-[75%] ${isMe ? 'ms-auto items-end' : 'me-auto items-start'} ${isGrouped ? 'mt-1' : 'mt-4 animate-fade-in'}`}
                       id={`chat-msg-${msg.id}`}
                     >
                       {/* Attachment Rendering */}
@@ -2506,7 +2506,7 @@ export default function ChatModule({
 
                       {/* Bubble styling: Rounded bubbles and WhatsApp style colors */}
                       {msg.voice ? (
-                        <div className={`shadow-sm rounded-lg ${isMe ? 'bg-[#D9FDD3] rounded-tr-none' : 'bg-white rounded-tl-none'}`}>
+                        <div className={`shadow-sm rounded-lg ${isMe ? 'bg-[#D9FDD3] rounded-se-none' : 'bg-white rounded-ss-none'}`}>
                           <VoiceMessageBubble
                             msg={msg}
                             isMe={isMe}
@@ -2521,18 +2521,18 @@ export default function ChatModule({
                         <div
                           className={`px-2.5 py-1.5 text-[14.5px] shadow-sm relative min-w-[90px] ${
                             isMe 
-                              ? 'bg-[#D9FDD3] text-[#111B21] rounded-lg rounded-tr-none' 
-                              : 'bg-white text-[#111B21] rounded-lg rounded-tl-none'
+                              ? 'bg-[#D9FDD3] text-[#111B21] rounded-lg rounded-se-none' 
+                              : 'bg-white text-[#111B21] rounded-lg rounded-ss-none'
                           }`}
                         >
-                          <p className="leading-snug whitespace-pre-wrap pr-10">{msg.text}</p>
-                          <div className="absolute right-1.5 bottom-1 flex items-center gap-0.5">
+                          <p className="leading-snug whitespace-pre-wrap pe-10">{msg.text}</p>
+                          <div className="absolute end-1.5 bottom-1 flex items-center gap-0.5">
                             <span className="text-[10px] text-[#667781] leading-none">
                               {msg.time}
                             </span>
                             {isMe && (
                               msg.status === 'sending' ? (
-                                <span className="w-2.5 h-2.5 border-[1.5px] border-[#667781] border-t-transparent rounded-full animate-spin shrink-0 ml-0.5" />
+                                <span className="w-2.5 h-2.5 border-[1.5px] border-[#667781] border-t-transparent rounded-full animate-spin shrink-0 ms-0.5" />
                               ) : msg.isSeen ? (
                                 <CheckCheck className="w-3.5 h-3.5 text-[#53bdeb] shrink-0" />
                               ) : (activeConv?.recipientId && onlineUsers[activeConv.recipientId]) ? (
@@ -2551,8 +2551,8 @@ export default function ChatModule({
 
               {/* Simulated Typing Indicator */}
               {isTyping && (
-                <div className="flex flex-col items-start mr-auto max-w-[75%]" id="simulated-typing-indicator">
-                  <div className="px-4 py-3 bg-[#f1f0f0] rounded-3xl rounded-tl-sm flex items-center gap-1">
+                <div className="flex flex-col items-start me-auto max-w-[75%]" id="simulated-typing-indicator">
+                  <div className="px-4 py-3 bg-[#f1f0f0] rounded-3xl rounded-ss-sm flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                     <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -2589,7 +2589,7 @@ export default function ChatModule({
                 </button>
 
                 {showEmojiPicker && (
-                  <div className="absolute bottom-full left-0 mb-2 bg-white border border-[#D1D7DB] rounded-lg shadow-sm p-3 w-64 grid grid-cols-6 gap-2 z-50 max-h-48 overflow-y-auto">
+                  <div className="absolute bottom-full start-0 mb-2 bg-white border border-[#D1D7DB] rounded-lg shadow-sm p-3 w-64 grid grid-cols-6 gap-2 z-50 max-h-48 overflow-y-auto">
                     {NATIVE_EMOJIS.map(emoji => (
                       <button
                         key={emoji}
@@ -2645,7 +2645,7 @@ export default function ChatModule({
 
               {/* Send / Mic Button */}
               <button
-                className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-0 transition-colors cursor-pointer text-white ml-1 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-0 transition-colors cursor-pointer text-white ms-1 ${
                   inputText?.trim() 
                     ? 'bg-[#00A884] hover:bg-[#008f6f]' 
                     : 'bg-[#00A884] hover:bg-[#008f6f]'
@@ -2654,7 +2654,7 @@ export default function ChatModule({
                 onClick={!inputText?.trim() ? startRecording : undefined}
                 type={!inputText?.trim() ? "button" : "submit"}
               >
-                {inputText?.trim() ? <Send className="w-5 h-5 ml-0.5" /> : <Mic className="w-5 h-5" />}
+                {inputText?.trim() ? <Send className="w-5 h-5 ms-0.5" /> : <Mic className="w-5 h-5" />}
               </button>
             </form>
 
@@ -2681,7 +2681,7 @@ export default function ChatModule({
                   ) : (
                     <>
                       <button onClick={() => { setCameraPhotoUrl(null); setCameraPhotoBlob(null); }} className="text-white bg-transparent border-0 cursor-pointer text-sm">Retake</button>
-                      <button onClick={sendCapturedPhoto} className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full flex items-center justify-center border-0 cursor-pointer shadow-lg"><Send className="w-6 h-6 ml-1" /></button>
+                      <button onClick={sendCapturedPhoto} className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full flex items-center justify-center border-0 cursor-pointer shadow-lg"><Send className="w-6 h-6 ms-1" /></button>
                     </>
                   )}
                 </div>
@@ -2690,7 +2690,7 @@ export default function ChatModule({
 
             {/* Voice Recording Overlay */}
             {(isRecording || voiceBlob) && (
-              <div className="absolute bottom-[68px] left-2 right-2 bg-white border border-slate-200 shadow-xl rounded-2xl p-4 z-40 flex items-center justify-between gap-4 animate-in slide-in-from-bottom-2">
+              <div className="absolute bottom-[68px] start-2 end-2 bg-white border border-slate-200 shadow-xl rounded-2xl p-4 z-40 flex items-center justify-between gap-4 animate-in slide-in-from-bottom-2">
                 <div className="flex items-center gap-3">
                   {isRecording ? (
                     <>
@@ -2714,7 +2714,7 @@ export default function ChatModule({
                     </button>
                   ) : (
                     <button onClick={sendVoiceMessage} className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center border-0 cursor-pointer hover:bg-blue-700 shadow-md">
-                      <Send className="w-4 h-4 ml-1" />
+                      <Send className="w-4 h-4 ms-1" />
                     </button>
                   )}
                 </div>

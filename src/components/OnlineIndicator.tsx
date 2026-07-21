@@ -45,7 +45,7 @@ export default function OnlineIndicator({
       <div className="relative inline-block">
         {children}
         {isOnline && (
-          <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full z-10" />
+          <span className="absolute bottom-0 end-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full z-10" />
         )}
       </div>
       {showText && (

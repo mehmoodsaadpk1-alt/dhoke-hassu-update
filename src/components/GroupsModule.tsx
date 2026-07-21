@@ -492,18 +492,18 @@ export default function GroupsModule({
         <div className="bg-white rounded-2xl border border-slate-200/60 p-4 shadow-xs space-y-3">
           {/* Search Input */}
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+            <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={isUr ? 'گروپ کا نام، تفصیل یا علاقہ تلاش کریں...' : 'Search groups by name, description, area...'}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 rounded-xl text-xs font-semibold placeholder-slate-400 focus:outline-none transition-all"
+              className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 rounded-xl text-xs font-semibold placeholder-slate-400 focus:outline-none transition-all"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute end-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -583,7 +583,7 @@ export default function GroupsModule({
                     <div>
                       <div className="relative h-40 bg-slate-100 overflow-hidden">
                         <img src={group.coverImage} alt={group.name} className="w-full h-full object-cover" />
-                        <span className={`absolute top-3 right-3 inline-flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-full text-white shadow-md ${group.privacy === 'Private' ? 'bg-red-600' : 'bg-green-600'}`}>
+                        <span className={`absolute top-3 end-3 inline-flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-full text-white shadow-md ${group.privacy === 'Private' ? 'bg-red-600' : 'bg-green-600'}`}>
                           {group.privacy === 'Private' ? (
                             <>
                               <Lock className="w-2.5 h-2.5 stroke-[3px]" />
@@ -596,7 +596,7 @@ export default function GroupsModule({
                             </>
                           )}
                         </span>
-                        <span className="absolute bottom-3 left-3 inline-flex items-center text-[10px] font-black bg-slate-900/80 text-white px-2.5 py-1 rounded-md backdrop-blur-xs">
+                        <span className="absolute bottom-3 start-3 inline-flex items-center text-[10px] font-black bg-slate-900/80 text-white px-2.5 py-1 rounded-md backdrop-blur-xs">
                           {catLabel}
                         </span>
                       </div>
@@ -722,7 +722,7 @@ export default function GroupsModule({
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
             
             {/* Header info layered on cover */}
-            <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
+            <div className="absolute bottom-6 start-6 end-6 text-white space-y-2">
               <span className="inline-flex items-center text-[9px] font-black bg-blue-600 px-2.5 py-1 rounded-md uppercase tracking-wider shadow-sm">
                 {catLabel}
               </span>
@@ -743,7 +743,7 @@ export default function GroupsModule({
             {/* Quick Report option */}
             <button
               onClick={() => handleReportGroup(currentGroup)}
-              className="absolute top-4 right-4 bg-black/40 backdrop-blur-xs hover:bg-red-600/90 text-white p-2 rounded-full shadow-md transition-all cursor-pointer"
+              className="absolute top-4 end-4 bg-black/40 backdrop-blur-xs hover:bg-red-600/90 text-white p-2 rounded-full shadow-md transition-all cursor-pointer"
               title="Report Group"
             >
               <Flag className="w-4 h-4" />
@@ -916,7 +916,7 @@ export default function GroupsModule({
                     <div key={post.id} className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-xs space-y-3 relative">
                       {/* Pinned Marker banner */}
                       {post.pinned && (
-                        <div className="absolute top-0 left-0 right-0 h-1 bg-blue-500 rounded-t-2xl" />
+                        <div className="absolute top-0 start-0 end-0 h-1 bg-blue-500 rounded-t-2xl" />
                       )}
 
                       <div className="flex justify-between items-start">
@@ -1050,7 +1050,7 @@ export default function GroupsModule({
                       <button
                         key={user.id}
                         onClick={() => handleShareToChat(user.name)}
-                        className="w-full p-2 hover:bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-3 transition-all cursor-pointer text-left"
+                        className="w-full p-2 hover:bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-3 transition-all cursor-pointer text-start"
                       >
                         <img src={user.avatar} alt={user.name} className="w-7 h-7 rounded-full object-cover" />
                         <span className="text-xs font-bold text-slate-700 truncate flex-1">{user.name}</span>

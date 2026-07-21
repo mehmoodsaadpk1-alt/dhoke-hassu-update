@@ -973,7 +973,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
               }
             }}
             placeholder={t.searchPlaceholder}
-            className="w-full bg-transparent border-none text-slate-900 focus:outline-none text-sm placeholder-slate-400 font-medium py-1.5 pl-2 pr-8"
+            className="w-full bg-transparent border-none text-slate-900 focus:outline-none text-sm placeholder-slate-400 font-medium py-1.5 ps-2 pe-8"
             id="global-search-input"
           />
           {query && (
@@ -983,7 +983,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                 setQuery('');
                 if (inputRef.current) inputRef.current.focus();
               }}
-              className="absolute inset-y-0 right-0 pr-2 flex items-center text-slate-400 hover:text-slate-600"
+              className="absolute inset-y-0 end-0 pe-2 flex items-center text-slate-400 hover:text-slate-600"
             >
               <X className="w-4 h-4" />
             </button>
@@ -1015,7 +1015,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   key={idx}
                   type="button"
                   onClick={() => handleSelectPredefinedSearch(suggestion)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-slate-800 text-sm font-bold hover:bg-slate-50 rounded-xl text-left cursor-pointer transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-slate-800 text-sm font-bold hover:bg-slate-50 rounded-xl text-start cursor-pointer transition-colors"
                 >
                   <Search className="w-3.5 h-3.5 text-slate-400" />
                   <span>{suggestion}</span>
@@ -1056,7 +1056,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     <button
                       type="button"
                       onClick={() => handleSelectPredefinedSearch(keyword)}
-                      className="flex-1 flex items-center gap-2 text-slate-800 text-xs font-bold text-left cursor-pointer"
+                      className="flex-1 flex items-center gap-2 text-slate-800 text-xs font-bold text-start cursor-pointer"
                     >
                       <span>{keyword}</span>
                     </button>
@@ -1489,7 +1489,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             }`}>
                               {/* Background fill */}
                               <div 
-                                className={`absolute left-0 top-0 bottom-0 transition-all duration-500 ${isSelected ? 'bg-indigo-200/40' : 'bg-slate-200/30'}`}
+                                className={`absolute start-0 top-0 bottom-0 transition-all duration-500 ${isSelected ? 'bg-indigo-200/40' : 'bg-slate-200/30'}`}
                                 style={{ width: `${percent}%` }}
                               />
                               
@@ -1506,7 +1506,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             /* ACTIVE VOTING BUTTON */
                             <button
                               onClick={() => handleVotePoll(selectedItemDetail.data.id, index)}
-                              className="w-full text-left p-3.5 rounded-xl border border-slate-200/80 hover:bg-indigo-50 hover:border-indigo-200 text-slate-800 text-xs font-bold transition-all cursor-pointer hover:text-indigo-900"
+                              className="w-full text-start p-3.5 rounded-xl border border-slate-200/80 hover:bg-indigo-50 hover:border-indigo-200 text-slate-800 text-xs font-bold transition-all cursor-pointer hover:text-indigo-900"
                             >
                               {option.text}
                             </button>
@@ -1533,7 +1533,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-3 left-3 bg-yellow-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md shadow-sm">
+                    <div className="absolute top-3 start-3 bg-yellow-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md shadow-sm">
                       ⚡ SPONSORED
                     </div>
                   </div>

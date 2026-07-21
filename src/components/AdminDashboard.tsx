@@ -1655,12 +1655,12 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
         {/* Mobile: fixed overlay, slides in from left */}
         <aside className={[
           // Shared styles
-          'bg-white border-r border-slate-200 overflow-y-auto flex flex-col justify-between shadow-xs transition-all duration-300',
+          'bg-white border-e border-slate-200 overflow-y-auto flex flex-col justify-between shadow-xs transition-all duration-300',
           // Desktop behavior (lg+): inline, width-toggled
           'lg:relative lg:shrink-0 lg:translate-x-0 lg:z-30',
           isSidebarOpen ? 'lg:w-64' : 'lg:w-16',
           // Mobile behavior (<lg): fixed overlay
-          'fixed inset-y-0 left-0 z-50 w-72',
+          'fixed inset-y-0 start-0 z-50 w-72',
           isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
         ].join(' ')}>
           <div className="p-3 space-y-6">
@@ -2259,7 +2259,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   {/* Advertisements Table */}
                   <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                      <table className="w-full text-start border-collapse">
                         <thead>
                           <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                             <th className="py-3.5 px-4">Banner</th>
@@ -2274,7 +2274,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             <th className="py-3.5 px-4">CTA Clicks</th>
                             <th className="py-3.5 px-4">Created Date</th>
                             <th className="py-3.5 px-4">Last Activity</th>
-                            <th className="py-3.5 px-4 text-right">Actions</th>
+                            <th className="py-3.5 px-4 text-end">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 text-xs text-slate-755">
@@ -2361,7 +2361,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4 text-[10px] font-semibold text-slate-500 whitespace-nowrap">
                                     {ad.updated_at ? new Date(ad.updated_at).toLocaleDateString() + ' ' + new Date(ad.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'N/A'}
                                   </td>
-                                  <td className="py-3.5 px-4 text-right space-x-1 whitespace-nowrap">
+                                  <td className="py-3.5 px-4 text-end space-x-1 whitespace-nowrap">
                                     <button
                                       onClick={() => { setSelectedAd(ad); setIsAdDetailsModalOpen(true); }}
                                       className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors border-0 cursor-pointer"
@@ -2464,14 +2464,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   {/* PAGINATED USER TABLE */}
                   <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                      <table className="w-full text-start border-collapse">
                         <thead>
                           <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                             <th className="py-3 px-4">Resident Identity</th>
                             <th className="py-3 px-4">Mobile Credentials</th>
                             <th className="py-3 px-4">Sector Area</th>
                             <th className="py-3 px-4">Verified Citizen</th>
-                            <th className="py-3 px-4 text-right">Actions</th>
+                            <th className="py-3 px-4 text-end">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
@@ -2512,7 +2512,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                       <span className="text-slate-400 font-bold">{isEn ? 'Standard' : 'نہیں'}</span>
                                     )}
                                   </td>
-                                  <td className="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
+                                  <td className="py-3.5 px-4 text-end space-x-1.5 whitespace-nowrap">
                                     <button
                                       onClick={() => setSelectedUserDetail(u)}
                                       className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors border-0 cursor-pointer"
@@ -2640,14 +2640,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         </div>
                       ) : (
                         <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse">
+                          <table className="w-full text-start border-collapse">
                             <thead>
                               <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black uppercase text-slate-400 tracking-wider">
                                 <th className="py-3 px-4">Primary Record Title</th>
                                 <th className="py-3 px-4">System Identifier</th>
                                 <th className="py-3 px-4">Owner / Publisher</th>
                                 <th className="py-3 px-4">Moderation Status</th>
-                                <th className="py-3 px-4 text-right">Actions</th>
+                                <th className="py-3 px-4 text-end">Actions</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100 text-xs text-slate-750">
@@ -2998,7 +2998,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
           <div className="bg-white w-full max-w-md rounded-3xl border border-slate-100 overflow-hidden shadow-2xl relative p-6 space-y-6">
             <button 
               onClick={() => setSelectedUserDetail(null)}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer"
+              className="absolute top-4 end-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -3054,7 +3054,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
           <div className="bg-white w-full max-w-lg rounded-3xl border border-slate-100 overflow-hidden shadow-2xl relative p-6 space-y-5">
             <button 
               onClick={() => setSelectedContentDetail(null)}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-105 text-slate-400 hover:text-slate-705 transition-all border-0 bg-transparent cursor-pointer"
+              className="absolute top-4 end-4 p-1.5 rounded-full hover:bg-slate-105 text-slate-400 hover:text-slate-705 transition-all border-0 bg-transparent cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -3117,7 +3117,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
           <div className="bg-white w-full max-w-lg rounded-3xl border border-slate-100 overflow-hidden shadow-2xl relative p-6 space-y-5">
             <button 
               onClick={() => { setIsEditModalOpen(false); setEditForm(null); }}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer"
+              className="absolute top-4 end-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -3132,7 +3132,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
             </div>
 
             <form onSubmit={handleSaveEdit} className="space-y-4">
-              <div className="max-h-96 overflow-y-auto pr-1 space-y-3">
+              <div className="max-h-96 overflow-y-auto pe-1 space-y-3">
                 {Object.keys(editForm).map(key => {
                   if (['module', 'id', 'images', 'image', 'reviews', 'posts', 'created_at'].includes(key)) return null;
                   const val = editForm[key];
@@ -3176,7 +3176,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
           <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-100 overflow-hidden shadow-2xl relative p-6 flex flex-col max-h-[90vh]">
             <button 
               onClick={() => { setIsAdCreateEditModalOpen(false); setAdForm(initialAdFormState); }}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer z-10"
+              className="absolute top-4 end-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer z-10"
             >
               <X className="w-5 h-5" />
             </button>
@@ -3190,7 +3190,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               </p>
             </div>
 
-            <form onSubmit={(e) => handleSaveAdForm(e, false)} className="space-y-4 overflow-y-auto pr-2 flex-1 pb-4">
+            <form onSubmit={(e) => handleSaveAdForm(e, false)} className="space-y-4 overflow-y-auto pe-2 flex-1 pb-4">
               {/* Section 1: Basic Info */}
               <div className="space-y-3">
                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b pb-1">Basic Information</h4>
@@ -3297,7 +3297,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             <button
                               type="button"
                               onClick={() => setAdForm(prev => ({ ...prev, images: prev.images?.filter((_, idx) => idx !== index) }))}
-                              className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-0.5 text-[8px] leading-none"
+                              className="absolute top-0 end-0 bg-red-600 text-white rounded-full p-0.5 text-[8px] leading-none"
                             >
                               x
                             </button>
@@ -3531,7 +3531,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
           <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-100 overflow-hidden shadow-2xl relative p-6 flex flex-col max-h-[90vh]">
             <button 
               onClick={() => { setIsAdDetailsModalOpen(false); setSelectedAd(null); }}
-              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer z-10"
+              className="absolute top-4 end-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-450 hover:text-slate-700 transition-all border-0 bg-transparent cursor-pointer z-10"
             >
               <X className="w-5 h-5" />
             </button>
@@ -3541,7 +3541,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               <h3 className="text-base font-black text-slate-900 mt-1">{selectedAd.title}</h3>
             </div>
 
-            <div className="overflow-y-auto flex-1 pr-2 space-y-4">
+            <div className="overflow-y-auto flex-1 pe-2 space-y-4">
               {/* Image Banner Showcase */}
               {selectedAd.banner_url && (
                 <div className="w-full h-40 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100">

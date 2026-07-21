@@ -811,7 +811,7 @@ export default function SettingsModule({
             <button
               key={section.id}
               onClick={() => navigate(section.path)}
-              className={`w-full flex items-center gap-3.5 p-3.5 rounded-2xl transition-all text-left cursor-pointer border ${
+              className={`w-full flex items-center gap-3.5 p-3.5 rounded-2xl transition-all text-start cursor-pointer border ${
                 isActive
                   ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/10'
                   : 'bg-white hover:bg-slate-50 border-slate-200/50 text-slate-800'
@@ -892,12 +892,12 @@ export default function SettingsModule({
                     alt="Avatar"
                     className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md ring-4 ring-slate-100"
                   />
-                  <div className="absolute -bottom-1 -right-1 bg-blue-600 text-white p-1 rounded-full shadow border border-white">
+                  <div className="absolute -bottom-1 -end-1 bg-blue-600 text-white p-1 rounded-full shadow border border-white">
                     <Camera className="w-3.5 h-3.5" />
                   </div>
                 </div>
                 
-                <div className="flex-1 space-y-2 text-center sm:text-left">
+                <div className="flex-1 space-y-2 text-center sm:text-start">
                   <span className="text-xs font-bold text-slate-700">{t.avatarSelect}</span>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-1.5">
                     {AVATAR_PRESETS.map((p, idx) => (
@@ -932,12 +932,12 @@ export default function SettingsModule({
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">{t.username}</label>
                   <div className="relative">
-                    <span className="absolute left-3.5 top-2.5 text-xs text-slate-400 font-bold">@</span>
+                    <span className="absolute start-3.5 top-2.5 text-xs text-slate-400 font-bold">@</span>
                     <input
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
-                      className="w-full text-xs pl-7 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                      className="w-full text-xs ps-7 pe-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
                       placeholder="username"
                     />
                   </div>
@@ -1282,7 +1282,7 @@ export default function SettingsModule({
                           channels: { ...prev.notifications.channels, [channel.key]: !val }
                         }
                       }))}
-                      className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer text-left transition-all ${
+                      className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer text-start transition-all ${
                         val ? 'bg-amber-50/40 border-amber-200/60' : 'bg-white border-slate-200/40'
                       }`}
                     >
@@ -1307,7 +1307,7 @@ export default function SettingsModule({
                 <p className="text-[10px] text-slate-400 font-bold mt-0.5">{t.categoriesDesc}</p>
               </div>
 
-              <div className="space-y-2 max-h-[350px] overflow-y-auto pr-1 no-scrollbar">
+              <div className="space-y-2 max-h-[350px] overflow-y-auto pe-1 no-scrollbar">
                 {([
                   { key: 'community', label: t.catCommunity },
                   { key: 'chat', label: t.catChat },
@@ -1525,7 +1525,7 @@ export default function SettingsModule({
                           document.documentElement.classList.remove('dark');
                         }
                       }}
-                      className={`flex flex-col p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                      className={`flex flex-col p-4 rounded-xl border text-start cursor-pointer transition-all ${
                         active
                           ? 'border-blue-600 ring-4 ring-blue-50'
                           : 'border-slate-200/60 hover:bg-slate-50/50'
@@ -1592,7 +1592,7 @@ export default function SettingsModule({
                         onLanguageChange(lang.code as Language);
                         triggerSuccess(lang.code === 'ur' ? 'زبان تبدیل ہو گئی ہے!' : 'Language updated to English!');
                       }}
-                      className={`w-full flex items-center justify-between p-4 rounded-xl border text-left cursor-pointer transition-all ${
+                      className={`w-full flex items-center justify-between p-4 rounded-xl border text-start cursor-pointer transition-all ${
                         active
                           ? 'border-purple-500 bg-purple-50/10 shadow-sm'
                           : 'border-slate-200/60 hover:bg-slate-50/50'
@@ -1757,7 +1757,7 @@ export default function SettingsModule({
                   <button
                     key={idx}
                     onClick={() => triggerSuccess(isUr ? `${doc.name} کا لنک کھولا جا رہا ہے` : `Navigating to ${doc.name}...`)}
-                    className="w-full flex items-center justify-between p-3.5 border border-slate-150 rounded-xl hover:bg-slate-50/50 text-left cursor-pointer"
+                    className="w-full flex items-center justify-between p-3.5 border border-slate-150 rounded-xl hover:bg-slate-50/50 text-start cursor-pointer"
                   >
                     <span className="text-xs font-bold text-slate-700">{doc.name}</span>
                     <ExternalLink className="w-4 h-4 text-slate-400" />
@@ -1822,7 +1822,7 @@ export default function SettingsModule({
                       <span className="text-blue-600 font-extrabold">Q:</span>
                       {faq.q}
                     </p>
-                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium mt-1.5 pl-4 border-l-2 border-slate-200">
+                    <p className="text-[11px] text-slate-500 leading-relaxed font-medium mt-1.5 ps-4 border-s-2 border-slate-200">
                       {faq.a}
                     </p>
                   </div>
@@ -1972,7 +1972,7 @@ export default function SettingsModule({
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-20 right-4 sm:right-6 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg border border-emerald-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
+            className="fixed top-20 end-4 sm:end-6 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg border border-emerald-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
           >
             <CheckCircle className="w-5 h-5 shrink-0" />
             <p>{successToast}</p>
@@ -1984,7 +1984,7 @@ export default function SettingsModule({
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-20 right-4 sm:right-6 bg-red-600 text-white px-4 py-3 rounded-xl shadow-lg border border-red-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
+            className="fixed top-20 end-4 sm:end-6 bg-red-600 text-white px-4 py-3 rounded-xl shadow-lg border border-red-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
           >
             <AlertTriangle className="w-5 h-5 shrink-0" />
             <p>{errorToast}</p>

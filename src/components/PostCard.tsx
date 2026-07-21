@@ -117,7 +117,7 @@ export default function PostCard({
                 preloadType="metadata"
                 className="w-full h-full object-contain block"
               />
-              <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {entity.viewsCount ?? 0}</div>
+              <div className="absolute bottom-2 end-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {entity.viewsCount ?? 0}</div>
             </div>
           </div>
         )}
@@ -137,7 +137,7 @@ export default function PostCard({
       tvsBadgeType={getTvsBadgeType(post.author)}
       badge={
         post.postType === 'share' ? (
-          <span className="text-slate-500 font-medium ml-1 lowercase">{isEn ? 'shared' : 'نے شیئر کیا'}</span>
+          <span className="text-slate-500 font-medium ms-1 lowercase">{isEn ? 'shared' : 'نے شیئر کیا'}</span>
         ) : post.postTag && (
           <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black ${post.postTag === 'lost' ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'}`}>
             {post.postTag === 'lost' ? '🔍 LOST ITEM' : '✅ FOUND ITEM'}
@@ -216,15 +216,15 @@ export default function PostCard({
                     value={commentText}
                     onChange={(val) => setCommentText(val)}
                     placeholder={isEn ? 'Write a comment...' : 'تبصرہ کریں...'}
-                    className="w-full pl-4 pr-10 py-2.5 text-[14px] bg-transparent border-0 focus:ring-0 focus:outline-none transition-all font-medium leading-tight resize-none m-0 min-h-[40px] text-slate-800"
+                    className="w-full ps-4 pe-10 py-2.5 text-[14px] bg-transparent border-0 focus:ring-0 focus:outline-none transition-all font-medium leading-tight resize-none m-0 min-h-[40px] text-slate-800"
                     rows={Math.max(1, Math.min(4, commentText.split('\n').length))}
                   />
                   <button
                     onClick={handleAddComment}
                     disabled={!commentText.trim()}
-                    className={`absolute right-1 bottom-1 p-1.5 rounded-full transition-all flex items-center justify-center ${commentText.trim() ? 'bg-blue-600 text-white cursor-pointer hover:bg-blue-700 hover:scale-105 active:scale-95' : 'bg-transparent text-slate-400 cursor-default'}`}
+                    className={`absolute end-1 bottom-1 p-1.5 rounded-full transition-all flex items-center justify-center ${commentText.trim() ? 'bg-blue-600 text-white cursor-pointer hover:bg-blue-700 hover:scale-105 active:scale-95' : 'bg-transparent text-slate-400 cursor-default'}`}
                   >
-                    <Send className="w-4 h-4 ml-0.5" />
+                    <Send className="w-4 h-4 ms-0.5" />
                   </button>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export default function PostCard({
               className="w-full max-h-[500px] object-contain block"
             />
             {post.images && post.images.length > 1 && (
-              <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1.5 rounded-xl border border-white/20 flex items-center gap-1">
+              <div className="absolute bottom-3 end-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1.5 rounded-xl border border-white/20 flex items-center gap-1">
                 <span>📸</span>
                 <span>
                   +{post.images.length - 1} {isEn ? 'Photos' : 'مزید تصاویر'}
@@ -283,7 +283,7 @@ export default function PostCard({
                 preloadType="metadata"
                 className="w-full h-full object-contain block"
               />
-              <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {post.viewsCount ?? 0}</div>
+              <div className="absolute bottom-2 end-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {post.viewsCount ?? 0}</div>
             </div>
           </div>
         )}
