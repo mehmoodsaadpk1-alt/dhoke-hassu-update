@@ -8,7 +8,7 @@ import { Language, AuthState, User } from './types';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import AppShell from './components/AppShell';
-import AdminDashboard from './components/AdminDashboard';
+const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 import { translations } from './translations';
 import { Globe, ArrowLeft, KeyRound, CheckCircle } from 'lucide-react';
 import { supabase, isSupabaseConfigured, dbSaveUserProfile } from './utils/supabaseClient';
@@ -482,13 +482,22 @@ export default function App() {
 
   if (currentPath.startsWith('/admin')) {
     return (
-      <AdminDashboard 
-        currentLanguage={currentLanguage} 
-        onExitAdmin={() => {
-          window.history.pushState({}, '', '/');
-          setCurrentPath('/');
-        }}
-      />
+      <React.Suspense fallback={
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 flex-col gap-4">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 font-bold animate-pulse text-sm">
+            {currentLanguage === 'en' ? 'Loading Admin Dashboard...' : 'ایڈمن ڈیش بورڈ لوڈ ہو رہا ہے...'}
+          </p>
+        </div>
+      }>
+        <AdminDashboard 
+          currentLanguage={currentLanguage} 
+          onExitAdmin={() => {
+            window.history.pushState({}, '', '/');
+            setCurrentPath('/');
+          }}
+        />
+      </React.Suspense>
     );
   }
 

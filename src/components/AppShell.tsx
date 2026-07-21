@@ -67,7 +67,7 @@ import JobsModule from './JobsModule';
 import BusinessModule from './BusinessModule';
 import PropertyModule from './PropertyModule';
 import MarketplaceModule from './MarketplaceModule';
-import ChatModule from './ChatModule';
+const ChatModule = React.lazy(() => import('./ChatModule'));
 import ServicesModule from './ServicesModule';
 import AlertsModule, { isUserAdminOrModerator } from './AlertsModule';
 import EventsModule from './EventsModule';
@@ -83,7 +83,7 @@ import GroupsModule from './GroupsModule';
 import NotificationsModule from './NotificationsModule';
 import VerificationModule from './VerificationModule';
 import SearchModule from './SearchModule';
-import SettingsModule from './SettingsModule';
+const SettingsModule = React.lazy(() => import('./SettingsModule'));
 import TrendingHashtags from './TrendingHashtags';
 import HashtagFeed from './HashtagFeed';
 import { isEntityVerified } from '../utils/verification';
@@ -158,7 +158,7 @@ import FeedCard from './FeedCard';
 import ShareModal, { ShareEntityType } from './ShareModal';
 import { adAnalytics } from '../utils/adAnalytics';
 import { useAdRotator } from '../hooks/useAdRotator';
-import { VideosModule } from './video/VideosModule';
+const VideosModule = React.lazy(() => import('./video/VideosModule').then(m => ({ default: m.VideosModule })));
 
 const getTvsBadgeType = (author: string): 'Individual' | 'Business' | 'Government' | 'Healthcare' | 'NGO' | 'Emergency' | 'Leader' => {
   if (!author) return 'Individual';
@@ -5584,19 +5584,23 @@ export default function AppShell({
           )}
           {/* TAB 3: CHAT */}
           {activeTab === 'chat' && (
-            <ChatModule
-              user={user}
-              currentLanguage={currentLanguage}
-              currentPath={currentPath}
-              navigate={navigate}
-            />
+            <React.Suspense fallback={<div className="flex items-center justify-center p-12 text-slate-500 font-medium">{currentLanguage === 'en' ? 'Loading Chat...' : 'چیٹ لوڈ ہو رہی ہے...'}</div>}>
+              <ChatModule
+                user={user}
+                currentLanguage={currentLanguage}
+                currentPath={currentPath}
+                navigate={navigate}
+              />
+            </React.Suspense>
           )}
 
           {/* TAB 4: VIDEOS */}
           {activeTab === 'videos' && (
-            <VideosModule
-              userId={user.id}
-            />
+            <React.Suspense fallback={<div className="flex items-center justify-center p-12 text-slate-500 font-medium">{currentLanguage === 'en' ? 'Loading Videos...' : 'ویڈیوز لوڈ ہو رہی ہیں...'}</div>}>
+              <VideosModule
+                userId={user.id}
+              />
+            </React.Suspense>
           )}
 
           {/* TAB 5: PROFILE */}
@@ -5689,14 +5693,16 @@ export default function AppShell({
 
           {/* SETTINGS & PERSONALIZATION MODULE RENDERER */}
           {currentPath.startsWith('/settings') && (
-            <SettingsModule
-              currentLanguage={currentLanguage}
-              onLanguageChange={onLanguageChange}
-              currentPath={currentPath}
-              navigate={navigate}
-              user={profileData}
-              onUpdateUser={handleUpdateUser}
-            />
+            <React.Suspense fallback={<div className="flex items-center justify-center p-12 text-slate-500 font-medium">{currentLanguage === 'en' ? 'Loading Settings...' : 'سیٹنگز لوڈ ہو رہی ہیں...'}</div>}>
+              <SettingsModule
+                currentLanguage={currentLanguage}
+                onLanguageChange={onLanguageChange}
+                currentPath={currentPath}
+                navigate={navigate}
+                user={profileData}
+                onUpdateUser={handleUpdateUser}
+              />
+            </React.Suspense>
           )}
 
         </main>
