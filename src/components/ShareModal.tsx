@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Globe, Users, Lock, Link, PlusCircle, Send, CheckCircle } from 'lucide-react';
 import ClickableAvatar from './ClickableAvatar';
 import { dbCreateSharePost, dbCreateShareStory } from '../utils/supabaseClient';
+import { analytics } from '../services/AnalyticsService';
 
 export type ShareEntityType = 'post' | 'job' | 'property' | 'event' | 'marketplace' | 'service' | 'poll' | 'alert';
 
@@ -62,6 +63,13 @@ export default function ShareModal({
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(getEntityUrl());
+    if (entityType === 'post') {
+      analytics.track("post_share", { entity_type: 'post',
+        module: "feed",
+        entity_id: entityId,
+        metadata: { share_type: 'copy_link' }
+      });
+    }
     showToast(isEn ? 'Link copied successfully.' : 'لنک کاپی ہو گیا۔');
   };
 
@@ -76,6 +84,13 @@ export default function ShareModal({
         caption,
         privacy
       });
+      if (entityType === 'post') {
+        analytics.track("post_share", { entity_type: 'post',
+          module: "feed",
+          entity_id: entityId,
+          metadata: { share_type: 'internal_share' }
+        });
+      }
       showToast(isEn ? 'Shared to Community Feed.' : 'کمیونٹی فیڈ پر شیئر ہو گیا۔');
     } catch (e) {
       console.error(e);
@@ -97,6 +112,13 @@ export default function ShareModal({
         author: currentUser.full_name || currentUser.username || 'User',
         avatar: currentUser.profile_photo || currentUser.avatar || ''
       });
+      if (entityType === 'post') {
+        analytics.track("post_share", { entity_type: 'post',
+          module: "feed",
+          entity_id: entityId,
+          metadata: { share_type: 'story_share' }
+        });
+      }
       showToast(isEn ? 'Shared to your Story.' : 'آپ کی سٹوری پر شیئر ہو گیا۔');
     } catch (e) {
       console.error(e);

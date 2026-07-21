@@ -1,7 +1,28 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, PictureInPicture, Heart, AlertCircle, RefreshCw } from 'lucide-react';
 import { videoAnalyticsService } from '../../services/VideoAnalyticsService';
 import { videoCacheService } from '../../services/VideoCacheService';
+import { analytics } from '../../services/AnalyticsService';
+
+interface VideoSessionAnalytics {
+  hasStarted: boolean;
+  milestones: Set<number>;
+  hasCompleted: boolean;
+  accumulatedSeconds: number;
+}
+const globalVideoAnalytics = new Map<string, VideoSessionAnalytics>();
+
+const getAnalyticsState = (videoId: string) => {
+  if (!globalVideoAnalytics.has(videoId)) {
+    globalVideoAnalytics.set(videoId, {
+      hasStarted: false,
+      milestones: new Set(),
+      hasCompleted: false,
+      accumulatedSeconds: 0
+    });
+  }
+  return globalVideoAnalytics.get(videoId)!;
+};
 
 interface VideoPlayerProps {
   videoId: string;
@@ -47,6 +68,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   const [hasError, setHasError] = useState(false);
   const [cachedUrl, setCachedUrl] = useState<string>(src);
   const [visibilityRatio, setVisibilityRatio] = useState(0);
+
+  const localPlaySession = useRef({
+    lastPlayTime: 0,
+    isPlaying: false
+  });
 
   // Internal mute state for standalone usage (like in FeedCard)
   const [internalMuted, setInternalMuted] = useState<boolean>(() => {
@@ -197,7 +223,29 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     const handleTimeUpdate = () => {
       setCurrentTime(video.currentTime);
       if (video.duration) {
-        setProgress((video.currentTime / video.duration) * 100);
+        const pct = (video.currentTime / video.duration) * 100;
+        setProgress(pct);
+
+        const state = getAnalyticsState(videoId);
+        
+        const milestones = [25, 50, 75];
+        milestones.forEach(m => {
+          if (pct >= m && !state.milestones.has(m)) {
+            state.milestones.add(m);
+            analytics.track(`video_watch_${m}`, { entity_type: 'video',
+              module: "videos",
+              entity_id: videoId
+            });
+          }
+        });
+
+        if (pct >= 95 && !state.hasCompleted) {
+          state.hasCompleted = true;
+          analytics.track("video_completed", { entity_type: 'video',
+            module: "videos",
+            entity_id: videoId
+          });
+        }
       }
     };
 
@@ -208,6 +256,30 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       }
     };
 
+    const reportWatchTime = (videoDuration: number) => {
+      if (!localPlaySession.current.isPlaying) return;
+      const now = Date.now();
+      const delta = (now - localPlaySession.current.lastPlayTime) / 1000;
+      localPlaySession.current.lastPlayTime = now;
+      
+      if (delta > 0) {
+        const state = getAnalyticsState(videoId);
+        const prevAccumulated = state.accumulatedSeconds;
+        state.accumulatedSeconds += delta;
+        
+        if (Math.floor(state.accumulatedSeconds) > Math.floor(prevAccumulated)) {
+          analytics.track("video_watch_time", { entity_type: 'video',
+            module: "videos",
+            entity_id: videoId,
+            metadata: {
+              seconds_watched: Math.floor(state.accumulatedSeconds),
+              duration: Math.floor(videoDuration || 0)
+            }
+          });
+        }
+      }
+    };
+
     const handleLoadedMetadata = () => {
       setDuration(video.duration);
     };
@@ -215,15 +287,30 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     const handleWaiting = () => {
       setIsBuffering(true);
       videoAnalyticsService.reportEvent(videoId, 'buffer');
+      reportWatchTime(video.duration);
+      localPlaySession.current.isPlaying = false;
     };
     const handlePlaying = () => {
       setIsBuffering(false);
       setIsPlaying(true);
       videoAnalyticsService.reportEvent(videoId, 'play');
+
+      const state = getAnalyticsState(videoId);
+      if (!state.hasStarted) {
+        state.hasStarted = true;
+        analytics.track("video_watch_start", { entity_type: 'video',
+          module: "videos",
+          entity_id: videoId
+        });
+      }
+      localPlaySession.current.lastPlayTime = Date.now();
+      localPlaySession.current.isPlaying = true;
     };
     const handlePause = () => {
       setIsPlaying(false);
       videoAnalyticsService.reportEvent(videoId, 'pause');
+      reportWatchTime(video.duration);
+      localPlaySession.current.isPlaying = false;
     };
     
     const handleEnded = () => {
@@ -231,12 +318,16 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       videoAnalyticsService.reportEvent(videoId, 'complete');
       // Background Cache
       videoCacheService.cacheCompletedVideo(src).catch(console.error);
+      reportWatchTime(video.duration);
+      localPlaySession.current.isPlaying = false;
     };
 
     const handleError = () => {
       setHasError(true);
       setIsPlaying(false);
       setIsBuffering(false);
+      reportWatchTime(video.duration);
+      localPlaySession.current.isPlaying = false;
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
@@ -249,6 +340,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     video.addEventListener('error', handleError);
 
     return () => {
+      reportWatchTime(video.duration);
+      localPlaySession.current.isPlaying = false;
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('progress', handleProgress);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);

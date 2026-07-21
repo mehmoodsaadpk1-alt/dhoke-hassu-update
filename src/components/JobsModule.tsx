@@ -32,6 +32,9 @@ import AdBannerCard from './AdBannerCard';
 import { useAdRotator } from '../hooks/useAdRotator';
 import { useAdStore } from '../store/adStore';
 import { getCurrentUserLocation } from '../utils/locationService';
+import { analytics } from '../services/AnalyticsService';
+
+const viewedJobs = new Set<string>();
 
 interface JobsModuleProps {
   jobs: JobItem[];
@@ -59,6 +62,16 @@ const jobsFeedAdInterval = useAdStore(s => s.feedAdIntervals?.['Jobs'] || 3);
 const jobsBannerMap = useAdRotator('Jobs', 1, 1, 'Banner');
 const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
     const isEn = currentLanguage === 'en';
+
+    if (activeView === 'detail' && selectedJobId) {
+      if (!viewedJobs.has(selectedJobId)) {
+        viewedJobs.add(selectedJobId);
+        analytics.track("job_view", { entity_type: 'job',
+          module: "jobs",
+          entity_id: selectedJobId
+        });
+      }
+    }
 
     // Legacy ad load removed - Ads are fetched via useAdRotator hook
 
@@ -129,7 +142,13 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
   const handleShare = (job: JobItem) => {
     const jobUrl = `${window.location.origin}/jobs/detail?id=${job.id}`;
     navigator.clipboard.writeText(jobUrl);
-    showToast(isEn ? 'Share link copied to clipboard!' : 'اشتراک کا لنک کاپی ہو گیا ہے!');
+    
+    analytics.track("job_share", { entity_type: 'job',
+      module: "jobs",
+      entity_id: job.id
+    });
+    
+    showToast(isEn ? 'Job link copied to clipboard!' : 'نوکری کا لنک کاپی ہو گیا!');
   };
 
   const openApplyModal = (job: JobItem) => {
@@ -214,6 +233,20 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
     setApplications([newApplication, ...applications]);
     setApplySuccess(true);
+      
+    analytics.track("job_apply", { entity_type: 'job',
+      module: "jobs",
+      entity_id: applyingJob.id
+    });
+      
+    analytics.track("job_contact", { entity_type: 'job',
+      module: "jobs",
+      entity_id: applyingJob.id,
+      metadata: {
+        contact_type: 'chat'
+      }
+    });
+
     setTimeout(() => {
       setApplyModalOpen(false);
       setApplySuccess(false);
@@ -277,7 +310,18 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
     };
 
     onAddJob(newJob);
+
+    analytics.track("job_create", { entity_type: 'job',
+      module: "jobs",
+      entity_id: newJob.id,
+      metadata: {
+        category: newJob.category,
+        employment_type: newJob.type
+      }
+    });
+
     setPostSuccess(true);
+    onNavigateToList();
 
     // Reset fields
     setFormTitle('');

@@ -122,6 +122,7 @@ import AdminCommunityFeed from './AdminCommunityFeed';
 import AdminPollsView from './AdminPollsView';
 import AdminStoriesView from './AdminStoriesView';
 import AdminStoryAds from './AdminStoryAds';
+import AnalyticsDashboard from './AnalyticsDashboard';
 import { useAdStore } from '../store/adStore';
 // Helper to parse a YYYY-MM-DD string as a local date (no timezone shift)
 const parseLocalDate = (dateStr: string): Date => {
@@ -1694,6 +1695,17 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Dashboard Overview' : 'ڈیش بورڈ'}</span>}
                   </div>
                 </button>
+
+                <button
+                  onClick={() => navigateTo('/admin/analytics')}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/analytics' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  title={isEn ? 'Analytics' : 'تجزیات'}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <TrendingUp className="w-4 h-4 text-slate-400 shrink-0" />
+                    {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Analytics' : 'تجزیات'}</span>}
+                  </div>
+                </button>
                 
                 <button
                   onClick={() => navigateTo('/admin/users')}
@@ -1826,6 +1838,11 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
             renderSkeletonTable()
           ) : (
             <>
+              {/* ANALYTICS UI */}
+              {adminPath === '/admin/analytics' && (
+                <AnalyticsDashboard isEn={isEn} />
+              )}
+
               {/* ADMIN DASHBOARD HUB */}
               {adminPath === '/admin/dashboard' && (
                 <div className="space-y-6">

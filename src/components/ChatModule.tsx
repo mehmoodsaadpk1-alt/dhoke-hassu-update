@@ -20,6 +20,69 @@ import {
   X,
   Trash2
 } from 'lucide-react';
+import { ChatVideoPlayer } from './video/ChatVideoPlayer';
+import { analytics } from '../services/AnalyticsService';
+
+interface ChatSessionAnalytics {
+  startTime: number;
+  sentCount: number;
+  receivedCount: number;
+  imageCount: number;
+  videoCount: number;
+  fileCount: number;
+}
+const chatSessions = new Map<string, ChatSessionAnalytics>();
+const openedChats = new Set<string>();
+
+const flushChatSession = (contactId: string) => {
+  const session = chatSessions.get(contactId);
+  if (!session) return;
+  
+  const durationSeconds = Math.floor((Date.now() - session.startTime) / 1000);
+  
+  if (session.sentCount > 0 || session.receivedCount > 0) {
+    analytics.track("conversation_message_count", { entity_type: 'conversation',
+      module: "chat",
+      entity_id: contactId,
+      metadata: {
+        sent_messages_count: session.sentCount,
+        received_messages_count: session.receivedCount
+      }
+    });
+  }
+  
+  if (session.imageCount > 0 || session.videoCount > 0 || session.fileCount > 0) {
+    analytics.track("chat_attachment_usage", { entity_type: 'conversation',
+      module: "chat",
+      entity_id: contactId,
+      metadata: {
+        image_count: session.imageCount,
+        video_count: session.videoCount,
+        file_count: session.fileCount
+      }
+    });
+  }
+  
+  analytics.track("chat_active_session", { entity_type: 'conversation',
+    module: "chat",
+    entity_id: contactId,
+    metadata: {
+      duration_seconds: durationSeconds
+    }
+  });
+  
+  chatSessions.delete(contactId);
+};
+
+const trackChatOpen = (conversationId: string) => {
+  if (!conversationId || openedChats.has(conversationId)) return;
+  openedChats.add(conversationId);
+  analytics.track("chat_open", { entity_type: 'conversation',
+    module: "chat",
+    entity_id: conversationId
+  });
+};
+
 import { Language, User } from '../types';
 import ClickableAvatar from './ClickableAvatar';
 import {
@@ -535,6 +598,33 @@ export default function ChatModule({
   };
 
   useEffect(() => {
+    return () => {
+      if (latestActiveContactRef.current) {
+        flushChatSession(latestActiveContactRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const prevContact = latestActiveContactRef.current;
+    
+    // If we're closing a conversation, report it
+    if (prevContact && prevContact !== activeContact) {
+      flushChatSession(prevContact);
+    }
+    
+    // If opening a new conversation, init session
+    if (activeContact && activeContact !== prevContact) {
+      chatSessions.set(activeContact, {
+        startTime: Date.now(),
+        sentCount: 0,
+        receivedCount: 0,
+        imageCount: 0,
+        videoCount: 0,
+        fileCount: 0
+      });
+    }
+
     latestActiveContactRef.current = activeContact;
   }, [activeContact]);
 
@@ -893,6 +983,12 @@ export default function ChatModule({
           return prev.map(c => {
             if (c.id === newMsg.conversation_id) {
               const isMe = newMsg.sender_id === user.id;
+              
+              if (!isMe) {
+                 const session = chatSessions.get(newMsg.conversation_id);
+                 if (session) session.receivedCount++;
+              }
+
               const mappedMsg: Message = {
                 id: newMsg.id,
                 sender: isMe ? 'me' : 'them',
@@ -1091,6 +1187,7 @@ export default function ChatModule({
           
           if (activeContact !== targetConversationId) {
             setActiveContact(targetConversationId);
+            trackChatOpen(targetConversationId);
             
             const nameParam = params.get('name') || contactParam;
             const avatarParam = params.get('avatar') || '';
@@ -1106,6 +1203,7 @@ export default function ChatModule({
 
           if (nameParam || existingConv) {
             setActiveContact(resolvedContact);
+            trackChatOpen(resolvedContact);
             const exists = conversations.some(c => c.contact === resolvedContact);
             if (!exists && nameParam) {
               const newConv: Conversation = {
@@ -1149,6 +1247,7 @@ export default function ChatModule({
 
     const resolvedContact = resolveMockContact(contactParam);
     setActiveContact(resolvedContact);
+    trackChatOpen(resolvedContact);
 
     // Handle query params containing new contact information
     const nameParam = params.get('name');
@@ -1354,8 +1453,20 @@ export default function ChatModule({
           
           // Get or create conversation ID
           if (targetUserId) {
+            const existingChats = await dbGetConversations(user.id!);
+            const alreadyExists = existingChats.some(c => c.contact === targetUserId || c.recipientId === targetUserId);
+
             const convId = await dbGetOrCreatePrivateConversation(user.id!, targetUserId);
             if (convId) {
+              if (!alreadyExists) {
+                analytics.track("chat_conversation_start", { entity_type: 'conversation',
+                  module: "chat",
+                  entity_id: convId,
+                  metadata: {
+                    source: typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('source') || 'unknown' : 'unknown'
+                  }
+                });
+              }
               conversationId = convId;
               wasCreated = true;
             }
@@ -1368,6 +1479,13 @@ export default function ChatModule({
           const hasMessages = existingConv && existingConv.messages && existingConv.messages.length > 0;
           if (!hasMessages || wasCreated) {
             await dbSendMessage(conversationId, user.id!, firstMessage?.trim(), 'text');
+            analytics.track("message_sent", { entity_type: 'conversation',
+              module: "chat",
+              entity_id: conversationId,
+              metadata: { message_type: "text", has_attachment: false }
+            });
+            const session = chatSessions.get(conversationId);
+            if (session) session.sentCount++;
           }
         }
 
@@ -1379,6 +1497,7 @@ export default function ChatModule({
         const url = `/chat/detail?contact=${encodeURIComponent(conversationId)}&name=${encodeURIComponent(name)}${avatar ? `&avatar=${encodeURIComponent(avatar)}` : ''}`;
         window.history.pushState({}, '', url);
         window.dispatchEvent(new Event('popstate'));
+        trackChatOpen(conversationId);
       } catch (err) {
         console.error("Error in openChat:", err);
       }
@@ -1403,6 +1522,7 @@ export default function ChatModule({
   };
 
   const handleSelectConversation = (conv: Conversation) => {
+    trackChatOpen(conv.contact);
     markAsRead(conv.contact);
     const url = `/chat/detail?contact=${encodeURIComponent(conv.contact)}&name=${encodeURIComponent(conv.name)}${conv.avatar ? `&avatar=${encodeURIComponent(conv.avatar)}` : ''}`;
     window.history.pushState({}, '', url);
@@ -1514,9 +1634,30 @@ export default function ChatModule({
     }
 
     try {
+      const isMyFirstReply = chatMessages.length > 0 && !chatMessages.some(m => m.sender === 'me');
+      
       // Write to database first before modifying UI state
       const dbMsg = await dbSendMessage(activeContact, user.id!, currentMsgText, 'text');
       if (dbMsg) {
+        analytics.track("message_sent", { entity_type: 'conversation',
+          module: "chat",
+          entity_id: activeContact,
+          metadata: { message_type: "text", has_attachment: false }
+        });
+
+        const session = chatSessions.get(activeContact);
+        if (session) session.sentCount++;
+
+        if (isMyFirstReply) {
+          const firstMessageTime = chatMessages[0].timestamp;
+          const response_time_seconds = Math.floor((Date.now() - firstMessageTime) / 1000);
+          analytics.track("chat_first_reply", { entity_type: 'conversation',
+            module: "chat",
+            entity_id: activeContact,
+            metadata: { response_time_seconds }
+          });
+        }
+
         const now = new Date(dbMsg.created_at);
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
@@ -1633,43 +1774,67 @@ export default function ChatModule({
       // 2. Send Message
       const dbMsg = await dbSendMessage(activeContact, user.id, file.name, type, uploadRes.url, undefined, uploadRes.size);
       
-      if (dbMsg) {
-        const now = new Date(dbMsg.created_at);
-        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        const newMsg: Message = {
-          id: dbMsg.id,
-          sender: 'me',
-          text: file.name,
-          time: timeStr,
-          timestamp: now.getTime(),
-          status: 'delivered',
-          attachment: {
-            type,
-            name: file.name,
-            url: uploadRes.url
-          }
-        };
-
-        console.log("[CHAT IMAGE]", "Message object after saving:", newMsg);
-
-        setConversations(prev => prev.map(c => {
-          if (isChatMatch(c, activeContact)) {
-            return {
-              ...c,
-              lastMessage: isImage ? '📷 Photo' : '📎 Attachment',
-              time: timeStr,
-              timestamp: now.getTime(),
-              messages: [...c.messages, newMsg]
-            };
-          }
-          return c;
-        }).sort((a, b) => b.timestamp - a.timestamp));
-
-        console.log("[CHAT IMAGE]", "Attachment handled successfully");
-      } else {
+      if (!dbMsg) {
         throw new Error("dbSendMessage returned null attachment response");
       }
+
+      analytics.track("message_attachment_sent", { entity_type: 'conversation',
+        module: "chat",
+        entity_id: activeContact,
+        metadata: { attachment_type: type }
+      });
+
+      const session = chatSessions.get(activeContact);
+      if (session) {
+        session.sentCount++;
+        if (type === 'image') session.imageCount++;
+        else if (type === 'video') session.videoCount++;
+        else session.fileCount++;
+      }
+
+      const isMyFirstReply = chatMessages.length > 0 && !chatMessages.some(m => m.sender === 'me');
+      if (isMyFirstReply) {
+        const response_time_seconds = Math.floor((Date.now() - chatMessages[0].timestamp) / 1000);
+        analytics.track("chat_first_reply", { entity_type: 'conversation',
+          module: "chat",
+          entity_id: activeContact,
+          metadata: { response_time_seconds }
+        });
+      }
+
+      const now = new Date(dbMsg.created_at);
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const newMsg: Message = {
+        id: dbMsg.id,
+        sender: 'me',
+        text: file.name,
+        time: timeStr,
+        timestamp: now.getTime(),
+        status: 'delivered',
+        attachment: {
+          type,
+          name: file.name,
+          url: uploadRes.url
+        }
+      };
+
+      console.log("[CHAT IMAGE]", "Message object after saving:", newMsg);
+
+      setConversations(prev => prev.map(c => {
+        if (isChatMatch(c, activeContact)) {
+          return {
+            ...c,
+            lastMessage: isImage ? '📷 Photo' : '📎 Attachment',
+            time: timeStr,
+            timestamp: now.getTime(),
+            messages: [...c.messages, newMsg]
+          };
+        }
+        return c;
+      }).sort((a, b) => b.timestamp - a.timestamp));
+
+      console.log("[CHAT IMAGE]", "Attachment handled successfully");
     } catch (err) {
       console.error("[CHAT IMAGE]", err);
     } finally {
@@ -1737,22 +1902,47 @@ export default function ChatModule({
 
       const dbMsg = await dbSendMessage(activeContact, user.id, '📷 Photo', 'image', uploadRes.url, undefined, uploadRes.size);
       
-      if (dbMsg) {
-        const now = new Date(dbMsg.created_at);
-        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const newMsg: Message = {
-          id: dbMsg.id, sender: 'me', text: '📷 Photo', time: timeStr, timestamp: now.getTime(), status: 'delivered',
-          attachment: { type: 'image', name: file.name, url: uploadRes.url }
-        };
-        setConversations(prev => prev.map(c => isChatMatch(c, activeContact) ? {
-          ...c, lastMessage: '📷 Photo', time: timeStr, timestamp: now.getTime(), messages: [...c.messages, newMsg]
-        } : c).sort((a, b) => b.timestamp - a.timestamp));
-        console.log("[CHAT]", "Camera image sent successfully");
+      if (!dbMsg) {
+        throw new Error("dbSendMessage returned null message response");
       }
+
+      analytics.track("message_attachment_sent", { entity_type: 'conversation',
+        module: "chat",
+        entity_id: activeContact,
+        metadata: { attachment_type: "image" }
+      });
+
+      const session = chatSessions.get(activeContact);
+      if (session) {
+        session.sentCount++;
+        session.imageCount++;
+      }
+
+      const isMyFirstReply = chatMessages.length > 0 && !chatMessages.some(m => m.sender === 'me');
+      if (isMyFirstReply) {
+        const response_time_seconds = Math.floor((Date.now() - chatMessages[0].timestamp) / 1000);
+        analytics.track("chat_first_reply", { entity_type: 'conversation',
+          module: "chat",
+          entity_id: activeContact,
+          metadata: { response_time_seconds }
+        });
+      }
+
+      const now = new Date(dbMsg.created_at);
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const newMsg: Message = {
+        id: dbMsg.id, sender: 'me', text: '📷 Photo', time: timeStr, timestamp: now.getTime(), status: 'delivered',
+        attachment: { type: 'image', name: file.name, url: uploadRes.url }
+      };
+      setConversations(prev => prev.map(c => isChatMatch(c, activeContact) ? {
+        ...c, lastMessage: '📷 Photo', time: timeStr, timestamp: now.getTime(), messages: [...c.messages, newMsg]
+      } : c).sort((a, b) => b.timestamp - a.timestamp));
+      console.log("[CHAT]", "Camera image sent successfully");
     } catch (err) {
       console.error("[CHAT ERROR]", err);
     } finally {
       setIsUploadingAttachment(false);
+      setCameraPhotoUrl(null);
     }
   };
 
@@ -1817,8 +2007,33 @@ export default function ChatModule({
       
       const dbMsg = await dbSendMessage(activeContact, user.id, '🎤 Voice Message', 'voice', uploadUrl, dur, audioBlobToUpload.size);
       
-      if (dbMsg) {
-        const now = new Date(dbMsg.created_at);
+      if (!dbMsg) {
+        throw new Error("dbSendMessage returned null message response");
+      }
+
+      analytics.track("message_attachment_sent", { entity_type: 'conversation',
+        module: "chat",
+        entity_id: activeContact,
+        metadata: { attachment_type: "voice" }
+      });
+      
+      const session = chatSessions.get(activeContact);
+      if (session) {
+        session.sentCount++;
+        session.fileCount++;
+      }
+
+      const isMyFirstReply = chatMessages.length > 0 && !chatMessages.some(m => m.sender === 'me');
+      if (isMyFirstReply) {
+        const response_time_seconds = Math.floor((Date.now() - chatMessages[0].timestamp) / 1000);
+        analytics.track("chat_first_reply", { entity_type: 'conversation',
+          module: "chat",
+          entity_id: activeContact,
+          metadata: { response_time_seconds }
+        });
+      }
+
+      const now = new Date(dbMsg.created_at);
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const newMsg: Message = {
           id: dbMsg.id, sender: 'me', text: '🎤 Voice Message', time: timeStr, timestamp: now.getTime(), status: 'delivered',
@@ -1828,7 +2043,6 @@ export default function ChatModule({
           ...c, lastMessage: '🎤 Voice Message', time: timeStr, timestamp: now.getTime(), messages: [...c.messages, newMsg]
         } : c).sort((a, b) => b.timestamp - a.timestamp));
         console.log("[CHAT]", "Voice message sent successfully");
-      }
     } catch (err) {
       console.error("[CHAT ERROR]", err);
     } finally {

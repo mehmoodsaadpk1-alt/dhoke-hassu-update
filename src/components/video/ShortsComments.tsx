@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BottomSheet } from '../ui/BottomSheet';
 import { videoCommentsService, VideoComment } from '../../services/VideoCommentsService';
 import { Send, Heart, MoreVertical } from 'lucide-react';
+import { analytics } from '../../services/AnalyticsService';
 
 interface ShortsCommentsProps {
   videoId: string | null;
@@ -60,6 +61,13 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
     if (!text.trim() || !videoId || !currentUserId) return;
     try {
       const newComment = await videoCommentsService.postComment(videoId, currentUserId, text);
+      analytics.track("video_comment", { entity_type: 'video',
+        module: "videos",
+        entity_id: videoId,
+        metadata: {
+            comment_length: text.length
+        }
+      });
       setComments([newComment, ...comments]);
       setText('');
       if (onCommentAdded) onCommentAdded(videoId);

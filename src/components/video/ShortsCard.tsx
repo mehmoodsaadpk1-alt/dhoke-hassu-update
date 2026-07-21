@@ -4,6 +4,9 @@ import { ShortsActions } from './ShortsActions';
 import { VideoPlayer } from './VideoPlayer';
 import { useVideoPreload } from '../../hooks/useVideoPreload';
 import { CheckCircle2, Music, Hash, Eye } from 'lucide-react';
+import { analytics } from '../../services/AnalyticsService';
+
+const viewedVideosInSession = new Set<string>();
 
 interface ShortsCardProps {
   video: any;
@@ -120,7 +123,19 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
           toggleMute={toggleMute}
           onDoubleTap={handleDoubleTap}
           preloadType={preloadType}
-          onViewRecorded={() => setLocalViewsCount(prev => prev + 1)}
+          onViewRecorded={() => {
+            setLocalViewsCount(prev => prev + 1);
+            if (!viewedVideosInSession.has(video.id)) {
+              viewedVideosInSession.add(video.id);
+              analytics.track("video_view", { entity_type: 'video',
+                module: "videos",
+                entity_id: video.id,
+                metadata: {
+                  source: "videos_feed"
+                }
+              });
+            }
+          }}
         />
       )}
 

@@ -40,6 +40,9 @@ import { isUserAdminOrModerator } from './AlertsModule';
 import { dbGetActiveAds, dbUploadServiceImage, isSupabaseConfigured } from '../utils/supabaseClient';
 import AdBannerCard from './AdBannerCard';
 import { useAdRotator } from '../hooks/useAdRotator';
+import { analytics } from '../services/AnalyticsService';
+
+const viewedServices = new Set<string>();
 
 interface ServicesModuleProps {
   items: ServiceItem[];
@@ -80,6 +83,16 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
   // Legacy ad load removed – ads are handled via useAdRotator hook
 
   const isAdmin = isUserAdminOrModerator(currentUser);
+
+  if (activeView === 'detail' && selectedItemId) {
+    if (!viewedServices.has(selectedItemId)) {
+      viewedServices.add(selectedItemId);
+      analytics.track("service_view", { entity_type: 'service',
+        module: "services",
+        entity_id: selectedItemId
+      });
+    }
+  }
 
 
   // States
@@ -308,7 +321,17 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
         featured: false,
         reviews: []
       };
+      
       onAddItem(newService);
+      
+      analytics.track("service_create", { entity_type: 'service',
+        module: "services",
+        entity_id: newService.id,
+        metadata: {
+          category: newService.category,
+          location: newService.area
+        }
+      });
     }
 
     // Reset States
@@ -1011,6 +1034,12 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-all"
                   data-profile-name={selectedItem.name}
                   data-profile-id={selectedItem.user_id || ''}
+                  onClick={() => {
+                    analytics.track("provider_profile_view", { entity_type: 'service',
+                      module: "services",
+                      entity_id: selectedItem.user_id || selectedItem.name
+                    });
+                  }}
                 >
                   <UserIcon className="w-5 h-5 text-slate-450" />
                   <div>
@@ -1058,6 +1087,13 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
               <div className="space-y-2.5">
                 <a
                   href={`tel:${selectedItem.contact}`}
+                  onClick={() => {
+                    analytics.track("service_contact", { entity_type: 'service',
+                      module: "services",
+                      entity_id: selectedItem.id,
+                      metadata: { contact_type: 'phone' }
+                    });
+                  }}
                   className="w-full inline-flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all font-bold"
                 >
                   <Phone className="w-4 h-4" />
@@ -1069,6 +1105,13 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                     href={`https://wa.me/${selectedItem.whatsAppNumber.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      analytics.track("service_contact", { entity_type: 'service',
+                        module: "services",
+                        entity_id: selectedItem.id,
+                        metadata: { contact_type: 'whatsapp' }
+                      });
+                    }}
                     className="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all font-bold"
                   >
                     <MessageCircle className="w-4 h-4" />

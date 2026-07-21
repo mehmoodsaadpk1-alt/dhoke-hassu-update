@@ -1,5 +1,6 @@
 import { supabase } from '../utils/supabaseClient';
 import { videoStorageProvider } from './VideoStorageProvider';
+import { analytics } from './AnalyticsService';
 
 export type VideoType = 'video' | 'short' | 'live_stream';
 
@@ -66,6 +67,22 @@ class VideoService {
   async createVideoRecord(videoData: VideoMetadata) {
     const { data, error } = await supabase.from('videos').insert(videoData).select().single();
     if (error) throw error;
+    
+    try {
+      analytics.track('video_upload', {
+        entity_type: 'video',
+        entity_id: data.id,
+        module: 'videos',
+        metadata: {
+          title: videoData.title,
+          user_id: videoData.user_id,
+          type: videoData.type
+        }
+      });
+    } catch (err) {
+      console.warn('Analytics tracking failed for video_upload', err);
+    }
+    
     return data;
   }
 

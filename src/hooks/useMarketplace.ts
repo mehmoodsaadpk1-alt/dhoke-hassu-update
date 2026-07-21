@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
+import { supabase, isSupabaseConfigured } from '../utils/supabaseClient';
+import { useAuth } from '../context/AuthContext';
+import { analytics } from '../services/AnalyticsService';
+
+const viewedMarketplaceItems = new Set<string>();
+
 import { MarketplaceItem, ItemImage, ItemChat, User } from '../types';
 import {
-  supabase,
-  isSupabaseConfigured,
   dbGetMarketplaceListings,
   dbSaveMarketplaceListing,
   dbDeleteMarketplaceListing,
@@ -209,6 +213,15 @@ export function useMarketplace(currentUser: User | null) {
           }
         }
         await fetchItems();
+        analytics.track("listing_create", { entity_type: 'unknown',
+          module: "marketplace",
+          entity_id: data.id,
+          metadata: {
+            category: itemToSave.category,
+            has_images: uploadedUrls.length > 0,
+            price_type: itemToSave.price ? 'fixed' : (itemToSave.priceText || 'free')
+          }
+        });
         return true;
       } catch (err) {
         console.error("Exception creating marketplace item:", err);
@@ -249,6 +262,15 @@ export function useMarketplace(currentUser: User | null) {
       const updated = [offlineItem, ...items];
       localStorage.setItem('dhoke_marketplace_listings', JSON.stringify(updated));
       setItems(updated);
+      analytics.track("listing_create", { entity_type: 'unknown',
+        module: "marketplace",
+        entity_id: newItemId!,
+        metadata: {
+          category: itemToSave.category,
+          has_images: images.length > 0,
+          price_type: itemToSave.price ? 'fixed' : (itemToSave.priceText || 'free')
+        }
+      });
       return true;
     }
   };
@@ -363,12 +385,14 @@ export function useMarketplace(currentUser: User | null) {
       const success = await dbToggleItemFavorite(currentUser.id!, itemId, !isFav);
       if (success) {
         setFavorites(newFavorites);
+        analytics.track(isFav ? "listing_unsave" : "listing_save", { entity_type: 'unknown', module: "marketplace", entity_id: itemId });
         return true;
       }
       return false;
     } else {
       localStorage.setItem(`dhoke_favs_${currentUser.id}`, JSON.stringify(newFavorites));
       setFavorites(newFavorites);
+      analytics.track(isFav ? "listing_unsave" : "listing_save", { entity_type: 'unknown', module: "marketplace", entity_id: itemId });
       return true;
     }
   };
@@ -419,6 +443,14 @@ export function useMarketplace(currentUser: User | null) {
 
   // Increment views
   const incrementViews = async (itemId: string) => {
+    if (viewedMarketplaceItems.has(itemId)) return;
+    viewedMarketplaceItems.add(itemId);
+    
+    analytics.track("listing_view", { entity_type: 'unknown',
+      module: "marketplace",
+      entity_id: itemId
+    });
+
     if (isSupabaseConfigured && supabase) {
       await dbIncrementItemViews(itemId);
     } else {

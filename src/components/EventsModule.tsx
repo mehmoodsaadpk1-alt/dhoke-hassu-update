@@ -35,6 +35,11 @@ import {
   Upload
 } from 'lucide-react';
 import { EventItem, Language, User, EventAttendee } from '../types';
+import AdBannerCard from './AdBannerCard';
+import { useAdRotator } from '../hooks/useAdRotator';
+import { analytics } from '../services/AnalyticsService';
+
+const viewedEvents = new Set<string>();
 import { isUserAdminOrModerator } from './AlertsModule';
 import { getCurrentUserLocation } from '../utils/locationService';
 
@@ -254,10 +259,14 @@ export default function EventsModule({
             availableSeats: (item.availableSeats !== undefined ? item.availableSeats : (item.maxAttendees || 100)) + 1
           };
         }
-        return item;
       });
       onUpdateEvents(updated);
       showToast(isEn ? "Registration cancelled." : "رجسٹریشن منسوخ کر دی گئی۔");
+
+      analytics.track("event_rsvp_cancel", { entity_type: 'event',
+        module: "events",
+        entity_id: event.id
+      });
     } else {
       // Register
       const maxLimit = event.maxAttendees || 100;
@@ -282,10 +291,14 @@ export default function EventsModule({
             availableSeats: Math.max(0, maxLimit - updatedAttendees.length)
           };
         }
-        return item;
       });
       onUpdateEvents(updated);
       showToast(isEn ? "Successfully registered for event!" : "تقریب کے لیے کامیابی سے رجسٹر ہو گئے!");
+
+      analytics.track("event_join", { entity_type: 'event',
+        module: "events",
+        entity_id: event.id
+      });
     }
   };
 
@@ -370,6 +383,15 @@ export default function EventsModule({
         created_at: new Date().toISOString()
       };
       onAddEvent(newEvent);
+
+      analytics.track("event_create", { entity_type: 'event',
+        module: "events",
+        entity_id: newEvent.id,
+        metadata: {
+          category: newEvent.category,
+          location: newEvent.area || 'unknown'
+        }
+      });
     }
 
     setEditingEventId(null);
@@ -487,11 +509,20 @@ export default function EventsModule({
   };
 
   // Copy share Link
-  const handleCopyLink = (id: string, e?: React.MouseEvent) => {
+  const handleCopyLink = async (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    const link = `${window.location.origin}/events/detail?eventId=${id}`;
-    navigator.clipboard.writeText(link);
-    showToast(isEn ? "Event link copied to clipboard!" : "لنک کاپی ہو گیا!");
+    const url = `${window.location.origin}/events/detail?eventId=${id}`;    
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast(isEn ? 'Link copied to clipboard!' : 'لنک کاپی ہو گیا!');
+      
+      analytics.track("event_share", { entity_type: 'event',
+        module: "events",
+        entity_id: id
+      });
+    } catch (err) {
+       console.error("Failed to copy:", err);
+    }
   };
 
   // Report Event
@@ -504,6 +535,7 @@ export default function EventsModule({
 
   // Filter logic
   const filteredEvents = events.filter(event => {
+    // Admin override - hide reported items for regular users
     if (event.reported && !isAdmin) return false;
 
     const matchesCategory = selectedCategory === 'All' || event.category === selectedCategory;
@@ -551,6 +583,16 @@ export default function EventsModule({
   });
 
   const selectedEvent = events.find(e => e.id === selectedEventId);
+
+  if (activeView === 'detail' && selectedEvent) {
+    if (!viewedEvents.has(selectedEvent.id)) {
+      viewedEvents.add(selectedEvent.id);
+      analytics.track("event_view", { entity_type: 'event',
+        module: "events",
+        entity_id: selectedEvent.id
+      });
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8" id="events-module-root">
@@ -750,6 +792,7 @@ export default function EventsModule({
                 const isSaved = savedEventIds.includes(event.id);
                 const registered = isUserRegistered(event);
                 const regCount = (event.attendees || []).length;
+                const isMobile = window.innerWidth <= 768;
                 const isFull = regCount >= (event.maxAttendees || 100);
 
                 return (

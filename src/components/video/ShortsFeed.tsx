@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { dbGetShorts, dbToggleLike } from '../../utils/supabaseClient';
 import { videoService } from '../../services/VideoService';
+import { analytics } from '../../services/AnalyticsService';
 import { ShortsCard } from './ShortsCard';
 import { ShortsLoader } from './ShortsLoader';
 import { ShortsComments } from './ShortsComments';
@@ -119,6 +121,10 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
       throw new Error("User not logged in");
     }
     await videoService[like ? 'likeVideo' : 'unlikeVideo'](videoId, currentUserId);
+    analytics.track(like ? "video_like" : "video_unlike", { entity_type: 'video',
+      module: "videos",
+      entity_id: videoId
+    });
   }, [currentUserId]);
 
   const handleSave = useCallback(async (videoId: string, save: boolean) => {

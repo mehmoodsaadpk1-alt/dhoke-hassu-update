@@ -28,6 +28,9 @@ import {
   PlusCircle, 
   X,
   Plus,
+} from 'lucide-react';
+import { analytics } from '../services/AnalyticsService';
+import { 
   Wrench,
   Bell,
   ChevronLeft,
@@ -2033,6 +2036,23 @@ export default function AppShell({
     // Sync with actual DB count
     setLikedPosts(prev => ({ ...prev, [postId]: liked }));
     setPostLikes(prev => ({ ...prev, [postId]: likeCount }));
+
+    // Track analytics only if the state actually changed successfully in the DB
+    if (liked !== currentlyLiked) {
+      if (liked) {
+        analytics.track("post_like", { entity_type: 'post',
+          module: "feed",
+          entity_id: postId,
+          metadata: { action: "like" }
+        });
+      } else {
+        analytics.track("post_unlike", { entity_type: 'post',
+          module: "feed",
+          entity_id: postId,
+          metadata: { action: "unlike" }
+        });
+      }
+    }
   };
 
   const handleInlineVote = async (pollId: string, optionId: string) => {
@@ -2113,6 +2133,16 @@ export default function AppShell({
       content: text,
       time: 'Just now'
     };
+
+    analytics.track("post_comment", { entity_type: 'post',
+      module: "feed",
+      entity_id: postId,
+      metadata: {
+        comment_id: newComment.id,
+        has_media: false,
+        comment_length: text.length
+      }
+    });
 
     setPosts(prevPosts => prevPosts.map(post => {
       if (post.id === postId) {
@@ -2447,6 +2477,20 @@ export default function AppShell({
 
       const success = await dbSavePost(newPostPayload);
       if (success || !isSupabaseConfigured) {
+
+        analytics.track("post_create", { entity_type: 'post',
+          module: "feed",
+          entity_id: newPostPayload.id,
+          metadata: {
+            post_type: composerPostType,
+            media_count: (imageUrl ? 1 : 0) + (videoUrl ? 1 : 0),
+            has_image: !!imageUrl,
+            has_video: !!videoUrl,
+            has_location: !!composerLocation,
+            visibility: "public"
+          }
+        });
+
         const localNewPost: Post = {
           id: newPostPayload.id,
           author: user.fullName || 'Neighbor',

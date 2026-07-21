@@ -234,9 +234,17 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
       // Rollback optimistic update on failure
       setChatMessages(prev => prev.filter(m => m.id !== optimisticMsg.id));
       setNewMsgText(txt);
-    } else if (!isSupabaseConfigured) {
-      // In offline mode, replace optimistic with persisted version
-      setChatMessages(getOfflineChats(selectedItemId));
+    } else {
+      if (chatMessages.length === 0) {
+        analytics.track("marketplace_chat_start", { entity_type: 'listing',
+          module: "marketplace",
+          entity_id: selectedItemId
+        });
+      }
+      if (!isSupabaseConfigured) {
+        // In offline mode, replace optimistic with persisted version
+        setChatMessages(getOfflineChats(selectedItemId));
+      }
     }
     // In Supabase mode, the realtime subscription will receive the actual INSERT
     // and deduplicate/replace the optimistic message naturally.
@@ -855,6 +863,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   <a
                     href={`tel:${selectedItem.location}`}
                     className="p-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg"
+                    onClick={() => analytics.track("seller_contact", { entity_type: 'listing', module: "marketplace", entity_id: selectedItem.id, metadata: { contact_type: 'phone' }})}
                   >
                     <Phone className="w-4 h-4" />
                   </a>
@@ -863,6 +872,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     target="_blank"
                     rel="noreferrer"
                     className="p-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-lg"
+                    onClick={() => analytics.track("seller_contact", { entity_type: 'listing', module: "marketplace", entity_id: selectedItem.id, metadata: { contact_type: 'whatsapp' }})}
                   >
                     <Send className="w-4 h-4 rotate-45" />
                   </a>

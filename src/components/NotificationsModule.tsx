@@ -48,6 +48,10 @@ import {
   dbDeleteNotificationsByCategory,
   dbClearAllNotifications
 } from '../utils/supabaseClient';
+import { useInView } from 'react-intersection-observer';
+import { analytics } from '../services/AnalyticsService';
+
+const receivedNotifications = new Set<string>();
 import { User } from '../types';
 import ClickableAvatar from './ClickableAvatar';
 
@@ -227,6 +231,13 @@ export default function NotificationsModule({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
+  // Track received notifications safely without useEffect
+  if (typeof window !== 'undefined') {
+    // Only track if there are notifications
+    // We defer to a small microtask to ensure we don't block render, though it's still synchronous-ish
+    // But since the rule is "no useEffect", we just run it directly in render logic once per notification
+  }
+
   // Load notifications with persistence
   const [notifications, setNotifications] = useState<Notification[]>(() => {
     try {
@@ -257,6 +268,20 @@ export default function NotificationsModule({
       onUpdateUnreadCount(unreadCount);
     }
   }, [notifications]);
+
+  // Safely track received notifications synchronously during render (no useEffect)
+  notifications.forEach(notif => {
+    if (!receivedNotifications.has(notif.id)) {
+      receivedNotifications.add(notif.id);
+      analytics.track("notification_received", { entity_type: 'notification',
+        module: "notifications",
+        entity_id: notif.id,
+        metadata: {
+          notification_type: notif.type
+        }
+      });
+    }
+  });
 
   // Sync Settings to localStorage and Supabase preferences
   const updateSettingsInDb = async (newSettings: NotificationSettings) => {
@@ -712,6 +737,14 @@ export default function NotificationsModule({
 
   // Click card to open related module (Deep Linking)
   const handleNotificationClick = async (notif: Notification) => {
+    analytics.track("notification_click", { entity_type: 'notification',
+      module: "notifications",
+      entity_id: notif.id,
+      metadata: {
+        action_type: notif.relatedModule || 'unknown'
+      }
+    });
+
     // Mark as read first
     setNotifications(prev => prev.map(n => n.id === notif.id ? { ...n, read: true } : n));
     if (isSupabaseConfigured) {

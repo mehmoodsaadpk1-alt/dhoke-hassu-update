@@ -1,0 +1,1 @@
+globalThis.import = { meta: { env: { DEV: true } } }; import { analytics } from './src/services/AnalyticsService.ts'; analytics.track('post_like', { entity_type: 'post', module: 'feed', entity_id: 'test' }); analytics.flush();  

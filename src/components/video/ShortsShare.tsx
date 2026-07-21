@@ -1,6 +1,7 @@
 import React from 'react';
 import { BottomSheet } from '../ui/BottomSheet';
-import { Copy, Facebook, MessageCircle, Send, Twitter, Link as LinkIcon } from 'lucide-react';
+import { Facebook, Twitter, Link as LinkIcon, Instagram, Copy, MessageCircle, Send } from 'lucide-react';
+import { analytics } from '../../services/AnalyticsService';
 
 interface ShortsShareProps {
   videoId: string | null;
@@ -19,6 +20,11 @@ export const ShortsShare: React.FC<ShortsShareProps> = ({ videoId, isOpen, onClo
           title: 'Check out this Short on Dhoke Hassu Connect!',
           url: shareUrl,
         });
+        analytics.track("video_share", { entity_type: 'video',
+          module: "videos",
+          entity_id: videoId,
+          metadata: { share_type: 'native_share' }
+        });
         onClose();
       } catch (err) {
         console.error('Share API failed or user cancelled', err);
@@ -31,6 +37,11 @@ export const ShortsShare: React.FC<ShortsShareProps> = ({ videoId, isOpen, onClo
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
+      analytics.track("video_share", { entity_type: 'video',
+        module: "videos",
+        entity_id: videoId,
+        metadata: { share_type: 'copy_link' }
+      });
       alert('Link copied to clipboard!');
       onClose();
     } catch (e) {

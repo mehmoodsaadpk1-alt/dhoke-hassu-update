@@ -12,7 +12,9 @@ const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
 import { translations } from './translations';
 import { Globe, ArrowLeft, KeyRound, CheckCircle } from 'lucide-react';
 import { supabase, isSupabaseConfigured, dbSaveUserProfile } from './utils/supabaseClient';
+import { analytics } from './services/AnalyticsService';
 import LocationSetupWizard from './components/LocationSetupWizard';
+import AnalyticsDebugPanel from './components/AnalyticsDebugPanel';
 
 export default function App() {
   console.log('App rendered');
@@ -182,6 +184,7 @@ export default function App() {
           if (session && session.user) {
             const profile = await syncUserProfile(session.user);
             if (profile) {
+              analytics.identify(session.user.id);
               setUser(profile);
               setAuthState('LOGGED_IN');
               if (hasCode) {
@@ -200,12 +203,14 @@ export default function App() {
               console.error("Auth session not retrieved despite having OAuth callback code");
               window.history.replaceState({}, document.title, window.location.pathname);
               setUser(null);
+              analytics.reset();
               setAuthState('LOGIN');
             }
           }
         } catch (err) {
           console.error("Error restoring session:", err);
           setUser(null);
+          analytics.reset();
           setAuthState('LOGIN');
         } finally {
           setIsAuthLoading(false);
@@ -223,9 +228,10 @@ export default function App() {
         try {
           if (event === 'PASSWORD_RECOVERY') {
             setAuthState('RESET_PASSWORD');
-          } else if (event === 'SIGNED_IN' && session) {
+          } else if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session) {
             const profile = await syncUserProfile(session.user);
             if (profile) {
+              analytics.identify(session.user.id);
               setUser(profile);
               setAuthState('LOGGED_IN');
             } else {
@@ -236,11 +242,13 @@ export default function App() {
             }
           } else if (event === 'SIGNED_OUT') {
             setUser(null);
+            analytics.reset();
             setAuthState('LOGIN');
           }
         } catch (err) {
           console.error("Exception in auth state change handler:", err);
           setUser(null);
+          analytics.reset();
           setAuthState('LOGIN');
         }
       });
@@ -343,6 +351,8 @@ export default function App() {
   const t = translations[currentLanguage];
 
   const handleLoginSuccess = (loggedInUser: User) => {
+    analytics.identify(loggedInUser.id);
+    analytics.track('user_login', { entity_type: 'user', module: 'Auth' });
     setUser(loggedInUser);
     setAuthState('LOGGED_IN');
     
@@ -359,11 +369,17 @@ export default function App() {
   };
 
   const handleSignupSuccess = (registeredUser: User) => {
+    analytics.identify(registeredUser.id);
+    analytics.track('user_signup', { entity_type: 'user', module: 'Auth' });
     setUser(registeredUser);
     setAuthState('LOGGED_IN');
   };
 
   const handleLogout = async () => {
+    analytics.track('user_logout', { entity_type: 'user', module: 'Auth' });
+    analytics.flush();
+    analytics.reset();
+
     if (isSupabaseConfigured && supabase) {
       try {
         await supabase.auth.signOut();
@@ -403,6 +419,8 @@ export default function App() {
     }
 
     setForgotError('');
+
+    analytics.track('forgot_password', { entity_type: 'user', module: 'Auth' });
 
     if (!isSupabaseConfigured || !supabase) {
       setForgotError('Supabase is not configured.');
@@ -694,6 +712,9 @@ export default function App() {
           />
         </>
       )}
+
+      {/* Developer Analytics Debug Panel */}
+      <AnalyticsDebugPanel />
     </div>
   );
 }
