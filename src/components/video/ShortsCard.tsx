@@ -5,6 +5,7 @@ import { VideoPlayer } from './VideoPlayer';
 import { useVideoPreload } from '../../hooks/useVideoPreload';
 import { CheckCircle2, Music, Hash, Eye } from 'lucide-react';
 import { analytics } from '../../services/AnalyticsService';
+import { getOptimizedVideoUrl } from '../../utils/cloudinary';
 
 const viewedVideosInSession = new Set<string>();
 
@@ -49,6 +50,11 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
   const [followStatus, setFollowStatus] = useState<'following' | 'requested' | 'none' | 'blocked'>('none');
   const [isFollowLoading, setIsFollowLoading] = useState(false);
 
+  // We optimize the video url here so the preloader fetches exactly what the player uses
+  const optimizedUrl = React.useMemo(() => getOptimizedVideoUrl(video.video_url), [video.video_url]);
+  
+  const { shouldMountVideo, preloadType } = useVideoPreload(optimizedUrl, index, activeIndex);
+
   useEffect(() => {
     setLocalLike(!!video.hasLiked);
   }, [video.hasLiked]);
@@ -92,7 +98,6 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
     }
   };
 
-  const { shouldMountVideo, preloadType } = useVideoPreload(index, activeIndex);
 
   const handleDoubleTap = () => {
     if (!localLike) {
@@ -257,6 +262,14 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
       </div>
     </div>
   );
+}, (prevProps, nextProps) => {
+  return prevProps.isActive === nextProps.isActive &&
+         prevProps.isMuted === nextProps.isMuted &&
+         prevProps.index === nextProps.index &&
+         prevProps.activeIndex === nextProps.activeIndex &&
+         prevProps.video.id === nextProps.video.id &&
+         prevProps.video.comments_count === nextProps.video.comments_count &&
+         prevProps.video.hasSaved === nextProps.video.hasSaved;
 });
 
 ShortsCard.displayName = 'ShortsCard';

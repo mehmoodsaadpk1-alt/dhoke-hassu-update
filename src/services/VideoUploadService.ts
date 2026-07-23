@@ -1,6 +1,7 @@
 import { videoProcessingService } from './VideoProcessingService';
 import { videoStorageProvider, StorageUploadResult } from './VideoStorageProvider';
 import { videoService, VideoMetadata, UploadStage } from './VideoService';
+import { UploadSummaryLogger, CompressionResult } from '../utils/UploadSummaryLogger';
 
 export interface UploadParams {
   userId: string;
@@ -13,7 +14,11 @@ export interface UploadParams {
   onStageChange?: (stage: UploadStage) => void;
 }
 
-const COMPRESSION_THRESHOLD = 30 * 1024 * 1024; // 30MB
+const COMPRESSION_THRESHOLD = 20 * 1024 * 1024; // 20MB
+
+// Temporary workaround: Disable video compression until FFmpeg initialization is fixed.
+// Change this to true to re-enable compression without any further code changes.
+const ENABLE_VIDEO_COMPRESSION = true;
 
 export class VideoUploadService {
   /**
@@ -34,8 +39,11 @@ export class VideoUploadService {
 
     try {
       checkAbort();
-      onStageChange?.('Generating Thumbnail');
+      onStageChange?.('Preparing video');
       onProgress?.(0);
+
+      console.log(`[VideoUploadService] Starting upload pipeline for: ${file.name}`);
+      console.log(`[VideoUploadService] Original File Size: ${(file.size / (1024 * 1024)).toFixed(2)} MB`);
 
       // 1. Generate Thumbnail and Extract Metadata
       const { blob: thumbnailBlob, duration, width, height } = await videoProcessingService.generateThumbnail(file);
@@ -44,19 +52,29 @@ export class VideoUploadService {
       checkAbort();
 
       // 2. Conditional Compression
-      let videoToUpload: File | Blob = file;
-      let finalSize = file.size;
-      let compressionRatio = 1;
-
-      if (file.size > COMPRESSION_THRESHOLD) {
-        onStageChange?.('Compressing');
-        videoToUpload = await videoProcessingService.compressVideo(file, (p) => {
+      let compressionResult;
+      
+      if (ENABLE_VIDEO_COMPRESSION && file.size > COMPRESSION_THRESHOLD) {
+        onStageChange?.('Compressing video');
+        compressionResult = await videoProcessingService.compressVideo(file, (p) => {
           checkAbort();
-          // We intentionally don't report compression progress on the upload progress bar
-          // to keep it purely for the upload phase as requested.
+          onProgress?.(p);
         });
-        finalSize = videoToUpload.size;
-        compressionRatio = file.size / finalSize;
+      } else {
+        const fallbackReason = !ENABLE_VIDEO_COMPRESSION ? 'Compression disabled globally' : 'File too small (< 20MB)';
+        compressionResult = {
+          originalFile: file,
+          processedFile: file,
+          compressionUsed: false,
+          originalSize: file.size,
+          processedSize: file.size,
+          bytesSaved: 0,
+          compressionRatio: 1,
+          compressionTimeMs: 0,
+          fallbackReason,
+          ffmpegInitialized: false,
+          ffmpegLoadTimeMs: 0
+        };
       }
 
       checkAbort();
@@ -71,7 +89,7 @@ export class VideoUploadService {
       checkAbort();
 
       // 4. Upload Video
-      const videoResult = await videoStorageProvider.uploadVideo(userId, videoToUpload as File, (p) => {
+      const videoResult = await videoStorageProvider.uploadVideo(userId, compressionResult.processedFile, (p) => {
         checkAbort();
         onProgress?.(p);
       });
@@ -93,14 +111,16 @@ export class VideoUploadService {
         duration: Math.round(duration),
         width: Math.round(width),
         height: Math.round(height),
-        size: finalSize,
+        size: compressionResult.processedSize,
         encoding_status: 'completed',
-        compression_ratio: Number(compressionRatio.toFixed(2)),
-        mime_type: videoToUpload.type || 'video/mp4',
+        compression_ratio: Number(compressionResult.compressionRatio.toFixed(2)),
+        mime_type: compressionResult.processedFile.type || 'video/mp4',
         visibility: 'public'
       };
       
       await videoService.createVideoRecord(meta);
+
+      UploadSummaryLogger.printSummary(compressionResult as CompressionResult, videoResult.url);
 
       onStageChange?.('Completed');
       onProgress?.(100);

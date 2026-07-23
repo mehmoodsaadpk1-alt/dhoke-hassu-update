@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, PictureInPicture, Heart, AlertCircle, RefreshCw } from 'lucide-react';
 import { videoAnalyticsService } from '../../services/VideoAnalyticsService';
+import { getOptimizedVideoUrl } from '../../utils/cloudinary';
 import { videoCacheService } from '../../services/VideoCacheService';
 import { analytics } from '../../services/AnalyticsService';
 
@@ -66,7 +67,9 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   const [showControls, setShowControls] = useState(true);
   
   const [hasError, setHasError] = useState(false);
-  const [cachedUrl, setCachedUrl] = useState<string>(src);
+  const optimizedInitialSrc = useMemo(() => getOptimizedVideoUrl(src), [src]);
+  const [cachedUrl, setCachedUrl] = useState<string>(optimizedInitialSrc);
+  const [activeSrc, setActiveSrc] = useState<string>('');
   const [visibilityRatio, setVisibilityRatio] = useState(0);
 
   const localPlaySession = useRef({
@@ -102,11 +105,17 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   // Initialize Cached URL
   useEffect(() => {
     let mounted = true;
-    videoCacheService.getCachedVideoUrl(src).then(url => {
+    
+    videoCacheService.getCachedVideoUrl(optimizedInitialSrc).then(url => {
+      console.log('--- Video Playback Flow Trace ---');
+      console.log('Original URL:', src);
+      console.log('Optimized URL:', optimizedInitialSrc);
+      console.log('Final URL assigned to <video>:', url);
       if (mounted) setCachedUrl(url);
     });
+
     return () => { mounted = false; };
-  }, [src]);
+  }, [src, optimizedInitialSrc]);
 
   // Analytics Tracking Session
   useEffect(() => {
@@ -130,6 +139,33 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
     );
     observer.observe(containerRef.current);
     return () => observer.disconnect();
+  }, []);
+
+  // Memory and Network Resource Release
+  useEffect(() => {
+    const isVisible = visibilityRatio > 0 || (isActive === true);
+    if (isVisible && cachedUrl) {
+      setActiveSrc(cachedUrl);
+    } else {
+      setActiveSrc('');
+      if (videoRef.current) {
+        if (!videoRef.current.paused) videoRef.current.pause();
+        videoRef.current.removeAttribute('src');
+        videoRef.current.load();
+      }
+    }
+  }, [visibilityRatio, isActive, cachedUrl]);
+
+  // Global Play Lock (Ensure only 1 video plays globally)
+  useEffect(() => {
+    const handleGlobalPlay = (e: Event) => {
+      const target = e.target as HTMLVideoElement;
+      if (videoRef.current && target !== videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+      }
+    };
+    document.addEventListener('play', handleGlobalPlay, true);
+    return () => document.removeEventListener('play', handleGlobalPlay, true);
   }, []);
 
   // View Eligibility Loop
@@ -267,7 +303,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
         const prevAccumulated = state.accumulatedSeconds;
         state.accumulatedSeconds += delta;
         
-        if (Math.floor(state.accumulatedSeconds) > Math.floor(prevAccumulated)) {
+        const prevBucket = Math.floor(prevAccumulated / 5);
+        const currBucket = Math.floor(state.accumulatedSeconds / 5);
+        
+        if (currBucket > prevBucket) {
           analytics.track("video_watch_time", { entity_type: 'video',
             module: "videos",
             entity_id: videoId,
@@ -317,7 +356,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       setIsPlaying(false);
       videoAnalyticsService.reportEvent(videoId, 'complete');
       // Background Cache
-      videoCacheService.cacheCompletedVideo(src).catch(console.error);
+      videoCacheService.cacheCompletedVideo(cachedUrl).catch(console.error);
       reportWatchTime(video.duration);
       localPlaySession.current.isPlaying = false;
     };
@@ -496,7 +535,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       {!hasError && (
         <video
           ref={videoRef}
-          src={cachedUrl}
+          src={activeSrc || undefined}
           poster={poster}
           preload={preloadType}
           className="absolute inset-0 w-full h-full object-contain z-10 block"
@@ -612,6 +651,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
       </div>
     </div>
   );
+}, (prevProps, nextProps) => {
+  return prevProps.videoId === nextProps.videoId &&
+         prevProps.src === nextProps.src &&
+         prevProps.isActive === nextProps.isActive &&
+         prevProps.isMuted === nextProps.isMuted &&
+         prevProps.poster === nextProps.poster;
 });
 
 VideoPlayer.displayName = 'VideoPlayer';

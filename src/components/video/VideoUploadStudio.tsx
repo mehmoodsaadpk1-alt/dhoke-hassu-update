@@ -179,7 +179,8 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
               <div>
                 <h3 className="font-bold text-lg text-gray-800">{stage}</h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  {stage === 'Compressing' ? 'Optimizing video for mobile...' : 
+                  {stage === 'Preparing video' ? 'Extracting metadata...' :
+                   stage === 'Compressing video' ? 'Optimizing video for mobile...' : 
                    stage === 'Saving Database' ? 'Finalizing...' : 
                    'Sending to secure storage...'}
                 </p>

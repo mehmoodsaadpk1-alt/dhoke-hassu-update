@@ -3129,8 +3129,10 @@ export async function dbSavePoll(poll: Poll): Promise<boolean> {
 
     if (schema.columns.includes('title')) {
       pollPayload.title = poll.title;
-    } else if (schema.columns.includes('question')) {
-      pollPayload.question = poll.title || (poll as any).question; // Map title to question if legacy schema
+    }
+    
+    if (schema.columns.includes('question')) {
+      pollPayload.question = poll.title || (poll as any).question || '';
     }
 
     if (schema.columns.includes('description')) {
@@ -3225,8 +3227,9 @@ export async function dbSavePoll(poll: Poll): Promise<boolean> {
     // 2. Save options to dedicated poll_options table only if it exists
     if (schema.hasOptionsTable && poll.options && Array.isArray(poll.options)) {
       for (const opt of poll.options) {
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(opt.id || '');
         const optionPayload = {
-          id: opt.id || undefined, // let DB generate UUID if not exists
+          id: isUuid ? opt.id : undefined, // let DB generate UUID if temporary ID
           poll_id: poll.id,
           option_text: typeof opt === 'string' ? opt : opt.option_text,
           votes_count: opt.votes_count || 0
@@ -5405,16 +5408,35 @@ export async function dbUnblockUser(blockerId: string, blockedId: string): Promi
   } catch (err) { return false; }
 }
 
+const followStatusCache = new Map<string, { promise: Promise<'following' | 'requested' | 'none' | 'blocked'>, timestamp: number }>();
+const FOLLOW_STATUS_CACHE_TTL = 30000; // 30 seconds
+
 export async function dbGetFollowStatus(viewerId: string, targetId: string): Promise<'following' | 'requested' | 'none' | 'blocked'> {
   if (!supabase) return 'none';
   if (viewerId === targetId) return 'none';
-  try {
-    const { data: block } = await supabase.from('user_blocks').select('id').or(`and(blocker_id.eq.${viewerId},blocked_id.eq.${targetId}),and(blocker_id.eq.${targetId},blocked_id.eq.${viewerId})`).maybeSingle();
-    if (block) return 'blocked';
+  
+  const cacheKey = `${viewerId}_${targetId}`;
+  const now = Date.now();
+  const cached = followStatusCache.get(cacheKey);
+  
+  if (cached && (now - cached.timestamp < FOLLOW_STATUS_CACHE_TTL)) {
+    return cached.promise;
+  }
+  
+  const promise = (async () => {
+    try {
+      const { data: block } = await supabase.from('user_blocks').select('id').or(`and(blocker_id.eq.${viewerId},blocked_id.eq.${targetId}),and(blocker_id.eq.${targetId},blocked_id.eq.${viewerId})`).maybeSingle();
+      if (block) return 'blocked' as const;
 
-    const { data } = await supabase.from('followers').select('status').eq('follower_id', viewerId).eq('following_id', targetId).maybeSingle();
-    return data ? (data.status as 'following' | 'requested') : 'none';
-  } catch (err) { return 'none'; }
+      const { data } = await supabase.from('followers').select('status').eq('follower_id', viewerId).eq('following_id', targetId).maybeSingle();
+      return data ? (data.status as 'following' | 'requested') : 'none';
+    } catch (err) { 
+      return 'none' as const; 
+    }
+  })();
+  
+  followStatusCache.set(cacheKey, { promise, timestamp: now });
+  return promise;
 }
 
 export async function dbGetFollowRequests(userId: string) {

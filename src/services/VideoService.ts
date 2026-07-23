@@ -45,7 +45,7 @@ export interface VideoComment {
   };
 }
 
-export type UploadStage = 'Queued' | 'Compressing' | 'Uploading' | 'Generating Thumbnail' | 'Saving Database' | 'Completed' | 'Failed' | 'Cancelled';
+export type UploadStage = 'Queued' | 'Preparing video' | 'Compressing video' | 'Uploading' | 'Saving Database' | 'Completed' | 'Failed' | 'Cancelled';
 
 class VideoService {
   /**

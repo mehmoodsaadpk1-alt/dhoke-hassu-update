@@ -54,7 +54,11 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
   const [allowComments, setAllowComments] = useState(true);
   const [showLiveResults, setShowLiveResults] = useState(true);
   const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState(() => {
+    const d = new Date(Date.now() + 7 * 24 * 3600000);
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - tz).toISOString().slice(0, 16);
+  });
   const [publishImmediately, setPublishImmediately] = useState(true);
   const [featured, setFeatured] = useState(false);
   const [priority, setPriority] = useState<'Low' | 'Normal' | 'High' | 'Premium'>('Normal');
@@ -176,6 +180,15 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
       console.groupEnd();
       console.groupEnd();
       alert('Poll validation failed. Minimum two options are required.');
+      return;
+    }
+
+    if (endDate && new Date(endDate) <= new Date()) {
+      console.group("Poll Creation Error");
+      console.error("Validation Error: Expiration date must be in the future.");
+      console.groupEnd();
+      console.groupEnd();
+      alert('Expiration date must be in the future.');
       return;
     }
 

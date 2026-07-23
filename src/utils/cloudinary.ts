@@ -84,3 +84,60 @@ export async function deleteMedia(publicId: string, resourceType: 'image' | 'vid
     return false;
   }
 }
+
+/**
+ * Generates an optimized Cloudinary delivery URL for videos.
+ * Uses Cloudinary transformations to optimize video delivery without altering the original file.
+ * - q_auto:good: Adjusts quality for mobile viewing without heavy artifacts.
+ * - f_auto: Automatically selects the most optimal video format for the requesting browser.
+ * - vc_auto: Automatically selects best video codec.
+ * - fl_progressive: Progressive delivery for faster start times.
+ */
+export function getOptimizedVideoUrl(url: string | null | undefined): string {
+  if (!url || typeof url !== 'string') return '';
+  
+  // Only process Cloudinary URLs
+  if (!url.includes('cloudinary.com') || !url.includes('/video/upload/')) {
+    return url;
+  }
+
+  // Detect network quality
+  let qualityTransform = 'q_auto:best,f_auto,w_1080,c_limit'; // Fast network default
+  
+  if (typeof navigator !== 'undefined' && 'connection' in navigator) {
+    const conn = (navigator as any).connection;
+    if (conn && conn.effectiveType) {
+      if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
+        qualityTransform = 'q_auto:low,f_auto,w_480,c_limit';
+      } else if (conn.effectiveType === '3g') {
+        qualityTransform = 'q_auto,f_auto,w_720,c_limit';
+      }
+    }
+  }
+
+  const uploadSegment = '/upload/';
+  const uploadIndex = url.indexOf(uploadSegment);
+  
+  if (uploadIndex === -1) return url;
+
+  // Split the URL to inject/replace transformations
+  const prefix = url.substring(0, uploadIndex + uploadSegment.length);
+  const remainder = url.substring(uploadIndex + uploadSegment.length);
+
+  const segments = remainder.split('/');
+  
+  // Strip out any existing transformation blocks at the beginning of the remainder
+  // Cloudinary transformations are comma-separated and usually contain q_, f_, w_, c_, etc.
+  while (segments.length > 1) {
+    const isTransformBlock = segments[0].split(',').some(part => 
+      part.startsWith('q_') || part.startsWith('f_') || part.startsWith('w_') || part.startsWith('c_')
+    );
+    if (isTransformBlock) {
+      segments.shift();
+    } else {
+      break;
+    }
+  }
+
+  return `${prefix}${qualityTransform}/${segments.join('/')}`;
+}

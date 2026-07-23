@@ -11,6 +11,7 @@ import { analytics } from '../services/AnalyticsService';
 const viewedPostsInSession = new Set<string>();
 
 interface PostCardProps {
+
   post: any;
   isLiked: boolean;
   likeCount: number;
@@ -24,7 +25,7 @@ interface PostCardProps {
   onShareRequest?: (type: string, id: string, preview?: any) => void;
 }
 
-export default function PostCard({
+const PostCardComponent = ({
   post,
   isLiked,
   likeCount,
@@ -35,7 +36,7 @@ export default function PostCard({
   onImageClick,
   currentLanguage = 'en',
   onShareRequest,
-}: PostCardProps) {
+}: PostCardProps) => {
   const isEn = currentLanguage === 'en';
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentText, setCommentText] = useState('');
@@ -340,4 +341,14 @@ export default function PostCard({
       </FeedCard>
     </div>
   );
-}
+};
+
+export default React.memo(PostCardComponent, (prevProps, nextProps) => {
+  return prevProps.post.id === nextProps.post.id &&
+         prevProps.isLiked === nextProps.isLiked &&
+         prevProps.likeCount === nextProps.likeCount &&
+         prevProps.currentLanguage === nextProps.currentLanguage &&
+         (prevProps.post.commentsCount === nextProps.post.commentsCount || 
+          (prevProps.post.comments?.length === nextProps.post.comments?.length)) &&
+         prevProps.post.viewsCount === nextProps.post.viewsCount;
+});

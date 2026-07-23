@@ -151,6 +151,8 @@ import {
   dbGetUserPostLikes,
   dbGetPostLikeCounts
 } from '../utils/supabaseClient';
+import { getOptimizedVideoUrl } from '../utils/cloudinary';
+import { videoProcessingService } from '../services/VideoProcessingService';
 import { detectBrowserLocation, findNearestArea, STATIC_AREAS } from '../utils/locationService';
 import AdBannerCard from './AdBannerCard';
 import PostComposer from './PostComposer';
@@ -158,7 +160,9 @@ import PostCard from './PostCard';
 import AdminStoryAds from './AdminStoryAds';
 import AdImageViewer from './AdImageViewer';
 import FeedCard from './FeedCard';
+import { FollowListModal } from './FollowListModal';
 import ShareModal, { ShareEntityType } from './ShareModal';
+import { UploadSummaryLogger, CompressionResult } from '../utils/UploadSummaryLogger';
 import { adAnalytics } from '../utils/adAnalytics';
 import { useAdRotator } from '../hooks/useAdRotator';
 const VideosModule = React.lazy(() => import('./video/VideosModule').then(m => ({ default: m.VideosModule })));
@@ -2447,11 +2451,40 @@ export default function AppShell({
 
       let videoUrl = null;
       if (composerVideo) {
+        console.log(`[AppShell] Starting upload pipeline for: ${composerVideo.name}`);
+        console.log(`[AppShell] Original File Size: ${(composerVideo.size / (1024 * 1024)).toFixed(2)} MB`);
+        
+        let compressionResult: CompressionResult;
+
+        if (composerVideo.size > 20 * 1024 * 1024) {
+          setComposerUploadStage('Compressing video');
+          compressionResult = await videoProcessingService.compressVideo(composerVideo, (progress) => {
+            setComposerUploadProgress(Math.round(progress));
+          });
+        } else {
+          compressionResult = {
+            originalFile: composerVideo,
+            processedFile: composerVideo,
+            compressionUsed: false,
+            originalSize: composerVideo.size,
+            processedSize: composerVideo.size,
+            bytesSaved: 0,
+            compressionRatio: 1,
+            compressionTimeMs: 0,
+            fallbackReason: 'File too small (< 20MB)',
+            ffmpegInitialized: false,
+            ffmpegLoadTimeMs: 0
+          };
+        }
+
         setComposerUploadStage('Uploading');
-        videoUrl = await dbUploadPostVideo(composerVideo, (progress) => {
+        setComposerUploadProgress(0); // Reset for upload phase
+        videoUrl = await dbUploadPostVideo(compressionResult.processedFile, (progress) => {
           // Progress from 1 to 100
           setComposerUploadProgress(Math.max(1, Math.round(progress)));
         });
+
+        UploadSummaryLogger.printSummary(compressionResult, videoUrl);
       }
 
       if (composerVideo) setComposerUploadStage('Saving Database');
@@ -3640,7 +3673,7 @@ export default function AppShell({
             ) : story.type === 'video' || story.videoUrl || story.video_url || (story.mediaUrls && story.mediaUrls[0]?.match(/\.(mp4|webm|mov)$/i)) ? (
               <div className="w-full h-full relative">
                 <video 
-                  src={story.videoUrl || story.video_url || story.mediaUrls?.[0] || story.image} 
+                  src={getOptimizedVideoUrl(story.videoUrl || story.video_url || story.mediaUrls?.[0] || story.image)} 
                   autoPlay
                   playsInline
                   loop

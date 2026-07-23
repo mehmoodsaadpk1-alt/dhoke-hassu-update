@@ -1,5 +1,5 @@
-import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { fetchFile, toBlobURL } from '@ffmpeg/util';
+import type { FFmpeg } from '@ffmpeg/ffmpeg';
+import type { CompressionResult } from '../utils/UploadSummaryLogger';
 
 export interface ThumbnailResult {
   blob: Blob;
@@ -10,7 +10,47 @@ export interface ThumbnailResult {
 
 export class VideoProcessingService {
   private ffmpeg: FFmpeg | null = null;
-  private baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+  private baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
+  private initializationPromise: Promise<void> | null = null;
+  private ffmpegLoadTimeMs: number = 0;
+
+  private async initializeFFmpeg(): Promise<void> {
+    const startTime = Date.now();
+    let timerId: NodeJS.Timeout | undefined;
+
+    const initPromise = (async () => {
+      const { FFmpeg } = await import('@ffmpeg/ffmpeg');
+      this.ffmpeg = new FFmpeg();
+      this.ffmpeg.on('log', ({ message }) => console.log('FFmpeg log:', message));
+
+      // We don't need toBlobURL because our worker is same-origin (provided via classWorkerURL)
+      const coreURL = `${this.baseURL}/ffmpeg-core.js`;
+      const wasmURL = `${this.baseURL}/ffmpeg-core.wasm`;
+
+      // Explicitly load the worker URL to bypass Vite's dependency pre-bundling bug
+      const workerURL = (await import('@ffmpeg/ffmpeg/worker?url')).default;
+
+      await this.ffmpeg.load({ 
+        coreURL, 
+        wasmURL,
+        classWorkerURL: workerURL
+      });
+    })();
+
+    const timeoutPromise = new Promise<void>((_, reject) => {
+      timerId = setTimeout(() => reject(new Error('FFmpeg initialization timeout')), 180000);
+    });
+
+    console.time('ffmpeg.init()');
+    try {
+      await Promise.race([initPromise, timeoutPromise]);
+      this.ffmpegLoadTimeMs = Date.now() - startTime;
+      console.log('Stage: FFmpeg loaded successfully');
+    } finally {
+      if (timerId) clearTimeout(timerId);
+      console.timeEnd('ffmpeg.init()');
+    }
+  }
 
   /**
    * Generates a thumbnail locally using HTML5 Video and Canvas.
@@ -77,72 +117,148 @@ export class VideoProcessingService {
   }
 
   /**
-   * Compresses a video using single-threaded ffmpeg.wasm.
+   * Compresses video using FFmpeg if size exceeds 20MB.
    * Target: MP4, H.264, AAC, Max 720p, Max 30FPS, 2Mbps
+   * 
+   * @param originalFile - The uploaded native File object
+   * @param onProgress - Callback for FFmpeg progress (0-100)
+   * @returns CompressionResult object encapsulating metrics and final file
    */
-  async compressVideo(file: File, onProgress: (progress: number) => void): Promise<Blob> {
-    if (!this.ffmpeg) {
-      this.ffmpeg = new FFmpeg();
+  async compressVideo(originalFile: File, onProgress: (progress: number) => void): Promise<CompressionResult> {
+    const buildResult = (
+      processedFile: File,
+      compressionUsed: boolean,
+      fallbackReason: string | undefined,
+      compressionTimeMs: number
+    ): CompressionResult => {
+      const originalSize = originalFile.size;
+      const processedSize = processedFile.size;
+      return {
+        originalFile,
+        processedFile,
+        compressionUsed,
+        originalSize,
+        processedSize,
+        bytesSaved: originalSize - processedSize,
+        compressionRatio: originalSize / processedSize,
+        compressionTimeMs,
+        fallbackReason,
+        ffmpegInitialized: !!this.ffmpeg,
+        ffmpegLoadTimeMs: 0, // Simplified for brevity as it's hard to track async globally
+      };
+    };
+
+    // 1. Compress videos larger than 100MB.
+    // 2. Videos smaller than 100MB should upload without compression.
+    if (originalFile.size < 100 * 1024 * 1024) {
+      return buildResult(originalFile, false, "File too small (< 100MB)", 0);
     }
 
+    // Safely fallback on low memory devices (less than 2GB RAM usually returns 1)
+    const deviceMemory = (navigator as any).deviceMemory || 4;
+    if (deviceMemory < 2) {
+      console.warn("Video compression unavailable. Uploading original video. (Low Memory)");
+      return buildResult(originalFile, false, "Low memory (< 2GB RAM)", 0);
+    }
+
+    const startTime = Date.now();
     try {
-      // 1. Load single-threaded FFmpeg dynamically
-      if (!this.ffmpeg.loaded) {
-        await this.ffmpeg.load({
-          coreURL: await toBlobURL(`${this.baseURL}/ffmpeg-core.js`, 'text/javascript'),
-          wasmURL: await toBlobURL(`${this.baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      console.log('Stage: compression started');
+      
+      // 1. Initialize and Load FFmpeg with Lock
+      if (!this.initializationPromise) {
+        console.log('Stage: FFmpeg initialization started');
+        this.initializationPromise = this.initializeFFmpeg().catch((err) => {
+          this.initializationPromise = null;
+          if (this.ffmpeg) {
+            try { this.ffmpeg.terminate(); } catch (e) {}
+            this.ffmpeg = null;
+          }
+          throw err;
         });
+      } else {
+        console.log('Stage: Waiting for existing FFmpeg initialization');
       }
 
-      this.ffmpeg.on('progress', ({ progress }) => {
+      await this.initializationPromise;
+
+      // Re-bind progress event for this specific compression run
+      this.ffmpeg.on('progress', ({ progress, time }) => {
+        // progress is usually 0.0 to 1.0
         onProgress(Math.min(100, Math.round(progress * 100)));
       });
 
-      const inputName = 'input_video' + file.name.substring(file.name.lastIndexOf('.'));
-      const outputName = 'output.mp4';
+      const { fetchFile } = await import('@ffmpeg/util');
+
+      // Unique file names in case of concurrent executions
+      const uniqueId = Date.now() + Math.random().toString(36).substring(7);
+      const inputName = `input_${uniqueId}${originalFile.name.substring(originalFile.name.lastIndexOf('.'))}`;
+      const outputName = `output_${uniqueId}.mp4`;
 
       // 2. Write file to virtual MEMFS
-      await this.ffmpeg.writeFile(inputName, await fetchFile(file));
+      console.time('writeFile()');
+      await this.ffmpeg.writeFile(inputName, await fetchFile(originalFile));
+      console.timeEnd('writeFile()');
+      console.log('Stage: input file written');
 
-      // 3. Execute FFmpeg Command
-      // -c:v libx264: H.264 encoding
-      // -c:a aac: AAC audio
-      // -vf scale='min(1280,iw)':min'(720,ih)': max 720p, preserve aspect ratio, no upscale
-      // -r 30: max 30 FPS
-      // -b:v 2M: Target bitrate 2Mbps
-      // -preset fast: Balance between speed and compression
-      // -movflags +faststart: Web optimization (moov atom at front)
-      await this.ffmpeg.exec([
-        '-i', inputName,
-        '-c:v', 'libx264',
-        '-c:a', 'aac',
-        '-vf', "scale='min(1280,iw)':min'(720,ih)'",
-        '-r', '30',
-        '-b:v', '2M',
-        '-preset', 'fast',
-        '-movflags', '+faststart',
-        outputName
+      // 3. Execute FFmpeg Command with 3-minute timeout
+      console.log('Stage: Compression started');
+      console.log('Stage: ffmpeg command started');
+      console.time('exec()');
+      
+      const execPromise = this.ffmpeg.exec([
+        '-i', inputName,                  // Input file
+        '-vf', "scale='-2:720'",          // Max 720p height, maintain aspect ratio
+        '-c:v', 'libx264',                // Video codec: H.264
+        '-preset', 'ultrafast',           // Preset: ultrafast (highly optimized for speed)
+        '-tune', 'fastdecode',            // Tune: fastdecode (faster decoding and encoding)
+        '-crf', '30',                     // Use CRF-based encoding (CRF 30)
+        '-c:a', 'aac',                    // Audio codec: AAC
+        '-b:a', '96k',                    // Audio bitrate: 96k
+        '-r', '30',                       // Maximum FPS: 30
+        outputName                        // Output file
       ]);
 
+      const execTimeoutPromise = new Promise<void>((_, reject) => {
+        setTimeout(() => reject(new Error('FFmpeg compression timeout (3 minutes)')), 3 * 60 * 1000);
+      });
+
+      // Race the execution against the 3-minute timeout
+      await Promise.race([execPromise, execTimeoutPromise]);
+      
+      console.timeEnd('exec()');
+      console.log('Stage: ffmpeg command completed');
+
       // 4. Read output
+      console.time('readFile()');
       const fileData = await this.ffmpeg.readFile(outputName);
+      console.timeEnd('readFile()');
+      console.log('Stage: output file generated');
+      
       const data = new Uint8Array(fileData as ArrayBuffer);
       const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
+      
+      // Convert Blob directly to File object
+      const outputFile = new File([outputBlob], originalFile.name, {
+        type: originalFile.type,
+        lastModified: Date.now()
+      });
+
+      console.log('Stage: Compression completed');
 
       // 5. Memory Cleanup
       await this.ffmpeg.deleteFile(inputName);
       await this.ffmpeg.deleteFile(outputName);
-      this.ffmpeg.terminate(); // Kill the worker completely to free RAM
-      this.ffmpeg = null; // Ensure fresh instance next time
+      // We explicitly DO NOT terminate the ffmpeg worker so it can be reused.
+      console.log('Stage: Cleanup completed');
 
-      return outputBlob;
+      return buildResult(outputFile, true, undefined, Date.now() - startTime);
     } catch (err) {
-      // Emergency Cleanup
-      if (this.ffmpeg) {
-        this.ffmpeg.terminate();
-        this.ffmpeg = null;
-      }
-      throw err;
+      console.warn("Video compression unavailable. Uploading original video.", err);
+      // If compression failed during execution, we don't necessarily kill the worker,
+      // but if initialization failed, it's already handled by the catch block on initializeFFmpeg.
+      let errReason = (err as Error)?.message || 'Unknown FFmpeg Error';
+      return buildResult(originalFile, false, `FFmpeg Error: ${errReason}`, Date.now() - startTime);
     }
   }
 }

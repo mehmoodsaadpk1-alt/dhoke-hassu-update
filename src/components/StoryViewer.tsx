@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, MoreHorizontal, Pause, Eye, RotateCcw, Trash2, MessageCircle, Heart, ThumbsUp, Smile } from 'lucide-react';
 import { Story } from '../types';
 import { AppAvatar } from './ui';
+import { getOptimizedVideoUrl } from '../utils/cloudinary';
 import { dbLogStoryView, dbReactToStory, dbReplyToStory, dbLogStoryAdAnalytics, dbDeleteStory, supabase, dbGetStoryInsights, StoryInsights, StoryInsightView, StoryInsightReaction, StoryInsightReply } from '../utils/supabaseClient';
 
 interface StoryViewerProps {
@@ -434,7 +435,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
                     <video
                       key={currentStory.id}
                       ref={videoRef}
-                      src={videoSrc}
+                      src={getOptimizedVideoUrl(videoSrc)}
                       className="w-full h-full object-cover"
                       autoPlay
                       muted
