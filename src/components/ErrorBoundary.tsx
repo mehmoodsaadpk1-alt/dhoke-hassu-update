@@ -33,7 +33,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="p-6 bg-red-50 border border-red-200 rounded-2xl m-4">
           <h2 className="text-xl font-bold text-red-700 mb-2">Module Crash: {this.props.moduleName}</h2>
           <p className="text-sm font-semibold text-red-600 mb-4">{this.state.error?.message}</p>
-          <pre className="text-xs text-slate-700 bg-white p-4 rounded-xl overflow-auto border border-red-100 max-h-96">
+          <pre className="text-xs text-slate-700 bg-white p-4 rounded-2xl overflow-auto border border-red-100 max-h-96">
             {this.state.error?.stack}
             {'\n\nComponent Stack:\n'}
             {this.state.errorInfo?.componentStack}
@@ -45,3 +45,4 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+

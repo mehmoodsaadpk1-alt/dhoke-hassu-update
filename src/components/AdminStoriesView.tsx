@@ -203,13 +203,13 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
       <div className="flex gap-4 border-b border-slate-200">
         <button 
           onClick={() => setActiveTab('stories')}
-          className={`pb-3 px-4 font-bold transition flex items-center gap-2 ${activeTab === 'stories' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-800'}`}
+          className={`pb-3 px-4 font-bold transition flex items-center gap-2 ${activeTab === 'stories' ? 'text-emerald-600 border-b-2 border-emerald-600' : 'text-slate-500 hover:text-slate-800'}`}
         >
           <Calendar className="w-5 h-5" /> Stories
         </button>
         <button 
           onClick={() => setActiveTab('highlights')}
-          className={`pb-3 px-4 font-bold transition flex items-center gap-2 ${activeTab === 'highlights' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-500 hover:text-slate-800'}`}
+          className={`pb-3 px-4 font-bold transition flex items-center gap-2 ${activeTab === 'highlights' ? 'text-emerald-600 border-b-2 border-emerald-600' : 'text-slate-500 hover:text-slate-800'}`}
         >
           <LayoutGrid className="w-5 h-5" /> Highlights
         </button>
@@ -226,22 +226,22 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
                 placeholder="Search by user name..." 
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full ps-9 pe-4 py-2 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full ps-9 pe-4 py-2 bg-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
-              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-xl text-sm outline-none">
+              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-2xl text-sm outline-none">
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
                 <option value="expired">Expired</option>
               </select>
-              <select value={filterType} onChange={e => setFilterType(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-xl text-sm outline-none">
+              <select value={filterType} onChange={e => setFilterType(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-2xl text-sm outline-none">
                 <option value="all">All Types</option>
                 <option value="photo">Photo</option>
                 <option value="video">Video</option>
                 <option value="text">Text</option>
               </select>
-              <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-xl text-sm outline-none">
+              <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="bg-slate-100 px-3 py-2 rounded-2xl text-sm outline-none">
                 <option value="latest">Latest</option>
                 <option value="oldest">Oldest</option>
                 <option value="most_viewed">Most Viewed</option>
@@ -255,7 +255,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
               <div key={story.id} className="group relative aspect-[9/16] bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
                 {/* Media preview */}
                 {story.type === 'text' ? (
-                  <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center p-4">
+                  <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center p-4">
                     <p className="text-white text-[10px] text-center font-bold">{story.text}</p>
                   </div>
                 ) : (
@@ -305,10 +305,10 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
 
                 {/* Overlay Actions */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
-                  <button onClick={() => { setViewerStories(stories); setViewerStoryIdx(idx); }} className="bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-bold w-32 flex items-center justify-center gap-2 hover:bg-slate-100 transition shadow-lg">
+                  <button onClick={() => { setViewerStories(stories); setViewerStoryIdx(idx); }} className="bg-white text-slate-900 px-4 py-2 rounded-2xl text-xs font-bold w-32 flex items-center justify-center gap-2 hover:bg-slate-100 transition shadow-lg">
                     <Eye className="w-4 h-4" /> View
                   </button>
-                  <button onClick={() => handleDeleteStory(story)} className="bg-rose-500 text-white px-4 py-2 rounded-xl text-xs font-bold w-32 flex items-center justify-center gap-2 hover:bg-rose-600 transition shadow-lg">
+                  <button onClick={() => handleDeleteStory(story)} className="bg-rose-500 text-white px-4 py-2 rounded-2xl text-xs font-bold w-32 flex items-center justify-center gap-2 hover:bg-rose-600 transition shadow-lg">
                     <Trash2 className="w-4 h-4" /> Delete
                   </button>
                 </div>
@@ -326,7 +326,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
 
           {!loading && hasMoreStories && (
             <div className="flex justify-center mt-6">
-              <button onClick={() => fetchStories(page + 1, false)} className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
+              <button onClick={() => fetchStories(page + 1, false)} className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition">
                 Load More
               </button>
             </div>
@@ -369,10 +369,10 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
                     <td className="p-4 text-slate-500">{new Date(hl.created_at).toLocaleDateString()}</td>
                     <td className="p-4 text-end">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => handleViewHighlight(hl)} className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition" title="View Highlight">
+                        <button onClick={() => handleViewHighlight(hl)} className="p-2 text-emerald-500 hover:bg-emerald-50 rounded-2xl transition" title="View Highlight">
                           <Eye className="w-5 h-5" />
                         </button>
-                        <button onClick={() => handleDeleteHighlight(hl)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition" title="Delete Highlight">
+                        <button onClick={() => handleDeleteHighlight(hl)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-2xl transition" title="Delete Highlight">
                           <Trash2 className="w-5 h-5" />
                         </button>
                       </div>
@@ -391,7 +391,7 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
           )}
           {!loading && hasMoreHighlights && (
             <div className="flex justify-center mt-6">
-              <button onClick={() => fetchHighlights(hlPage + 1, false)} className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
+              <button onClick={() => fetchHighlights(hlPage + 1, false)} className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition">
                 Load More
               </button>
             </div>
@@ -421,3 +421,4 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
     </div>
   );
 }
+

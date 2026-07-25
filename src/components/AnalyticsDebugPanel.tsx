@@ -48,12 +48,12 @@ export default function AnalyticsDebugPanel() {
 
   return (
     <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center">
-      <div className="pointer-events-auto bg-gray-900 border border-gray-700 shadow-2xl rounded-xl w-[800px] max-w-[90vw] max-h-[90vh] flex flex-col overflow-hidden text-gray-200">
+      <div className="pointer-events-auto bg-gray-900 border border-gray-700 shadow-2xl rounded-2xl w-[800px] max-w-[90vw] max-h-[90vh] flex flex-col overflow-hidden text-gray-200">
         <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gray-800">
           <div className="flex items-center gap-2">
-            <Activity className="text-blue-500 w-5 h-5" />
+            <Activity className="text-emerald-500 w-5 h-5" />
             <h2 className="text-lg font-bold">Analytics Debug Panel</h2>
-            <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded ml-2">DEV</span>
+            <span className="text-xs bg-emerald-500/20 text-blue-400 px-2 py-0.5 rounded ml-2">DEV</span>
           </div>
           <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition-colors">
             <X className="w-5 h-5" />
@@ -63,25 +63,25 @@ export default function AnalyticsDebugPanel() {
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Status Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <div className="text-xs text-gray-400">Status</div>
               <div className="font-mono text-sm flex items-center gap-1 mt-1">
                 {snapshot.isEnabled ? <CheckCircle className="w-4 h-4 text-green-500"/> : <PowerOff className="w-4 h-4 text-red-500"/>}
                 {snapshot.isEnabled ? 'Enabled' : 'Disabled'}
               </div>
             </div>
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <div className="text-xs text-gray-400">Queue / Pending</div>
               <div className="font-mono text-sm mt-1">{snapshot.queueSize} events</div>
             </div>
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <div className="text-xs text-gray-400">Uploading State</div>
               <div className="font-mono text-sm mt-1 flex items-center gap-1">
                 {snapshot.isFlushing ? <RefreshCw className="w-4 h-4 animate-spin text-blue-400"/> : <Database className="w-4 h-4 text-gray-400"/>}
                 {snapshot.isFlushing ? `Flushing (Att: ${snapshot.currentAttemptCount})` : 'Idle'}
               </div>
             </div>
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <div className="text-xs text-gray-400">Network</div>
               <div className="font-mono text-sm mt-1">
                 {snapshot.networkOnline ? <span className="text-green-400">Online</span> : <span className="text-red-400">Offline</span>}
@@ -90,7 +90,7 @@ export default function AnalyticsDebugPanel() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <h3 className="text-xs font-semibold text-gray-400 mb-2 uppercase">Metrics</h3>
               <div className="space-y-1 text-sm font-mono">
                 <div className="flex justify-between"><span>Total Sent:</span> <span className="text-green-400">{snapshot.totalEventsSent}</span></div>
@@ -105,7 +105,7 @@ export default function AnalyticsDebugPanel() {
               </div>
             </div>
 
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
+            <div className="bg-gray-800 p-3 rounded-xl border border-gray-700">
               <h3 className="text-xs font-semibold text-gray-400 mb-2 uppercase">Recent Errors</h3>
               <div className="space-y-2 text-xs font-mono break-all">
                 <div>
@@ -124,7 +124,7 @@ export default function AnalyticsDebugPanel() {
           <div>
             <h3 className="text-xs font-semibold text-gray-400 mb-2 uppercase">Actions</h3>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => analytics.flush()} className="bg-blue-600 hover:bg-blue-500 px-3 py-1.5 rounded text-sm flex items-center gap-1 transition-colors">
+              <button onClick={() => analytics.flush()} className="bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded text-sm flex items-center gap-1 transition-colors">
                 <Activity className="w-4 h-4"/> Flush Queue
               </button>
               <button onClick={() => analytics.reset()} className="bg-red-900/50 hover:bg-red-800/80 text-red-200 border border-red-800 px-3 py-1.5 rounded text-sm flex items-center gap-1 transition-colors">
@@ -157,7 +157,7 @@ export default function AnalyticsDebugPanel() {
               <span>Recent Events Inspector</span>
               <span>Showing last {snapshot.recentProcessedEvents.length}</span>
             </h3>
-            <div className="overflow-y-auto bg-gray-950 rounded-lg border border-gray-700 flex-1 p-2 space-y-2">
+            <div className="overflow-y-auto bg-gray-950 rounded-xl border border-gray-700 flex-1 p-2 space-y-2">
               {snapshot.recentProcessedEvents.length === 0 ? (
                 <div className="text-center text-gray-500 py-8 text-sm">No recent events processed</div>
               ) : (
@@ -186,3 +186,4 @@ export default function AnalyticsDebugPanel() {
     </div>
   );
 }
+

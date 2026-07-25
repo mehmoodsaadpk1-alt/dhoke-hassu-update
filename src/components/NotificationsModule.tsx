@@ -604,14 +604,14 @@ export default function NotificationsModule({
 
     const config: Record<string, typeof defaultStyle> = {
       post: {
-        icon: <Sparkles className="w-4 h-4 text-blue-600" />,
-        color: 'bg-blue-50 border-blue-200 text-blue-800',
+        icon: <Sparkles className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-blue-200 text-blue-800',
         labelEn: 'Community',
         labelUr: 'کمیونٹی'
       },
       comment: {
-        icon: <MessageSquare className="w-4 h-4 text-indigo-600" />,
-        color: 'bg-indigo-50 border-indigo-200 text-indigo-800',
+        icon: <MessageSquare className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-indigo-200 text-indigo-800',
         labelEn: 'Comment',
         labelUr: 'تبصرہ'
       },
@@ -628,8 +628,8 @@ export default function NotificationsModule({
         labelUr: 'پسند'
       },
       follower: {
-        icon: <UserCheck className="w-4 h-4 text-teal-600" />,
-        color: 'bg-teal-50 border-teal-200 text-teal-800',
+        icon: <UserCheck className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-teal-200 text-teal-800',
         labelEn: 'Follower',
         labelUr: 'فالوور'
       },
@@ -640,26 +640,26 @@ export default function NotificationsModule({
         labelUr: 'چیٹ'
       },
       event: {
-        icon: <Calendar className="w-4 h-4 text-purple-600" />,
-        color: 'bg-purple-50 border-purple-200 text-purple-800',
+        icon: <Calendar className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-purple-200 text-purple-800',
         labelEn: 'Event',
         labelUr: 'تقریب'
       },
       business: {
-        icon: <Store className="w-4 h-4 text-cyan-600" />,
-        color: 'bg-cyan-50 border-cyan-200 text-cyan-800',
+        icon: <Store className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-cyan-200 text-cyan-800',
         labelEn: 'Business',
         labelUr: 'کاروبار'
       },
       job: {
-        icon: <Briefcase className="w-4 h-4 text-amber-600" />,
-        color: 'bg-amber-50 border-amber-200 text-amber-800',
+        icon: <Briefcase className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-amber-200 text-amber-800',
         labelEn: 'Job',
         labelUr: 'ملازمت'
       },
       marketplace: {
-        icon: <ShoppingBag className="w-4 h-4 text-pink-600" />,
-        color: 'bg-pink-50 border-pink-200 text-pink-800',
+        icon: <ShoppingBag className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-pink-200 text-pink-800',
         labelEn: 'Buy & Sell',
         labelUr: 'خرید و فروخت'
       },
@@ -670,8 +670,8 @@ export default function NotificationsModule({
         labelUr: 'خدمات'
       },
       property: {
-        icon: <Home className="w-4 h-4 text-orange-600" />,
-        color: 'bg-orange-50 border-orange-200 text-orange-800',
+        icon: <Home className="w-4 h-4 text-emerald-600" />,
+        color: 'bg-emerald-50 border-orange-200 text-orange-800',
         labelEn: 'Property',
         labelUr: 'پراپرٹی'
       },
@@ -834,7 +834,7 @@ export default function NotificationsModule({
         <div className="flex items-center gap-3">
           <button 
             onClick={() => navigate('/notifications')}
-            className="p-2 bg-white hover:bg-slate-100 text-slate-700 rounded-xl border border-slate-200 transition-all cursor-pointer shadow-xs"
+            className="p-2 bg-white hover:bg-slate-100 text-slate-700 rounded-2xl border border-slate-200 transition-all cursor-pointer shadow-xs"
             id="notif-settings-back-btn"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -898,7 +898,7 @@ export default function NotificationsModule({
                         setSettings(newSettings);
                         updateSettingsInDb(newSettings);
                       }}
-                      className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 accent-blue-600 cursor-pointer"
+                      className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 accent-emerald-600 cursor-pointer"
                     />
                   </label>
                 );
@@ -919,7 +919,7 @@ export default function NotificationsModule({
               {/* Push notifications */}
               <label className="flex items-center justify-between p-3.5 bg-slate-50/50 hover:bg-slate-100/50 rounded-2xl border border-slate-200/40 transition-colors cursor-pointer">
                 <div className="flex items-center gap-2.5">
-                  <Smartphone className="w-4 h-4 text-blue-600" />
+                  <Smartphone className="w-4 h-4 text-emerald-600" />
                   <span className="text-xs font-bold text-slate-700">{t.pushToggle}</span>
                 </div>
                 <input
@@ -933,14 +933,14 @@ export default function NotificationsModule({
                     setSettings(newSettings);
                     updateSettingsInDb(newSettings);
                   }}
-                  className="w-4 h-4 text-blue-600 border-slate-300 rounded accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded accent-emerald-600 cursor-pointer"
                 />
               </label>
 
               {/* In App banner notifications */}
               <label className="flex items-center justify-between p-3.5 bg-slate-50/50 hover:bg-slate-100/50 rounded-2xl border border-slate-200/40 transition-colors cursor-pointer">
                 <div className="flex items-center gap-2.5">
-                  <Sparkles className="w-4 h-4 text-indigo-600" />
+                  <Sparkles className="w-4 h-4 text-emerald-600" />
                   <span className="text-xs font-bold text-slate-700">{t.inAppToggle}</span>
                 </div>
                 <input
@@ -954,7 +954,7 @@ export default function NotificationsModule({
                     setSettings(newSettings);
                     updateSettingsInDb(newSettings);
                   }}
-                  className="w-4 h-4 text-blue-600 border-slate-300 rounded accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded accent-emerald-600 cursor-pointer"
                 />
               </label>
 
@@ -975,14 +975,14 @@ export default function NotificationsModule({
                     setSettings(newSettings);
                     updateSettingsInDb(newSettings);
                   }}
-                  className="w-4 h-4 text-blue-600 border-slate-300 rounded accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded accent-emerald-600 cursor-pointer"
                 />
               </label>
 
               {/* Vibration */}
               <label className="flex items-center justify-between p-3.5 bg-slate-50/50 hover:bg-slate-100/50 rounded-2xl border border-slate-200/40 transition-colors cursor-pointer">
                 <div className="flex items-center gap-2.5">
-                  <Smartphone className="w-4 h-4 text-orange-500 animate-bounce" />
+                  <Smartphone className="w-4 h-4 text-emerald-500 animate-bounce" />
                   <span className="text-xs font-bold text-slate-700">{t.vibrateToggle}</span>
                 </div>
                 <input
@@ -996,15 +996,15 @@ export default function NotificationsModule({
                     setSettings(newSettings);
                     updateSettingsInDb(newSettings);
                   }}
-                  className="w-4 h-4 text-blue-600 border-slate-300 rounded accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 text-emerald-600 border-slate-300 rounded accent-emerald-600 cursor-pointer"
                 />
               </label>
             </div>
           </div>
 
           {/* Disclaimer section */}
-          <div className="bg-blue-50/50 rounded-2xl border border-blue-100 p-4 flex gap-3 text-xs leading-relaxed text-blue-800 font-medium">
-            <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+          <div className="bg-emerald-50/50 rounded-2xl border border-emerald-100 p-4 flex gap-3 text-xs leading-relaxed text-blue-800 font-medium">
+            <Info className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
             <p>
               {currentLanguage === 'en' 
                 ? 'Preferences are preserved on this browser instantly. Real-time system notifications and urgent alerts are localized to your area zone coordinates.' 
@@ -1027,12 +1027,13 @@ export default function NotificationsModule({
         transition={{ duration: 0.2 }}
         onClick={() => handleNotificationClick(notif)}
         className={`bg-white rounded-2xl border transition-all hover:border-slate-300 p-4 flex gap-3.5 relative overflow-hidden group cursor-pointer shadow-xs hover:shadow-sm ${
-          !notif.read ? 'border-s-4 border-s-blue-600 bg-blue-50/5' : 'border-slate-200/60'
+          !notif.read ? 'border-s-4 border-s-emerald-600 bg-emerald-50/5' : 'border-slate-200/60'
         }`}
+        dir="ltr"
       >
         {/* Unread indicator dot */}
         {!notif.read && (
-          <span className="absolute top-4 end-4 w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+          <span className="absolute top-4 end-4 w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
         )}
 
         {/* Sender avatar or default icon with badge overlay */}
@@ -1051,10 +1052,10 @@ export default function NotificationsModule({
         </div>
 
         {/* Notification content text */}
-        <div className="flex-1 min-w-0 space-y-1 pe-4">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex-1 min-w-0 space-y-1 pe-4 text-left">
+          <div className="flex flex-wrap items-center gap-2 justify-start">
             {/* Module Label badge */}
-            <span className={`text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md border ${badge.color}`}>
+            <span className={`text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-xl border ${badge.color}`}>
               {currentLanguage === 'en' ? badge.labelEn : badge.labelUr}
             </span>
 
@@ -1076,21 +1077,21 @@ export default function NotificationsModule({
 
           {/* Hover action items */}
           <div className="flex items-center gap-3 pt-2.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-[10px] text-blue-600 font-extrabold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+            <span className="text-[10px] text-emerald-600 font-extrabold flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
               <span>{currentLanguage === 'en' ? 'Open Details' : 'تفصیلات دیکھیں'}</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </span>
 
             <button
               onClick={(e) => handleToggleRead(notif.id, e)}
-              className="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-[9px] font-bold border-0 cursor-pointer"
+              className="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-[9px] font-bold border-0 cursor-pointer"
             >
               {notif.read ? t.markUnread : t.markRead}
             </button>
 
             <button
               onClick={(e) => handleDeleteNotification(notif.id, e)}
-              className="py-1 px-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg text-[9px] border-0 cursor-pointer"
+              className="py-1 px-2 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl text-[9px] border-0 cursor-pointer"
               title={t.deleteBtn}
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -1111,7 +1112,7 @@ export default function NotificationsModule({
             initial={{ opacity: 0, y: -40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-6 start-1/2 -translate-x-1/2 z-50 bg-blue-600 text-white py-3 px-5 rounded-2xl shadow-xl border border-white/15 max-w-sm sm:max-w-md w-full flex items-center gap-3"
+            className="fixed top-6 start-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white py-3 px-5 rounded-2xl shadow-xl border border-white/15 max-w-sm sm:max-w-md w-full flex items-center gap-3"
             id="notifications-toast"
           >
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
@@ -1129,7 +1130,7 @@ export default function NotificationsModule({
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Bell className="w-6 h-6 text-blue-600" />
+            <Bell className="w-6 h-6 text-emerald-600" />
             {t.header}
           </h2>
           <p className="text-xs text-slate-500 font-semibold">
@@ -1141,7 +1142,7 @@ export default function NotificationsModule({
           {/* Real-time simulation trigger */}
           <button
             onClick={triggerSimulation}
-            className="flex-1 sm:flex-initial py-2 px-3.5 bg-green-600 hover:bg-green-700 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm border-0"
+            className="flex-1 sm:flex-initial py-2 px-3.5 bg-green-600 hover:bg-green-700 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm border-0"
             title={t.simulateDesc}
             id="simulate-notification-btn"
           >
@@ -1152,7 +1153,7 @@ export default function NotificationsModule({
           {/* Settings button */}
           <button
             onClick={() => navigate('/notifications/settings' as any)}
-            className="p-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl border border-slate-200 transition-all cursor-pointer shadow-xs flex items-center gap-1"
+            className="p-2 bg-white hover:bg-slate-50 text-slate-700 rounded-2xl border border-slate-200 transition-all cursor-pointer shadow-xs flex items-center gap-1"
             title={t.settings}
             id="notifications-settings-btn"
           >
@@ -1174,7 +1175,7 @@ export default function NotificationsModule({
         </div>
         <button
           onClick={triggerSimulation}
-          className="py-1.5 px-3 bg-white hover:bg-green-50 text-green-700 hover:text-green-800 border border-green-200 text-[10px] font-black uppercase rounded-lg transition-all cursor-pointer self-start md:self-center shrink-0 shadow-xs"
+          className="py-1.5 px-3 bg-white hover:bg-green-50 text-green-700 hover:text-green-800 border border-green-200 text-[10px] font-black uppercase rounded-xl transition-all cursor-pointer self-start md:self-center shrink-0 shadow-xs"
         >
           {currentLanguage === 'en' ? 'Simulate Random Event' : 'نیا لائیو الرٹ بنائیں'}
         </button>
@@ -1183,7 +1184,7 @@ export default function NotificationsModule({
       {/* 3. Filter tabs & Bulk Actions */}
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200/60 shadow-xs">
         {/* Filters */}
-        <div className="flex gap-1.5 bg-slate-100/80 p-1 rounded-xl">
+        <div className="flex gap-1.5 bg-slate-100/80 p-1 rounded-2xl">
           {(['all', 'unread', 'read'] as const).map((filter) => {
             const label = filter === 'all' ? t.all : filter === 'unread' ? t.unread : t.read;
             const isActive = activeFilter === filter;
@@ -1195,11 +1196,11 @@ export default function NotificationsModule({
               <button
                 key={filter}
                 onClick={() => handleFilterChange(filter)}
-                className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-900'}`}
               >
                 <span>{label}</span>
                 {count > 0 && (
-                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold font-mono ${isActive ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold font-mono ${isActive ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
                     {count}
                   </span>
                 )}
@@ -1213,7 +1214,7 @@ export default function NotificationsModule({
           {notifications.some(n => !n.read) && (
             <button
               onClick={handleMarkAllAsRead}
-              className="flex-1 sm:flex-initial py-1.5 px-3 hover:bg-slate-50 text-blue-600 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1 border-0 bg-transparent"
+              className="flex-1 sm:flex-initial py-1.5 px-3 hover:bg-slate-50 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-1 border-0 bg-transparent"
             >
               <CheckCheck className="w-3.5 h-3.5" />
               <span>{t.markAllRead}</span>
@@ -1223,7 +1224,7 @@ export default function NotificationsModule({
           {notifications.some(n => n.read) && (
             <button
               onClick={handleClearRead}
-              className="flex-1 sm:flex-initial py-1.5 px-3 hover:bg-slate-50 text-slate-500 hover:text-red-600 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1 border-0 bg-transparent"
+              className="flex-1 sm:flex-initial py-1.5 px-3 hover:bg-slate-50 text-slate-500 hover:text-red-600 text-[10px] font-black uppercase tracking-wider rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-1 border-0 bg-transparent"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>{t.clearRead}</span>
@@ -1252,7 +1253,7 @@ export default function NotificationsModule({
               onClick={() => setCategoryFilter(cat.key as any)}
               className={`py-1.5 px-3.5 rounded-full text-[11px] font-black transition-all cursor-pointer whitespace-nowrap border ${
                 isActive 
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-xs' 
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs' 
                   : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
               }`}
             >
@@ -1271,9 +1272,9 @@ export default function NotificationsModule({
               <div key={idx} className="bg-white rounded-2xl border border-slate-200/50 p-4 flex gap-4">
                 <div className="w-10 h-10 rounded-full bg-slate-200 shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-slate-200 rounded-md w-1/3" />
-                  <div className="h-3 bg-slate-200 rounded-md w-5/6" />
-                  <div className="h-3 bg-slate-200 rounded-md w-1/4" />
+                  <div className="h-4 bg-slate-200 rounded-xl w-1/3" />
+                  <div className="h-3 bg-slate-200 rounded-xl w-5/6" />
+                  <div className="h-3 bg-slate-200 rounded-xl w-1/4" />
                 </div>
               </div>
             ))}
@@ -1281,7 +1282,7 @@ export default function NotificationsModule({
         ) : filteredNotifications.length === 0 ? (
           // Empty State
           <div className="bg-white rounded-3xl border border-slate-200/60 p-10 text-center space-y-4 shadow-sm" id="notif-empty-state">
-            <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+            <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
               <Bell className="w-7 h-7" />
             </div>
             <div className="space-y-1">
@@ -1345,7 +1346,7 @@ export default function NotificationsModule({
               <div className="text-center pt-2">
                 <button
                   onClick={loadMoreNotifications}
-                  className="py-2.5 px-6 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-extrabold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                  className="py-2.5 px-6 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl shadow-xs transition-colors cursor-pointer"
                 >
                   {currentLanguage === 'en' ? 'Load More' : 'مزید لوڈ کریں'}
                 </button>
@@ -1364,3 +1365,4 @@ export default function NotificationsModule({
     </div>
   );
 }
+

@@ -542,6 +542,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           loop={true} // TikTok style looping
           playsInline
           muted={effectiveMuted}
+          autoPlay={isActive !== undefined ? isActive : visibilityRatio > 0.5}
         />
       )}
 
@@ -552,7 +553,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
           <p className="text-white mb-4 text-center px-4">Network error. Unable to load video.</p>
           <button 
             onClick={handleRetry}
-            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-colors"
+            className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full transition-colors"
           >
             <RefreshCw size={20} />
             <span>Retry</span>
@@ -565,17 +566,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
           {isBuffering && isPlaying ? (
             <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin shadow-xl"></div>
-          ) : !isPlaying ? (
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                togglePlay();
-              }}
-              className="w-16 h-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-auto text-white hover:bg-black/60 transition-all transform hover:scale-105 shadow-lg"
-              aria-label="Play Video"
-            >
-              <Play size={32} className="ms-1 fill-white" />
-            </button>
           ) : effectiveMuted ? (
             <button 
               onClick={(e) => {
@@ -660,3 +650,4 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
 });
 
 VideoPlayer.displayName = 'VideoPlayer';
+

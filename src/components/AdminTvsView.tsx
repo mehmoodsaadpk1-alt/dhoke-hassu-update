@@ -270,7 +270,7 @@ export default function AdminTvsView({
         </div>
         <button 
           onClick={loadRequests}
-          className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-lg cursor-pointer border-none flex items-center justify-center"
+          className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-xl cursor-pointer border-none flex items-center justify-center"
         >
           <RefreshCw className="w-3.5 h-3.5" />
         </button>
@@ -302,13 +302,13 @@ export default function AdminTvsView({
                     <tr key={req.id} className="hover:bg-slate-50/40">
                       <td className="py-3.5 px-5 font-bold text-slate-900">{req.entity_name}</td>
                       <td className="py-3.5 px-5 text-slate-500">
-                        {req.entity_type} • <span className="text-amber-500 uppercase font-black">{req.verification_level}</span>
+                        {req.entity_type} • <span className="text-emerald-500 uppercase font-black">{req.verification_level}</span>
                       </td>
                       <td className="py-3.5 px-5">
                         <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
                           req.status === 'Approved' ? 'bg-green-50 text-green-700' :
-                          req.status === 'Pending' ? 'bg-indigo-50 text-indigo-700' :
-                          req.status === 'Need More Documents' ? 'bg-amber-50 text-amber-700' :
+                          req.status === 'Pending' ? 'bg-emerald-50 text-emerald-700' :
+                          req.status === 'Need More Documents' ? 'bg-emerald-50 text-amber-700' :
                           'bg-red-50 text-red-700'
                         }`}>
                           {req.status}
@@ -317,7 +317,7 @@ export default function AdminTvsView({
                       <td className="py-3.5 px-5 text-end">
                         <button
                           onClick={() => handleSelectRequest(req)}
-                          className="py-1 px-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[10px] font-black rounded-lg border-none cursor-pointer"
+                          className="py-1 px-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-xl border-none cursor-pointer"
                         >
                           Review
                         </button>
@@ -349,7 +349,7 @@ export default function AdminTvsView({
                   <select 
                     value={badgeType} 
                     onChange={(e) => setBadgeType(e.target.value as any)}
-                    className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-650"
+                    className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-650"
                   >
                     <option value="Individual">Individual</option>
                     <option value="Business">Business</option>
@@ -368,7 +368,7 @@ export default function AdminTvsView({
                   <select 
                     value={verificationLevel} 
                     onChange={(e) => setVerificationLevel(e.target.value as any)}
-                    className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-650"
+                    className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-650"
                   >
                     <option value="Basic">Basic</option>
                     <option value="Professional">Professional</option>
@@ -386,7 +386,7 @@ export default function AdminTvsView({
                   type="date"
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg font-bold"
+                  className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-bold"
                 />
               </div>
 
@@ -396,20 +396,20 @@ export default function AdminTvsView({
                   value={adminNotes}
                   onChange={(e) => setAdminNotes(e.target.value)}
                   rows={2}
-                  className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg font-bold"
+                  className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-bold"
                 />
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-100 justify-end">
                 <button
                   onClick={() => handleUpdateStatus('Rejected')}
-                  className="flex-1 py-1.5 px-3 bg-red-50 hover:bg-red-100 text-red-650 font-black rounded-lg border-none cursor-pointer"
+                  className="flex-1 py-1.5 px-3 bg-red-50 hover:bg-red-100 text-red-650 font-black rounded-xl border-none cursor-pointer"
                 >
                   Reject
                 </button>
                 <button
                   onClick={() => handleUpdateStatus('Approved')}
-                  className="flex-1 py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-lg border-none cursor-pointer"
+                  className="flex-1 py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl border-none cursor-pointer"
                 >
                   Approve
                 </button>
@@ -425,3 +425,4 @@ export default function AdminTvsView({
     </div>
   );
 }
+

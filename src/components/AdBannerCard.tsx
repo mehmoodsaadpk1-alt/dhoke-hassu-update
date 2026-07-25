@@ -91,9 +91,9 @@ export default function AdBannerCard({ ad, onNavigateToModule }: AdBannerCardPro
   };
 
   return (
-    <div className="bg-gradient-to-br from-amber-50/70 to-orange-50/40 border border-amber-200/80 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col md:flex-row gap-4 transition-all hover:shadow-md hover:border-amber-300">
+    <div className="bg-gradient-to-br from-emerald-50/70 to-emerald-50/40 border border-amber-200/80 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col md:flex-row gap-4 transition-all hover:shadow-md hover:border-amber-300">
       {/* Sponsored Badge */}
-      <span className="absolute top-3 end-3 bg-amber-500/10 text-amber-800 text-[9px] font-black tracking-widest px-2 py-0.5 rounded-full uppercase border border-amber-200/40">
+      <span className="absolute top-3 end-3 bg-emerald-500/10 text-amber-800 text-[9px] font-black tracking-widest px-2 py-0.5 rounded-full uppercase border border-amber-200/40">
         📢 Sponsored Promotion
       </span>
 
@@ -101,7 +101,7 @@ export default function AdBannerCard({ ad, onNavigateToModule }: AdBannerCardPro
       {ad.banner_url && (
         <div 
           onClick={() => setShowViewer(true)}
-          className="w-full md:w-48 h-36 rounded-xl overflow-hidden border border-amber-200/60 shrink-0 bg-white shadow-sm cursor-zoom-in group/img relative"
+          className="w-full md:w-48 h-36 rounded-2xl overflow-hidden border border-amber-200/60 shrink-0 bg-white shadow-sm cursor-zoom-in group/img relative"
         >
           <img src={ad.banner_url} alt={ad.title} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-350" />
         </div>
@@ -119,7 +119,7 @@ export default function AdBannerCard({ ad, onNavigateToModule }: AdBannerCardPro
           <span className="text-[9px] text-slate-450 font-mono font-bold">Category: {ad.category}</span>
           <button
             onClick={handleCtaClick}
-            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all border-0 cursor-pointer shadow-amber-500/10 shrink-0"
+            className="px-4 py-2 bg-emerald-600 hover:bg-amber-700 text-white font-extrabold rounded-2xl text-xs flex items-center gap-1.5 shadow-sm transition-all border-0 cursor-pointer shadow-emerald-500/10 shrink-0"
           >
             {getCtaIcon()}
             <span>{getCtaLabel()}</span>
@@ -138,3 +138,4 @@ export default function AdBannerCard({ ad, onNavigateToModule }: AdBannerCardPro
     </div>
   );
 }
+

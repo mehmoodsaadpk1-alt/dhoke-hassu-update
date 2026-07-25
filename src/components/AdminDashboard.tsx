@@ -1520,17 +1520,17 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   // Render skeleton loaders for simulated fast state changes
   const renderSkeletonTable = () => (
     <div className="space-y-4 animate-pulse p-6 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-      <div className="h-6 bg-slate-100 rounded-md w-1/4 mb-4" />
+      <div className="h-6 bg-slate-100 rounded-xl w-1/4 mb-4" />
       <div className="space-y-3">
         {[1, 2, 3, 4, 5].map(i => (
           <div key={i} className="flex items-center gap-4 py-2 border-b border-slate-100">
             <div className="h-8 w-8 bg-slate-100 rounded-full" />
             <div className="flex-1 space-y-2">
-              <div className="h-4 bg-slate-100 rounded-md w-1/3" />
-              <div className="h-3 bg-slate-100 rounded-md w-1/4" />
+              <div className="h-4 bg-slate-100 rounded-xl w-1/3" />
+              <div className="h-3 bg-slate-100 rounded-xl w-1/4" />
             </div>
-            <div className="h-4 bg-slate-100 rounded-md w-16" />
-            <div className="h-7 bg-slate-100 rounded-md w-32" />
+            <div className="h-4 bg-slate-100 rounded-xl w-16" />
+            <div className="h-7 bg-slate-100 rounded-xl w-32" />
           </div>
         ))}
       </div>
@@ -1559,22 +1559,22 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white"
               />
             </div>
             {loginError && (
-              <p className="text-xs text-red-600 font-bold bg-red-50 p-3 rounded-xl">{loginError}</p>
+              <p className="text-xs text-red-600 font-bold bg-red-50 p-3 rounded-2xl">{loginError}</p>
             )}
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-all shadow-md cursor-pointer"
+              className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-sm transition-all shadow-md cursor-pointer"
             >
               {isEn ? 'Secure Login' : 'لاگ ان کریں'}
             </button>
             <button
               type="button"
               onClick={onExitAdmin}
-              className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition-all cursor-pointer"
+              className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-sm transition-all cursor-pointer"
             >
               {isEn ? 'Return to Main App' : 'واپس جائیں'}
             </button>
@@ -1585,7 +1585,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-850 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-850 selection:bg-emerald-100 selection:text-blue-900 overflow-x-hidden">
       
       {/* 1. TOP HEADER BAR */}
       <header className="bg-white border-b border-slate-200/80 h-16 shrink-0 px-4 md:px-6 flex items-center justify-between sticky top-0 z-50 shadow-xs">
@@ -1593,7 +1593,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
           {/* Mobile hamburger — only visible below lg */}
           <button 
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+            className="lg:hidden p-2 rounded-2xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
             title="Open menu"
             aria-label="Open sidebar"
           >
@@ -1602,13 +1602,13 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
           {/* Desktop toggle — only visible at lg+ */}
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="hidden lg:flex p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+            className="hidden lg:flex p-2 rounded-2xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
             title="Toggle sidebar"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
           <div className="flex items-center gap-2">
-            <span className="p-2 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl text-white shadow-sm shrink-0">
+            <span className="p-2 bg-gradient-to-tr from-emerald-600 to-emerald-600 rounded-2xl text-white shadow-sm shrink-0">
               <Shield className="w-4 h-4" />
             </span>
             <div>
@@ -1630,7 +1630,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
 
           <button
             onClick={handleAdminLogout}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 font-bold rounded-xl transition-all border-0 cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 font-bold rounded-2xl transition-all border-0 cursor-pointer"
             title="Exit Admin Control Portal"
           >
             <LogOut className="w-4 h-4" />
@@ -1670,7 +1670,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
               <span className="text-xs font-black text-slate-700 uppercase tracking-widest">Menu</span>
               <button
                 onClick={closeMobileSidebar}
-                className="p-1.5 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
+                className="p-1.5 rounded-2xl text-slate-500 hover:bg-slate-100 transition-colors border-0 cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="w-4 h-4" />
@@ -1687,7 +1687,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
               <nav className="space-y-1">
                 <button
                   onClick={() => navigateTo('/admin/dashboard')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/dashboard' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/dashboard' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Dashboard Overview' : 'ڈیش بورڈ'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1698,7 +1698,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
 
                 <button
                   onClick={() => navigateTo('/admin/analytics')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/analytics' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/analytics' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Analytics' : 'تجزیات'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1709,7 +1709,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 
                 <button
                   onClick={() => navigateTo('/admin/users')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/users' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/users' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Users Management' : 'صارفین کا انتظام'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1717,13 +1717,13 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Users Management' : 'صارفین کا انتظام'}</span>}
                   </div>
                   {(isSidebarOpen || isMobileSidebarOpen) && (
-                    <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">{users.length}</span>
+                    <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-xl font-bold">{users.length}</span>
                   )}
                 </button>
 
                 <button
                   onClick={() => navigateTo('/admin/settings')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/settings' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/settings' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Settings' : 'انتظامی ترتیبات'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1761,7 +1761,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                   <button
                     key={item.path}
                     onClick={() => navigateTo(item.path)}
-                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === item.path ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === item.path ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                     title={item.label}
                   >
                     <div className="flex items-center gap-2.5">
@@ -1769,7 +1769,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                       {(isSidebarOpen || isMobileSidebarOpen) && <span>{item.label}</span>}
                     </div>
                     {(isSidebarOpen || isMobileSidebarOpen) && (
-                      <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">{item.count}</span>
+                      <span className="bg-slate-100 text-slate-500 font-mono text-[9px] px-1.5 py-0.5 rounded-xl font-bold">{item.count}</span>
                     )}
                   </button>
                 ))}
@@ -1786,7 +1786,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
               <nav className="space-y-1">
                 <button
                   onClick={() => navigateTo('/admin/verification')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/verification' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/verification' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Verification Center' : 'تصدیق کی درخواستیں'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1794,7 +1794,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Verifications' : 'تصدیقیں'}</span>}
                   </div>
                   {(isSidebarOpen || isMobileSidebarOpen) && verificationRequests.filter(v => v.status === 'Pending').length > 0 && (
-                    <span className="bg-amber-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-md animate-pulse">
+                    <span className="bg-emerald-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-xl animate-pulse">
                       {verificationRequests.filter(v => v.status === 'Pending').length}
                     </span>
                   )}
@@ -1802,7 +1802,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                 
                 <button
                   onClick={() => navigateTo('/admin/reports')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/reports' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all border-0 cursor-pointer ${adminPath === '/admin/reports' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50'}`}
                   title={isEn ? 'Safety Reports' : 'رپورٹس'}
                 >
                   <div className="flex items-center gap-2.5">
@@ -1810,7 +1810,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Reports & Flags' : 'رپورٹس'}</span>}
                   </div>
                   {(isSidebarOpen || isMobileSidebarOpen) && reports.length > 0 && (
-                    <span className="bg-red-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-md font-bold">
+                    <span className="bg-red-500 text-white font-mono text-[9px] px-1.5 py-0.5 rounded-xl font-bold">
                       {reports.length}
                     </span>
                   )}
@@ -1823,7 +1823,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
           <div className="p-3 border-t border-slate-100 bg-slate-50/50">
             <button
               onClick={onExitAdmin}
-              className="w-full py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all border-0 cursor-pointer"
+              className="w-full py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-xs flex items-center justify-center gap-2 transition-all border-0 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               {(isSidebarOpen || isMobileSidebarOpen) && <span>{isEn ? 'Portal View' : 'ایپ میں جائیں'}</span>}
@@ -1861,7 +1861,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                       <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Sync: Live</span>
                       <button 
                         onClick={() => navigateTo('/admin/dashboard')} 
-                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition-all border-0 cursor-pointer"
+                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl shadow-xs transition-all border-0 cursor-pointer"
                       >
                         <RefreshCw className="w-4 h-4 text-slate-600" />
                       </button>
@@ -1871,15 +1871,15 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                   {/* HIGH-AESTHETIC METRICS METRIC CARDS */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
                     {[
-                      { label: isEn ? 'Total Users' : 'کل صارفین', value: users.length, icon: Users, color: 'bg-blue-50 text-blue-600 border-blue-100', trend: '↑ 12% growth' },
+                      { label: isEn ? 'Total Users' : 'کل صارفین', value: users.length, icon: Users, color: 'bg-emerald-50 text-emerald-600 border-emerald-100', trend: '↑ 12% growth' },
                       { label: isEn ? 'Active Feed Posts' : 'کمیونٹی پوسٹس', value: posts.length, icon: MessageSquare, color: 'bg-green-50 text-green-600 border-green-100', trend: '↑ 8% active' },
-                      { label: isEn ? 'Registered Business' : 'مقامی کاروبار', value: businesses.length, icon: Award, color: 'bg-indigo-50 text-indigo-600 border-indigo-100', trend: '↑ 4% growth' },
-                      { label: isEn ? 'Pending Verifications' : 'تصدیقیں', value: verificationRequests.filter(v => v.status === 'Pending').length, icon: FileCheck, color: 'bg-amber-50 text-amber-600 border-amber-100', trend: '↑ 2 new requests', pulse: true },
+                      { label: isEn ? 'Registered Business' : 'مقامی کاروبار', value: businesses.length, icon: Award, color: 'bg-emerald-50 text-emerald-600 border-emerald-100', trend: '↑ 4% growth' },
+                      { label: isEn ? 'Pending Verifications' : 'تصدیقیں', value: verificationRequests.filter(v => v.status === 'Pending').length, icon: FileCheck, color: 'bg-emerald-50 text-emerald-600 border-amber-100', trend: '↑ 2 new requests', pulse: true },
                       { label: isEn ? 'Safety Reports' : 'رپورٹس', value: reports.length, icon: AlertTriangle, color: 'bg-red-50 text-red-600 border-red-100', trend: '+1 flag logs', danger: true }
                     ].map((metric, i) => (
                       <div key={i} className={`bg-white p-5 rounded-2xl border ${metric.color?.split(' ')[2]} shadow-xs flex flex-col justify-between min-h-[140px] relative overflow-hidden`}>
                         <div className="flex items-center justify-between w-full">
-                          <div className={`p-2.5 rounded-xl ${metric.color?.split(' ')[0]} ${metric.color?.split(' ')[1]}`}>
+                          <div className={`p-2.5 rounded-2xl ${metric.color?.split(' ')[0]} ${metric.color?.split(' ')[1]}`}>
                             <metric.icon className={`w-5 h-5 ${metric.pulse ? 'animate-pulse' : ''}`} />
                           </div>
                           <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${metric.color?.split(' ')[0]} ${metric.color?.split(' ')[1]}`}>
@@ -1910,7 +1910,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                         { label: isEn ? 'Local Deals' : 'ڈیلز', value: deals.length, icon: Tag },
                         { label: isEn ? 'Alerts' : 'الرٹس', value: alerts.length, icon: AlertTriangle }
                       ].map((subMetric, i) => (
-                        <div key={i} className="bg-slate-50/50 p-3.5 rounded-xl border border-slate-100 flex items-center justify-between">
+                        <div key={i} className="bg-slate-50/50 p-3.5 rounded-2xl border border-slate-100 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <subMetric.icon className="w-4 h-4 text-slate-400" />
                             <span className="text-xs font-bold text-slate-700">{subMetric.label}</span>
@@ -1926,9 +1926,9 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
                       <div className="flex justify-between items-center">
                         <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">{isEn ? 'Live Auditing Trail Logs' : 'سستم سرگرمی لاگز'}</h3>
-                        <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded font-mono text-[9px] font-bold">Auto Refresh</span>
+                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded font-mono text-[9px] font-bold">Auto Refresh</span>
                       </div>
-                      <div className="space-y-2 max-h-80 overflow-y-auto divide-y divide-slate-55 border border-slate-100 rounded-xl bg-slate-50/20 p-2">
+                      <div className="space-y-2 max-h-80 overflow-y-auto divide-y divide-slate-55 border border-slate-100 rounded-2xl bg-slate-50/20 p-2">
                         {systemLogs.map(log => (
                           <div key={log.id} className="pt-2 pb-2.5 flex items-start gap-3 text-xs leading-normal">
                             <span className="text-[9px] font-black bg-slate-100 text-slate-500 font-mono px-2 py-0.5 rounded mt-0.5 shrink-0">{log.timestamp}</span>
@@ -1946,21 +1946,21 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                       <div className="space-y-3">
                         <button 
                           onClick={() => navigateTo('/admin/settings')} 
-                          className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
+                          className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
                         >
                           <span>System Policies Control</span>
                           <ChevronRight className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => navigateTo('/admin/verification')} 
-                          className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
+                          className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
                         >
                           <span>Verification Center</span>
                           <ChevronRight className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => navigateTo('/admin/reports')} 
-                          className="w-full py-3 px-4 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
+                          className="w-full py-3 px-4 bg-red-50 hover:bg-red-100 text-red-700 rounded-2xl text-xs font-bold flex items-center justify-between border-0 cursor-pointer"
                         >
                           <span>Moderation Safety Flags</span>
                           <span className="bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0 animate-pulse">{reports.length}</span>
@@ -1988,21 +1988,21 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                     <div className="flex items-center gap-3 shrink-0">
                       <button
                         onClick={handleCreateAdClick}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer border-0"
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer border-0"
                       >
                         <Plus className="w-4 h-4" />
                         {isEn ? 'Create Advertisement' : 'نیا اشتہار'}
                       </button>
                       <button
                         onClick={fetchAllData}
-                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition-all cursor-pointer"
+                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl shadow-xs transition-all cursor-pointer"
                         title="Refresh"
                       >
                         <RefreshCw className="w-4 h-4 text-slate-650" />
                       </button>
                       <button
                         onClick={handleExportAds}
-                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition-all cursor-pointer"
+                        className="p-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl shadow-xs transition-all cursor-pointer"
                         title="Export Report"
                       >
                         <ShoppingBag className="w-4 h-4 text-slate-650" />
@@ -2032,7 +2032,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
                         <br/><br/>
                         <strong>Error details:</strong> {adsTableError}
                       </p>
-                      <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-[10px] select-all overflow-x-auto max-h-48 whitespace-pre">
+                      <pre className="bg-slate-900 text-slate-100 p-4 rounded-2xl font-mono text-[10px] select-all overflow-x-auto max-h-48 whitespace-pre">
 {`CREATE TABLE IF NOT EXISTS public.ads (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
@@ -2084,7 +2084,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       <div className="flex gap-2">
                         <button
                           onClick={verifyAndMigrateAdsTable}
-                          className="px-3.5 py-1.5 bg-red-650 hover:bg-red-700 text-white font-bold rounded-lg border-0 cursor-pointer text-[10px]"
+                          className="px-3.5 py-1.5 bg-red-650 hover:bg-red-700 text-white font-bold rounded-xl border-0 cursor-pointer text-[10px]"
                         >
                           Retry Verification
                         </button>
@@ -2095,10 +2095,10 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   {/* Revenue & Overview Statistics Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                     {[
-                      { label: 'Total Ads', value: ads.length, color: 'bg-blue-50 text-blue-600 border-blue-100' },
+                      { label: 'Total Ads', value: ads.length, color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
                       { label: 'Active Ads', value: ads.filter(a => a.status === 'Active').length, color: 'bg-green-50 text-green-600 border-green-100' },
-                      { label: 'Total Rev', value: `Rs. ${ads.reduce((s, i) => s + (i.amount || 0), 0)}`, color: 'bg-indigo-50 text-indigo-600 border-indigo-100' },
-                      { label: 'Imps', value: ads.reduce((s, i) => s + (i.impressions || 0), 0), color: 'bg-blue-50 text-blue-500 border-blue-100' },
+                      { label: 'Total Rev', value: `Rs. ${ads.reduce((s, i) => s + (i.amount || 0), 0)}`, color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
+                      { label: 'Imps', value: ads.reduce((s, i) => s + (i.impressions || 0), 0), color: 'bg-emerald-50 text-emerald-500 border-emerald-100' },
                       { label: 'Views (2s)', value: ads.reduce((s, i) => s + (i.views || 0), 0), color: 'bg-sky-50 text-sky-600 border-sky-100' },
                       { label: 'Clicks', value: ads.reduce((s, i) => s + (i.clicks || 0), 0), color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
                       { 
@@ -2108,11 +2108,11 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           const totalClicks = ads.reduce((s, i) => s + (i.clicks || 0), 0);
                           return totalImps > 0 ? ((totalClicks / totalImps) * 100).toFixed(1) + '%' : '0.0%';
                         })(), 
-                        color: 'bg-purple-50 text-purple-600 border-purple-100' 
+                        color: 'bg-emerald-50 text-emerald-600 border-purple-100' 
                       },
                       { label: 'Expired', value: ads.filter(a => a.status === 'Expired').length, color: 'bg-red-50 text-red-600 border-red-100' }
                     ].map((metric, i) => (
-                      <div key={i} className="bg-white p-3.5 rounded-xl border border-slate-100 shadow-xs flex flex-col justify-between min-h-[90px]">
+                      <div key={i} className="bg-white p-3.5 rounded-2xl border border-slate-100 shadow-xs flex flex-col justify-between min-h-[90px]">
                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">{metric.label}</p>
                         <h3 className="text-sm font-black text-slate-850 mt-2">{metric.value}</h3>
                       </div>
@@ -2122,14 +2122,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                   {/* Feed Ads Configuration */}
                   <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs mb-6">
                     <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider mb-4">Feed Ads Configuration</h3>
-                    <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                    <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl">
                       <div>
                         <h4 className="text-sm font-bold text-slate-800">Jobs Feed Ad Interval</h4>
                         <p className="text-[10px] text-slate-500 mt-1">Number of job listings to show between each inline advertisement.</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <select
-                          className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold text-slate-700 outline-none focus:border-blue-500 cursor-pointer"
+                          className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none focus:border-emerald-500 cursor-pointer"
                           value={feedAdIntervals?.['Jobs'] || 3}
                           onChange={(e) => setFeedAdInterval('Jobs', parseInt(e.target.value, 10))}
                         >
@@ -2149,11 +2149,11 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-4 col-span-2">
                       <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">Revenue Dashboard</h3>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
-                          <p className="text-[9px] font-black text-blue-600 uppercase">Total Revenue</p>
+                        <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl">
+                          <p className="text-[9px] font-black text-emerald-600 uppercase">Total Revenue</p>
                           <h4 className="text-lg font-black text-slate-900 mt-1">Rs. {ads.reduce((s, i) => s + (i.amount || 0), 0)}</h4>
                         </div>
-                        <div className="p-4 bg-green-50/50 border border-green-100 rounded-xl">
+                        <div className="p-4 bg-green-50/50 border border-green-100 rounded-2xl">
                           <p className="text-[9px] font-black text-green-600 uppercase">Monthly Revenue</p>
                           <h4 className="text-lg font-black text-slate-900 mt-1">
                             Rs. {
@@ -2164,13 +2164,13 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             }
                           </h4>
                         </div>
-                        <div className="p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl">
-                          <p className="text-[9px] font-black text-indigo-600 uppercase">Active Paid Ads</p>
+                        <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl">
+                          <p className="text-[9px] font-black text-emerald-600 uppercase">Active Paid Ads</p>
                           <h4 className="text-lg font-black text-slate-900 mt-1">
                             {ads.filter(a => a.status === 'Active' && a.payment_status === 'Paid').length}
                           </h4>
                         </div>
-                        <div className="p-4 bg-red-50/50 border border-red-100 rounded-xl">
+                        <div className="p-4 bg-red-50/50 border border-red-100 rounded-2xl">
                           <p className="text-[9px] font-black text-red-600 uppercase">Expiring Soon</p>
                           <h4 className="text-lg font-black text-slate-900 mt-1">
                             {
@@ -2193,12 +2193,12 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           .sort((a, b) => (b.clicks / b.impressions) - (a.clicks / a.impressions))
                           ?.slice(0, 3)
                           .map((ad, index) => (
-                            <div key={ad.id} className="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <div key={ad.id} className="flex items-center justify-between p-2.5 bg-slate-50 rounded-2xl border border-slate-100">
                               <div>
                                 <p className="text-xs font-bold text-slate-800 truncate max-w-[150px]">{ad.title}</p>
                                 <p className="text-[9px] text-slate-400">{ad.advertiser_name} • CTR: {((ad.clicks / ad.impressions) * 100).toFixed(1)}%</p>
                               </div>
-                              <span className="text-[10px] font-extrabold text-blue-600">#{index + 1}</span>
+                              <span className="text-[10px] font-extrabold text-emerald-600">#{index + 1}</span>
                             </div>
                           ))}
                         {[...ads].filter(a => a.impressions > 0).length === 0 && (
@@ -2210,7 +2210,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
 
                   {/* Search, Sort & Filters Toolbar */}
                   <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
-                    <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full lg:max-w-md">
+                    <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-2xl border border-slate-200/50 w-full lg:max-w-md">
                       <Search className="w-4 h-4 text-slate-400 shrink-0" />
                       <input
                         type="text"
@@ -2226,7 +2226,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       <select
                         value={adFilterStatus}
                         onChange={(e) => setAdFilterStatus(e.target.value)}
-                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="all">All Statuses</option>
                         <option value="Active">Active</option>
@@ -2241,7 +2241,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       <select
                         value={adFilterPlacement}
                         onChange={(e) => setAdFilterPlacement(e.target.value)}
-                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="all">All Placements</option>
                         {[
@@ -2261,7 +2261,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           setAdSortField(field as keyof AdItem);
                           setAdSortOrder(order as 'asc' | 'desc');
                         }}
-                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="flex-1 min-w-[130px] px-3 py-2 bg-white border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none"
                       >
                         <option value="created_at-desc">Newest Created</option>
                         <option value="title-asc">Title (A-Z)</option>
@@ -2319,7 +2319,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                               return (
                                 <tr key={ad.id} className="hover:bg-slate-50/50">
                                   <td className="py-3.5 px-4">
-                                    <div className="w-14 h-10 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center shrink-0">
+                                    <div className="w-14 h-10 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center shrink-0">
                                       {ad.banner_url ? (
                                         <img src={ad.banner_url} alt="Banner" className="w-full h-full object-cover" />
                                       ) : (
@@ -2350,8 +2350,8 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4">
                                     <span className={`px-2.5 py-1 rounded-full font-mono text-[9px] font-black uppercase tracking-wider flex items-center gap-1 w-fit ${
                                       ad.status === 'Active' ? 'bg-green-50 text-green-700' :
-                                      ad.status === 'Scheduled' ? 'bg-amber-50 text-amber-700 animate-pulse' :
-                                      ad.status === 'Paused' ? 'bg-orange-50 text-orange-700' :
+                                      ad.status === 'Scheduled' ? 'bg-emerald-50 text-amber-700 animate-pulse' :
+                                      ad.status === 'Paused' ? 'bg-emerald-50 text-orange-700' :
                                       ad.status === 'Expired' ? 'bg-red-50 text-red-700' : 'bg-slate-100 text-slate-600'
                                     }`}>
                                       {ad.status}
@@ -2366,7 +2366,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4 text-xs font-mono font-bold text-slate-700">
                                     {ad.clicks || 0}
                                   </td>
-                                  <td className="py-3.5 px-4 text-xs font-mono font-bold text-blue-600">
+                                  <td className="py-3.5 px-4 text-xs font-mono font-bold text-emerald-600">
                                     {ctr}
                                   </td>
                                   <td className="py-3.5 px-4 text-xs font-mono font-bold text-slate-700">
@@ -2381,42 +2381,42 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4 text-end space-x-1 whitespace-nowrap">
                                     <button
                                       onClick={() => { setSelectedAd(ad); setIsAdDetailsModalOpen(true); }}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="View Analytics"
                                     >
                                       <Eye className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleEditAdClick(ad)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-blue-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Edit"
                                     >
                                       <Edit2 className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleTogglePauseAd(ad)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-amber-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title={ad.status === 'Paused' ? 'Resume' : 'Pause'}
                                     >
                                       <Ban className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleDuplicateAdClick(ad)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-indigo-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Duplicate"
                                     >
                                       <Plus className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleArchiveAd(ad)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-purple-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Archive"
                                     >
                                       <Lock className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleDeleteAdAction(ad.id)}
-                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Soft Delete"
                                     >
                                       <Trash2 className="w-3.5 h-3.5" />
@@ -2450,7 +2450,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
 
                   {/* Search and Filters */}
                   <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
-                    <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full sm:max-w-md">
+                    <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-2xl border border-slate-200/50 w-full sm:max-w-md">
                       <Search className="w-4 h-4 text-slate-400 shrink-0" />
                       <input
                         type="text"
@@ -2466,9 +2466,9 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         <button
                           key={f}
                           onClick={() => setFilterType(f)}
-                          className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase border transition-all cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase border transition-all cursor-pointer ${
                             filterType === f 
-                              ? 'bg-blue-600 text-white border-blue-600' 
+                              ? 'bg-emerald-600 text-white border-emerald-600' 
                               : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                           }`}
                         >
@@ -2521,7 +2521,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4 font-semibold text-slate-750">{u.area}</td>
                                   <td className="py-3.5 px-4">
                                     {u.verified ? (
-                                      <span className="px-2 py-0.5 bg-blue-50 text-blue-600 font-mono text-[9px] font-black rounded uppercase tracking-wider flex items-center gap-1.5 w-fit">
+                                      <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 font-mono text-[9px] font-black rounded uppercase tracking-wider flex items-center gap-1.5 w-fit">
                                         <Check className="w-3 h-3" />
                                         {isEn ? 'Verified' : 'ہاں'}
                                       </span>
@@ -2532,17 +2532,17 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                   <td className="py-3.5 px-4 text-end space-x-1.5 whitespace-nowrap">
                                     <button
                                       onClick={() => setSelectedUserDetail(u)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="View Details"
                                     >
                                       <Eye className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleToggleSuspendUser(u.mobileNumber, !!isSuspended)}
-                                      className={`p-1.5 rounded-lg transition-colors border-0 cursor-pointer ${
+                                      className={`p-1.5 rounded-xl transition-colors border-0 cursor-pointer ${
                                         isSuspended 
                                           ? 'bg-green-50 hover:bg-green-100 text-green-600' 
-                                          : 'bg-amber-50 hover:bg-amber-100 text-amber-600'
+                                          : 'bg-emerald-50 hover:bg-amber-100 text-emerald-600'
                                       }`}
                                       title={isSuspended ? 'Reactivate Profile' : 'Suspend Profile'}
                                     >
@@ -2550,7 +2550,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                     </button>
                                     <button
                                       onClick={() => handleDeleteUser(u.id)}
-                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Delete Profile"
                                     >
                                       <Trash2 className="w-3.5 h-3.5" />
@@ -2572,14 +2572,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         <button
                           disabled={currentPage === 1}
                           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                          className="p-1 border border-slate-200 rounded-lg bg-white disabled:opacity-40 cursor-pointer"
+                          className="p-1 border border-slate-200 rounded-xl bg-white disabled:opacity-40 cursor-pointer"
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
                         <button
                           disabled={currentPage * itemsPerPage >= users.length}
                           onClick={() => setCurrentPage(prev => prev + 1)}
-                          className="p-1 border border-slate-200 rounded-lg bg-white disabled:opacity-40 cursor-pointer"
+                          className="p-1 border border-slate-200 rounded-xl bg-white disabled:opacity-40 cursor-pointer"
                         >
                           <ChevronRight className="w-4 h-4" />
                         </button>
@@ -2615,7 +2615,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
 
                     {/* Search & Filters */}
                     <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col gap-4">
-                      <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/50 w-full sm:max-w-md">
+                      <div className="flex items-center gap-3 bg-slate-50 px-3.5 py-2.5 rounded-2xl border border-slate-200/50 w-full sm:max-w-md">
                         <Search className="w-4 h-4 text-slate-400 shrink-0" />
                         <input
                           type="text"
@@ -2636,9 +2636,9 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           <button
                             key={tObj.key}
                             onClick={() => setFilterType(tObj.key)}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase border transition-all cursor-pointer ${
+                            className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase border transition-all cursor-pointer ${
                               filterType === tObj.key 
-                                ? 'bg-blue-600 text-white border-blue-600' 
+                                ? 'bg-emerald-600 text-white border-emerald-600' 
                                 : 'bg-white text-slate-650 border-slate-200 hover:bg-slate-50'
                             }`}
                           >
@@ -2689,7 +2689,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                         Flagged / Reported
                                       </span>
                                     ) : item.status === 'Pending' ? (
-                                      <span className="px-2.5 py-1 bg-amber-50 text-amber-700 font-mono text-[9px] font-black rounded uppercase tracking-wider flex items-center gap-1 w-fit animate-pulse">
+                                      <span className="px-2.5 py-1 bg-emerald-50 text-amber-700 font-mono text-[9px] font-black rounded uppercase tracking-wider flex items-center gap-1 w-fit animate-pulse">
                                         <Clock className="w-3 h-3" />
                                         Pending Approval
                                       </span>
@@ -2703,14 +2703,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                       <>
                                         <button
                                           onClick={() => handleApproveContentStatus(subRoute.moduleKey, item.id, true)}
-                                          className="p-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                          className="p-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-xl transition-colors border-0 cursor-pointer"
                                           title="Approve Listing"
                                         >
                                           <CheckCircle className="w-3.5 h-3.5" />
                                         </button>
                                         <button
                                           onClick={() => handleApproveContentStatus(subRoute.moduleKey, item.id, false)}
-                                          className="p-1.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-lg transition-colors border-0 cursor-pointer"
+                                          className="p-1.5 bg-red-50 hover:bg-red-100 text-red-650 rounded-xl transition-colors border-0 cursor-pointer"
                                           title="Reject Listing"
                                         >
                                           <XCircle className="w-3.5 h-3.5" />
@@ -2719,15 +2719,15 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                     )}
                                     <button
                                       onClick={() => setSelectedContentDetail({ ...item, module: subRoute.moduleKey })}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Quick Details View"
                                     >
                                       <Eye className="w-3.5 h-3.5" />
                                     </button>
                                     <button
                                       onClick={() => handleToggleSuspendContent(subRoute.moduleKey, item.id, item.status === 'Suspended')}
-                                      className={`p-1.5 rounded-lg transition-colors border-0 cursor-pointer ${
-                                        item.status === 'Suspended' ? 'bg-green-50 hover:bg-green-100 text-green-600' : 'bg-amber-50 hover:bg-amber-100 text-amber-600'
+                                      className={`p-1.5 rounded-xl transition-colors border-0 cursor-pointer ${
+                                        item.status === 'Suspended' ? 'bg-green-50 hover:bg-green-100 text-green-600' : 'bg-emerald-50 hover:bg-amber-100 text-emerald-600'
                                       }`}
                                       title={item.status === 'Suspended' ? "Reactivate Listing" : "Suspend Listing"}
                                     >
@@ -2735,7 +2735,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                                     </button>
                                     <button
                                       onClick={() => handleEditContent(subRoute.moduleKey, item)}
-                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-blue-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-emerald-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Edit Fields"
                                     >
                                       <Edit2 className="w-3.5 h-3.5" />
@@ -2743,7 +2743,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
 
                                     <button
                                       onClick={() => handleDeleteContent(subRoute.moduleKey, item.id)}
-                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors border-0 cursor-pointer"
+                                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-colors border-0 cursor-pointer"
                                       title="Remove Permanently"
                                     >
                                       <Trash2 className="w-3.5 h-3.5" />
@@ -2765,14 +2765,14 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           <button
                             disabled={currentPage === 1}
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                            className="p-1 border border-slate-200 rounded-lg bg-white disabled:opacity-40 cursor-pointer"
+                            className="p-1 border border-slate-200 rounded-xl bg-white disabled:opacity-40 cursor-pointer"
                           >
                             <ChevronLeft className="w-4 h-4" />
                           </button>
                           <button
                             disabled={currentPage * itemsPerPage >= filteredList.length}
                             onClick={() => setCurrentPage(prev => prev + 1)}
-                            className="p-1 border border-slate-200 rounded-lg bg-white disabled:opacity-40 cursor-pointer"
+                            className="p-1 border border-slate-200 rounded-xl bg-white disabled:opacity-40 cursor-pointer"
                           >
                             <ChevronRight className="w-4 h-4" />
                           </button>
@@ -2833,7 +2833,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                               
                               <div className="space-y-1">
                                 <h3 className="text-sm font-extrabold text-slate-900 leading-snug">{report.title}</h3>
-                                <p className="text-xs font-bold text-red-650 bg-red-50/50 px-2.5 py-1 rounded-lg w-fit">
+                                <p className="text-xs font-bold text-red-650 bg-red-50/50 px-2.5 py-1 rounded-xl w-fit">
                                   Flag Reason: {report.reason}
                                 </p>
                               </div>
@@ -2845,19 +2845,19 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             <div className="flex md:flex-col lg:flex-row items-center gap-2 shrink-0 self-center">
                               <button
                                 onClick={() => handleActionOnReport(report, 'remove')}
-                                className="px-4 py-2 bg-red-650 hover:bg-red-700 text-white font-extrabold rounded-xl text-xs shadow-sm border-0 cursor-pointer transition-all"
+                                className="px-4 py-2 bg-red-650 hover:bg-red-700 text-white font-extrabold rounded-2xl text-xs shadow-sm border-0 cursor-pointer transition-all"
                               >
                                 Remove Content
                               </button>
                               <button
                                 onClick={() => handleActionOnReport(report, 'suspend')}
-                                className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-extrabold rounded-xl text-xs shadow-sm border-0 cursor-pointer transition-all"
+                                className="px-4 py-2 bg-emerald-600 hover:bg-amber-700 text-white font-extrabold rounded-2xl text-xs shadow-sm border-0 cursor-pointer transition-all"
                               >
                                 Ban Publisher
                               </button>
                               <button
                                 onClick={() => handleDismissReport(report.id)}
-                                className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs border-0 cursor-pointer transition-all"
+                                className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs border-0 cursor-pointer transition-all"
                               >
                                 Dismiss / Resolve
                               </button>
@@ -2910,7 +2910,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           { key: 'requireVerificationToPost', label: 'Require Verification To Publish Listings', desc: 'Ensures only validated accounts can post jobs or marketplace items' },
                           { key: 'enableSystemNotifications', label: 'Enable System Wide Push Alerts', desc: 'Broadcast administrative alerts to user headers instantly' }
                         ].map(config => (
-                          <div key={config.key} className="flex items-start justify-between gap-4 p-3 hover:bg-slate-50 rounded-xl transition-all">
+                          <div key={config.key} className="flex items-start justify-between gap-4 p-3 hover:bg-slate-50 rounded-2xl transition-all">
                             <div className="space-y-1">
                               <p className="text-xs font-bold text-slate-900">{config.label}</p>
                               <p className="text-[10px] text-slate-550 leading-normal">{config.desc}</p>
@@ -2919,7 +2919,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                               type="checkbox"
                               checked={(appSettings as any)[config.key]}
                               onChange={(e) => setAppSettings(prev => ({ ...prev, [config.key]: e.target.checked }))}
-                              className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded mt-0.5 font-bold"
+                              className="w-4 h-4 text-emerald-600 focus:ring-emerald-500 border-slate-300 rounded mt-0.5 font-bold"
                             />
                           </div>
                         ))}
@@ -2929,7 +2929,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                           <select
                             value={appSettings.moderationLevel}
                             onChange={(e) => setAppSettings(prev => ({ ...prev, moderationLevel: e.target.value }))}
-                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 font-bold"
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 font-bold"
                           >
                             <option value="relaxed">Relaxed (Self-police by community flags)</option>
                             <option value="standard">Standard (Standard alert thresholds)</option>
@@ -2952,9 +2952,9 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             <button
                               key={mKey}
                               onClick={() => setActiveCategoryModule(mKey)}
-                              className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                              className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
                                 activeCategoryModule === mKey 
-                                  ? 'bg-blue-600 text-white border-blue-600' 
+                                  ? 'bg-emerald-600 text-white border-emerald-600' 
                                   : 'bg-white text-slate-650 border-slate-200 hover:bg-slate-50'
                               }`}
                             >
@@ -2969,18 +2969,18 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                             placeholder="Add new category label..."
                             value={newCategoryName}
                             onChange={(e) => setNewCategoryName(e.target.value)}
-                            className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs placeholder-slate-400 focus:outline-none font-bold"
+                            className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs placeholder-slate-400 focus:outline-none font-bold"
                           />
                           <button
                             onClick={handleAddCategory}
-                            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center gap-1 shrink-0 border-0 cursor-pointer"
+                            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs flex items-center gap-1 shrink-0 border-0 cursor-pointer"
                           >
                             <Plus className="w-4 h-4" />
                             <span>Add</span>
                           </button>
                         </div>
 
-                        <div className="border border-slate-100 rounded-xl max-h-52 overflow-y-auto divide-y divide-slate-100 bg-slate-50/25">
+                        <div className="border border-slate-100 rounded-2xl max-h-52 overflow-y-auto divide-y divide-slate-100 bg-slate-50/25">
                           {categories[activeCategoryModule]?.map(c => (
                             <div key={c} className="p-3 flex items-center justify-between text-xs font-bold text-slate-750 hover:bg-slate-50">
                               <span>{c}</span>
@@ -3050,13 +3050,13 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
             <div className="flex gap-3">
               <button
                 onClick={() => handleVerifyUser(selectedUserDetail.mobileNumber, !selectedUserDetail.verified)}
-                className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow-md border-0 cursor-pointer"
+                className="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs shadow-md border-0 cursor-pointer"
               >
                 {selectedUserDetail.verified ? 'Revoke Verification' : 'Verify Resident'}
               </button>
               <button
                 onClick={() => setSelectedUserDetail(null)}
-                className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs border-0 cursor-pointer"
+                className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs border-0 cursor-pointer"
               >
                 Close View
               </button>
@@ -3103,13 +3103,13 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleApproveContentStatus(selectedContentDetail.module, selectedContentDetail.id, true)}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl text-xs border-0 cursor-pointer"
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl text-xs border-0 cursor-pointer"
                   >
                     Approve Request
                   </button>
                   <button
                     onClick={() => handleApproveContentStatus(selectedContentDetail.module, selectedContentDetail.id, false)}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs border-0 cursor-pointer"
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl text-xs border-0 cursor-pointer"
                   >
                     Reject Request
                   </button>
@@ -3119,7 +3119,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               )}
               <button
                 onClick={() => setSelectedContentDetail(null)}
-                className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs border-0 cursor-pointer"
+                className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs border-0 cursor-pointer"
               >
                 Close View
               </button>
@@ -3160,7 +3160,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         type="text"
                         value={String(val)}
                         onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
-                        className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-500"
+                        className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                   );
@@ -3171,13 +3171,13 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                 <button
                   type="button"
                   onClick={() => { setIsEditModalOpen(false); setEditForm(null); }}
-                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs border-0 cursor-pointer"
+                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs border-0 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow-md border-0 cursor-pointer shadow-blue-500/10"
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs shadow-md border-0 cursor-pointer shadow-emerald-500/10"
                 >
                   Save to Supabase
                 </button>
@@ -3219,7 +3219,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.title || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, title: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. Sardar Biryani Weekend Discount"
                     />
                   </div>
@@ -3230,7 +3230,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.advertiser_name || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, advertiser_name: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. Sardar Biryani & Pulao"
                     />
                   </div>
@@ -3241,7 +3241,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.advertiser_phone || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, advertiser_phone: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. 03001234567"
                     />
                   </div>
@@ -3252,7 +3252,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.advertiser_email || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, advertiser_email: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. ads@sardar.com"
                     />
                   </div>
@@ -3261,7 +3261,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <textarea
                       value={adForm.description || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, description: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="Enter promotional copy here..."
                       rows={2}
                     />
@@ -3282,7 +3282,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       className="w-full text-xs"
                     />
                     {adForm.banner_url && (
-                      <div className="mt-2 w-32 h-20 rounded-lg overflow-hidden border border-slate-200 bg-slate-100">
+                      <div className="mt-2 w-32 h-20 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                         <img src={adForm.banner_url} alt="Primary Preview" className="w-full h-full object-cover" />
                       </div>
                     )}
@@ -3294,7 +3294,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       value={adForm.video_url || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, video_url: e.target.value }))}
                       placeholder="Enter YouTube/Vimeo URL or paste storage link"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     />
                   </div>
                   <div className="space-y-1 md:col-span-2">
@@ -3335,7 +3335,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.placement}
                       onChange={(e) => setAdForm(prev => ({ ...prev, placement: e.target.value as AdItem['placement'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       {[
                         'Home Feed', 'Community Feed', 'Jobs', 'Businesses', 'Marketplace',
@@ -3352,7 +3352,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.format || 'Feed'}
                       onChange={(e) => setAdForm(prev => ({ ...prev, format: e.target.value as AdItem['format'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       <option value="Feed">Standard Feed Ad</option>
                       <option value="Banner">Banner Ad</option>
@@ -3371,7 +3371,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                         min="0"
                         value={adForm.display_frequency ?? 20}
                         onChange={(e) => setAdForm(prev => ({ ...prev, display_frequency: parseInt(e.target.value) || 0 }))}
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                         placeholder="20"
                       />
                       <p className="text-[9px] text-slate-400 mt-1 leading-tight">0 = every launch. e.g. 20 = max 1 per 20 mins.</p>
@@ -3383,7 +3383,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.category}
                       onChange={(e) => setAdForm(prev => ({ ...prev, category: e.target.value as AdItem['category'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       {['General', 'Business', 'Job', 'Property', 'Marketplace', 'Event', 'Service', 'Promotion'].map(c => (
                         <option key={c} value={c}>{c}</option>
@@ -3396,7 +3396,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       type="text"
                       value={adForm.target_audience || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, target_audience: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. Youth, Foodies, Home buyers"
                     />
                   </div>
@@ -3406,7 +3406,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       type="text"
                       value={adForm.target_location || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, target_location: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. Sector A, Sector B"
                     />
                   </div>
@@ -3422,7 +3422,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.cta_type}
                       onChange={(e) => setAdForm(prev => ({ ...prev, cta_type: e.target.value as AdItem['cta_type'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       {['Open Business', 'WhatsApp', 'Phone Call', 'Website', 'External Link', 'Marketplace Item', 'Property Listing', 'Job Listing'].map(c => (
                         <option key={c} value={c}>{c}</option>
@@ -3436,7 +3436,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       value={adForm.cta_link || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, cta_link: e.target.value }))}
                       placeholder="e.g. URL link, Phone digit prefix, or item ID"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     />
                   </div>
                 </div>
@@ -3453,7 +3453,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.start_date || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, start_date: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     />
                   </div>
                   <div className="space-y-1">
@@ -3463,7 +3463,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.end_date || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, end_date: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     />
                   </div>
                   <div className="space-y-1">
@@ -3471,7 +3471,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.priority}
                       onChange={(e) => setAdForm(prev => ({ ...prev, priority: e.target.value as AdItem['priority'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       {['Low', 'Normal', 'High', 'Premium'].map(p => (
                         <option key={p} value={p}>{p}</option>
@@ -3485,7 +3485,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       required
                       value={adForm.amount || 0}
                       onChange={(e) => setAdForm(prev => ({ ...prev, amount: Number(e.target.value) }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     />
                   </div>
                   <div className="space-y-1">
@@ -3493,7 +3493,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     <select
                       value={adForm.payment_status}
                       onChange={(e) => setAdForm(prev => ({ ...prev, payment_status: e.target.value as AdItem['payment_status'] }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                     >
                       {['Pending', 'Paid', 'Failed', 'Refunded'].map(p => (
                         <option key={p} value={p}>{p}</option>
@@ -3506,7 +3506,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                       type="text"
                       value={adForm.invoice_number || ''}
                       onChange={(e) => setAdForm(prev => ({ ...prev, invoice_number: e.target.value }))}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:bg-white"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:bg-white"
                       placeholder="e.g. INV-2026-99"
                     />
                   </div>
@@ -3518,21 +3518,21 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                 <button
                   type="button"
                   onClick={() => { setIsAdCreateEditModalOpen(false); setAdForm(initialAdFormState); }}
-                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs border-0 cursor-pointer"
+                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs border-0 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={(e) => handleSaveAdForm(e, true)}
-                  className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl text-xs border-0 cursor-pointer"
+                  className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-xs border-0 cursor-pointer"
                 >
                   Save Draft
                 </button>
                 <button
                   type="submit"
                   disabled={adFormUploading}
-                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs shadow-md border-0 cursor-pointer disabled:opacity-40"
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs shadow-md border-0 cursor-pointer disabled:opacity-40"
                 >
                   {adFormUploading ? 'Uploading Assets...' : 'Publish Advertisement'}
                 </button>
@@ -3569,25 +3569,25 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               {/* Stats Analytics Grid */}
               {/* Stats Analytics Grid */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                   <p className="text-[9px] font-black text-slate-400 uppercase">Impressions</p>
                   <h4 className="text-lg font-black text-slate-800 mt-1">{selectedAd.impressions || 0}</h4>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                   <p className="text-[9px] font-black text-slate-400 uppercase">Views (2s)</p>
                   <h4 className="text-lg font-black text-slate-800 mt-1">{selectedAd.views || 0}</h4>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                   <p className="text-[9px] font-black text-slate-400 uppercase">Clicks</p>
                   <h4 className="text-lg font-black text-slate-800 mt-1">{selectedAd.clicks || 0}</h4>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                   <p className="text-[9px] font-black text-slate-400 uppercase">Average CTR</p>
                   <h4 className="text-lg font-black text-slate-800 mt-1">
                     {selectedAd.impressions ? ((selectedAd.clicks / selectedAd.impressions) * 100).toFixed(2) + '%' : '0.00%'}
                   </h4>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-center">
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                   <p className="text-[9px] font-black text-slate-400 uppercase">
                     {selectedAd.cta_type === 'WhatsApp' ? 'WhatsApp Clicks' :
                      selectedAd.cta_type === 'Phone Call' ? 'Phone Clicks' :
@@ -3602,7 +3602,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               </div>
 
               {/* Custom SVG Line Chart */}
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200">
                 <h4 className="text-xs font-bold text-slate-700 mb-2">Campaign Telemetry (Last 7 Days)</h4>
                 <div className="h-40 w-full relative">
                   <svg className="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
@@ -3672,7 +3672,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                 </div>
                 <div className="flex gap-4 mt-2 justify-center text-[10px]">
                   <div className="flex items-center gap-1">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full inline-block" />
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full inline-block" />
                     <span className="font-bold text-slate-600">Views/Impressions</span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -3683,28 +3683,28 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               </div>
 
               {/* Recent Activity Timestamps */}
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
                 <h4 className="text-xs font-bold text-slate-700">Recent Activity Logs</h4>
                 <div className="grid grid-cols-2 gap-3 text-[11px]">
-                  <div className="flex justify-between p-2 bg-white rounded-lg border border-slate-100">
+                  <div className="flex justify-between p-2 bg-white rounded-xl border border-slate-100">
                     <span className="text-slate-450">Last Impression:</span>
                     <span className="font-bold text-slate-700">
                       {selectedAd.impressions > 0 ? new Date(new Date(selectedAd.updated_at || Date.now()).getTime() - 2 * 60 * 1000).toLocaleTimeString() : 'N/A'}
                     </span>
                   </div>
-                  <div className="flex justify-between p-2 bg-white rounded-lg border border-slate-100">
+                  <div className="flex justify-between p-2 bg-white rounded-xl border border-slate-100">
                     <span className="text-slate-450">Last Viewed:</span>
                     <span className="font-bold text-slate-700">
                       {selectedAd.views > 0 ? new Date(new Date(selectedAd.updated_at || Date.now()).getTime() - 5 * 60 * 1000).toLocaleTimeString() : 'N/A'}
                     </span>
                   </div>
-                  <div className="flex justify-between p-2 bg-white rounded-lg border border-slate-100">
+                  <div className="flex justify-between p-2 bg-white rounded-xl border border-slate-100">
                     <span className="text-slate-450">Last Clicked:</span>
                     <span className="font-bold text-slate-700">
                       {selectedAd.clicks > 0 ? new Date(new Date(selectedAd.updated_at || Date.now()).getTime() - 15 * 60 * 1000).toLocaleTimeString() : 'N/A'}
                     </span>
                   </div>
-                  <div className="flex justify-between p-2 bg-white rounded-lg border border-slate-100">
+                  <div className="flex justify-between p-2 bg-white rounded-xl border border-slate-100">
                     <span className="text-slate-450">Last CTA Click:</span>
                     <span className="font-bold text-slate-700">
                       {selectedAd.conversions > 0 ? new Date(new Date(selectedAd.updated_at || Date.now()).getTime() - 30 * 60 * 1000).toLocaleTimeString() : 'N/A'}
@@ -3714,7 +3714,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
               </div>
 
               {/* Detailed Specs Panel */}
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 grid grid-cols-2 gap-3 text-xs">
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 grid grid-cols-2 gap-3 text-xs">
                 <div>
                   <span className="text-[9px] font-black text-slate-400 uppercase">Advertiser Contact Info</span>
                   <p className="font-bold text-slate-800 mt-1">{selectedAd.advertiser_name}</p>
@@ -3741,7 +3741,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
             <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 shrink-0 mt-3">
               <button
                 onClick={() => { setIsAdDetailsModalOpen(false); setSelectedAd(null); }}
-                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs border-0 cursor-pointer"
+                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs border-0 cursor-pointer"
               >
                 Close View
               </button>
@@ -3753,3 +3753,4 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
     </div>
   );
 }
+

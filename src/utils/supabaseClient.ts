@@ -887,19 +887,27 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
 
     if (error || !data) {
       console.log("Retrying posts fetch without areas join...");
+      let retryQuery = supabase
+        .from('posts')
+        .select(`
+          *,
+          profiles:user_id (
+            user_id,
+            full_name,
+            profile_photo,
+            area
+          )
+        `)
+        .order('created_at', { ascending: false });
+
+      if (groupId) {
+        retryQuery = retryQuery.eq('group_id', groupId);
+      } else {
+        retryQuery = retryQuery.is('group_id', null);
+      }
+
       const retryResult = await Promise.race([
-        supabase
-          .from('posts')
-          .select(`
-            *,
-            profiles:user_id (
-              user_id,
-              full_name,
-              profile_photo,
-              area
-            )
-          `)
-          .order('created_at', { ascending: false }),
+        retryQuery,
         new Promise<any>((_, reject) => 
           setTimeout(() => reject(new Error('Posts Request Timeout')), 2500)
         )
@@ -946,7 +954,7 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
         // Include the related profile (author) data for each shared entity
         const { data: entityData } = await supabase
           .from(tableName)
-          .select('*, profiles(*)')
+          .select('*, profiles(*), groups(id, name, privacy, coverImage, logo_url, cover_url, group_members(count))')
           .in('id', ids);
         if (entityData) {
           entityData.forEach(e => {
@@ -2304,6 +2312,31 @@ export async function dbSendMessage(
       console.error("Supabase message insert error:", error);
       throw error;
     }
+    
+    // Trigger notifications for other conversation members
+    supabase
+      .from('conversation_members')
+      .select('user_id')
+      .eq('conversation_id', conversationId)
+      .neq('user_id', senderId)
+      .then(({ data: members }) => {
+        if (members) {
+          members.forEach(member => {
+            const body = type === 'text' ? text : 
+                         type === 'image' ? 'Sent you a photo' :
+                         type === 'voice' ? 'Sent you a voice message' : 'Sent you a file';
+            dbTriggerNotification(
+              member.user_id,
+              senderId,
+              'New Message',
+              body,
+              'chat',
+              conversationId
+            ).catch(err => console.warn('Failed to trigger chat notification', err));
+          });
+        }
+      });
+
     return data;
   } catch (err: any) {
     console.error("Exception in dbSendMessage:", err);
@@ -2326,6 +2359,36 @@ export async function dbMarkMessagesAsSeen(conversationId: string, userId: strin
     console.warn("Exception in dbMarkMessagesAsSeen:", err);
     return false;
   }
+}
+
+export async function dbGetTotalUnreadMessages(userId: string): Promise<number> {
+  if (!isSupabaseConfigured || !supabase) return 0;
+  return safeSupabaseCall(async () => {
+    // 1. Get all conversation IDs where user is a member
+    const { data: memberOf, error: memberError } = await supabase
+      .from('conversation_members')
+      .select('conversation_id')
+      .eq('user_id', userId);
+      
+    if (memberError || !memberOf || memberOf.length === 0) return 0;
+    
+    const conversationIds = memberOf.map(m => m.conversation_id);
+    
+    // 2. Count unread messages in these conversations sent by others
+    const { count, error } = await supabase
+      .from('messages')
+      .select('id', { count: 'exact', head: true })
+      .in('conversation_id', conversationIds)
+      .neq('sender_id', userId)
+      .eq('is_seen', false);
+      
+    if (error) {
+      console.warn("Error fetching total unread messages:", error);
+      return 0;
+    }
+    
+    return count || 0;
+  });
 }
 
 
@@ -4976,13 +5039,13 @@ export const dbCheckGroupMembership = async (groupId: string, userId: string): P
   return !!data;
 };
 
-export const dbJoinGroup = async (groupId: string, userId: string): Promise<boolean> => {
+export const dbJoinGroup = async (groupId: string, userId: string, status: string = 'Approved'): Promise<boolean> => {
   if (!isSupabaseConfigured) {
     const key = 'dhoke_group_members_' + groupId;
     const raw = localStorage.getItem(key);
     const members = raw ? JSON.parse(raw) : [];
     if (!members.some((m: any) => m.user_id === userId)) {
-      members.push({ group_id: groupId, user_id: userId, role: 'member', status: 'active' });
+      members.push({ group_id: groupId, user_id: userId, role: 'Member', status });
       localStorage.setItem(key, JSON.stringify(members));
     }
     return true;
@@ -4990,11 +5053,148 @@ export const dbJoinGroup = async (groupId: string, userId: string): Promise<bool
   const { error } = await supabase.from('group_members').insert({
     group_id: groupId,
     user_id: userId,
-    role: 'member',
-    status: 'active'
+    role: 'Member',
+    status: status
   });
   if (error) {
     console.error('Error joining group:', error);
+    return false;
+  }
+  return true;
+};
+
+export const dbNotifyGroupAdmins = async (
+  groupId: string,
+  senderId: string,
+  type: string,
+  title: string,
+  body: string,
+  referenceType?: string,
+  referenceId?: string
+): Promise<void> => {
+  if (!isSupabaseConfigured) return;
+  
+  // Also get the owner of the group
+  const { data: groupData } = await supabase.from('groups').select('owner_id').eq('id', groupId).single();
+  const ownerId = groupData?.owner_id;
+
+  const { data: admins } = await supabase.from('group_members')
+    .select('user_id')
+    .eq('group_id', groupId)
+    .in('role', ['Admin', 'Owner']);
+    
+  const adminIds = new Set(admins?.map(a => a.user_id) || []);
+  if (ownerId) adminIds.add(ownerId);
+
+  for (const adminId of adminIds) {
+    if (adminId !== senderId) {
+      await dbTriggerNotification(adminId, senderId, type, title, body, referenceType, referenceId);
+    }
+  }
+};
+
+export const dbLeaveGroup = async (groupId: string, userId: string): Promise<boolean> => {
+  if (!isSupabaseConfigured) {
+    const key = 'dhoke_group_members_' + groupId;
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      let members = JSON.parse(raw);
+      members = members.filter((m: any) => m.user_id !== userId);
+      localStorage.setItem(key, JSON.stringify(members));
+    }
+    return true;
+  }
+  const { error } = await supabase.from('group_members')
+    .delete()
+    .eq('group_id', groupId)
+    .eq('user_id', userId);
+  if (error) {
+    console.error('Error leaving group:', error);
+    return false;
+  }
+  return true;
+};
+
+export const dbGetGroupMembers = async (groupId: string): Promise<any[]> => {
+  if (!isSupabaseConfigured) return [];
+  const { data, error } = await supabase.from('group_members')
+    .select('*, profiles(*)')
+    .eq('group_id', groupId)
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.error('Error fetching group members:', error);
+    return [];
+  }
+  return data || [];
+};
+
+export const dbGetUserGroupRole = async (groupId: string, userId: string): Promise<{ role: string, status: string } | null> => {
+  if (!isSupabaseConfigured) return null;
+  const { data, error } = await supabase.from('group_members')
+    .select('role, status')
+    .eq('group_id', groupId)
+    .eq('user_id', userId)
+    .single();
+  if (error || !data) {
+    return null;
+  }
+  return { role: data.role, status: data.status };
+};
+
+export const dbUpdateGroupMemberRole = async (groupId: string, userId: string, role: string): Promise<boolean> => {
+  if (!isSupabaseConfigured) return false;
+  const { error } = await supabase.from('group_members')
+    .update({ role })
+    .eq('group_id', groupId)
+    .eq('user_id', userId);
+  if (error) {
+    console.error('Error updating group member role:', error);
+    return false;
+  }
+  return true;
+};
+
+export const dbUpdateGroup = async (groupId: string, updates: any): Promise<boolean> => {
+  if (!isSupabaseConfigured) return false;
+  const { error } = await supabase.from('groups')
+    .update(updates)
+    .eq('id', groupId);
+  if (error) {
+    console.error('Error updating group:', error);
+    return false;
+  }
+  return true;
+};
+
+export const dbRemoveGroupMember = async (groupId: string, userId: string): Promise<boolean> => {
+  return dbLeaveGroup(groupId, userId);
+};
+
+export const dbGetGroupRequests = async (groupId: string): Promise<any[]> => {
+  if (!isSupabaseConfigured) return [];
+  const { data, error } = await supabase.from('group_members')
+    .select('*, profiles(*)')
+    .eq('group_id', groupId)
+    .eq('status', 'Pending')
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.error('Error fetching group requests:', error);
+    return [];
+  }
+  return data || [];
+};
+
+export const dbUpdateGroupRequestStatus = async (groupId: string, userId: string, status: string): Promise<boolean> => {
+  if (!isSupabaseConfigured) return false;
+  if (status === 'Rejected') {
+    return dbLeaveGroup(groupId, userId);
+  }
+  const { error } = await supabase.from('group_members')
+    .update({ status })
+    .eq('group_id', groupId)
+    .eq('user_id', userId);
+  if (error) {
+    console.error('Error updating group request status:', error);
     return false;
   }
   return true;
@@ -5903,5 +6103,88 @@ export async function dbRemoveStoryFromHighlight(highlightId: string, storyId: s
   } catch (err) {
     console.error('dbRemoveStoryFromHighlight error', err);
     return false;
+  }
+}
+
+/**
+ * ============================================================================
+ * SAVED VIDEOS
+ * ============================================================================
+ */
+const LOCAL_SAVED_VIDEOS_KEY = 'dhoke_hassu_saved_videos';
+
+export async function dbToggleVideoSave(videoId: string, userId: string): Promise<{ saved: boolean }> {
+  if (isSupabaseConfigured && supabase) {
+     try {
+       const { data: existing, error: fetchErr } = await supabase.from('saved_videos').select('id').eq('video_id', videoId).eq('user_id', userId).maybeSingle();
+       if (fetchErr && fetchErr.code === '42P01') {
+          throw new Error('Table does not exist');
+       }
+       if (existing) {
+         await supabase.from('saved_videos').delete().eq('video_id', videoId).eq('user_id', userId);
+         return { saved: false };
+       } else {
+         await supabase.from('saved_videos').insert({ video_id: videoId, user_id: userId });
+         return { saved: true };
+       }
+     } catch(e) {
+        // Fallback below
+     }
+  }
+
+  // Fallback to localStorage
+  try {
+     const stored = localStorage.getItem(LOCAL_SAVED_VIDEOS_KEY + '_' + userId);
+     let savedVideos = stored ? JSON.parse(stored) : [];
+     const isSaved = savedVideos.includes(videoId);
+     if (isSaved) {
+       savedVideos = savedVideos.filter((id: string) => id !== videoId);
+       localStorage.setItem(LOCAL_SAVED_VIDEOS_KEY + '_' + userId, JSON.stringify(savedVideos));
+       return { saved: false };
+     } else {
+       savedVideos.unshift(videoId); // Newest first
+       localStorage.setItem(LOCAL_SAVED_VIDEOS_KEY + '_' + userId, JSON.stringify(savedVideos));
+       return { saved: true };
+     }
+  } catch(e) {
+     return { saved: false };
+  }
+}
+
+export async function dbGetSavedVideoIds(userId: string): Promise<Set<string>> {
+  if (isSupabaseConfigured && supabase) {
+     try {
+       const { data, error } = await supabase.from('saved_videos').select('video_id').eq('user_id', userId);
+       if (!error && data) {
+         return new Set(data.map(d => d.video_id));
+       }
+     } catch(e) {}
+  }
+
+  // Fallback
+  try {
+     const stored = localStorage.getItem(LOCAL_SAVED_VIDEOS_KEY + '_' + userId);
+     return new Set(stored ? JSON.parse(stored) : []);
+  } catch(e) {
+     return new Set();
+  }
+}
+
+export async function dbGetSavedVideosList(userId: string): Promise<string[]> {
+  if (isSupabaseConfigured && supabase) {
+     try {
+       const { data, error } = await supabase.from('saved_videos').select('video_id').eq('user_id', userId).order('created_at', { ascending: false });
+       if (!error && data) {
+         return data.map(d => d.video_id);
+       }
+     } catch(e) {}
+  }
+
+  // Fallback
+  try {
+     const stored = localStorage.getItem(LOCAL_SAVED_VIDEOS_KEY + '_' + userId);
+     return stored ? JSON.parse(stored) : [];
+  } catch(e) {
+     return [];
   }
 }

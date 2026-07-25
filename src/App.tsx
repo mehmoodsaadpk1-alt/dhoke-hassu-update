@@ -522,21 +522,46 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       {authState !== 'LOGGED_IN' ? (
-        /* AUTHENTICATION CONTAINER (With clean neutral gradient background) */
-        <div className="flex-1 flex flex-col justify-center items-center px-4 py-12 bg-slate-50 relative overflow-hidden">
+        /* PREMIUM AUTHENTICATION CONTAINER (Mobile & Desktop) */
+        <div className={`flex-1 flex flex-col min-h-screen relative overflow-hidden ${authState === 'LOGIN' ? 'bg-[url("/login-bg.jpg")] bg-cover bg-center bg-no-repeat bg-fixed' : 'bg-slate-50 md:bg-[#e8f5e9]'}`} dir="ltr">
           
-          {/* Ambient decorative background blobs */}
-          <div className="absolute top-0 start-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12" />
-          <div className="absolute bottom-0 end-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12" />
+          {/* Overlay for readability if image is too bright, optional but good for contrast */}
+          {authState === 'LOGIN' && (
+            <div className="absolute inset-0 bg-black/20 md:bg-black/40 pointer-events-none z-0" />
+          )}
 
-          {/* Quick instructions bar */}
-          <div className="w-full max-w-md text-center mb-6 z-10">
-            <p className="text-xs text-slate-400 font-medium bg-slate-100 border border-slate-200/50 py-1.5 px-4 rounded-full inline-block">
-              💡 {currentLanguage === 'en' ? 'Rawalpindi Community App Foundation' : 'راولپنڈی کمیونٹی ایپ فاؤنڈیشن'}
-            </p>
-          </div>
+          {/* Mobile Background Blobs */}
+          <div className={`md:hidden absolute top-0 start-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+          <div className={`md:hidden absolute bottom-0 end-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
 
-          <div className="relative z-10 w-full flex justify-center">
+          {/* Desktop Background Patterns & Geometry */}
+          <div className={`hidden md:block absolute inset-0 opacity-[0.15] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none mix-blend-multiply ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+          <div className={`hidden md:block absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+          <div className={`hidden md:block absolute -bottom-[20%] -left-[10%] w-[800px] h-[800px] bg-gradient-to-tr from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+
+          {/* Desktop Header */}
+          <header className="hidden md:flex relative z-10 w-full px-12 py-6 justify-between items-center bg-white/40 backdrop-blur-md border-b border-white/50 shadow-sm">
+            <div className="flex flex-col items-start">
+              <div className="flex items-center text-[#2A7649] font-extrabold text-3xl tracking-tighter">
+                <span>D</span>
+                <span className="relative">
+                  H
+                  <svg className="absolute -top-2 -right-2 w-4 h-4 text-[#308B54] drop-shadow-sm transform rotate-12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C7.03 2 3 6.03 3 11V22H14C18.97 22 23 17.97 23 13C23 8.03 18.97 2 12 2ZM19 13C19 15.76 16.76 18 14 18H7V11C7 8.24 9.24 6 12 6C14.76 6 17 8.24 17 11V13C17 14.1 16.1 15 15 15C13.9 15 13 14.1 13 13V11H11V13C11 15.21 12.79 17 15 17C17.21 17 19 15.21 19 13V11C19 9.34 17.66 8 16 8C14.34 8 13 9.34 13 11V14.5C13 15.33 12.33 16 11.5 16C10.67 16 10 15.33 10 14.5V11C10 7.69 12.69 5 16 5C19.86 5 23 8.14 23 12V13Z" />
+                    <path d="M17.42 2.58C17.24 2.58 17.06 2.59 16.89 2.61C18.57 3.55 19.89 5.05 20.57 6.86C20.85 6.09 21 5.27 21 4.42C21 3.51 20.8 2.64 20.45 1.84C19.57 2.31 18.53 2.58 17.42 2.58Z" opacity="0.3"/>
+                  </svg>
+                </span>
+              </div>
+              <span className="text-slate-800 font-bold text-xs tracking-widest mt-0.5">Connect</span>
+            </div>
+            <nav className="flex items-center gap-8 font-['Noto_Sans_Arabic'] font-bold text-slate-800" dir="rtl">
+              <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط کی پالیسی</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">رابطہ</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
+            </nav>
+          </header>
+
+          <main className="relative z-10 w-full flex-1 flex justify-center items-center p-0 md:p-8">
             {authState === 'LOGIN' && (
               <Login
                 onLoginSuccess={handleLoginSuccess}
@@ -693,11 +718,20 @@ export default function App() {
                 )}
               </div>
             )}
-          </div>
-
-          {/* Footer of Auth Screen */}
-          <footer className="mt-8 text-center text-xs text-slate-400 font-medium max-w-sm px-4">
-            <p>© 2026 {t.appName}. Designed for Rawalpindi Districts.</p>
+          </main>
+          
+          {/* Desktop Footer */}
+          <footer className="hidden md:flex relative z-10 w-full px-12 py-6 flex-row justify-between items-center bg-white/40 backdrop-blur-md border-t border-white/50 text-slate-700 text-sm font-bold">
+            <div className="flex items-center gap-6">
+              <a href="#" className="hover:text-[#2A7649] transition-colors">About Us</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">Terms of Use</a>
+            </div>
+            <div className="flex items-center gap-6 font-['Noto_Sans_Arabic']" dir="rtl">
+              <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">رازداری کی پالیسی</a>
+              <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط استعمال</a>
+            </div>
           </footer>
         </div>
       ) : (

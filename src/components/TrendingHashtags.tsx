@@ -40,7 +40,7 @@ export default function TrendingHashtags({ currentLanguage }: TrendingHashtagsPr
           <li key={t.id} className="flex justify-between items-center group">
             <a 
               href={`/hashtag/${t.tag}`} 
-              className="font-bold text-slate-700 group-hover:text-blue-600 transition-colors"
+              className="font-bold text-slate-700 group-hover:text-emerald-600 transition-colors"
               onClick={(e) => handleNavigate(e, `/hashtag/${t.tag}`)}
             >
               #{t.tag}
@@ -54,3 +54,4 @@ export default function TrendingHashtags({ currentLanguage }: TrendingHashtagsPr
     </div>
   );
 }
+

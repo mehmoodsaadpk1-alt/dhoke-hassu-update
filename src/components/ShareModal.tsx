@@ -4,7 +4,7 @@ import ClickableAvatar from './ClickableAvatar';
 import { dbCreateSharePost, dbCreateShareStory } from '../utils/supabaseClient';
 import { analytics } from '../services/AnalyticsService';
 
-export type ShareEntityType = 'post' | 'job' | 'property' | 'event' | 'marketplace' | 'service' | 'poll' | 'alert';
+export type ShareEntityType = 'post' | 'job' | 'property' | 'event' | 'marketplace' | 'service' | 'poll' | 'alert' | 'group';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -57,6 +57,7 @@ export default function ShareModal({
       case 'service': return `${origin}/services/detail?id=${entityId}`;
       case 'poll': return `${origin}/community/poll/${entityId}`;
       case 'alert': return `${origin}/alerts/detail?id=${entityId}`;
+      case 'group': return `${origin}/groups/detail?id=${entityId}`;
       default: return `${origin}/community/post/${entityId}`;
     }
   };
@@ -147,7 +148,7 @@ export default function ShareModal({
 
         <div className="p-5 overflow-y-auto">
           {/* User & Privacy */}
-          <div className="flex items-start gap-3 mb-4">
+          <div className="flex items-start gap-3 mb-4" dir="ltr">
             <ClickableAvatar 
               userId={currentUser?.id} 
               name={currentUser?.full_name || 'User'} 
@@ -155,13 +156,13 @@ export default function ShareModal({
               size={48} 
               className="shrink-0 ring-2 ring-white shadow-sm"
             />
-            <div>
-              <h3 className="font-bold text-slate-900 text-[15px]">{currentUser?.full_name || 'User'}</h3>
-              <div className="mt-1 flex items-center gap-2">
+            <div className="text-left">
+              <h3 className="font-bold text-slate-900 text-[15px] flex items-center justify-start">{currentUser?.full_name || 'User'}</h3>
+              <div className="mt-1 flex items-center gap-2 justify-start">
                 <select 
                   value={privacy}
                   onChange={(e) => setPrivacy(e.target.value as any)}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1.5 rounded-lg border-0 outline-none cursor-pointer flex items-center appearance-none"
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1.5 rounded-xl border-0 outline-none cursor-pointer flex items-center appearance-none"
                 >
                   <option value="public">🌐 {isEn ? 'Public' : 'عوام'}</option>
                   <option value="friends">👥 {isEn ? 'Friends' : 'دوست'}</option>
@@ -183,7 +184,7 @@ export default function ShareModal({
 
           {/* Entity Preview */}
           {entityPreview && (
-            <div className="border border-slate-200 rounded-xl overflow-hidden mb-6 bg-slate-50 pointer-events-none select-none opacity-90 scale-[0.98] origin-top max-h-[300px]">
+            <div className="border border-slate-200 rounded-2xl overflow-hidden mb-6 bg-slate-50 pointer-events-none select-none opacity-90 scale-[0.98] origin-top max-h-[300px]">
               <div className="scale-[0.8] origin-top-left w-[125%] h-[125%]">
                 {entityPreview}
               </div>
@@ -195,15 +196,15 @@ export default function ShareModal({
             <button 
               onClick={handleShareToCommunity}
               disabled={isSharing}
-              className="w-full flex items-center justify-between p-4 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-colors cursor-pointer border border-blue-100 disabled:opacity-50"
+              className="w-full flex items-center justify-between p-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-2xl transition-colors cursor-pointer border border-emerald-100 disabled:opacity-50"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-sm">
                   <Send className="w-5 h-5 ms-0.5" />
                 </div>
                 <div className="text-start">
                   <h4 className="font-bold text-sm">{isEn ? 'Share Now' : 'ابھی شیئر کریں'}</h4>
-                  <p className="text-xs text-blue-600/80 font-medium">{isEn ? 'Post to Community Feed' : 'کمیونٹی فیڈ پر پوسٹ کریں'}</p>
+                  <p className="text-xs text-emerald-600/80 font-medium">{isEn ? 'Post to Community Feed' : 'کمیونٹی فیڈ پر پوسٹ کریں'}</p>
                 </div>
               </div>
             </button>
@@ -211,22 +212,22 @@ export default function ShareModal({
             <button 
               onClick={handleShareToStory}
               disabled={isSharing}
-              className="w-full flex items-center justify-between p-4 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl transition-colors cursor-pointer border border-purple-100 disabled:opacity-50"
+              className="w-full flex items-center justify-between p-4 bg-emerald-50 hover:bg-purple-100 text-purple-700 rounded-2xl transition-colors cursor-pointer border border-purple-100 disabled:opacity-50"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-sm">
                   <PlusCircle className="w-5 h-5" />
                 </div>
                 <div className="text-start">
                   <h4 className="font-bold text-sm">{isEn ? 'Share to Story' : 'سٹوری پر شیئر کریں'}</h4>
-                  <p className="text-xs text-purple-600/80 font-medium">{isEn ? 'Add to your daily story' : 'اپنی روزمرہ سٹوری میں شامل کریں'}</p>
+                  <p className="text-xs text-emerald-600/80 font-medium">{isEn ? 'Add to your daily story' : 'اپنی روزمرہ سٹوری میں شامل کریں'}</p>
                 </div>
               </div>
             </button>
 
             <button 
               onClick={handleCopyLink}
-              className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl transition-colors cursor-pointer border border-slate-200"
+              className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-2xl transition-colors cursor-pointer border border-slate-200"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shadow-sm">
@@ -252,3 +253,4 @@ export default function ShareModal({
     </div>
   );
 }
+

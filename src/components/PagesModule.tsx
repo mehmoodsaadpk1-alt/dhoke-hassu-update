@@ -192,7 +192,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                <Building2 className="w-6 h-6 text-indigo-600" />
+                <Building2 className="w-6 h-6 text-emerald-600" />
                 {isEn ? 'Pages' : 'صفحات'}
               </h2>
               <p className="text-xs text-slate-500 font-bold mt-1">
@@ -207,12 +207,12 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                   placeholder={isEn ? "Search pages..." : "صفحات تلاش کریں..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full ps-9 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500"
+                  className="w-full ps-9 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <button 
                 onClick={() => setActiveView('create')}
-                className="bg-[#2563eb] hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 shrink-0 border-none cursor-pointer shadow-sm transition-all"
+                className="bg-[#2563eb] hover:bg-emerald-700 text-white px-4 py-2.5 rounded-2xl text-sm font-black flex items-center gap-2 shrink-0 border-none cursor-pointer shadow-sm transition-all"
               >
                 <PlusCircle className="w-4 h-4" />
                 {isEn ? 'Create' : 'بنائیں'}
@@ -253,7 +253,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
 
           {/* Listing Grid */}
           {loading ? (
-             <div className="text-center py-12"><div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+             <div className="text-center py-12"><div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div></div>
           ) : filteredPages.length === 0 ? (
             <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center">
               <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-4" />
@@ -277,7 +277,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                         {page.cover_url ? (
                           <img src={page.cover_url} alt="Cover" className="w-full h-full object-cover" />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-r from-indigo-100 to-purple-100" />
+                          <div className="w-full h-full bg-gradient-to-r from-emerald-100 to-purple-100" />
                         )}
                       </div>
                       <div className="px-5 pb-5 relative flex-1 flex flex-col">
@@ -292,7 +292,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                           <div className="flex items-center gap-1.5">
                             <h3 className="font-black text-slate-900 text-lg leading-tight">{page.name}</h3>
                             {page.verification_status === 'Approved' && (
-                              <CheckCircle className="w-4 h-4 text-blue-500 shrink-0" />
+                              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
                             )}
                           </div>
                           <p className="text-xs font-bold text-slate-500 mt-1">@{page.slug}</p>
@@ -301,7 +301,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                           </p>
                         </div>
                         <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-slate-500">
-                           <span className="bg-slate-100 px-2 py-1 rounded-md">{page.category}</span>
+                           <span className="bg-slate-100 px-2 py-1 rounded-xl">{page.category}</span>
                            <span>{page.followers_count} {isEn ? 'Followers' : 'فالوورز'}</span>
                         </div>
                       </div>
@@ -346,7 +346,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                {selectedPage.cover_url ? (
                  <img src={selectedPage.cover_url} alt="Cover" className="w-full h-full object-cover" />
                ) : (
-                 <div className="w-full h-full bg-gradient-to-r from-indigo-100 to-purple-100" />
+                 <div className="w-full h-full bg-gradient-to-r from-emerald-100 to-purple-100" />
                )}
             </div>
             <div className="px-6 md:px-8 pb-8 relative flex flex-col md:flex-row gap-6 md:gap-8">
@@ -364,7 +364,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                    <h1 className="text-2xl md:text-3xl font-black text-slate-900 flex items-center gap-2">
                      {selectedPage.name}
                      {selectedPage.verification_status === 'Approved' && (
-                       <CheckCircle className="w-6 h-6 text-blue-500" />
+                       <CheckCircle className="w-6 h-6 text-emerald-500" />
                      )}
                    </h1>
                    <p className="text-sm font-bold text-slate-500 mt-1">@{selectedPage.slug}</p>
@@ -376,7 +376,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                    <button 
                      onClick={handleFollowToggle}
                      disabled={followLoading}
-                     className={`${isFollowing ? 'bg-slate-200 text-slate-800 hover:bg-slate-300' : 'bg-[#2563eb] text-white hover:bg-blue-700'} px-6 py-2.5 rounded-xl text-sm font-black border-none cursor-pointer transition-all shadow-sm shrink-0 flex items-center gap-2`}
+                     className={`${isFollowing ? 'bg-slate-200 text-slate-800 hover:bg-slate-300' : 'bg-[#2563eb] text-white hover:bg-emerald-700'} px-6 py-2.5 rounded-2xl text-sm font-black border-none cursor-pointer transition-all shadow-sm shrink-0 flex items-center gap-2`}
                    >
                      {isFollowing ? (
                        <>
@@ -389,7 +389,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                    </button>
                    <button 
                      onClick={handleShare}
-                     className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-black border-none cursor-pointer transition-all"
+                     className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-2xl text-sm font-black border-none cursor-pointer transition-all"
                    >
                      <Share2 className="w-4 h-4" />
                    </button>
@@ -406,7 +406,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                 <div className="space-y-4 text-sm font-semibold text-slate-600">
                   <div className="flex items-center gap-3">
                     <Shield className="w-5 h-5 text-slate-400 shrink-0" />
-                    <span className="bg-slate-100 px-2.5 py-1 rounded-lg text-xs">{selectedPage.category}</span>
+                    <span className="bg-slate-100 px-2.5 py-1 rounded-xl text-xs">{selectedPage.category}</span>
                   </div>
                   {selectedPage.location && (
                     <div className="flex items-start gap-3">
@@ -423,7 +423,7 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                   {selectedPage.website && (
                     <div className="flex items-center gap-3">
                       <Globe className="w-5 h-5 text-slate-400 shrink-0" />
-                      <a href={selectedPage.website} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline">{selectedPage.website}</a>
+                      <a href={selectedPage.website} target="_blank" rel="noreferrer" className="text-emerald-600 hover:underline">{selectedPage.website}</a>
                     </div>
                   )}
                 </div>
@@ -484,3 +484,4 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
     </div>
   );
 }
+

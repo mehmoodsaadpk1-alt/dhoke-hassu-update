@@ -354,14 +354,14 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
     switch (cat) {
       case 'Emergency': return <AlertTriangle className="w-4 h-4 text-red-650 animate-pulse" />;
       case 'Security': 
-      case 'Crime': return <Shield className="w-4 h-4 text-blue-600" />;
-      case 'Missing Person': return <Activity className="w-4 h-4 text-purple-600" />;
+      case 'Crime': return <Shield className="w-4 h-4 text-emerald-600" />;
+      case 'Missing Person': return <Activity className="w-4 h-4 text-emerald-600" />;
       case 'Traffic': 
       case 'Road Accident': return <Milestone className="w-4 h-4 text-slate-500" />;
       case 'Electricity':
-      case 'Utility': return <Zap className="w-4 h-4 text-amber-500" />;
+      case 'Utility': return <Zap className="w-4 h-4 text-emerald-500" />;
       case 'Community Notice': return <Info className="w-4 h-4 text-emerald-650" />;
-      case 'Weather': return <CloudSun className="w-4 h-4 text-orange-500" />;
+      case 'Weather': return <CloudSun className="w-4 h-4 text-emerald-500" />;
       default: return <AlertCircle className="w-4 h-4 text-red-500" />;
     }
   };
@@ -377,16 +377,16 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
         };
       case 'High':
         return {
-          bg: 'bg-orange-50 text-orange-850 border-orange-200',
-          badge: 'bg-orange-500 text-white',
-          dot: 'bg-orange-500',
+          bg: 'bg-emerald-50 text-orange-850 border-orange-200',
+          badge: 'bg-emerald-500 text-white',
+          dot: 'bg-emerald-500',
           text: isEn ? 'High' : 'شدید'
         };
       case 'Medium':
         return {
-          bg: 'bg-amber-50 text-amber-850 border-amber-200',
-          badge: 'bg-amber-500 text-white',
-          dot: 'bg-amber-500',
+          bg: 'bg-emerald-50 text-amber-850 border-amber-200',
+          badge: 'bg-emerald-500 text-white',
+          dot: 'bg-emerald-500',
           text: isEn ? 'Medium' : 'درمیانہ'
         };
       case 'Low':
@@ -718,7 +718,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
       
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
+        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-lg z-50 text-xs font-bold animate-bounce">
           {toast}
         </div>
       )}
@@ -748,7 +748,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
           {activeView !== 'list' && (
             <button
               onClick={onNavigateToList}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{isEn ? 'View Active Alerts' : 'سرگرم الرٹس دیکھیں'}</span>
@@ -758,7 +758,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
           {activeView !== 'history' && (
             <button
               onClick={onNavigateToHistory}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
             >
               <Archive className="w-4 h-4 text-slate-450" />
               <span>{isEn ? 'History / Expired' : 'تاریخچہ / آرکائیو'}</span>
@@ -784,7 +784,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 setFormStatus('Active');
                 onNavigateToCreate();
               }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
               id="create-alert-btn"
             >
               <PlusCircle className="w-4 h-4" />
@@ -805,7 +805,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
             <label className="flex items-center gap-2.5 cursor-pointer">
               <button
                 onClick={() => setSoundEnabled(!soundEnabled)}
-                className={`p-2 rounded-xl transition-all ${soundEnabled ? 'bg-blue-100 text-blue-600' : 'bg-slate-200 text-slate-400'}`}
+                className={`p-2 rounded-2xl transition-all ${soundEnabled ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-400'}`}
               >
                 {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
@@ -819,7 +819,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
             <label className="flex items-center gap-2.5 cursor-pointer">
               <button
                 onClick={() => setBrowserNotifEnabled(!browserNotifEnabled)}
-                className={`p-2 rounded-xl transition-all ${browserNotifEnabled ? 'bg-blue-100 text-blue-600' : 'bg-slate-200 text-slate-400'}`}
+                className={`p-2 rounded-2xl transition-all ${browserNotifEnabled ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-400'}`}
               >
                 <Bell className="w-4 h-4" />
               </button>
@@ -833,7 +833,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
             <label className="flex items-center gap-2.5 cursor-pointer">
               <button
                 onClick={() => setDndEnabled(!dndEnabled)}
-                className={`p-2 rounded-xl transition-all ${dndEnabled ? 'bg-purple-100 text-purple-650' : 'bg-slate-200 text-slate-400'}`}
+                className={`p-2 rounded-2xl transition-all ${dndEnabled ? 'bg-purple-100 text-purple-650' : 'bg-slate-200 text-slate-400'}`}
               >
                 <Clock className="w-4 h-4" />
               </button>
@@ -876,7 +876,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                   placeholder={isEn ? 'Search by keyword, details, area...' : 'الرٹ تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -886,7 +886,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 <select
                   value={selectedPriority}
                   onChange={(e) => setSelectedPriority(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   <option value="All">{isEn ? 'All Priorities' : 'تمام الرٹس'}</option>
                   <option value="Low">{isEn ? 'Low' : 'معمولی'}</option>
@@ -902,7 +902,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest' | 'priority')}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   <option value="newest">{isEn ? 'Newest First' : 'جدید ترین پہلے'}</option>
                   <option value="oldest">{isEn ? 'Oldest First' : 'پرانے الرٹس پہلے'}</option>
@@ -919,9 +919,9 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
+                    className={`px-4 py-2 rounded-2xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
                       isActive 
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' 
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -950,7 +950,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
           {/* ALERTS DISPLAY */}
           {loading ? (
             <div className="py-20 flex flex-col items-center justify-center space-y-3 bg-white border border-slate-250 rounded-2xl" id="alerts-loading">
-              <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+              <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
               <p className="text-xs text-slate-500 font-medium">{isEn ? 'Syncing active alerts...' : 'تازہ الرٹس آ رہے ہیں...'}</p>
             </div>
           ) : sortedAlerts.length === 0 ? (
@@ -1052,7 +1052,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                           {/* Verify Confirm vote */}
                           <button
                             onClick={(e) => handleConfirm(item.id, e)}
-                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer font-bold ${
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer font-bold ${
                               confirmedIds[item.id]
                                 ? 'bg-emerald-50 text-emerald-700'
                                 : 'bg-slate-50 hover:bg-slate-100 text-slate-600'
@@ -1065,9 +1065,9 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                           {/* Save Button */}
                           <button
                             onClick={(e) => handleToggleSave(item.id, e)}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                            className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
                               isSaved 
-                                ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                                ? 'bg-emerald-50 border-blue-200 text-emerald-600' 
                                 : 'bg-white border-slate-200 text-slate-400 hover:text-slate-600'
                             }`}
                           >
@@ -1077,7 +1077,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                           {/* Copy Link Button */}
                           <button
                             onClick={(e) => handleCopyLink(item.id, e)}
-                            className="p-1.5 bg-white border border-slate-200 text-slate-400 hover:text-slate-600 rounded-lg transition-colors cursor-pointer"
+                            className="p-1.5 bg-white border border-slate-200 text-slate-400 hover:text-slate-600 rounded-xl transition-colors cursor-pointer"
                             title={isEn ? "Copy Link" : "لنک کاپی کریں"}
                           >
                             <Share2 className="w-3.5 h-3.5" />
@@ -1090,14 +1090,14 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                             <>
                               <button
                                 onClick={(e) => handleEditAlert(item, e)}
-                                className="p-1.5 text-slate-450 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                                className="p-1.5 text-slate-450 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer"
                                 title={isEn ? "Edit" : "ترمیم"}
                               >
                                 <Edit3 className="w-3.5 h-3.5" />
                               </button>
                               <button
                                 onClick={(e) => handleToggleArchive(item.id, e)}
-                                className="p-1.5 text-slate-450 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors cursor-pointer"
+                                className="p-1.5 text-slate-450 hover:text-emerald-500 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer"
                                 title={item.status === 'Archived' ? (isEn ? "Activate" : "چالو کریں") : (isEn ? "Archive" : "آرکائیو")}
                               >
                                 <Archive className="w-3.5 h-3.5" />
@@ -1106,14 +1106,14 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                                 <>
                                   <button
                                     onClick={(e) => handleApproveAlert(item.id, e)}
-                                    className="p-1.5 text-slate-450 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                                    className="p-1.5 text-slate-450 hover:text-green-600 hover:bg-green-50 rounded-xl transition-colors cursor-pointer"
                                     title={isEn ? "Approve" : "منظور کریں"}
                                   >
                                     <CheckCircle className="w-3.5 h-3.5" />
                                   </button>
                                   <button
                                     onClick={(e) => handleRejectAlert(item.id, e)}
-                                    className="p-1.5 text-slate-450 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                    className="p-1.5 text-slate-450 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                                     title={isEn ? "Reject" : "رد کریں"}
                                   >
                                     <AlertOctagon className="w-3.5 h-3.5" />
@@ -1125,7 +1125,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                           {isAdmin && (
                             <button
                               onClick={(e) => handleDeleteAlert(item.id, e)}
-                              className="p-1.5 text-slate-450 hover:text-red-650 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              className="p-1.5 text-slate-450 hover:text-red-650 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                               title={isEn ? "Delete" : "حذف"}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1136,7 +1136,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                           {!isAdmin && !isModerator && (
                             <button
                               onClick={(e) => handleReportAlert(item.id, e)}
-                              className="p-1.5 text-slate-350 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              className="p-1.5 text-slate-350 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                               title={isEn ? "Report Alert" : "شکایت درج کریں"}
                             >
                               <Flag className="w-3.5 h-3.5" />
@@ -1167,7 +1167,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
       {/* VIEW: EXPIRED / RESOLVED ALERTS HISTORY */}
       {activeView === 'history' && (
         <div className="space-y-6">
-          <div className="bg-slate-50 border border-slate-150 p-4 rounded-xl flex items-center gap-2">
+          <div className="bg-slate-50 border border-slate-150 p-4 rounded-2xl flex items-center gap-2">
             <Info className="w-4 h-4 text-slate-500 shrink-0" />
             <span className="text-xs font-semibold text-slate-600 font-bold">
               {isEn 
@@ -1286,7 +1286,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-xs text-blue-600 hover:text-blue-700 font-bold bg-blue-50 px-3 py-2 rounded-xl transition-all"
+                        className="inline-flex items-center gap-2 text-xs text-emerald-600 hover:text-emerald-700 font-bold bg-emerald-50 px-3 py-2 rounded-2xl transition-all"
                       >
                         <Paperclip className="w-3.5 h-3.5" />
                         <span>Link #{idx + 1}</span>
@@ -1308,7 +1308,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                     rel="noopener noreferrer"
                     className="w-full flex flex-col justify-center items-center py-6 bg-slate-50 border border-slate-150 rounded-2xl hover:bg-slate-100 transition-colors"
                   >
-                    <Map className="w-8 h-8 text-blue-600" />
+                    <Map className="w-8 h-8 text-emerald-600" />
                     <span className="text-xs font-black text-slate-700 mt-2">
                       Lat: {selectedItem.latitude}, Lng: {selectedItem.longitude}
                     </span>
@@ -1357,7 +1357,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
               {/* Publisher Contact details */}
               <div className="flex items-center justify-between border-t border-slate-100 pt-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
                     <UserIcon className="w-5 h-5" />
                   </div>
                   <div>
@@ -1373,7 +1373,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 {selectedItem.contact && (
                   <a
                     href={`tel:${selectedItem.contact}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all font-bold"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all font-bold"
                   >
                     <Phone className="w-3.5 h-3.5" />
                     <span>{selectedItem.contact}</span>
@@ -1386,14 +1386,14 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-5">
                   <button
                     onClick={(e) => handleEditAlert(selectedItem, e)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-750 border border-blue-200 hover:bg-blue-100 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 text-blue-750 border border-blue-200 hover:bg-emerald-100 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>{isEn ? 'Edit Details' : 'ترمیم کریں'}</span>
                   </button>
                   <button
                     onClick={(e) => handleToggleArchive(selectedItem.id, e)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                   >
                     <Archive className="w-3.5 h-3.5" />
                     <span>{selectedItem.status === 'Archived' ? (isEn ? 'Activate' : 'چالو کریں') : (isEn ? 'Mark Archive' : 'آرکائیو کریں')}</span>
@@ -1401,7 +1401,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                   {isAdmin && (
                     <button
                       onClick={(e) => handleDeleteAlert(selectedItem.id, e)}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-750 border border-red-200 hover:bg-red-100 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-50 text-red-750 border border-red-200 hover:bg-red-100 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       <span>{isEn ? 'Delete Alert' : 'حذف کریں'}</span>
@@ -1454,7 +1454,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                       placeholder={isEn ? 'e.g. Water Line Pipe Broken near Gali 4' : 'مثال کے طور پر: گلی 4 میں پانی کا مین والو ٹوٹ گیا'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.title ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-title"
@@ -1470,7 +1470,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                     <select
                       value={formCategory}
                       onChange={(e) => setFormCategory(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-bold"
                       id="form-category"
                     >
                       {categories.filter(c => c !== 'All').map((cat) => (
@@ -1489,7 +1489,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                     <select
                       value={formPriority}
                       onChange={(e) => setFormPriority(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-bold"
                       id="form-priority"
                     >
                       <option value="Low">{isEn ? 'Low' : 'معمولی'}</option>
@@ -1509,7 +1509,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formArea}
                       onChange={(e) => setFormArea(e.target.value)}
                       placeholder={isEn ? 'e.g. Street 4, Sector 2' : 'مثال کے طور پر: گلی 4، سیکٹر 2'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.area ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-area"
@@ -1526,7 +1526,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       type="datetime-local"
                       value={formExpiryTime}
                       onChange={(e) => setFormExpiryTime(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-expiry-time"
                     />
                   </div>
@@ -1542,7 +1542,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formLatitude}
                       onChange={(e) => setFormLatitude(e.target.value)}
                       placeholder="e.g. 33.6214"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-lat"
                     />
                   </div>
@@ -1558,7 +1558,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formLongitude}
                       onChange={(e) => setFormLongitude(e.target.value)}
                       placeholder="e.g. 73.0452"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-lng"
                     />
                   </div>
@@ -1571,7 +1571,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                     <select
                       value={formVisibility}
                       onChange={(e) => setFormVisibility(e.target.value as 'Public' | 'Neighbors')}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                       id="form-visibility"
                     >
                       <option value="Public">{isEn ? 'Public (All Residents)' : 'عوامی (تمام رہائشی)'}</option>
@@ -1587,7 +1587,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                     <select
                       value={formStatus}
                       onChange={(e) => setFormStatus(e.target.value as 'Active' | 'Expired' | 'Archived')}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                       id="form-status"
                     >
                       <option value="Active">{isEn ? 'Active' : 'سرگرم'}</option>
@@ -1607,7 +1607,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                         value={formImage}
                         onChange={(e) => setFormImage(e.target.value)}
                         placeholder="https://example.com/image.jpg"
-                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold"
                         id="form-image"
                       />
                       <input
@@ -1621,7 +1621,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                         type="button"
                         disabled={isUploading}
                         onClick={() => document.getElementById('alert-image-upload-file')?.click()}
-                        className="py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm shrink-0 flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
+                        className="py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-sm shrink-0 flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
                       >
                         {isUploading ? (
                           <span>{isEn ? 'Uploading...' : 'اپلوڈ ہو رہا ہے...'}</span>
@@ -1642,7 +1642,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formAttachments}
                       onChange={(e) => setFormAttachments(e.target.value)}
                       placeholder="https://example.com/doc.pdf"
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-attachments"
                     />
                   </div>
@@ -1657,7 +1657,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                       value={formDescription}
                       onChange={(e) => setFormDescription(e.target.value)}
                       placeholder={isEn ? 'Provide comprehensive details and directions for neighbors...' : 'تفصیلی معلومات درج کریں...'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.description ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-description"
@@ -1669,7 +1669,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                 <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="submit-alert-form"
                   >
                     {editingAlertId ? (isEn ? 'Update Alert' : 'الرٹ اپ ڈیٹ کریں') : (isEn ? 'Publish Live' : 'شائع کریں')}
@@ -1678,7 +1678,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
                   <button
                     type="button"
                     onClick={onNavigateToList}
-                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                     id="cancel-alert-form"
                   >
                     {isEn ? 'Cancel' : 'منسوخ کریں'}
@@ -1696,3 +1696,4 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
     </div>
   );
 }
+

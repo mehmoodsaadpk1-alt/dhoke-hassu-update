@@ -12,12 +12,12 @@ export const AppBadge: React.FC<AppBadgeProps> = ({
   className = '',
 }) => {
   const variants = {
-    primary: "bg-blue-50 text-primary border border-blue-100",
+    primary: "bg-emerald-50 text-primary border border-emerald-100",
     secondary: "bg-slate-50 text-slate-700 border border-slate-200",
     success: "bg-emerald-50 text-success border border-emerald-100",
-    warning: "bg-amber-50 text-warning border border-amber-100",
+    warning: "bg-emerald-50 text-warning border border-amber-100",
     danger: "bg-red-50 text-error border border-red-100",
-    info: "bg-purple-50 text-purple-600 border border-purple-100",
+    info: "bg-emerald-50 text-emerald-600 border border-purple-100",
   };
 
   return (
@@ -56,3 +56,4 @@ export const AppChip: React.FC<AppChipProps> = ({
     </button>
   );
 };
+

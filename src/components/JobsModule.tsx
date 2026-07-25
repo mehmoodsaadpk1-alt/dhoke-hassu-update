@@ -384,9 +384,9 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
         <div className="flex flex-wrap gap-1">
           <button
             onClick={onNavigateToList}
-            className={`flex items-center gap-1.5 py-2 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-2 px-4 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
               activeView === 'list' || activeView === 'detail'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-emerald-600 text-white'
                 : 'bg-white hover:bg-slate-50 text-slate-600'
             }`}
             id="sub-tab-browse-jobs"
@@ -397,9 +397,9 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
           <button
             onClick={onNavigateToPost}
-            className={`flex items-center gap-1.5 py-2 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 py-2 px-4 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
               activeView === 'post'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-emerald-600 text-white'
                 : 'bg-white hover:bg-slate-50 text-slate-600'
             }`}
             id="sub-tab-post-job"
@@ -411,7 +411,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
         <button
           onClick={onNavigateToApplications}
-          className={`flex items-center gap-2 py-2 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer border-0 ${
+          className={`flex items-center gap-2 py-2 px-4 rounded-2xl text-xs font-bold transition-all cursor-pointer border-0 ${
             activeView === 'applications'
               ? 'bg-emerald-600 text-white'
               : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
@@ -434,7 +434,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
           {/* Header Area */}
           <div className="border-b border-slate-100 pb-4">
             <h1 className="text-2xl font-black text-slate-950 flex items-center gap-2">
-              <Briefcase className="w-7 h-7 text-blue-600" />
+              <Briefcase className="w-7 h-7 text-emerald-600" />
               {isEn ? 'Local Jobs Portal' : 'لوکل نوکریوں کا پورٹل'}
             </h1>
             <p className="text-xs text-slate-500 mt-1">
@@ -454,7 +454,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={isEn ? 'Search jobs by title, company, skills, area...' : 'نوکری کا عنوان، کمپنی، ہنر یا علاقہ تلاش کریں...'}
-              className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200/80 rounded-2xl text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100/50 transition-all shadow-xs"
+              className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200/80 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100/50 transition-all shadow-xs"
               id="jobs-search-input-field"
             />
           </div>
@@ -467,7 +467,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-1.5 text-xs font-semibold rounded-full border transition-all shrink-0 cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-blue-600 border-blue-600 text-white shadow-xs font-bold'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs font-bold'
                     : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
                 }`}
                 id={`cat-chip-${cat.replace(/\s+/g, '-')?.toLowerCase()}`}
@@ -509,13 +509,13 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   elements.push(
                     <div
                       key={job.id}
-                      className="bg-white rounded-2xl border border-slate-200/60 p-5 hover:border-blue-500/50 hover:shadow-md transition-all duration-200 flex flex-col justify-between shadow-xs relative"
+                      className="bg-white rounded-2xl border border-slate-200/60 p-5 hover:border-emerald-500/50 hover:shadow-md transition-all duration-200 flex flex-col justify-between shadow-xs relative"
                       id={`job-card-${job.id}`}
                     >
                       <div className="space-y-3.5">
                         {/* Category and Bookmark Action */}
                         <div className="flex items-center justify-between">
-                          <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                             <Tag className="w-2.5 h-2.5" />
                             {job.category || 'Other'}
                           </span>
@@ -538,7 +538,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                         <div>
                           <h3 
                             onClick={() => onNavigateToDetail(job.id)}
-                            className="font-extrabold text-slate-900 text-base hover:text-blue-600 cursor-pointer transition-colors leading-tight line-clamp-2"
+                            className="font-extrabold text-slate-900 text-base hover:text-emerald-600 cursor-pointer transition-colors leading-tight line-clamp-2"
                           >
                             {job.title}
                           </h3>
@@ -549,11 +549,11 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
                         {/* Location & Salary Information */}
                         <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
-                          <div className="flex items-center gap-1.5 text-blue-700 bg-blue-50/50 px-2.5 py-2 rounded-xl">
-                            <DollarSign className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                          <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50/50 px-2.5 py-2 rounded-2xl">
+                            <DollarSign className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                             <span className="truncate">{job.salary}</span>
                           </div>
-                          <div className="flex items-center gap-1.5 text-slate-700 bg-slate-50 px-2.5 py-2 rounded-xl">
+                          <div className="flex items-center gap-1.5 text-slate-700 bg-slate-50 px-2.5 py-2 rounded-2xl">
                             <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate">{job.area || 'Dhoke Hassu'}</span>
                           </div>
@@ -571,7 +571,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       <div className="flex items-center gap-2 pt-4 border-t border-slate-100 mt-4">
                         <button
                           onClick={() => onNavigateToDetail(job.id)}
-                          className="flex-1 py-2 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-900 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
+                          className="flex-1 py-2 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-900 rounded-2xl text-xs font-bold transition-all cursor-pointer text-center"
                           id={`btn-view-${job.id}`}
                         >
                           {isEn ? 'View Details' : 'تفصیل دیکھیں'}
@@ -579,7 +579,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
                         <button
                           onClick={() => openApplyModal(job)}
-                          className="flex-1 py-2 px-3 bg-[#2563eb] hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all cursor-pointer border-0"
+                          className="flex-1 py-2 px-3 bg-[#2563eb] hover:bg-emerald-600 text-white rounded-2xl text-xs font-bold transition-all cursor-pointer border-0"
                           id={`btn-apply-${job.id}`}
                         >
                           {isEn ? 'Apply Now' : 'اپلائی کریں'}
@@ -617,7 +617,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
           <div className="flex items-center justify-between">
             <button
               onClick={onNavigateToList}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 px-3.5 py-2 rounded-xl transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 px-3.5 py-2 rounded-2xl transition-all cursor-pointer"
               id="btn-detail-back"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -633,7 +633,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
           {/* Job Main Header */}
           <div className="space-y-3.5">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider">
                 <Tag className="w-3 h-3" />
                 {currentJob.category || 'Other'}
               </span>
@@ -652,8 +652,8 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
           {/* Key Information Panels */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-4 bg-blue-50/50 border border-blue-100/30 rounded-2xl">
-              <span className="block text-[10px] uppercase font-bold text-blue-500 tracking-wider mb-1">
+            <div className="p-4 bg-emerald-50/50 border border-emerald-100/30 rounded-2xl">
+              <span className="block text-[10px] uppercase font-bold text-emerald-500 tracking-wider mb-1">
                 {isEn ? 'Monthly Salary' : 'ماہانہ تنخواہ'}
               </span>
               <span className="text-base font-extrabold text-blue-800">
@@ -686,7 +686,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
           {currentJob.image && (
             <div className="w-full flex justify-center mt-3 bg-slate-50 border-t border-b border-slate-100">
               <div className="w-full max-w-[700px] relative">
-                <img src={currentJob.image} alt={currentJob.title} className="w-full rounded-xl max-h-[500px] object-contain block" />
+                <img src={currentJob.image} alt={currentJob.title} className="w-full rounded-2xl max-h-[500px] object-contain block" />
               </div>
             </div>
           )}
@@ -732,7 +732,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                 <div>
                   <span className="block text-[10px] text-slate-400 font-bold uppercase">{isEn ? 'Posted By' : 'پوسٹ کنندہ'}</span>
                   <span 
-                    className="text-sm font-bold text-slate-800 cursor-pointer hover:text-blue-600 hover:underline transition-colors"
+                    className="text-sm font-bold text-slate-800 cursor-pointer hover:text-emerald-600 hover:underline transition-colors"
                     data-profile-name={currentJob.postedBy}
                   >
                     {currentJob.postedBy}
@@ -751,7 +751,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
             <button
               onClick={() => openApplyModal(currentJob)}
-              className="flex-1 py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-xs hover:shadow transition-all cursor-pointer border-0 flex items-center justify-center gap-2"
+              className="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-xs hover:shadow transition-all cursor-pointer border-0 flex items-center justify-center gap-2"
               id="detail-apply-btn"
             >
               <CheckCircle className="w-4 h-4" />
@@ -760,7 +760,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
             <button
               onClick={() => handleShare(currentJob)}
-              className="px-5 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              className="px-5 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
               id="detail-share-btn"
             >
               <Share2 className="w-4 h-4" />
@@ -769,7 +769,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
 
             <button
               onClick={() => toggleSaveJob(currentJob.id)}
-              className={`px-5 py-3.5 border rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              className={`px-5 py-3.5 border rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 savedJobIds.includes(currentJob.id)
                   ? 'bg-red-50 border-red-200 text-red-500'
                   : 'border-slate-200 hover:bg-slate-50 text-slate-600'
@@ -788,7 +788,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
         <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-8 shadow-xs space-y-6" id="job-post-stage">
           <div className="border-b border-slate-100 pb-3">
             <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
-              <PlusCircle className="w-6 h-6 text-blue-600" />
+              <PlusCircle className="w-6 h-6 text-emerald-600" />
               {isEn ? 'Publish Job Vacancy' : 'ملازمت کا اشتہار شائع کریں'}
             </h1>
             <p className="text-xs text-slate-500 mt-1">
@@ -822,7 +822,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     value={formTitle}
                     onChange={(e) => setFormTitle(e.target.value)}
                     placeholder={isEn ? 'e.g., Security Guard / Store Assistant' : 'مثال کے طور پر: سیکیورٹی گارڈ'}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.title ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.title ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.title && <p className="text-[11px] text-red-500 font-bold">{postErrors.title}</p>}
                 </div>
@@ -837,7 +837,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     value={formCompany}
                     onChange={(e) => setFormCompany(e.target.value)}
                     placeholder={isEn ? 'e.g., Rawal Medical Plaza' : 'مثال کے طور پر: راول میڈیکل پلازہ'}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.company ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.company ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.company && <p className="text-[11px] text-red-500 font-bold">{postErrors.company}</p>}
                 </div>
@@ -850,7 +850,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                   >
                     {categories.filter(c => c !== 'All').map((cat) => (
                       <option key={cat} value={cat}>
@@ -876,7 +876,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     value={formSalary}
                     onChange={(e) => setFormSalary(e.target.value)}
                     placeholder={isEn ? 'e.g., PKR 30,000 / month' : 'مثال کے طور پر: 30,000 روپے ماہانہ'}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.salary ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.salary ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.salary && <p className="text-[11px] text-red-500 font-bold">{postErrors.salary}</p>}
                 </div>
@@ -890,7 +890,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     type="text"
                     value={formLocation}
                     onChange={(e) => setFormLocation(e.target.value)}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.location ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.location ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.location && <p className="text-[11px] text-red-500 font-bold">{postErrors.location}</p>}
                 </div>
@@ -905,7 +905,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     value={formContact}
                     onChange={(e) => setFormContact(e.target.value)}
                     placeholder="e.g., 0300-5551234"
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.contact ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.contact ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.contact && <p className="text-[11px] text-red-500 font-bold">{postErrors.contact}</p>}
                 </div>
@@ -919,7 +919,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     type="date"
                     value={formDeadline}
                     onChange={(e) => setFormDeadline(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all"
                   />
                 </div>
 
@@ -934,7 +934,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     value={formImage}
                     onChange={(e) => setFormImage(e.target.value)}
                     placeholder="Paste Unsplash image URL or leave blank"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all"
                   />
                 </div>
               </div>
@@ -949,7 +949,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   onChange={(e) => setFormRequirements(e.target.value)}
                   placeholder={isEn ? 'e.g., Must have own transport, active CNIC, 2+ years experience...' : 'مثال کے طور پر: ذاتی موٹرسائیکل کا ہونا لازمی ہے، شناختی کارڈ کی کاپی اور تجربہ...'}
                   rows={2}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none"
                 />
               </div>
 
@@ -963,7 +963,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   onChange={(e) => setFormDescription(e.target.value)}
                   placeholder={isEn ? 'Provide thorough detail about job responsibilities, work hours...' : 'ملازمت کی ذمہ داریوں اور کام کے اوقات کے متعلق تفصیل درج کریں...'}
                   rows={4}
-                  className={`w-full px-4 py-3 bg-slate-50 border ${postErrors.description ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none`}
+                  className={`w-full px-4 py-3 bg-slate-50 border ${postErrors.description ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none`}
                 />
                 {postErrors.description && <p className="text-[11px] text-red-500 font-bold">{postErrors.description}</p>}
               </div>
@@ -972,7 +972,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="submit"
-                  className="flex-1 py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-xs hover:shadow transition-all cursor-pointer text-center border-0"
+                  className="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-xs hover:shadow transition-all cursor-pointer text-center border-0"
                   id="btn-publish-job"
                 >
                   {isEn ? 'Publish Job Opportunity' : 'نوکری شائع کریں'}
@@ -980,7 +980,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                 <button
                   type="button"
                   onClick={onNavigateToList}
-                  className="px-6 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  className="px-6 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-bold transition-all cursor-pointer"
                 >
                   {isEn ? 'Cancel' : 'منسوخ کریں'}
                 </button>
@@ -1018,7 +1018,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               </p>
               <button
                 onClick={onNavigateToList}
-                className="inline-flex items-center justify-center py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer border-0"
+                className="inline-flex items-center justify-center py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-xs cursor-pointer border-0"
               >
                 {isEn ? 'Explore Jobs' : 'نوکریاں تلاش کریں'}
               </button>
@@ -1048,10 +1048,10 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       🏢 {app.company}
                     </p>
 
-                    <div className="text-xs text-slate-600 space-y-1 bg-white p-3 rounded-xl border border-slate-100/80 mt-2 max-w-xl shadow-3xs">
+                    <div className="text-xs text-slate-600 space-y-1 bg-white p-3 rounded-2xl border border-slate-100/80 mt-2 max-w-xl shadow-3xs">
                       <p><span className="text-slate-400 font-bold">{isEn ? 'Applicant:' : 'درخواست دہندہ:'}</span> {app.applicantName} • <span className="font-mono">{app.contactNumber}</span></p>
                       {app.resumeName && (
-                        <p className="flex items-center gap-1.5 text-blue-600 font-semibold">
+                        <p className="flex items-center gap-1.5 text-emerald-600 font-semibold">
                           <FileText className="w-3.5 h-3.5 shrink-0" />
                           <span>CV: {app.resumeName}</span>
                         </p>
@@ -1065,7 +1065,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => onNavigateToDetail(app.jobId)}
-                      className="py-2 px-4 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
+                      className="py-2 px-4 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-2xl text-xs font-bold transition-all cursor-pointer text-center"
                     >
                       {isEn ? 'View Original Job' : 'نوکری کا اشتہار دیکھیں'}
                     </button>
@@ -1086,7 +1086,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
             <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div>
                 <h3 className="font-extrabold text-slate-900 text-base flex items-center gap-1.5">
-                  <Briefcase className="w-5 h-5 text-blue-600" />
+                  <Briefcase className="w-5 h-5 text-emerald-600" />
                   {isEn ? 'Submit Job Application' : 'ملازمت کی درخواست جمع کروائیں'}
                 </h3>
                 <p className="text-[11px] text-slate-500 mt-0.5 truncate max-w-xs sm:max-w-md">
@@ -1095,7 +1095,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
               </div>
               <button
                 onClick={() => setApplyModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-all cursor-pointer"
+                className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
                 id="close-apply-modal-btn"
               >
                 <X className="w-5 h-5" />
@@ -1132,7 +1132,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       value={applyFormName}
                       onChange={(e) => setApplyFormName(e.target.value)}
                       placeholder={isEn ? 'e.g., Muhammad Ali' : 'مثال کے طور پر: محمد علی'}
-                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.name ? 'border-red-400' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100/50 transition-all`}
+                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.name ? 'border-red-400' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all`}
                     />
                     {applyErrors.name && <p className="text-[10px] text-red-500 font-bold">{applyErrors.name}</p>}
                   </div>
@@ -1148,7 +1148,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       value={applyFormContact}
                       onChange={(e) => setApplyFormContact(e.target.value)}
                       placeholder={isEn ? 'e.g., 0300-5551122' : 'مثال کے طور پر: 03005551122'}
-                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.contact ? 'border-red-400' : 'border-slate-200 focus:border-blue-500'} rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100/50 transition-all`}
+                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.contact ? 'border-red-400' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all`}
                     />
                     {applyErrors.contact && <p className="text-[10px] text-red-500 font-bold">{applyErrors.contact}</p>}
                   </div>
@@ -1165,7 +1165,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       onDrop={handleDrop}
                       className={`border-2 border-dashed rounded-2xl p-4 text-center transition-all cursor-pointer ${
                         isDragging 
-                          ? 'border-blue-500 bg-blue-50/50' 
+                          ? 'border-emerald-500 bg-emerald-50/50' 
                           : uploadedFileName 
                           ? 'border-emerald-400 bg-emerald-50/20' 
                           : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
@@ -1188,7 +1188,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                             </span>
                           ) : (
                             <p className="text-slate-500">
-                              <span className="font-bold text-blue-600">{isEn ? 'Click to upload' : 'بٹن دبائیں'}</span> {isEn ? 'or drag and drop your CV here' : 'یا اپنی سی وی کی فائل یہاں کھینچ کر لائیں'}
+                              <span className="font-bold text-emerald-600">{isEn ? 'Click to upload' : 'بٹن دبائیں'}</span> {isEn ? 'or drag and drop your CV here' : 'یا اپنی سی وی کی فائل یہاں کھینچ کر لائیں'}
                             </p>
                           )}
                         </div>
@@ -1207,7 +1207,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                       onChange={(e) => setApplyFormMessage(e.target.value)}
                       placeholder={isEn ? 'Briefly mention why you are a good fit for this job...' : 'مختصر بیان کریں کہ آپ اس نوکری کے لیے کیوں موزوں ہیں...'}
                       rows={3}
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100/50 transition-all resize-none"
+                      className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all resize-none"
                     />
                   </div>
 
@@ -1215,7 +1215,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                   <div className="flex items-center gap-2 pt-3">
                     <button
                       type="submit"
-                      className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-xs cursor-pointer border-0"
+                      className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-xs cursor-pointer border-0"
                       id="btn-submit-application"
                     >
                       {isEn ? 'Submit Application' : 'درخواست جمع کروائیں'}
@@ -1224,7 +1224,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     <button
                       type="button"
                       onClick={() => setApplyModalOpen(false)}
-                      className="px-4 py-3 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-bold cursor-pointer"
+                      className="px-4 py-3 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-2xl text-xs font-bold cursor-pointer"
                     >
                       {isEn ? 'Cancel' : 'کینسل کریں'}
                     </button>
@@ -1239,3 +1239,4 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
     </div>
   );
 }
+

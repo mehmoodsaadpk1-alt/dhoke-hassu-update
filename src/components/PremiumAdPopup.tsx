@@ -55,7 +55,7 @@ const PremiumAdPopup: React.FC<PremiumAdPopupProps> = ({ ad, onClose, onNavigate
           </button>
 
           <div className="text-center space-y-1">
-            <span className="bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-widest">
+            <span className="bg-emerald-500 text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-widest">
               Sponsored Advertisement
             </span>
             <p className="text-xs text-slate-400 mt-2 font-mono">from {ad.advertiser_name}</p>
@@ -85,13 +85,13 @@ const PremiumAdPopup: React.FC<PremiumAdPopupProps> = ({ ad, onClose, onNavigate
           <div className="flex gap-3">
             <button
               onClick={handleAction}
-              className="flex-1 py-3 bg-amber-600 hover:bg-amber-700 text-white font-extrabold rounded-xl text-xs shadow-md border-0 cursor-pointer transition-all flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-emerald-600 hover:bg-amber-700 text-white font-extrabold rounded-2xl text-xs shadow-md border-0 cursor-pointer transition-all flex items-center justify-center gap-2"
             >
               {ad.cta_type === 'Phone Call' ? '📞 Call Now' : ad.cta_type === 'WhatsApp' ? '💬 WhatsApp' : 'Learn More'}
             </button>
             <button
               onClick={onClose}
-              className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold rounded-xl text-xs border-0 cursor-pointer transition-all"
+              className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-extrabold rounded-2xl text-xs border-0 cursor-pointer transition-all"
             >
               Skip
             </button>
@@ -113,3 +113,4 @@ const PremiumAdPopup: React.FC<PremiumAdPopupProps> = ({ ad, onClose, onNavigate
 };
 
 export default PremiumAdPopup;
+

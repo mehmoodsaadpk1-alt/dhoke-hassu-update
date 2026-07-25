@@ -332,7 +332,7 @@ export default function PollsModule({
             <div className="p-6 md:p-8 space-y-6">
               {/* Category Badge & Metadata */}
               <div className="flex flex-wrap items-center justify-between gap-4">
-                <span className="px-3.5 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase rounded-lg tracking-wider border border-indigo-100">
+                <span className="px-3.5 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase rounded-xl tracking-wider border border-emerald-100">
                   {selectedPoll.category}
                 </span>
 
@@ -378,7 +378,7 @@ export default function PollsModule({
                       disabled={hasVotedThisPoll && !selectedPoll.allow_option_change}
                       className={`w-full relative text-start p-4 rounded-2xl border transition-all cursor-pointer overflow-hidden flex items-center justify-between group ${
                         isThisOptionVoted 
-                          ? 'border-indigo-650 bg-indigo-50/20' 
+                          ? 'border-indigo-650 bg-emerald-50/20' 
                           : 'border-slate-200 hover:border-slate-405 bg-white'
                       }`}
                     >
@@ -393,7 +393,7 @@ export default function PollsModule({
                       <div className="flex items-center gap-3 relative z-10 font-bold text-xs md:text-sm text-slate-800">
                         <span className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
                           isThisOptionVoted 
-                            ? 'bg-indigo-600 border-indigo-600 text-white' 
+                            ? 'bg-emerald-600 border-emerald-600 text-white' 
                             : 'border-slate-350 group-hover:border-slate-400'
                         }`}>
                           {isThisOptionVoted && <Check className="w-3 h-3 stroke-[3]" />}
@@ -415,7 +415,7 @@ export default function PollsModule({
               {/* Anonymous Banner */}
               {selectedPoll.anonymous && (
                 <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-500 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-indigo-500 shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-emerald-500 shrink-0" />
                   {isEn 
                     ? 'Anonymous Voting is ON. Your name and profile will never be linked to your vote.'
                     : 'گمنام ووٹنگ فعال ہے۔ آپ کا نام اور پروفائل آپ کے ووٹ سے لنک نہیں کیا جائے گا۔'}
@@ -426,7 +426,7 @@ export default function PollsModule({
               <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
                 <button
                   onClick={() => handleSharePoll(selectedPoll)}
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black rounded-xl transition-all cursor-pointer border-none"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black rounded-2xl transition-all cursor-pointer border-none"
                 >
                   <Share2 className="w-4 h-4" />
                   {isEn ? 'Share Poll' : 'سروے شیئر کریں'}
@@ -434,7 +434,7 @@ export default function PollsModule({
 
                 <button
                   onClick={() => handleReportPoll(selectedPoll.id)}
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-red-50 hover:bg-red-100/80 text-red-650 text-xs font-black rounded-xl transition-all cursor-pointer border-none ms-auto"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-red-50 hover:bg-red-100/80 text-red-650 text-xs font-black rounded-2xl transition-all cursor-pointer border-none ms-auto"
                 >
                   <Flag className="w-4 h-4" />
                   {isEn ? 'Report Poll' : 'سروے کی شکایت کریں'}
@@ -447,12 +447,12 @@ export default function PollsModule({
           {selectedPoll.allow_comments && (
             <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 md:p-8 space-y-6">
               <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 text-indigo-600" />
+                <MessageCircle className="w-5 h-5 text-emerald-600" />
                 {isEn ? 'Comments & Discussion' : 'تبصرے اور بحث'}
               </h2>
 
               {/* Comment Box */}
-              <form onSubmit={(e) => handleAddComment(e)} className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl p-2 focus-within:border-indigo-500 focus-within:bg-white transition-all">
+              <form onSubmit={(e) => handleAddComment(e)} className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl p-2 focus-within:border-emerald-500 focus-within:bg-white transition-all">
                 <input
                   type="text"
                   placeholder={isEn ? 'Write a comment...' : 'تبصرہ لکھیں...'}
@@ -463,7 +463,7 @@ export default function PollsModule({
                 <button
                   type="submit"
                   disabled={!commentInput?.trim()}
-                  className="p-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl disabled:opacity-40 transition-all border-none cursor-pointer"
+                  className="p-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl disabled:opacity-40 transition-all border-none cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -490,7 +490,7 @@ export default function PollsModule({
                           <span className="text-xs font-black text-slate-950">{comm.author_name}</span>
                           
                           {comm.pinned && (
-                            <span className="text-[9px] bg-amber-500 text-white font-black px-1.5 py-0.5 rounded flex items-center gap-0.5 uppercase tracking-wide">
+                            <span className="text-[9px] bg-emerald-500 text-white font-black px-1.5 py-0.5 rounded flex items-center gap-0.5 uppercase tracking-wide">
                               <Pin className="w-2.5 h-2.5" />
                               Pinned
                             </span>
@@ -543,7 +543,7 @@ export default function PollsModule({
 
                       {/* Reply Box */}
                       {activeReplyBox === comm.id && (
-                        <form onSubmit={(e) => handleAddComment(e, comm.id)} className="ms-8 mt-2 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-1.5">
+                        <form onSubmit={(e) => handleAddComment(e, comm.id)} className="ms-8 mt-2 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-2xl p-1.5">
                           <input
                             type="text"
                             placeholder={isEn ? 'Write a reply...' : 'جواب لکھیں...'}
@@ -554,7 +554,7 @@ export default function PollsModule({
                           <button
                             type="submit"
                             disabled={!(replyInputs[comm.id] || '')?.trim()}
-                            className="py-1 px-3 bg-indigo-600 hover:bg-indigo-750 text-white rounded-lg text-[10px] font-black border-none cursor-pointer"
+                            className="py-1 px-3 bg-emerald-600 hover:bg-indigo-750 text-white rounded-xl text-[10px] font-black border-none cursor-pointer"
                           >
                             {isEn ? 'Reply' : 'جواب'}
                           </button>
@@ -634,7 +634,7 @@ export default function PollsModule({
             <div className="flex flex-col md:flex-row gap-3.5">
               
               {/* Search Bar */}
-              <div className="flex-1 flex items-center gap-2.5 bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-2.5 focus-within:border-indigo-500 focus-within:bg-white transition-all">
+              <div className="flex-1 flex items-center gap-2.5 bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-2.5 focus-within:border-emerald-500 focus-within:bg-white transition-all">
                 <Search className="w-4 h-4 text-slate-400 shrink-0" />
                 <input
                   type="text"
@@ -674,7 +674,7 @@ export default function PollsModule({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`px-4 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase transition-all border-none cursor-pointer ${
+                  className={`px-4 py-2 rounded-2xl text-[10px] md:text-xs font-black uppercase transition-all border-none cursor-pointer ${
                     activeTab === tab.id 
                       ? 'bg-indigo-650 text-white shadow-sm' 
                       : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
@@ -699,10 +699,10 @@ export default function PollsModule({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[1, 2, 3, 4].map(idx => (
                 <div key={idx} className="bg-white rounded-3xl border border-slate-250/50 p-6 space-y-4 animate-pulse">
-                  <div className="w-24 h-6 bg-slate-200 rounded-lg" />
-                  <div className="w-3/4 h-6 bg-slate-200 rounded-lg" />
-                  <div className="w-full h-16 bg-slate-200 rounded-lg" />
-                  <div className="w-1/2 h-4 bg-slate-200 rounded-lg" />
+                  <div className="w-24 h-6 bg-slate-200 rounded-xl" />
+                  <div className="w-3/4 h-6 bg-slate-200 rounded-xl" />
+                  <div className="w-full h-16 bg-slate-200 rounded-xl" />
+                  <div className="w-1/2 h-4 bg-slate-200 rounded-xl" />
                 </div>
               ))}
             </div>
@@ -751,18 +751,18 @@ export default function PollsModule({
                         
                         {/* Tags */}
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-[9px] font-black uppercase rounded-md tracking-wider border border-indigo-100">
+                          <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-[9px] font-black uppercase rounded-xl tracking-wider border border-emerald-100">
                             {poll.category}
                           </span>
 
                           {poll.featured && (
-                            <span className="px-2.5 py-0.5 bg-amber-500 text-white text-[9px] font-black uppercase rounded-md tracking-wider">
+                            <span className="px-2.5 py-0.5 bg-emerald-500 text-white text-[9px] font-black uppercase rounded-xl tracking-wider">
                               {isEn ? 'Featured' : 'اہم'}
                             </span>
                           )}
 
                           {poll.publish_status === 'Closed' && (
-                            <span className="px-2.5 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black uppercase rounded-md tracking-wider ms-auto">
+                            <span className="px-2.5 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-black uppercase rounded-xl tracking-wider ms-auto">
                               {isEn ? 'Closed' : 'بند'}
                             </span>
                           )}
@@ -793,7 +793,7 @@ export default function PollsModule({
 
                         {/* Vote status button */}
                         {hasVoted ? (
-                          <div className="p-2.5 bg-green-50 border border-green-200 rounded-xl text-[10px] md:text-xs font-bold text-green-700 flex items-center justify-between">
+                          <div className="p-2.5 bg-green-50 border border-green-200 rounded-2xl text-[10px] md:text-xs font-bold text-green-700 flex items-center justify-between">
                             <span className="flex items-center gap-1.5">
                               <CheckCircle className="w-4 h-4 text-green-600 shrink-0" />
                               {isEn ? `You voted: ${activeOptionText}` : `آپ کا ووٹ: ${activeOptionText}`}
@@ -811,7 +811,7 @@ export default function PollsModule({
                         ) : (
                           <button
                             onClick={() => handleSelectPoll(poll)}
-                            className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-750 text-white text-xs font-black rounded-xl shadow-xs hover:shadow-md transition-all border-none cursor-pointer text-center block"
+                            className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-indigo-750 text-white text-xs font-black rounded-2xl shadow-xs hover:shadow-md transition-all border-none cursor-pointer text-center block"
                           >
                             {poll.publish_status === 'Closed' 
                               ? (isEn ? 'View Results' : 'نتائج دیکھیں') 
@@ -859,20 +859,20 @@ export default function PollsModule({
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value)}
               rows={4}
-              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs md:text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-semibold"
+              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs md:text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all font-semibold"
             />
 
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
                 onClick={() => setReportingPollId(null)}
-                className="py-2.5 px-4 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-xl transition-all cursor-pointer bg-transparent"
+                className="py-2.5 px-4 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-2xl transition-all cursor-pointer bg-transparent"
               >
                 {isEn ? 'Cancel' : 'منسوخ'}
               </button>
               <button
                 onClick={submitReport}
                 disabled={!reportReason?.trim()}
-                className="py-2.5 px-5 bg-red-650 hover:bg-red-700 text-white text-xs font-black rounded-xl disabled:opacity-40 transition-all cursor-pointer border-none"
+                className="py-2.5 px-5 bg-red-650 hover:bg-red-700 text-white text-xs font-black rounded-2xl disabled:opacity-40 transition-all cursor-pointer border-none"
               >
                 {isEn ? 'Submit Report' : 'شکایت درج کریں'}
               </button>
@@ -883,3 +883,4 @@ export default function PollsModule({
     </div>
   );
 }
+

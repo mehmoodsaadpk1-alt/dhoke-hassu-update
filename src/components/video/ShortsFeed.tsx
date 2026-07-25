@@ -17,6 +17,7 @@ interface ShortsFeedProps {
   onLoadMore: () => void;
   onRefresh: () => void;
   onVideoDeleted?: (videoId: string) => void;
+  onVideoSavedToggle?: (videoId: string, isSaved: boolean) => void;
   currentUserId?: string;
 }
 
@@ -29,6 +30,7 @@ export const ShortsFeed: React.FC<ShortsFeedProps> = ({
   onLoadMore,
   onRefresh,
   onVideoDeleted,
+  onVideoSavedToggle,
   currentUserId
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);

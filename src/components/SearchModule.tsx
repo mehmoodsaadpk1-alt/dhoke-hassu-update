@@ -917,18 +917,18 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
   // Helper icons for categories in results
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'posts': return <Rss className="w-3.5 h-3.5 text-teal-600" />;
+      case 'posts': return <Rss className="w-3.5 h-3.5 text-emerald-600" />;
       case 'users': return <UserIcon className="w-3.5 h-3.5 text-slate-600" />;
-      case 'groups': return <Users className="w-3.5 h-3.5 text-blue-600" />;
+      case 'groups': return <Users className="w-3.5 h-3.5 text-emerald-600" />;
       case 'events': return <Calendar className="w-3.5 h-3.5 text-emerald-600" />;
       case 'businesses': return <Store className="w-3.5 h-3.5 text-violet-600" />;
-      case 'jobs': return <Briefcase className="w-3.5 h-3.5 text-orange-600" />;
-      case 'marketplace': return <ShoppingBag className="w-3.5 h-3.5 text-amber-600" />;
-      case 'services': return <Wrench className="w-3.5 h-3.5 text-cyan-600" />;
-      case 'property': return <Home className="w-3.5 h-3.5 text-pink-600" />;
+      case 'jobs': return <Briefcase className="w-3.5 h-3.5 text-emerald-600" />;
+      case 'marketplace': return <ShoppingBag className="w-3.5 h-3.5 text-emerald-600" />;
+      case 'services': return <Wrench className="w-3.5 h-3.5 text-emerald-600" />;
+      case 'property': return <Home className="w-3.5 h-3.5 text-emerald-600" />;
       case 'deals': return <Tag className="w-3.5 h-3.5 text-rose-600" />;
       case 'alerts': return <AlertTriangle className="w-3.5 h-3.5 text-red-600" />;
-      case 'polls': return <BarChart2 className="w-3.5 h-3.5 text-indigo-600" />;
+      case 'polls': return <BarChart2 className="w-3.5 h-3.5 text-emerald-600" />;
       case 'promotions': return <Megaphone className="w-3.5 h-3.5 text-yellow-600" />;
       default: return <Search className="w-3.5 h-3.5 text-slate-500" />;
     }
@@ -955,7 +955,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
               navigate('/home');
             }
           }}
-          className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-500 transition-colors"
+          className="p-1.5 hover:bg-slate-100 rounded-2xl text-slate-500 transition-colors"
           title={t.backToSearch}
         >
           <ArrowLeft className="w-5 h-5 text-slate-600" />
@@ -992,7 +992,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
 
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-sm hover:shadow-md transition-all shrink-0 flex items-center gap-1.5"
+          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-sm hover:shadow-md transition-all shrink-0 flex items-center gap-1.5"
           id="global-search-submit-btn"
         >
           <Search className="w-3.5 h-3.5" />
@@ -1015,7 +1015,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   key={idx}
                   type="button"
                   onClick={() => handleSelectPredefinedSearch(suggestion)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-slate-800 text-sm font-bold hover:bg-slate-50 rounded-xl text-start cursor-pointer transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-slate-800 text-sm font-bold hover:bg-slate-50 rounded-2xl text-start cursor-pointer transition-colors"
                 >
                   <Search className="w-3.5 h-3.5 text-slate-400" />
                   <span>{suggestion}</span>
@@ -1028,7 +1028,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
           <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 space-y-4" id="recent-searches-box">
             <div className="flex justify-between items-center">
               <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-blue-600" />
+                <Clock className="w-4 h-4 text-emerald-600" />
                 {t.recent}
               </h3>
               {recentSearches.length > 0 && (
@@ -1051,7 +1051,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                 {recentSearches.map((keyword, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-xl border border-slate-100 hover:bg-slate-100/80 transition-colors"
+                    className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-slate-100/80 transition-colors"
                   >
                     <button
                       type="button"
@@ -1063,7 +1063,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     <button
                       type="button"
                       onClick={() => handleDeleteSearchWord(keyword)}
-                      className="p-1 text-slate-400 hover:text-red-500 rounded-lg transition-colors cursor-pointer"
+                      className="p-1 text-slate-400 hover:text-red-500 rounded-xl transition-colors cursor-pointer"
                       title={isEn ? 'Delete' : 'حذف کریں'}
                     >
                       <X className="w-3.5 h-3.5" />
@@ -1087,7 +1087,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   key={index}
                   type="button"
                   onClick={() => handleSelectPredefinedSearch(keyword)}
-                  className="px-3.5 py-2 bg-blue-50/60 hover:bg-blue-100/80 text-blue-700 border border-blue-100/40 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5"
+                  className="px-3.5 py-2 bg-emerald-50/60 hover:bg-emerald-100/80 text-emerald-700 border border-emerald-100/40 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <span>🔥</span>
                   <span>{keyword}</span>
@@ -1115,9 +1115,9 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   <button
                     key={tab.id}
                     onClick={() => setActiveFilter(tab.id)}
-                    className={`px-4 py-2 text-xs font-extrabold rounded-xl border shrink-0 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5 ${
+                    className={`px-4 py-2 text-xs font-extrabold rounded-2xl border shrink-0 transition-all cursor-pointer shadow-2xs flex items-center gap-1.5 ${
                       isActive 
-                        ? 'bg-blue-600 text-white border-blue-600' 
+                        ? 'bg-emerald-600 text-white border-emerald-600' 
                         : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
                     }`}
                   >
@@ -1138,7 +1138,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
               {[1, 2, 3].map(n => (
                 <div key={n} className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-2xs animate-pulse">
                   <div className="flex gap-3">
-                    <div className="w-12 h-12 bg-slate-100 rounded-xl shrink-0" />
+                    <div className="w-12 h-12 bg-slate-100 rounded-2xl shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="w-1/3 h-4 bg-slate-100 rounded" />
                       <div className="w-2/3 h-3 bg-slate-100 rounded" />
@@ -1154,7 +1154,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                 <span>
                   🔍 {filteredResults.length} {filteredResults.length === 1 ? t.searchResult : t.searchResults} for "<strong>{query}</strong>"
                 </span>
-                <span className="font-mono text-[10px] uppercase font-black bg-slate-100 px-2 py-0.5 rounded-lg">
+                <span className="font-mono text-[10px] uppercase font-black bg-slate-100 px-2 py-0.5 rounded-xl">
                   {filterTabs.find(tab => tab.id === activeFilter)?.label}
                 </span>
               </div>
@@ -1177,7 +1177,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             setQuery(term);
                             handleSearchSubmit();
                           }}
-                          className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                          className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-colors cursor-pointer"
                         >
                           {term}
                         </button>
@@ -1200,7 +1200,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                         >
                           {/* THUMBNAIL */}
                           {item.image ? (
-                            <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-100 border border-slate-100 shrink-0 shadow-2xs">
+                            <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 shrink-0 shadow-2xs">
                               <img 
                                 src={item.image} 
                                 alt={item.title} 
@@ -1209,7 +1209,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                               />
                             </div>
                           ) : (
-                            <div className="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-lg shrink-0 border border-blue-100/60 uppercase">
+                            <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-lg shrink-0 border border-emerald-100/60 uppercase">
                               {item.title?.charAt(0)}
                             </div>
                           )}
@@ -1218,7 +1218,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                           <div className="flex-1 min-w-0 space-y-1">
                             <div className="flex flex-wrap items-center gap-1.5">
                               {/* CATEGORY IDENTIFIER BADGE */}
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-700 rounded-lg text-[9px] font-black uppercase tracking-wider">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-700 rounded-xl text-[9px] font-black uppercase tracking-wider">
                                 {getCategoryIcon(item.category)}
                                 <span>{item.categoryLabel}</span>
                               </span>
@@ -1229,7 +1229,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                               </span>
                             </div>
 
-                            <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-1 group-hover:text-blue-600 transition-colors line-clamp-1">
+                            <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-1 group-hover:text-emerald-600 transition-colors line-clamp-1">
                               <span>{item.title}</span>
                               {verified && (
                                 <span className="inline-flex items-center justify-center bg-[#2563eb] text-white rounded-full p-0.5 shrink-0" title="Verified" style={{ width: '13px', height: '13px' }}>
@@ -1248,7 +1248,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             {/* DATE / OTHER ATTRIBUTE SUBROW */}
                             <div className="flex justify-between items-center pt-1.5 text-[10px] text-slate-400 font-semibold font-mono">
                               <span>{item.date}</span>
-                              <span className="text-blue-600 font-bold hover:underline flex items-center gap-0.5">
+                              <span className="text-emerald-600 font-bold hover:underline flex items-center gap-0.5">
                                 {t.viewDetails}
                                 <ChevronRight className="w-3 h-3" />
                               </span>
@@ -1279,7 +1279,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-100 p-4 bg-slate-50">
-              <span className="text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-700 px-2.5 py-1 rounded-lg">
+              <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-xl">
                 {selectedItemDetail.type === 'post' && (isEn ? 'Community Post' : 'کمیونٹی پوسٹ')}
                 {selectedItemDetail.type === 'user' && (isEn ? 'Resident Profile' : 'شہری پروفائل')}
                 {selectedItemDetail.type === 'poll' && (isEn ? 'Local Area Poll' : 'لوکل پول رائے دہی')}
@@ -1287,7 +1287,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
               </span>
               <button
                 onClick={() => setSelectedItemDetail(null)}
-                className="p-1.5 hover:bg-slate-200 text-slate-500 hover:text-slate-700 rounded-xl transition-all cursor-pointer"
+                className="p-1.5 hover:bg-slate-200 text-slate-500 hover:text-slate-700 rounded-2xl transition-all cursor-pointer"
                 title={isEn ? 'Close' : 'بند کریں'}
               >
                 <X className="w-4 h-4" />
@@ -1312,7 +1312,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     <div>
                       <h4 className="font-extrabold text-slate-900 text-sm flex items-center gap-1">
                         <span
-                          className="cursor-pointer hover:text-blue-600 hover:underline transition-colors"
+                          className="cursor-pointer hover:text-emerald-600 hover:underline transition-colors"
                           data-profile-name={selectedItemDetail.data.author}
                           data-profile-avatar={selectedItemDetail.data.avatar}
                         >
@@ -1337,7 +1337,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   </p>
 
                   {selectedItemDetail.data.image && (
-                    <div className="rounded-xl overflow-hidden max-h-52 bg-slate-50 border border-slate-100 shadow-2xs">
+                    <div className="rounded-2xl overflow-hidden max-h-52 bg-slate-50 border border-slate-100 shadow-2xs">
                       <img 
                         src={selectedItemDetail.data.image} 
                         alt="Post attachment" 
@@ -1363,7 +1363,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                       setSelectedItemDetail(null);
                       navigate('/feed');
                     }}
-                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <Rss className="w-4 h-4" />
                     <span>{t.viewInFeed}</span>
@@ -1383,7 +1383,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="w-20 h-20 rounded-full bg-blue-50 text-blue-600 border border-blue-100/60 flex items-center justify-center font-black text-3xl shadow-sm uppercase">
+                      <div className="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100/60 flex items-center justify-center font-black text-3xl shadow-sm uppercase">
                         {selectedItemDetail.data.fullName?.charAt(0)}
                       </div>
                     )}
@@ -1410,17 +1410,17 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                   </div>
 
                   {selectedItemDetail.data.bio && (
-                    <p className="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100/60 leading-relaxed italic">
+                    <p className="text-xs text-slate-600 bg-slate-50 p-3 rounded-2xl border border-slate-100/60 leading-relaxed italic">
                       "{selectedItemDetail.data.bio}"
                     </p>
                   )}
 
                   <div className="grid grid-cols-2 gap-2 text-center pt-2">
-                    <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <div className="bg-slate-50 p-2.5 rounded-2xl border border-slate-100">
                       <span className="block text-[9px] uppercase font-black tracking-wider text-slate-400">{isEn ? 'Reputation Score' : 'مقام سکور'}</span>
                       <span className="text-sm font-black text-emerald-600">⭐ {selectedItemDetail.data.reputationScore || 90}</span>
                     </div>
-                    <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <div className="bg-slate-50 p-2.5 rounded-2xl border border-slate-100">
                       <span className="block text-[9px] uppercase font-black tracking-wider text-slate-400">{isEn ? 'Portal Member' : 'پورٹل ممبر منذ'}</span>
                       <span className="text-xs font-black text-slate-700">{selectedItemDetail.data.joinDate || 'Since 2024'}</span>
                     </div>
@@ -1430,7 +1430,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     <div className="flex gap-2.5 pt-2">
                       <a
                         href={`tel:${selectedItemDetail.data.mobileNumber}`}
-                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
+                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                       >
                         <Phone className="w-3.5 h-3.5" />
                         <span>{t.directCall}</span>
@@ -1445,7 +1445,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             navigate('/chat');
                           }
                         }}
-                        className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <MessageSquare className="w-3.5 h-3.5" />
                         <span>{t.chatSecurely}</span>
@@ -1459,7 +1459,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
               {selectedItemDetail.type === 'poll' && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs bg-indigo-50 text-indigo-700 border border-indigo-100 px-2 py-0.5 rounded-lg font-bold">
+                    <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 rounded-xl font-bold">
                       📊 UC-1 {isEn ? 'Citizen Poll' : 'عوامی سروے'}
                     </span>
                     <span className="text-[10px] text-slate-400 font-semibold">• {selectedItemDetail.data.postedTime}</span>
@@ -1482,9 +1482,9 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                         <div key={index} className="relative">
                           {hasVoted ? (
                             /* VOTED PROGRESS BAR */
-                            <div className={`w-full p-3.5 rounded-xl border transition-all text-xs flex justify-between items-center relative overflow-hidden ${
+                            <div className={`w-full p-3.5 rounded-2xl border transition-all text-xs flex justify-between items-center relative overflow-hidden ${
                               isSelected 
-                                ? 'bg-indigo-50 border-indigo-300 text-indigo-900 font-bold' 
+                                ? 'bg-emerald-50 border-indigo-300 text-indigo-900 font-bold' 
                                 : 'bg-slate-50 border-slate-200 text-slate-700'
                             }`}>
                               {/* Background fill */}
@@ -1494,7 +1494,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                               />
                               
                               <span className="relative z-10 flex items-center gap-1.5 truncate max-w-[80%]">
-                                {isSelected && <span className="text-indigo-600">✓</span>}
+                                {isSelected && <span className="text-emerald-600">✓</span>}
                                 <span>{option.text}</span>
                               </span>
                               
@@ -1506,7 +1506,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                             /* ACTIVE VOTING BUTTON */
                             <button
                               onClick={() => handleVotePoll(selectedItemDetail.data.id, index)}
-                              className="w-full text-start p-3.5 rounded-xl border border-slate-200/80 hover:bg-indigo-50 hover:border-indigo-200 text-slate-800 text-xs font-bold transition-all cursor-pointer hover:text-indigo-900"
+                              className="w-full text-start p-3.5 rounded-2xl border border-slate-200/80 hover:bg-emerald-50 hover:border-indigo-200 text-slate-800 text-xs font-bold transition-all cursor-pointer hover:text-indigo-900"
                             >
                               {option.text}
                             </button>
@@ -1533,7 +1533,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-3 start-3 bg-yellow-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md shadow-sm">
+                    <div className="absolute top-3 start-3 bg-yellow-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-xl shadow-sm">
                       ⚡ SPONSORED
                     </div>
                   </div>
@@ -1547,13 +1547,13 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-2xl border border-slate-100">
                     {selectedItemDetail.data.description}
                   </p>
 
                   {selectedItemDetail.data.discountCode && (
-                    <div className="bg-dashed border border-blue-300 bg-blue-50/50 p-3 rounded-xl text-center space-y-1">
-                      <span className="block text-[9px] uppercase font-black text-blue-500 tracking-wider">
+                    <div className="bg-dashed border border-blue-300 bg-emerald-50/50 p-3 rounded-2xl text-center space-y-1">
+                      <span className="block text-[9px] uppercase font-black text-emerald-500 tracking-wider">
                         🎫 {t.promoCode}
                       </span>
                       <strong className="text-base font-mono text-blue-800 tracking-widest uppercase">
@@ -1566,7 +1566,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                     <div className="flex gap-2 pt-2">
                       <a
                         href={`tel:${selectedItemDetail.data.contact}`}
-                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
+                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5"
                       >
                         <Phone className="w-3.5 h-3.5" />
                         <span>{t.directCall}</span>
@@ -1576,7 +1576,7 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
                           alert(isEn ? 'Promo code successfully claimed and recorded on your profile!' : 'کوپن کوڈ کامیابی کے ساتھ آپ کی پروفائل پر محفوظ کر لیا گیا ہے!');
                           setSelectedItemDetail(null);
                         }}
-                        className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <Gift className="w-4 h-4" />
                         <span>{t.claimPromo}</span>
@@ -1594,3 +1594,4 @@ const pollsBannerMap = useAdRotator('Polls & Opinions', 1, 1, 'Banner');
     </div>
   );
 }
+

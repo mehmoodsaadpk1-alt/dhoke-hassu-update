@@ -458,7 +458,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
               })()}
 
               {currentStory.type === 'text' && (
-                <div className={`w-full h-full flex items-center justify-center p-8 ${currentStory.bgColor || 'bg-gradient-to-br from-purple-500 to-indigo-600'}`}>
+                <div className={`w-full h-full flex items-center justify-center p-8 ${currentStory.bgColor || 'bg-gradient-to-br from-emerald-500 to-emerald-600'}`}>
                   <h2 className={`text-3xl md:text-4xl font-bold text-center leading-tight drop-shadow-md whitespace-pre-wrap ${currentStory.textStyles?.color || 'text-white'} ${currentStory.textStyles?.font || 'font-sans'}`}>
                     {currentStory.text}
                   </h2>
@@ -466,10 +466,10 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
               )}
 
               {currentStory.type === 'share' && (
-                <div className={`w-full h-full flex items-center justify-center p-8 ${currentStory.bgColor || 'bg-gradient-to-br from-indigo-500 to-blue-600'}`}>
+                <div className={`w-full h-full flex items-center justify-center p-8 ${currentStory.bgColor || 'bg-gradient-to-br from-emerald-500 to-emerald-600'}`}>
                   <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-2xl w-full max-w-sm text-center border border-white/20">
-                    <div className="flex items-center justify-center gap-2 text-sm font-bold text-indigo-600 mb-4 uppercase tracking-wider">
-                      <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <div className="flex items-center justify-center gap-2 text-sm font-bold text-emerald-600 mb-4 uppercase tracking-wider">
+                      <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
                       </div>
                       Shared {(() => {
@@ -543,7 +543,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
             {currentStory.isAd ? (
               <button 
                 onClick={handleCtaClick}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 px-4 rounded-xl text-center shadow-lg transition animate-pulse-soft"
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-2xl text-center shadow-lg transition animate-pulse-soft"
               >
                 {currentStory.ctaText || 'Learn More'}
               </button>
@@ -640,7 +640,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
             <div className="flex items-center justify-around w-full px-4 mt-2">
               <button 
                 onClick={() => setActiveTab('views')}
-                className={`flex flex-col items-center pb-2 px-4 transition-colors ${activeTab === 'views' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-white/50 hover:text-white/80'}`}
+                className={`flex flex-col items-center pb-2 px-4 transition-colors ${activeTab === 'views' ? 'text-emerald-500 border-b-2 border-emerald-500' : 'text-white/50 hover:text-white/80'}`}
               >
                 <Eye className="w-5 h-5 mb-1" />
                 <span className="text-xs font-bold">{insights.views.length} Views</span>
@@ -720,7 +720,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
                   insights.replies.map(r => (
                     <div 
                       key={r.id} 
-                      className="flex items-start justify-between bg-white/5 rounded-xl p-3 cursor-pointer hover:bg-white/10 transition group"
+                      className="flex items-start justify-between bg-white/5 rounded-2xl p-3 cursor-pointer hover:bg-white/10 transition group"
                       onClick={() => {
                          // Initiate chat - requires router or app-level navigation.
                          // For now, prompt or rely on parent component if there's a callback.
@@ -731,7 +731,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
                         <AppAvatar avatar={r.profiles?.avatar_url} name={r.profiles?.full_name ?? "Unknown User"} size={12} className="border border-white/10 mt-0.5" />
                         <div className="flex flex-col flex-1">
                           <span className="text-white font-semibold text-sm">{r.profiles?.full_name || 'User'}</span>
-                          <span className="text-white/80 text-sm mt-1 bg-black/20 p-2 rounded-lg rounded-tl-none break-words">
+                          <span className="text-white/80 text-sm mt-1 bg-black/20 p-2 rounded-xl rounded-tl-none break-words">
                             {r.content}
                           </span>
                         </div>
@@ -750,3 +750,4 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
     </div>
   );
 }
+

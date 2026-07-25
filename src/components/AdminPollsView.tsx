@@ -491,14 +491,14 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
         </div>
 
         {/* Permission Switcher */}
-        <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl p-1 shrink-0 shadow-xs">
+        <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-2xl p-1 shrink-0 shadow-xs">
           <span className="text-[10px] font-black text-slate-450 uppercase px-2">Access Level:</span>
           {(['super_admin', 'moderator', 'poll_manager'] as const).map(role => (
             <button
               key={role}
               onClick={() => setAdminRole(role)}
-              className={`px-2.5 py-1 rounded-lg text-[9px] font-extrabold uppercase border-none cursor-pointer transition-all ${
-                adminRole === role ? 'bg-indigo-600 text-white shadow-xs' : 'bg-transparent text-slate-500 hover:text-slate-900'
+              className={`px-2.5 py-1 rounded-xl text-[9px] font-extrabold uppercase border-none cursor-pointer transition-all ${
+                adminRole === role ? 'bg-emerald-600 text-white shadow-xs' : 'bg-transparent text-slate-500 hover:text-slate-900'
               }`}
             >
               {role.replace('_', ' ')}
@@ -511,24 +511,24 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
       <div className="flex gap-2">
         <button
           onClick={() => setActiveSubTab('list')}
-          className={`px-4 py-2 rounded-xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
-            activeSubTab === 'list' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+          className={`px-4 py-2 rounded-2xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
+            activeSubTab === 'list' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
           }`}
         >
           {isEn ? 'All Polls' : 'تمام سروے'}
         </button>
         <button
           onClick={() => setActiveSubTab('create')}
-          className={`px-4 py-2 rounded-xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
-            activeSubTab === 'create' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+          className={`px-4 py-2 rounded-2xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
+            activeSubTab === 'create' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
           }`}
         >
           {isEn ? 'Create New Poll' : 'نیا سروے بنائیں'}
         </button>
         <button
           onClick={() => setActiveSubTab('analytics')}
-          className={`px-4 py-2 rounded-xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
-            activeSubTab === 'analytics' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+          className={`px-4 py-2 rounded-2xl text-xs font-black uppercase transition-all cursor-pointer border-none ${
+            activeSubTab === 'analytics' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
           }`}
         >
           {isEn ? 'Advanced Analytics' : 'سروے تجزیات'}
@@ -556,7 +556,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       placeholder="e.g. Street Light Installation on Sector B"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-semibold"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all font-semibold"
                     />
                   </div>
 
@@ -568,7 +568,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       rows={5}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-semibold"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white transition-all font-semibold"
                     />
                   </div>
 
@@ -579,7 +579,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-650 focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-650 focus:outline-none"
                       >
                         {CATEGORIES.map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
@@ -592,7 +592,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       <select
                         value={priority}
                         onChange={(e) => setPriority(e.target.value as any)}
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-650 focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-650 focus:outline-none"
                       >
                         <option value="Low">Low Priority</option>
                         <option value="Normal">Normal Priority</option>
@@ -610,12 +610,12 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     <label className="block text-xs font-black text-slate-650 uppercase mb-1.5">Cover Image (optional)</label>
                     
                     {coverPreviewUrl ? (
-                      <div className="relative w-full h-32 rounded-xl overflow-hidden border border-slate-200 group">
+                      <div className="relative w-full h-32 rounded-2xl overflow-hidden border border-slate-200 group">
                         <img src={coverPreviewUrl} alt="Cover Preview" className="w-full h-full object-cover" />
                         <button
                           type="button"
                           onClick={handleRemoveCover}
-                          className="absolute top-2 end-2 p-1.5 bg-red-650 hover:bg-red-700 text-white rounded-lg transition-colors border-none cursor-pointer shadow-md"
+                          className="absolute top-2 end-2 p-1.5 bg-red-650 hover:bg-red-700 text-white rounded-xl transition-colors border-none cursor-pointer shadow-md"
                         >
                           <Trash className="w-4 h-4" />
                         </button>
@@ -646,7 +646,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         type="button"
                         onClick={handleAddOption}
                         disabled={options.length >= 10}
-                        className="flex items-center gap-0.5 text-[10px] font-black text-indigo-600 hover:underline border-none bg-transparent cursor-pointer disabled:opacity-40"
+                        className="flex items-center gap-0.5 text-[10px] font-black text-emerald-600 hover:underline border-none bg-transparent cursor-pointer disabled:opacity-40"
                       >
                         <Plus className="w-3.5 h-3.5" /> ADD OPTION
                       </button>
@@ -665,13 +665,13 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                               newOpts[idx] = e.target.value;
                               setOptions(newOpts);
                             }}
-                            className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+                            className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold focus:outline-none focus:border-emerald-500 focus:bg-white transition-all"
                           />
                           {options.length > 2 && (
                             <button
                               type="button"
                               onClick={() => handleRemoveOption(idx)}
-                              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors border-none bg-transparent cursor-pointer"
+                              className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors border-none bg-transparent cursor-pointer"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -690,7 +690,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     type="checkbox" 
                     checked={anonymous}
                     onChange={(e) => setAnonymous(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-550"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-indigo-550"
                   />
                   <span className="text-xs font-bold text-slate-700">Anonymous Voting</span>
                 </label>
@@ -700,7 +700,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     type="checkbox" 
                     checked={allowOptionChange}
                     onChange={(e) => setAllowOptionChange(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-550"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-indigo-550"
                   />
                   <span className="text-xs font-bold text-slate-700">Allow Vote Changing</span>
                 </label>
@@ -710,7 +710,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     type="checkbox" 
                     checked={allowComments}
                     onChange={(e) => setAllowComments(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-550"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-indigo-550"
                   />
                   <span className="text-xs font-bold text-slate-700">Enable Comments</span>
                 </label>
@@ -720,7 +720,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     type="checkbox" 
                     checked={showLiveResults}
                     onChange={(e) => setShowLiveResults(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-550"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-indigo-550"
                   />
                   <span className="text-xs font-bold text-slate-700">Show Live Results</span>
                 </label>
@@ -735,7 +735,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       name="schedule"
                       checked={publishImmediately}
                       onChange={() => setPublishImmediately(true)}
-                      className="w-4 h-4 text-indigo-600 focus:ring-indigo-550"
+                      className="w-4 h-4 text-emerald-600 focus:ring-indigo-550"
                     />
                     <span className="text-xs font-bold text-slate-700">Publish Immediately</span>
                   </label>
@@ -746,7 +746,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       name="schedule"
                       checked={!publishImmediately}
                       onChange={() => setPublishImmediately(false)}
-                      className="w-4 h-4 text-indigo-600 focus:ring-indigo-550"
+                      className="w-4 h-4 text-emerald-600 focus:ring-indigo-550"
                     />
                     <span className="text-xs font-bold text-slate-700">Schedule Launch</span>
                   </label>
@@ -760,7 +760,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         type="datetime-local" 
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                        className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none"
                       />
                     </div>
                   </div>
@@ -773,7 +773,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                       type="datetime-local" 
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none"
+                      className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none"
                     />
                   </div>
                 </div>
@@ -783,7 +783,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     type="checkbox" 
                     checked={featured}
                     onChange={(e) => setFeatured(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-550"
+                    className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-indigo-550"
                   />
                   <span className="text-xs font-bold text-slate-700">Mark as Featured (Pin on Top)</span>
                 </label>
@@ -794,13 +794,13 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                 <button
                   type="button"
                   onClick={() => setActiveSubTab('list')}
-                  className="py-2.5 px-5 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-xl transition-all cursor-pointer bg-transparent"
+                  className="py-2.5 px-5 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-2xl transition-all cursor-pointer bg-transparent"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="py-2.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-xl transition-all cursor-pointer shadow-md hover:shadow-lg border-none"
+                  className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-lg border-none"
                 >
                   Create & Launch Poll
                 </button>
@@ -835,7 +835,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     <tr key={poll.id} className="hover:bg-slate-50/50">
                       <td className="py-4 px-6 font-bold text-slate-900">
                         <p className="font-black text-slate-900 leading-snug line-clamp-1">{poll.title}</p>
-                        <span className="text-[9px] bg-indigo-50 text-indigo-700 font-black px-1.5 py-0.5 rounded mt-1.5 inline-block uppercase">
+                        <span className="text-[9px] bg-emerald-50 text-emerald-700 font-black px-1.5 py-0.5 rounded mt-1.5 inline-block uppercase">
                           {poll.category}
                         </span>
                       </td>
@@ -844,9 +844,9 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         <p>Close: {new Date(poll.end_date).toLocaleDateString()}</p>
                       </td>
                       <td className="py-4 px-6">
-                        <span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase ${
+                        <span className={`px-2 py-0.5 rounded-xl text-[9px] font-black uppercase ${
                           poll.publish_status === 'Active' ? 'bg-green-50 text-green-700' :
-                          poll.publish_status === 'Ending Soon' ? 'bg-amber-50 text-amber-700' :
+                          poll.publish_status === 'Ending Soon' ? 'bg-emerald-50 text-amber-700' :
                           poll.publish_status === 'Closed' ? 'bg-red-50 text-red-700' :
                           'bg-slate-150 text-slate-500'
                         }`}>
@@ -862,7 +862,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                             setSelectedAnalyticsPoll(poll);
                             setActiveSubTab('analytics');
                           }}
-                          className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-lg border-none cursor-pointer"
+                          className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-650 rounded-xl border-none cursor-pointer"
                           title="View Demographics Analytics"
                         >
                           <BarChart3 className="w-3.5 h-3.5" />
@@ -870,7 +870,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
 
                         <button
                           onClick={() => handleDelete(poll.id)}
-                          className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg border-none cursor-pointer"
+                          className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl border-none cursor-pointer"
                           title="Permanently Delete Poll"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -898,7 +898,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                   const match = polls.find(p => p.id === e.target.value);
                   if (match) setSelectedAnalyticsPoll(match);
                 }}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 focus:outline-none"
               >
                 {polls.map(p => (
                   <option key={p.id} value={p.id}>{p.title}</option>
@@ -910,19 +910,19 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
               <div className="flex flex-wrap items-center gap-2 self-end md:self-auto">
                 <button
                   onClick={exportCSV}
-                  className="flex items-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-650 text-[10px] font-black uppercase rounded-xl transition-all border-none cursor-pointer"
+                  className="flex items-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-650 text-[10px] font-black uppercase rounded-2xl transition-all border-none cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" /> CSV
                 </button>
                 <button
                   onClick={exportJSON}
-                  className="flex items-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-650 text-[10px] font-black uppercase rounded-xl transition-all border-none cursor-pointer"
+                  className="flex items-center gap-1.5 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-650 text-[10px] font-black uppercase rounded-2xl transition-all border-none cursor-pointer"
                 >
                   <FileText className="w-3.5 h-3.5" /> JSON
                 </button>
                 <button
                   onClick={handlePrint}
-                  className="flex items-center gap-1.5 py-2 px-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-[10px] font-black uppercase rounded-xl transition-all border-none cursor-pointer"
+                  className="flex items-center gap-1.5 py-2 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase rounded-2xl transition-all border-none cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5" /> PRINT REPORT
                 </button>
@@ -944,7 +944,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     <select
                       value={filterGender}
                       onChange={(e) => setFilterGender(e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 focus:outline-none"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:outline-none"
                     >
                       <option value="All">All Genders</option>
                       <option value="Male">Male</option>
@@ -958,7 +958,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     <select
                       value={filterAgeGroup}
                       onChange={(e) => setFilterAgeGroup(e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 focus:outline-none"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:outline-none"
                     >
                       <option value="All">All Ages</option>
                       <option value="13–17">13–17</option>
@@ -976,7 +976,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     <select
                       value={filterArea}
                       onChange={(e) => setFilterArea(e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 focus:outline-none"
+                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:outline-none"
                     >
                       <option value="All">All Areas</option>
                       <option value="Dhoke Hassu">Dhoke Hassu</option>
@@ -996,7 +996,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         setFilterStartDate('');
                         setFilterEndDate('');
                       }}
-                      className="w-full py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black rounded-lg border-none cursor-pointer"
+                      className="w-full py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black rounded-xl border-none cursor-pointer"
                     >
                       CLEAR ALL
                     </button>
@@ -1007,8 +1007,8 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
               {/* Statistics Cards Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: 'Total Votes Snapshot', value: totalVotesCount, icon: CheckCircle, color: 'text-indigo-600 bg-indigo-50 border-indigo-100' },
-                  { label: 'Total Views Logged', value: totalViewsCount, icon: Eye, color: 'text-blue-600 bg-blue-50 border-blue-100' },
+                  { label: 'Total Votes Snapshot', value: totalVotesCount, icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
+                  { label: 'Total Views Logged', value: totalViewsCount, icon: Eye, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
                   { label: 'Conversion Rate', value: `${conversionRate}%`, icon: Activity, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
                   { label: 'Shares Logged', value: totalSharesCount, icon: Share2, color: 'text-rose-600 bg-rose-50 border-rose-100' }
                 ].map((card, idx) => (
@@ -1025,7 +1025,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
               {/* 0. POLL OPTION RESULTS / BREAKDOWN */}
               <div className="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 space-y-4">
                 <h3 className="text-xs font-black text-slate-900 uppercase flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-indigo-600" /> Poll Option Results Breakdown
+                  <CheckCircle className="w-4 h-4 text-emerald-600" /> Poll Option Results Breakdown
                 </h3>
                 <div className="space-y-4 pt-2">
                   {selectedAnalyticsPoll?.options && Array.isArray(selectedAnalyticsPoll.options) && selectedAnalyticsPoll.options.length > 0 ? (
@@ -1041,7 +1041,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                             <span className="text-slate-900 font-mono">{votes} votes ({pct}%)</span>
                           </div>
                           <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                            <div className="bg-indigo-600 h-full rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                            <div className="bg-emerald-600 h-full rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                           </div>
                         </div>
                       );
@@ -1107,7 +1107,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         {/* Legends */}
                         <div className="space-y-2 text-xs font-semibold text-slate-600">
                           <div className="flex items-center gap-2">
-                            <span className="w-3.5 h-3.5 bg-indigo-600 rounded" />
+                            <span className="w-3.5 h-3.5 bg-emerald-600 rounded" />
                             <span>Male: {pctM}% ({genderStats.Male} votes)</span>
                           </div>
                           <div className="flex items-center gap-2">
@@ -1167,12 +1167,12 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                         const count = areaStats[area] || 0;
                         const pct = totalVotesCount > 0 ? Math.round((count / totalVotesCount) * 100) : 0;
                         return (
-                          <div key={area} className="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-150 rounded-xl">
+                          <div key={area} className="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-150 rounded-2xl">
                             <div>
                               <p className="font-extrabold text-slate-900 text-xs">{area}</p>
                               <p className="text-[10px] text-slate-450 font-bold">Participation Share: {pct}%</p>
                             </div>
-                            <span className="bg-indigo-100 text-indigo-700 font-mono text-xs font-black px-2.5 py-1 rounded-lg">
+                            <span className="bg-emerald-100 text-emerald-700 font-mono text-xs font-black px-2.5 py-1 rounded-xl">
                               {count} votes
                             </span>
                           </div>
@@ -1199,7 +1199,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                           <div key={device} className="flex justify-between items-center text-xs font-bold">
                             <span className="text-slate-600">{device}</span>
                             <div className="flex-1 mx-4 bg-slate-100 h-2 rounded-full overflow-hidden">
-                              <div className="bg-indigo-500 h-full rounded-full" style={{ width: `${pct}%` }} />
+                              <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${pct}%` }} />
                             </div>
                             <span className="text-slate-900 font-mono">{count} ({pct}%)</span>
                           </div>
@@ -1282,3 +1282,4 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
     </div>
   );
 }
+

@@ -177,18 +177,18 @@ export default function MentionTextarea({ value, onChange, placeholder, classNam
         onChange={handleInput}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className={className || "w-full bg-slate-50 hover:bg-slate-100/70 focus:bg-white focus:ring-2 focus:ring-blue-100 border-0 rounded-2xl py-2.5 px-4 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none transition-all resize-none min-h-[60px]"}
+        className={className || "w-full bg-slate-50 hover:bg-slate-100/70 focus:bg-white focus:ring-2 focus:ring-emerald-100 border-0 rounded-2xl py-2.5 px-4 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none transition-all resize-none min-h-[60px]"}
         rows={rows}
       />
       {showSuggestions && (
-          <div className="absolute z-50 bottom-full start-0 mb-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute z-50 bottom-full start-0 mb-1 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
             {suggestions.length > 0 ? (
               <ul className="max-h-48 overflow-y-auto py-1">
                 {suggestions.map((s, index) => (
                   <li
                     key={`${s.type}-${s.id}`}
                     className={`px-3 py-2 flex items-center gap-3 cursor-pointer transition-colors ${
-                      index === activeSuggestionIndex ? 'bg-blue-50' : 'hover:bg-slate-50'
+                      index === activeSuggestionIndex ? 'bg-emerald-50' : 'hover:bg-slate-50'
                     }`}
                     onMouseDown={(e) => {
                       e.preventDefault(); // prevent losing focus
@@ -199,14 +199,14 @@ export default function MentionTextarea({ value, onChange, placeholder, classNam
                     {s.avatar ? (
                       <img src={s.avatar} alt={s.display} className="w-6 h-6 rounded-full object-cover bg-slate-100" />
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-[10px]">
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-[10px]">
                         {s.type === 'hashtag' ? '#' : s.display?.charAt(0)?.toUpperCase()}
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1">
                         <span className="text-xs font-bold text-slate-900 truncate">{s.display}</span>
-                        {s.verified && <CheckCircle className="w-3 h-3 text-blue-500 shrink-0" />}
+                        {s.verified && <CheckCircle className="w-3 h-3 text-emerald-500 shrink-0" />}
                       </div>
                       <span className="text-[10px] text-slate-500 font-medium truncate">
                         {s.type === 'hashtag' ? 'Hashtag' : `@${s.username}`}
@@ -223,3 +223,4 @@ export default function MentionTextarea({ value, onChange, placeholder, classNam
     </div>
   );
 }
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Test</title>
+  <style>
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .gap-3 { gap: 0.75rem; }
+    .w-10 { width: 2.5rem; }
+    .h-10 { height: 2.5rem; }
+    .rounded-full { border-radius: 9999px; }
+    .bg-gray-200 { background-color: #e5e7eb; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .font-bold { font-weight: 700; }
+    .text-gray-500 { color: #6b7280; }
+  </style>
+</head>
+<body>
+
+  <h2>Default RTL</h2>
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+    <div>
+      <div class="text-sm font-bold">سعد محمود</div>
+      <div class="text-xs text-gray-500">2 گھنٹے پہلے</div>
+    </div>
+  </div>
+
+  <h2>Forced LTR</h2>
+  <div class="flex items-center gap-3" dir="ltr">
+    <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+    <div>
+      <div class="text-sm font-bold">سعد محمود</div>
+      <div class="text-xs text-gray-500">2 گھنٹے پہلے</div>
+    </div>
+  </div>
+
+</body>
+</html>

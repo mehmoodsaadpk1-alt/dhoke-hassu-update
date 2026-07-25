@@ -71,7 +71,7 @@ export default function StoryArchive({ user, isEn, onClose }: StoryArchiveProps)
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder={isEn ? "Search archive..." : "تلاش کریں..."} 
-              className="w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="w-full ps-10 pe-4 py-2 border rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             />
           </div>
           <div className="relative">
@@ -80,7 +80,7 @@ export default function StoryArchive({ user, isEn, onClose }: StoryArchiveProps)
               type="month" 
               value={filterMonth}
               onChange={(e) => setFilterMonth(e.target.value)}
-              className="ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+              className="ps-10 pe-4 py-2 border rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none"
             />
           </div>
         </div>
@@ -88,7 +88,7 @@ export default function StoryArchive({ user, isEn, onClose }: StoryArchiveProps)
         <div className="flex-1 overflow-y-auto p-4 bg-slate-50">
           {loading ? (
             <div className="flex items-center justify-center h-full">
-              <span className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              <span className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : filteredStories.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-3">
@@ -98,12 +98,12 @@ export default function StoryArchive({ user, isEn, onClose }: StoryArchiveProps)
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {filteredStories.map((story, idx) => (
-                <div key={story.id} className="group relative aspect-[9/16] bg-slate-800 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition">
+                <div key={story.id} className="group relative aspect-[9/16] bg-slate-800 rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition">
                   <div className="absolute inset-0 z-10" onClick={() => setViewingStoryIdx(idx)} />
                   {story.type === 'photo' || story.type === 'video' ? (
                     <img src={story.image} alt="Story" className="w-full h-full object-cover" />
                   ) : (
-                    <div className={`w-full h-full flex flex-col items-center justify-center p-2 text-center text-white ${story.bgColor || 'bg-gradient-to-br from-purple-500 to-indigo-500'}`}>
+                    <div className={`w-full h-full flex flex-col items-center justify-center p-2 text-center text-white ${story.bgColor || 'bg-gradient-to-br from-emerald-500 to-emerald-500'}`}>
                       <p className="text-xs font-bold line-clamp-4">{story.text}</p>
                     </div>
                   )}
@@ -140,3 +140,4 @@ export default function StoryArchive({ user, isEn, onClose }: StoryArchiveProps)
     </div>
   );
 }
+

@@ -315,7 +315,7 @@ export default function UserProfileView({
         </p>
         <button
           onClick={handleBack}
-          className="px-5 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition-colors border-0 cursor-pointer shadow-sm"
+          className="px-5 py-2.5 bg-emerald-600 text-white text-xs font-bold rounded-2xl hover:bg-emerald-700 transition-colors border-0 cursor-pointer shadow-sm"
         >
           {isEn ? 'Go Back' : 'واپس جائیں'}
         </button>
@@ -339,7 +339,7 @@ export default function UserProfileView({
       {/* Profile Header Card */}
       <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
         {/* Cover Photo */}
-        <div className="h-36 md:h-48 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 relative overflow-hidden">
+        <div className="h-36 md:h-48 bg-gradient-to-br from-emerald-500 via-emerald-500 to-emerald-600 relative overflow-hidden">
           {profileCover && (
             <img src={profileCover} alt="" className="w-full h-full object-cover" />
           )}
@@ -437,7 +437,7 @@ export default function UserProfileView({
                     >
                       {isEn ? 'Message' : 'پیغام'}
                     </AppButton>
-                    <button onClick={handleBlock} className="p-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-500">
+                    <button onClick={handleBlock} className="p-1.5 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-500">
                       <MoreVertical className="w-4 h-4" />
                     </button>
                   </>
@@ -552,10 +552,10 @@ export default function UserProfileView({
               </div>
             ) : (
               userPosts.map(post => (
-                <div key={post.id} className="bg-slate-50 rounded-xl p-4 space-y-2 border border-slate-100">
+                <div key={post.id} className="bg-slate-50 rounded-2xl p-4 space-y-2 border border-slate-100">
                   <p className="text-sm text-slate-800 font-medium leading-relaxed">{post.content}</p>
                   {post.image && (
-                    <img src={post.image} alt="" className="rounded-lg h-auto object-contain w-full block" />
+                    <img src={post.image} alt="" className="rounded-xl h-auto object-contain w-full block" />
                   )}
                   <div className="flex items-center gap-4 text-[10px] text-slate-400 font-semibold pt-1">
                     <span className="flex items-center gap-1"><Heart className="w-3 h-3" /> {post.likes}</span>
@@ -579,9 +579,9 @@ export default function UserProfileView({
                   <div
                     key={job.id}
                     onClick={() => navigate('/jobs/detail', job.id)}
-                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
+                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <Briefcase className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -594,9 +594,9 @@ export default function UserProfileView({
                   <div
                     key={biz.id}
                     onClick={() => navigate('/business/detail', biz.id)}
-                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
+                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <Store className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -609,9 +609,9 @@ export default function UserProfileView({
                   <div
                     key={item.id}
                     onClick={() => navigate('/marketplace/detail', item.id)}
-                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
+                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <Building2 className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -624,9 +624,9 @@ export default function UserProfileView({
                   <div
                     key={svc.id}
                     onClick={() => navigate('/services/detail', svc.id)}
-                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
+                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 hover:border-slate-300 cursor-pointer transition-all"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <Globe className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -675,7 +675,7 @@ export default function UserProfileView({
                 <div className="flex items-center gap-2">
                   <div className="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all"
+                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all"
                       style={{ width: `${Math.min(profileReputation / 3, 100)}%` }}
                     />
                   </div>
@@ -724,3 +724,4 @@ export default function UserProfileView({
     </div>
   );
 }
+

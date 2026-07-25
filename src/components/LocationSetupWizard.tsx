@@ -119,7 +119,7 @@ export default function LocationSetupWizard({
         
         {/* Title / Banner */}
         <div className="text-center mb-6">
-          <div className="inline-flex p-3 bg-blue-50 text-blue-600 rounded-full mb-3">
+          <div className="inline-flex p-3 bg-emerald-50 text-emerald-600 rounded-full mb-3">
             <Globe className="w-8 h-8 animate-spin-slow" />
           </div>
           <h2 className="text-xl font-black text-slate-900 leading-tight">
@@ -144,11 +144,11 @@ export default function LocationSetupWizard({
             type="button"
             onClick={handleDetectGPS}
             disabled={loadingGPS}
-            className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-black rounded-xl border border-slate-200 transition-all cursor-pointer ${
+            className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-black rounded-2xl border border-slate-200 transition-all cursor-pointer ${
               loadingGPS ? 'bg-slate-200 text-slate-400' : 'bg-white hover:bg-slate-100/70 text-slate-700 shadow-xs'
             }`}
           >
-            <Compass className={`w-4 h-4 text-blue-500 ${loadingGPS ? 'animate-spin' : ''}`} />
+            <Compass className={`w-4 h-4 text-emerald-500 ${loadingGPS ? 'animate-spin' : ''}`} />
             <span>
               {loadingGPS
                 ? (currentLanguage === 'en' ? 'Detecting...' : 'لوکیشن فائنڈ ہو رہی ہے...')
@@ -189,7 +189,7 @@ export default function LocationSetupWizard({
                   setSelectedCity(e.target.value);
                   setSelectedArea('');
                 }}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 transition-all font-semibold disabled:opacity-50"
               >
                 <option value="" disabled>{currentLanguage === 'en' ? 'Select City' : 'شہر منتخب کریں'}</option>
                 {cities.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -205,7 +205,7 @@ export default function LocationSetupWizard({
                 value={selectedArea}
                 onChange={(e) => setSelectedArea(e.target.value)}
                 disabled={!selectedCity}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all font-semibold disabled:opacity-50"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 transition-all font-semibold disabled:opacity-50"
               >
                 <option value="" disabled>{currentLanguage === 'en' ? 'Select Area' : 'علاقہ منتخب کریں'}</option>
                 {areas.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -217,7 +217,7 @@ export default function LocationSetupWizard({
           <button
             type="submit"
             disabled={!selectedArea}
-            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg shadow-blue-500/25 transition-all mt-6 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm rounded-2xl shadow-lg shadow-emerald-500/25 transition-all mt-6 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentLanguage === 'en' ? 'Save Location & Continue' : 'مقام محفوظ کریں اور جاری رکھیں'}
           </button>
@@ -226,3 +226,4 @@ export default function LocationSetupWizard({
     </div>
   );
 }
+

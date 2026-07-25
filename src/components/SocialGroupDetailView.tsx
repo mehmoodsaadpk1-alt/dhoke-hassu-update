@@ -6,9 +6,10 @@ import {
 import { Group, User } from '../types';
 import type { Post } from '../types';
 import { AppTabs, AppButton } from './ui';
-import { dbTriggerNotification, dbCheckGroupMembership, dbJoinGroup, dbGetPosts, dbSavePost, dbTogglePostLike, dbGetUserPostLikes, dbGetPostLikeCounts } from '../utils/supabaseClient';
+import { dbTriggerNotification, dbNotifyGroupAdmins, dbCheckGroupMembership, dbJoinGroup, dbLeaveGroup, dbGetPosts, dbSavePost, dbTogglePostLike, dbGetUserPostLikes, dbGetPostLikeCounts, dbGetUserGroupRole } from '../utils/supabaseClient';
 import PostComposer from './PostComposer';
 import PostCard from './PostCard';
+import GroupManagementPanel from './GroupManagementPanel';
 
 interface SocialGroupDetailViewProps {
   group: Group;
@@ -16,6 +17,9 @@ interface SocialGroupDetailViewProps {
   currentLanguage: 'en' | 'ur';
   posts?: any[];
   onBack: () => void;
+  onRefresh?: () => void;
+  onShareRequest?: (type: string, id: string, preview?: any) => void;
+  initialTab?: string;
 }
 
 export default function SocialGroupDetailView({
@@ -23,21 +27,29 @@ export default function SocialGroupDetailView({
   currentUser,
   currentLanguage,
   onBack,
+  onRefresh,
+  onShareRequest,
+  initialTab
 }: SocialGroupDetailViewProps) {
   const isEn = currentLanguage === 'en';
-  const [activeTab, setActiveTab] = useState('feed');
+  const [activeTab, setActiveTab] = useState(initialTab === 'manage_requests' ? 'feed' : (initialTab || 'feed'));
+  const [isManaging, setIsManaging] = useState(initialTab === 'manage_requests' || initialTab === 'manage');
   const [hasJoined, setHasJoined] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
   const [groupPosts, setGroupPosts] = useState<Post[]>([]);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
-  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
 
   const isOwner = group.owner_id === currentUser?.id;
   const canPost = hasJoined || isOwner;
   const canView = canPost || group.visibility === 'public';
 
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [isCheckingMembership, setIsCheckingMembership] = useState(true);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  const isAdminOrOwner = isOwner || userRole === 'Admin' || userRole === 'Owner';
 
   const fetchGroupPosts = useCallback(async () => {
     setIsLoadingPosts(true);
@@ -76,11 +88,17 @@ export default function SocialGroupDetailView({
       }
       if (isOwner) {
         setHasJoined(true);
+        setUserRole('Owner');
         setIsCheckingMembership(false);
         return;
       }
-      const isMember = await dbCheckGroupMembership(group.id, currentUser.id);
-      setHasJoined(isMember);
+      const [isMember, membership] = await Promise.all([
+        dbCheckGroupMembership(group.id, currentUser.id),
+        dbGetUserGroupRole(group.id, currentUser.id)
+      ]);
+      setHasJoined(isMember && membership?.status !== 'Pending');
+      setIsPending(membership?.status === 'Pending');
+      setUserRole(membership?.role || null);
       setIsCheckingMembership(false);
     }
     checkMembership();
@@ -89,19 +107,39 @@ export default function SocialGroupDetailView({
   const handleJoin = async () => {
     if (!currentUser?.id) return;
     setIsJoining(true);
-    const success = await dbJoinGroup(group.id, currentUser.id);
+    const isPrivate = group.visibility === 'Private';
+    const status = isPrivate ? 'Pending' : 'Approved';
+    const success = await dbJoinGroup(group.id, currentUser.id, status);
     if (success) {
-      setHasJoined(true);
-      if (!isOwner) {
-        await dbTriggerNotification({
-          user_id: group.owner_id,
-          type: 'system',
-          title: isEn ? 'New Group Member' : 'گروپ کا نیا ممبر',
-          message: isEn
-            ? `${currentUser?.fullName || 'A user'} has joined your group "${group.name}".`
-            : `${currentUser?.fullName || 'ایک صارف'} نے آپ کے گروپ "${group.name}" میں شمولیت اختیار کی ہے۔`,
-          is_read: false,
-        });
+      if (isPrivate) {
+        setIsPending(true);
+        // Notify admins about the join request
+        await dbNotifyGroupAdmins(
+          group.id,
+          currentUser.id,
+          'group_join_request',
+          isEn ? 'New Join Request' : 'شمولیت کی نئی درخواست',
+          isEn
+            ? `👤 ${currentUser.fullName || 'A user'} requested to join 🏘 ${group.name}`
+            : `👤 ${currentUser.fullName || 'ایک صارف'} نے 🏘 ${group.name} میں شامل ہونے کی درخواست کی ہے۔`,
+          'social-groups/manage',
+          group.id
+        );
+      } else {
+        setHasJoined(true);
+        if (!isOwner) {
+          await dbNotifyGroupAdmins(
+            group.id,
+            currentUser.id,
+            'system',
+            isEn ? 'New Group Member' : 'گروپ کا نیا ممبر',
+            isEn
+              ? `${currentUser.fullName || 'A user'} has joined your group "${group.name}".`
+              : `${currentUser.fullName || 'ایک صارف'} نے آپ کے گروپ "${group.name}" میں شمولیت اختیار کی ہے۔`,
+            'social-groups',
+            group.id
+          );
+        }
       }
     } else {
       alert(isEn ? 'Failed to join group.' : 'گروپ میں شامل ہونے میں ناکامی۔');
@@ -109,17 +147,32 @@ export default function SocialGroupDetailView({
     setIsJoining(false);
   };
 
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+
+  const handleLeave = async () => {
+    if (!currentUser?.id) return;
+    const success = await dbLeaveGroup(group.id, currentUser.id);
+    if (success) {
+      setHasJoined(false);
+      setShowLeaveConfirm(false);
+      // Optimistically decrement count
+      if (group.members_count) {
+        group.members_count = Math.max(0, group.members_count - 1);
+      }
+    } else {
+      alert(isEn ? 'Failed to leave group.' : 'گروپ چھوڑنے میں ناکامی۔');
+    }
+  };
+
   const handlePostCreated = async (newPost: Post) => {
     try {
-      await dbSavePost({
-        ...newPost,
-        groupId: group.id
-      });
+      // PostComposer already saves the post to the DB.
+      // We only need to add it to the local state so it appears immediately.
+      setGroupPosts(prev => [newPost, ...prev]);
+      setLikeCounts(prev => ({ ...prev, [newPost.id]: 0 }));
     } catch (err) {
-      console.warn('Could not save post, using local state only:', err);
+      console.error("Failed to update local group posts:", err);
     }
-    setGroupPosts(prev => [newPost, ...prev]);
-    setLikeCounts(prev => ({ ...prev, [newPost.id]: 0 }));
   };
 
   const handleLike = async (postId: string) => {
@@ -182,12 +235,24 @@ export default function SocialGroupDetailView({
       }
     : undefined;
 
+  if (isManaging) {
+    return (
+      <GroupManagementPanel 
+        group={group} 
+        currentUser={currentUser} 
+        isEn={isEn} 
+        onBack={() => setIsManaging(false)} 
+        initialTab={initialTab === 'manage_requests' ? 'requests' : 'info'}
+      />
+    );
+  }
+
   return (
     <div className="animate-fadeIn max-w-4xl mx-auto space-y-6">
       {/* Back Button */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors font-semibold bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 w-fit"
+        className="flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors font-semibold bg-white px-4 py-2 rounded-2xl shadow-sm border border-slate-200 w-fit"
       >
         <ArrowLeft className="w-4 h-4" />
         {isEn ? 'Back to Groups' : 'واپس گروپس پر جائیں'}
@@ -200,7 +265,7 @@ export default function SocialGroupDetailView({
           {group.cover_url ? (
             <img src={group.cover_url} alt={group.name} className="w-full h-full object-cover" />
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600">
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-emerald-500 to-emerald-600">
               <Users className="w-16 h-16 text-white/20" />
             </div>
           )}
@@ -230,7 +295,7 @@ export default function SocialGroupDetailView({
                 <h1 className="text-2xl font-black text-slate-900">{group.name}</h1>
                 <p className="text-sm font-semibold text-slate-500 mt-1 flex items-center gap-4">
                   <span className="flex items-center gap-1.5">
-                    <Shield className="w-4 h-4 text-indigo-500" /> {group.category}
+                    <Shield className="w-4 h-4 text-emerald-500" /> {group.category}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Users className="w-4 h-4 text-slate-400" /> {group.members_count || 1}{' '}
@@ -241,30 +306,47 @@ export default function SocialGroupDetailView({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 z-10">
-              {isOwner ? (
-                <AppButton variant="outline" className="flex items-center gap-2">
+            <div className="flex items-center gap-3 z-10 relative">
+              {isAdminOrOwner ? (
+                <AppButton variant="outline" className="flex items-center gap-2" onClick={() => setIsManaging(true)}>
                   <Settings className="w-4 h-4" />
                   {isEn ? 'Manage Group' : 'گروپ کا انتظام'}
                 </AppButton>
               ) : (
-                <AppButton
-                  variant={hasJoined ? 'outline' : 'primary'}
-                  onClick={handleJoin}
-                  disabled={isJoining || hasJoined}
-                  className="flex items-center gap-2"
-                >
-                  {isJoining
-                    ? isEn ? 'Joining...' : 'شامل ہو رہا ہے...'
-                    : hasJoined
-                    ? isEn ? '✓ Joined' : '✓ شامل ہیں'
-                    : (
-                        <>
-                          <UserPlus className="w-4 h-4" />
-                          {isEn ? 'Join Group' : 'گروپ میں شامل ہوں'}
-                        </>
-                      )}
-                </AppButton>
+                <div className="relative">
+                  <AppButton
+                    variant={hasJoined || isPending ? 'outline' : 'primary'}
+                    onClick={() => hasJoined ? setShowLeaveConfirm(true) : !isPending ? handleJoin() : undefined}
+                    disabled={isJoining || isPending}
+                    className="flex items-center gap-2"
+                  >
+                    {isJoining
+                      ? isEn ? 'Requesting...' : 'درخواست بھیج رہا ہے...'
+                      : isPending
+                      ? isEn ? 'Requested' : 'درخواست بھیجی گئی'
+                      : hasJoined
+                      ? isEn ? '✓ Joined' : '✓ شامل ہیں'
+                      : (
+                          <>
+                            <UserPlus className="w-4 h-4" />
+                            {group.visibility === 'Private' ? (isEn ? 'Request to Join' : 'شمولیت کی درخواست کریں') : (isEn ? 'Join' : 'شامل ہوں')}
+                          </>
+                        )}
+                  </AppButton>
+                  {showLeaveConfirm && (
+                    <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 p-3 z-50 animate-in slide-in-from-top-2">
+                      <p className="text-sm font-bold text-slate-800 mb-2">{isEn ? 'Leave Group?' : 'گروپ چھوڑیں؟'}</p>
+                      <div className="flex gap-2">
+                        <button onClick={() => setShowLeaveConfirm(false)} className="flex-1 px-2 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+                          {isEn ? 'Cancel' : 'منسوخ'}
+                        </button>
+                        <button onClick={handleLeave} className="flex-1 px-2 py-1.5 rounded-lg text-xs font-bold bg-red-50 hover:bg-red-100 text-red-600 transition-colors">
+                          {isEn ? 'Leave' : 'چھوڑیں'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -274,7 +356,7 @@ export default function SocialGroupDetailView({
             <h1 className="text-xl font-black text-slate-900 leading-tight">{group.name}</h1>
             <p className="text-sm font-semibold text-slate-500 mt-2 flex flex-wrap items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-indigo-500" /> {group.category}
+                <Shield className="w-4 h-4 text-emerald-500" /> {group.category}
               </span>
               <span className="flex items-center gap-1.5">
                 <Users className="w-4 h-4 text-slate-400" /> {group.members_count || 1}{' '}
@@ -357,10 +439,14 @@ export default function SocialGroupDetailView({
                       <PostCard
                         key={post.id}
                         post={post}
+                        currentUser={currentUser}
                         isLiked={likedPosts.has(post.id)}
                         likeCount={likeCounts[post.id] ?? post.likes}
                         onLike={handleLike}
                         onComment={handleComment}
+                        onShareRequest={group.privacy === 'Public' ? onShareRequest : () => {
+                          alert(isEn ? "This post can't be shared because it belongs to a private group." : "یہ پوسٹ شیئر نہیں کی جا سکتی کیونکہ یہ پرائیویٹ گروپ کی ہے۔");
+                        }}
                         isEntityVerified={isEntityVerified}
                         getTvsBadgeType={getTvsBadgeType}
                       />
@@ -428,7 +514,7 @@ export default function SocialGroupDetailView({
                       {group.tags.map(tag => (
                         <span
                           key={tag}
-                          className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold"
+                          className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-xl text-xs font-semibold"
                         >
                           #{tag}
                         </span>
@@ -439,16 +525,16 @@ export default function SocialGroupDetailView({
               </div>
 
               {/* Stats card */}
-              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-5 border border-indigo-100">
+              <div className="bg-gradient-to-br from-emerald-50 to-emerald-50 rounded-2xl p-5 border border-emerald-100">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-black text-indigo-600">{group.members_count || 1}</div>
+                    <div className="text-2xl font-black text-emerald-600">{group.members_count || 1}</div>
                     <div className="text-xs font-semibold text-slate-500 mt-1">
                       {isEn ? 'Members' : 'ممبران'}
                     </div>
                   </div>
                   <div>
-                    <div className="text-2xl font-black text-purple-600">{groupPosts.length}</div>
+                    <div className="text-2xl font-black text-emerald-600">{groupPosts.length}</div>
                     <div className="text-xs font-semibold text-slate-500 mt-1">
                       {isEn ? 'Posts' : 'پوسٹس'}
                     </div>
@@ -474,14 +560,14 @@ export default function SocialGroupDetailView({
                 <h3 className="text-lg font-bold text-slate-900 mb-2">
                   {isEn ? 'Group Rules' : 'گروپ کے اصول'}
                 </h3>
-                <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
                   <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">{group.rules}</p>
                 </div>
               </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-4 border border-slate-100">
+              <div className="flex items-center gap-3 bg-slate-50 rounded-2xl p-4 border border-slate-100">
                 <Clock className="w-5 h-5 text-indigo-400 shrink-0" />
                 <div>
                   <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
@@ -502,15 +588,15 @@ export default function SocialGroupDetailView({
             <h3 className="text-lg font-bold text-slate-900 mb-4">
               {isEn ? 'Members' : 'ممبران'} ({group.members_count || 1})
             </h3>
-            <div className="flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors">
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg">
+            <div className="flex items-center gap-3 p-3 hover:bg-slate-50 rounded-2xl transition-colors" dir="ltr">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-lg shrink-0">
                 {currentUser?.fullName ? currentUser.fullName[0]?.toUpperCase() : 'U'}
               </div>
-              <div className="flex-1">
-                <div className="font-bold text-slate-900">
+              <div className="flex-1 text-left">
+                <div className="font-bold text-slate-900 justify-start flex">
                   {isOwner ? currentUser?.fullName : 'Group Owner'}
                 </div>
-                <div className="text-xs font-semibold text-indigo-500 bg-indigo-50 px-2 py-0.5 rounded-full w-fit mt-0.5">
+                <div className="text-xs font-semibold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full w-fit mt-0.5">
                   {isEn ? 'Owner' : 'مالک'}
                 </div>
               </div>
@@ -550,3 +636,4 @@ function Globe({ className }: { className?: string }) {
     </svg>
   );
 }
+

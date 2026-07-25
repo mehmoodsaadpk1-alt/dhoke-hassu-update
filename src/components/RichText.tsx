@@ -41,7 +41,7 @@ export default function RichText({ content, className = '' }: RichTextProps) {
             <a 
               key={i} 
               href={`/hashtag/${tag?.toLowerCase()}`} 
-              className="text-blue-600 font-semibold hover:underline"
+              className="text-emerald-600 font-semibold hover:underline"
               onClick={(e) => { e.stopPropagation(); handleNavigate(e, `/hashtag/${tag?.toLowerCase()}`); }}
             >
               {part}
@@ -54,3 +54,4 @@ export default function RichText({ content, className = '' }: RichTextProps) {
     </span>
   );
 }
+

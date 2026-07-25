@@ -12,7 +12,7 @@ export const AppSkeleton: React.FC<AppSkeletonProps> = ({
   const variants = {
     text: "h-3 w-3/4 rounded-sm",
     circular: "rounded-full",
-    rectangular: "rounded-md",
+    rectangular: "rounded-2xl",
   };
 
   return (
@@ -22,7 +22,7 @@ export const AppSkeleton: React.FC<AppSkeletonProps> = ({
 
 export const SkeletonCard: React.FC = () => {
   return (
-    <div className="bg-white rounded-md border border-slate-200/60 p-5 shadow-xs space-y-4">
+    <div className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-xs space-y-4">
       <div className="flex items-center gap-3">
         <AppSkeleton variant="circular" className="w-10 h-10" />
         <div className="space-y-1.5 flex-1">
@@ -59,7 +59,7 @@ export const SkeletonChat: React.FC = () => {
         <AppSkeleton variant="rectangular" className="h-10 w-2/3 rounded-tr-none" />
       </div>
       <div className="flex gap-2 justify-end">
-        <AppSkeleton variant="rectangular" className="h-12 w-1/2 rounded-tl-none bg-blue-100" />
+        <AppSkeleton variant="rectangular" className="h-12 w-1/2 rounded-tl-none bg-emerald-100" />
         <AppSkeleton variant="circular" className="w-8 h-8 shrink-0" />
       </div>
       <div className="flex gap-2">
@@ -84,3 +84,5 @@ export const SkeletonProfile: React.FC = () => {
     </div>
   );
 };
+
+

@@ -86,7 +86,7 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-xl max-w-md mx-auto border border-gray-100">
+    <div className="bg-white p-6 rounded-xl shadow-xl max-w-md mx-auto border border-gray-100">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-gray-800">Upload Video</h2>
         {stage !== 'Completed' && stage !== 'Queued' && (
@@ -99,7 +99,7 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
       {(stage === 'Queued' || stage === 'Failed' || stage === 'Cancelled') ? (
         <div className="space-y-4">
           
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors">
+          <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:bg-gray-50 transition-colors">
             <input 
               type="file" 
               id="video-upload"
@@ -108,12 +108,12 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
               className="hidden" 
             />
             <label htmlFor="video-upload" className="cursor-pointer flex flex-col items-center">
-              <Upload size={32} className="text-blue-500 mb-2" />
+              <Upload size={32} className="text-emerald-500 mb-2" />
               <span className="font-semibold text-gray-700">Select Video</span>
               <span className="text-xs text-gray-500 mt-1">MP4, MOV, WEBM (Max 250MB)</span>
             </label>
             {file && (
-              <div className="mt-4 p-2 bg-blue-50 rounded text-sm text-blue-800 break-all">
+              <div className="mt-4 p-2 bg-emerald-50 rounded text-sm text-blue-800 break-all">
                 Selected: {file.name} ({(file.size / (1024*1024)).toFixed(1)}MB)
               </div>
             )}
@@ -124,17 +124,17 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
             placeholder="Title (optional)" 
             value={title} 
             onChange={e => setTitle(e.target.value)} 
-            className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+            className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" 
           />
           <textarea 
             placeholder="Description (optional)" 
             value={description} 
             onChange={e => setDescription(e.target.value)} 
-            className="w-full border p-3 rounded-lg min-h-[100px] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+            className="w-full border p-3 rounded-xl min-h-[100px] focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" 
           />
           
           {error && (
-            <div className="flex items-center text-red-600 bg-red-50 p-3 rounded-lg text-sm">
+            <div className="flex items-center text-red-600 bg-red-50 p-3 rounded-xl text-sm">
               <AlertCircle size={16} className="me-2 flex-shrink-0" />
               <p>{error}</p>
             </div>
@@ -143,7 +143,7 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
           <button 
             onClick={startUpload} 
             disabled={!file} 
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {stage === 'Failed' || stage === 'Cancelled' ? 'Retry Upload' : 'Start Upload'}
           </button>
@@ -162,7 +162,7 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
                 <svg className="w-24 h-24 transform -rotate-90">
                   <circle className="text-gray-200" strokeWidth="8" stroke="currentColor" fill="transparent" r="40" cx="48" cy="48" />
                   <circle 
-                    className="text-blue-600 transition-all duration-300 ease-out" 
+                    className="text-emerald-600 transition-all duration-300 ease-out" 
                     strokeWidth="8" 
                     strokeDasharray={251.2} 
                     strokeDashoffset={251.2 - (251.2 * progress) / 100} 
@@ -192,3 +192,4 @@ export const VideoUploadStudio: React.FC<{ userId: string; onComplete?: () => vo
     </div>
   );
 };
+

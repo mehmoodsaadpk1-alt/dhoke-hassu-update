@@ -790,13 +790,13 @@ export default function SettingsModule({
 
   // Helper list of categories for Settings Menu with custom icons and paths
   const SETTINGS_SECTIONS = [
-    { id: 'account', label: t.tabAccount, desc: t.descAccount, icon: UserIcon, path: '/settings/account', color: 'bg-blue-50 text-blue-600' },
+    { id: 'account', label: t.tabAccount, desc: t.descAccount, icon: UserIcon, path: '/settings/account', color: 'bg-emerald-50 text-emerald-600' },
     { id: 'privacy', label: t.tabPrivacy, desc: t.descPrivacy, icon: Shield, path: '/settings/privacy', color: 'bg-emerald-50 text-emerald-600' },
-    { id: 'notifications', label: t.tabNotifications, desc: t.descNotifications, icon: Bell, path: '/settings/notifications', color: 'bg-amber-50 text-amber-600' },
-    { id: 'security', label: t.tabSecurity, desc: t.descSecurity, icon: Lock, path: '/settings/security', color: 'bg-indigo-50 text-indigo-600' },
-    { id: 'appearance', label: t.tabAppearance, desc: t.descAppearance, icon: Palette, path: '/settings/preferences', color: 'bg-pink-50 text-pink-600' },
-    { id: 'language', label: t.tabLanguage, desc: t.descLanguage, icon: Globe, path: '/settings/language', color: 'bg-purple-50 text-purple-600' },
-    { id: 'storage', label: t.tabStorage, desc: t.descStorage, icon: HardDrive, path: '/settings/storage', color: 'bg-teal-50 text-teal-600' },
+    { id: 'notifications', label: t.tabNotifications, desc: t.descNotifications, icon: Bell, path: '/settings/notifications', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 'security', label: t.tabSecurity, desc: t.descSecurity, icon: Lock, path: '/settings/security', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 'appearance', label: t.tabAppearance, desc: t.descAppearance, icon: Palette, path: '/settings/preferences', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 'language', label: t.tabLanguage, desc: t.descLanguage, icon: Globe, path: '/settings/language', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 'storage', label: t.tabStorage, desc: t.descStorage, icon: HardDrive, path: '/settings/storage', color: 'bg-emerald-50 text-emerald-600' },
     { id: 'about', label: t.tabAbout, desc: t.descAbout, icon: Info, path: '/settings/about', color: 'bg-slate-100 text-slate-700' },
     { id: 'help', label: t.tabHelp, desc: t.descHelp, icon: HelpCircle, path: '/settings/help', color: 'bg-sky-50 text-sky-600' }
   ];
@@ -813,11 +813,11 @@ export default function SettingsModule({
               onClick={() => navigate(section.path)}
               className={`w-full flex items-center gap-3.5 p-3.5 rounded-2xl transition-all text-start cursor-pointer border ${
                 isActive
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/10'
+                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-500/10'
                   : 'bg-white hover:bg-slate-50 border-slate-200/50 text-slate-800'
               }`}
             >
-              <div className={`w-9.5 h-9.5 rounded-xl flex items-center justify-center shrink-0 ${
+              <div className={`w-9.5 h-9.5 rounded-2xl flex items-center justify-center shrink-0 ${
                 isActive ? 'bg-white/20 text-white' : section.color
               }`}>
                 <section.icon className="w-5 h-5 stroke-[2.2]" />
@@ -826,7 +826,7 @@ export default function SettingsModule({
                 <p className={`text-xs font-black tracking-tight ${isActive ? 'text-white' : 'text-slate-900'}`}>
                   {section.label}
                 </p>
-                <p className={`text-[10px] truncate mt-0.5 font-bold ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>
+                <p className={`text-[10px] truncate mt-0.5 font-bold ${isActive ? 'text-emerald-100' : 'text-slate-400'}`}>
                   {section.desc}
                 </p>
               </div>
@@ -852,7 +852,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <UserIcon className="w-5 h-5 text-blue-600 stroke-[2.2]" />
+                <UserIcon className="w-5 h-5 text-emerald-600 stroke-[2.2]" />
                 {t.editProfile}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -865,7 +865,7 @@ export default function SettingsModule({
               <label className="block text-xs font-bold text-slate-700">{t.coverSelect}</label>
               
               {/* Cover Photo Frame */}
-              <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div className="relative h-32 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
                 <img src={coverPhoto} alt="Cover" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
                   <div className="flex gap-2">
@@ -873,7 +873,7 @@ export default function SettingsModule({
                       <button
                         key={idx}
                         onClick={() => setCoverPhoto(p)}
-                        className={`w-7 h-7 rounded-lg border-2 overflow-hidden cursor-pointer ${
+                        className={`w-7 h-7 rounded-xl border-2 overflow-hidden cursor-pointer ${
                           coverPhoto === p ? 'border-white scale-110' : 'border-transparent opacity-80'
                         }`}
                       >
@@ -892,7 +892,7 @@ export default function SettingsModule({
                     alt="Avatar"
                     className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md ring-4 ring-slate-100"
                   />
-                  <div className="absolute -bottom-1 -end-1 bg-blue-600 text-white p-1 rounded-full shadow border border-white">
+                  <div className="absolute -bottom-1 -end-1 bg-emerald-600 text-white p-1 rounded-full shadow border border-white">
                     <Camera className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -905,7 +905,7 @@ export default function SettingsModule({
                         key={idx}
                         onClick={() => setProfilePhoto(p)}
                         className={`w-8 h-8 rounded-full overflow-hidden border-2 cursor-pointer ${
-                          profilePhoto === p ? 'border-blue-600 scale-105 shadow-sm' : 'border-transparent'
+                          profilePhoto === p ? 'border-emerald-600 scale-105 shadow-sm' : 'border-transparent'
                         }`}
                       >
                         <img src={p} className="w-full h-full object-cover" />
@@ -925,7 +925,7 @@ export default function SettingsModule({
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
                   />
                 </div>
                 
@@ -937,7 +937,7 @@ export default function SettingsModule({
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
-                      className="w-full text-xs ps-7 pe-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                      className="w-full text-xs ps-7 pe-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
                       placeholder="username"
                     />
                   </div>
@@ -951,7 +951,7 @@ export default function SettingsModule({
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
                     placeholder="name@domain.com"
                   />
                 </div>
@@ -962,7 +962,7 @@ export default function SettingsModule({
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all"
                     placeholder="03xxxxxxxxx"
                   />
                 </div>
@@ -979,7 +979,7 @@ export default function SettingsModule({
                       setCityId('');
                       setAreaId('');
                     }}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all cursor-pointer font-bold"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all cursor-pointer font-bold"
                   >
                                                           </select>
                 </div>
@@ -993,7 +993,7 @@ export default function SettingsModule({
                       setCityId('');
                       setAreaId('');
                     }}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
                   >
                     <option value="" disabled>{currentLanguage === 'en' ? 'Select Province' : 'صوبہ منتخب کریں'}</option>
                     {provincesList.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -1009,7 +1009,7 @@ export default function SettingsModule({
                       setAreaId('');
                     }}
                     disabled={!provinceId}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
                   >
                     <option value="" disabled>{currentLanguage === 'en' ? 'Select City' : 'شہر منتخب کریں'}</option>
                     {citiesList.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -1022,7 +1022,7 @@ export default function SettingsModule({
                     value={areaId}
                     onChange={(e) => setAreaId(e.target.value)}
                     disabled={!cityId}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all cursor-pointer font-bold disabled:opacity-50"
                   >
                     <option value="" disabled>{currentLanguage === 'en' ? 'Select Area' : 'علاقہ منتخب کریں'}</option>
                     {areasList.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -1052,9 +1052,9 @@ export default function SettingsModule({
                     }
                     setLoadingGPS(false);
                   }}
-                  className="flex items-center gap-2 py-2 px-4 text-xs font-black bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-all cursor-pointer shadow-xs"
+                  className="flex items-center gap-2 py-2 px-4 text-xs font-black bg-white hover:bg-slate-100 border border-slate-200 rounded-2xl transition-all cursor-pointer shadow-xs"
                 >
-                  <Compass className={`w-4 h-4 text-blue-500 ${loadingGPS ? 'animate-spin' : ''}`} />
+                  <Compass className={`w-4 h-4 text-emerald-500 ${loadingGPS ? 'animate-spin' : ''}`} />
                   <span>{currentLanguage === 'en' ? 'Detect Location GPS' : 'جی پی ایس لوکیشن معلوم کریں'}</span>
                 </button>
                 {latitude !== undefined && longitude !== undefined && (
@@ -1070,7 +1070,7 @@ export default function SettingsModule({
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   rows={3}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition-all resize-none"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white transition-all resize-none"
                   placeholder={t.profilePlaceholder}
                 />
               </div>
@@ -1079,14 +1079,14 @@ export default function SettingsModule({
                 <button
                   type="button"
                   onClick={() => navigate('/settings')}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl transition-colors cursor-pointer"
                 >
                   {t.cancelBtn}
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 bg-[#2563eb] hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm hover:shadow flex items-center gap-2 cursor-pointer"
+                  className="px-5 py-2 bg-[#2563eb] hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-sm hover:shadow flex items-center gap-2 cursor-pointer"
                 >
                   {isSubmitting && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
                   {t.saveBtn}
@@ -1114,7 +1114,7 @@ export default function SettingsModule({
             </div>
 
             {/* Profile visibility toggler */}
-            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-xl space-y-3.5">
+            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-2xl space-y-3.5">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xs font-black text-slate-900">{t.privateProfile}</h3>
@@ -1152,7 +1152,7 @@ export default function SettingsModule({
                     ...prev,
                     privacy: { ...prev.privacy, whoCanMessage: e.target.value }
                   }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer font-bold"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer font-bold"
                 >
                   <option value="everyone">{t.everyone}</option>
                   <option value="verified">{t.verifiedOnly}</option>
@@ -1168,7 +1168,7 @@ export default function SettingsModule({
                     ...prev,
                     privacy: { ...prev.privacy, whoCanViewPosts: e.target.value }
                   }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer font-bold"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer font-bold"
                 >
                   <option value="everyone">{t.everyone}</option>
                   <option value="followers">{t.followersOnly}</option>
@@ -1184,7 +1184,7 @@ export default function SettingsModule({
                     ...prev,
                     privacy: { ...prev.privacy, whoCanSeePhone: e.target.value }
                   }))}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer font-bold"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer font-bold"
                 >
                   <option value="everyone">{t.everyone}</option>
                   <option value="followers">{t.followersOnly}</option>
@@ -1206,11 +1206,11 @@ export default function SettingsModule({
                   value={blockInput}
                   onChange={(e) => setBlockInput(e.target.value)}
                   placeholder={t.blockPlaceholder}
-                  className="flex-1 text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:bg-white"
+                  className="flex-1 text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-500 focus:bg-white"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-sm shrink-0"
+                  className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all cursor-pointer shadow-sm shrink-0"
                 >
                   {t.blockBtn}
                 </button>
@@ -1223,12 +1223,12 @@ export default function SettingsModule({
                   personalization.privacy.blockedUsers.map((blockedUser) => (
                     <div
                       key={blockedUser}
-                      className="flex items-center justify-between p-3 border border-slate-100 rounded-xl hover:bg-slate-50/50"
+                      className="flex items-center justify-between p-3 border border-slate-100 rounded-2xl hover:bg-slate-50/50"
                     >
                       <span className="text-xs font-bold text-slate-700">@{blockedUser}</span>
                       <button
                         onClick={() => handleUnblockUser(blockedUser)}
-                        className="px-3 py-1 text-[10px] font-bold text-red-600 hover:text-white hover:bg-red-500 rounded-lg border border-red-100 hover:border-red-500 transition-all cursor-pointer"
+                        className="px-3 py-1 text-[10px] font-bold text-red-600 hover:text-white hover:bg-red-500 rounded-xl border border-red-100 hover:border-red-500 transition-all cursor-pointer"
                       >
                         {t.unblockBtn}
                       </button>
@@ -1249,7 +1249,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <Bell className="w-5 h-5 text-amber-500 stroke-[2.2]" />
+                <Bell className="w-5 h-5 text-emerald-500 stroke-[2.2]" />
                 {t.tabNotifications}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -1282,13 +1282,13 @@ export default function SettingsModule({
                           channels: { ...prev.notifications.channels, [channel.key]: !val }
                         }
                       }))}
-                      className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer text-start transition-all ${
-                        val ? 'bg-amber-50/40 border-amber-200/60' : 'bg-white border-slate-200/40'
+                      className={`flex items-center justify-between p-3.5 rounded-2xl border cursor-pointer text-start transition-all ${
+                        val ? 'bg-emerald-50/40 border-amber-200/60' : 'bg-white border-slate-200/40'
                       }`}
                     >
                       <span className="text-xs font-bold text-slate-700">{channel.label}</span>
                       <div className={`w-8 h-4 rounded-full p-0.5 transition-colors ${
-                        val ? 'bg-amber-500' : 'bg-slate-200'
+                        val ? 'bg-emerald-500' : 'bg-slate-200'
                       }`}>
                         <div className={`w-3 h-3 bg-white rounded-full transition-transform ${
                           val ? 'translate-x-4' : 'translate-x-0'
@@ -1338,7 +1338,7 @@ export default function SettingsModule({
                           }
                         }))}
                         className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer ${
-                          val ? 'bg-amber-500' : 'bg-slate-200'
+                          val ? 'bg-emerald-500' : 'bg-slate-200'
                         }`}
                       >
                         <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
@@ -1362,7 +1362,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <Lock className="w-5 h-5 text-indigo-600 stroke-[2.2]" />
+                <Lock className="w-5 h-5 text-emerald-600 stroke-[2.2]" />
                 {t.tabSecurity}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -1381,7 +1381,7 @@ export default function SettingsModule({
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none"
                     placeholder="••••••••"
                   />
                 </div>
@@ -1393,7 +1393,7 @@ export default function SettingsModule({
                       type="password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                      className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none"
                       placeholder="••••••••"
                     />
                   </div>
@@ -1403,7 +1403,7 @@ export default function SettingsModule({
                       type="password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none"
+                      className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none"
                       placeholder="••••••••"
                     />
                   </div>
@@ -1413,7 +1413,7 @@ export default function SettingsModule({
               <div className="flex justify-end pt-2">
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-[#2563eb] hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer"
+                  className="px-4 py-2.5 bg-[#2563eb] hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer"
                 >
                   {isUr ? 'پاس ورڈ تبدیل کریں' : 'Update Password'}
                 </button>
@@ -1432,7 +1432,7 @@ export default function SettingsModule({
                 {sessions.length > 1 && (
                   <button
                     onClick={handleLogoutAllOtherDevices}
-                    className="px-3.5 py-2 text-red-600 hover:text-white hover:bg-red-600 rounded-xl border border-red-100 hover:border-red-600 text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm shrink-0"
+                    className="px-3.5 py-2 text-red-600 hover:text-white hover:bg-red-600 rounded-2xl border border-red-100 hover:border-red-600 text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm shrink-0"
                   >
                     {t.logoutAllBtn}
                   </button>
@@ -1443,10 +1443,10 @@ export default function SettingsModule({
                 {sessions.map((sess) => (
                   <div
                     key={sess.id}
-                    className="flex items-start justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50/40"
+                    className="flex items-start justify-between p-4 border border-slate-100 rounded-2xl hover:bg-slate-50/40"
                   >
                     <div className="flex gap-3">
-                      <div className="p-2 bg-slate-100 rounded-xl text-slate-600 mt-0.5">
+                      <div className="p-2 bg-slate-100 rounded-2xl text-slate-600 mt-0.5">
                         <Smartphone className="w-5 h-5 stroke-[2.2]" />
                       </div>
                       <div>
@@ -1467,7 +1467,7 @@ export default function SettingsModule({
                     {!sess.isCurrent && (
                       <button
                         onClick={() => handleRevokeSession(sess.id, sess.device)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                         title={t.revokeBtn}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1489,7 +1489,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <Palette className="w-5 h-5 text-pink-500 stroke-[2.2]" />
+                <Palette className="w-5 h-5 text-emerald-500 stroke-[2.2]" />
                 {t.tabAppearance}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -1525,20 +1525,20 @@ export default function SettingsModule({
                           document.documentElement.classList.remove('dark');
                         }
                       }}
-                      className={`flex flex-col p-4 rounded-xl border text-start cursor-pointer transition-all ${
+                      className={`flex flex-col p-4 rounded-2xl border text-start cursor-pointer transition-all ${
                         active
-                          ? 'border-blue-600 ring-4 ring-blue-50'
+                          ? 'border-emerald-600 ring-4 ring-emerald-50'
                           : 'border-slate-200/60 hover:bg-slate-50/50'
                       }`}
                     >
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-3 ${item.bg}`}>
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-3 ${item.bg}`}>
                         <item.icon className="w-4.5 h-4.5" />
                       </div>
                       
                       <p className="text-xs font-black text-slate-800 flex items-center justify-between w-full">
                         {item.label}
                         {active && (
-                          <span className="text-[8px] bg-blue-50 text-blue-600 border border-blue-100 px-1.5 py-0.5 rounded-full font-black uppercase">
+                          <span className="text-[8px] bg-emerald-50 text-emerald-600 border border-emerald-100 px-1.5 py-0.5 rounded-full font-black uppercase">
                             {t.themeActive}
                           </span>
                         )}
@@ -1564,7 +1564,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-purple-600 stroke-[2.2]" />
+                <Globe className="w-5 h-5 text-emerald-600 stroke-[2.2]" />
                 {t.tabLanguage}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -1592,9 +1592,9 @@ export default function SettingsModule({
                         onLanguageChange(lang.code as Language);
                         triggerSuccess(lang.code === 'ur' ? 'زبان تبدیل ہو گئی ہے!' : 'Language updated to English!');
                       }}
-                      className={`w-full flex items-center justify-between p-4 rounded-xl border text-start cursor-pointer transition-all ${
+                      className={`w-full flex items-center justify-between p-4 rounded-2xl border text-start cursor-pointer transition-all ${
                         active
-                          ? 'border-purple-500 bg-purple-50/10 shadow-sm'
+                          ? 'border-emerald-500 bg-emerald-50/10 shadow-sm'
                           : 'border-slate-200/60 hover:bg-slate-50/50'
                       }`}
                     >
@@ -1607,7 +1607,7 @@ export default function SettingsModule({
                       </div>
                       
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                        active ? 'border-purple-600 bg-purple-600 text-white' : 'border-slate-300'
+                        active ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-slate-300'
                       }`}>
                         {active && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                       </div>
@@ -1628,7 +1628,7 @@ export default function SettingsModule({
           >
             <div>
               <h2 className="text-base font-black text-slate-950 flex items-center gap-2">
-                <HardDrive className="w-5 h-5 text-teal-600 stroke-[2.2]" />
+                <HardDrive className="w-5 h-5 text-emerald-600 stroke-[2.2]" />
                 {t.tabStorage}
               </h2>
               <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">
@@ -1637,7 +1637,7 @@ export default function SettingsModule({
             </div>
 
             {/* Offline Cache sizes */}
-            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-xl space-y-4">
+            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-2xl space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="text-xs font-black text-slate-900">{t.cacheTitle}</h3>
@@ -1646,7 +1646,7 @@ export default function SettingsModule({
                 {personalization.storage.cacheSizeMb > 0 && (
                   <button
                     onClick={handleClearCache}
-                    className="px-3.5 py-2 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-100 hover:border-red-600 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-xs shrink-0"
+                    className="px-3.5 py-2 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-100 hover:border-red-600 text-xs font-black rounded-2xl transition-all cursor-pointer flex items-center gap-1.5 shadow-xs shrink-0"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     {t.clearCacheBtn}
@@ -1658,11 +1658,11 @@ export default function SettingsModule({
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] font-bold text-slate-600">
                   <span>{t.cacheSizeText}</span>
-                  <span className="font-mono text-xs text-teal-600 font-black">{personalization.storage.cacheSizeMb.toFixed(1)} MB</span>
+                  <span className="font-mono text-xs text-emerald-600 font-black">{personalization.storage.cacheSizeMb.toFixed(1)} MB</span>
                 </div>
                 <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
                   <div
-                    className="bg-teal-500 h-full transition-all duration-500"
+                    className="bg-emerald-500 h-full transition-all duration-500"
                     style={{ width: `${Math.min(100, (personalization.storage.cacheSizeMb / 100) * 100)}%` }}
                   />
                 </div>
@@ -1688,7 +1688,7 @@ export default function SettingsModule({
                   personalization.storage.downloadedFiles.map((file) => (
                     <div
                       key={file.id}
-                      className="flex items-center justify-between p-3 border border-slate-100 rounded-xl hover:bg-slate-50/50"
+                      className="flex items-center justify-between p-3 border border-slate-100 rounded-2xl hover:bg-slate-50/50"
                     >
                       <div>
                         <p className="text-xs font-black text-slate-700">{file.name}</p>
@@ -1699,7 +1699,7 @@ export default function SettingsModule({
                       
                       <button
                         onClick={() => handleDeleteFile(file.id, file.name)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                         title={t.deleteFileBtn}
                       >
                         <X className="w-4 h-4" />
@@ -1730,7 +1730,7 @@ export default function SettingsModule({
             </div>
 
             {/* Specifications Card */}
-            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-xl space-y-3.5">
+            <div className="p-4 bg-slate-50 border border-slate-200/50 rounded-2xl space-y-3.5">
               <div className="flex justify-between items-center border-b border-slate-200 pb-2.5">
                 <span className="text-xs font-bold text-slate-600">{t.appVer}</span>
                 <span className="text-xs font-mono font-black text-slate-800">{t.verDetails}</span>
@@ -1757,7 +1757,7 @@ export default function SettingsModule({
                   <button
                     key={idx}
                     onClick={() => triggerSuccess(isUr ? `${doc.name} کا لنک کھولا جا رہا ہے` : `Navigating to ${doc.name}...`)}
-                    className="w-full flex items-center justify-between p-3.5 border border-slate-150 rounded-xl hover:bg-slate-50/50 text-start cursor-pointer"
+                    className="w-full flex items-center justify-between p-3.5 border border-slate-150 rounded-2xl hover:bg-slate-50/50 text-start cursor-pointer"
                   >
                     <span className="text-xs font-bold text-slate-700">{doc.name}</span>
                     <ExternalLink className="w-4 h-4 text-slate-400" />
@@ -1773,14 +1773,14 @@ export default function SettingsModule({
                 <p className="text-[10px] text-slate-400 font-bold mt-0.5">{t.supportDesc}</p>
               </div>
 
-              <div className="p-4 bg-blue-50/40 border border-blue-100 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-4 bg-emerald-50/40 border border-emerald-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="text-xs text-slate-700 space-y-1">
                   <p className="font-bold">📧 rawalpindi.support@punjab.gov.pk</p>
                   <p className="text-[10px] text-slate-400 font-semibold">Response hours: 9 AM - 5 PM (Mon - Fri)</p>
                 </div>
                 <button
                   onClick={() => window.open('mailto:rawalpindi.support@punjab.gov.pk')}
-                  className="px-4 py-2 bg-[#2563eb] hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
+                  className="px-4 py-2 bg-[#2563eb] hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
                 >
                   {t.supportBtn}
                 </button>
@@ -1817,9 +1817,9 @@ export default function SettingsModule({
                   { q: t.faq3Q, a: t.faq3A },
                   { q: t.faq4Q, a: t.faq4A }
                 ].map((faq, idx) => (
-                  <div key={idx} className="p-4 border border-slate-100 rounded-xl bg-slate-50/30">
+                  <div key={idx} className="p-4 border border-slate-100 rounded-2xl bg-slate-50/30">
                     <p className="text-xs font-black text-slate-800 flex items-start gap-2">
-                      <span className="text-blue-600 font-extrabold">Q:</span>
+                      <span className="text-emerald-600 font-extrabold">Q:</span>
                       {faq.q}
                     </p>
                     <p className="text-[11px] text-slate-500 leading-relaxed font-medium mt-1.5 ps-4 border-s-2 border-slate-200">
@@ -1839,7 +1839,7 @@ export default function SettingsModule({
                   value={technicalProblem}
                   onChange={(e) => setTechnicalProblem(e.target.value)}
                   rows={3}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white resize-none"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white resize-none"
                   placeholder={t.problemPlaceholder}
                 />
                 
@@ -1847,7 +1847,7 @@ export default function SettingsModule({
                   <button
                     type="submit"
                     disabled={isSubmitting || !technicalProblem?.trim()}
-                    className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
                   >
                     {isSubmitting && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
                     <Send className="w-3.5 h-3.5" />
@@ -1866,7 +1866,7 @@ export default function SettingsModule({
                   value={portalFeedback}
                   onChange={(e) => setPortalFeedback(e.target.value)}
                   rows={3}
-                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white resize-none"
+                  className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-600 focus:bg-white resize-none"
                   placeholder={t.feedbackPlaceholder}
                 />
                 
@@ -1874,7 +1874,7 @@ export default function SettingsModule({
                   <button
                     type="submit"
                     disabled={isSubmitting || !portalFeedback?.trim()}
-                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
                   >
                     {isSubmitting && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
                     <Sparkles className="w-3.5 h-3.5" />
@@ -1908,14 +1908,14 @@ export default function SettingsModule({
                 </div>
                 
                 {user.bio && (
-                  <p className="text-xs text-slate-500 font-medium bg-slate-50 p-2.5 rounded-xl italic">
+                  <p className="text-xs text-slate-500 font-medium bg-slate-50 p-2.5 rounded-2xl italic">
                     "{user.bio}"
                   </p>
                 )}
 
                 <button
                   onClick={() => navigate('/settings/account')}
-                  className="w-full py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-black rounded-xl transition-colors cursor-pointer text-center"
+                  className="w-full py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-xs font-black rounded-2xl transition-colors cursor-pointer text-center"
                 >
                   {isUr ? 'پروفائل کی معلومات تبدیل کریں' : 'Edit Profile Info'}
                 </button>
@@ -1932,8 +1932,8 @@ export default function SettingsModule({
                     <span>{isUr ? 'حفاظتی بیج' : 'Verified Resident Status'}</span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-black uppercase border ${
                       user.verified
-                        ? 'bg-blue-50 text-blue-600 border-blue-100'
-                        : 'bg-amber-50 text-amber-600 border-amber-100'
+                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                        : 'bg-emerald-50 text-emerald-600 border-amber-100'
                     }`}>
                       {user.verified ? (isUr ? 'تصدیق شدہ' : 'Verified') : (isUr ? 'غیر تصدیق شدہ' : 'Not Verified')}
                     </span>
@@ -1972,7 +1972,7 @@ export default function SettingsModule({
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-20 end-4 sm:end-6 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg border border-emerald-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
+            className="fixed top-20 end-4 sm:end-6 bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-lg border border-emerald-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
           >
             <CheckCircle className="w-5 h-5 shrink-0" />
             <p>{successToast}</p>
@@ -1984,7 +1984,7 @@ export default function SettingsModule({
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-20 end-4 sm:end-6 bg-red-600 text-white px-4 py-3 rounded-xl shadow-lg border border-red-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
+            className="fixed top-20 end-4 sm:end-6 bg-red-600 text-white px-4 py-3 rounded-2xl shadow-lg border border-red-500 z-50 flex items-center gap-2.5 max-w-sm text-xs font-bold"
           >
             <AlertTriangle className="w-5 h-5 shrink-0" />
             <p>{errorToast}</p>
@@ -1999,7 +1999,7 @@ export default function SettingsModule({
             {activeSubRoute !== 'home' && (
               <button
                 onClick={() => navigate('/settings')}
-                className="p-1.5 hover:bg-slate-200 bg-slate-100 text-slate-700 rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 hover:bg-slate-200 bg-slate-100 text-slate-700 rounded-xl transition-colors cursor-pointer"
                 title={t.backToHome}
               >
                 <ArrowLeft className="w-4.5 h-4.5 stroke-[2.2]" />
@@ -2017,7 +2017,7 @@ export default function SettingsModule({
         {/* Back to Home Quick Action */}
         <button
           onClick={() => navigate('/home')}
-          className="px-4 py-2 bg-slate-200/70 hover:bg-slate-200 text-slate-700 text-xs font-extrabold rounded-xl transition-all shadow-xs border border-slate-300/30 cursor-pointer shrink-0"
+          className="px-4 py-2 bg-slate-200/70 hover:bg-slate-200 text-slate-700 text-xs font-extrabold rounded-2xl transition-all shadow-xs border border-slate-300/30 cursor-pointer shrink-0"
         >
           {isUr ? '← پورٹل ڈیش بورڈ' : '← Portal Dashboard'}
         </button>
@@ -2047,3 +2047,4 @@ export default function SettingsModule({
     </div>
   );
 }
+

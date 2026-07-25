@@ -70,7 +70,7 @@ export default function HashtagFeed({ currentLanguage }: { currentLanguage: 'en'
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex items-center gap-4">
-            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
               <Hash className="w-8 h-8" />
             </div>
             <div>
@@ -113,3 +113,4 @@ export default function HashtagFeed({ currentLanguage }: { currentLanguage: 'en'
     </div>
   );
 }
+

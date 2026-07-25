@@ -160,7 +160,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
           <h2 className="text-xl font-bold text-slate-800">{isEn ? 'Story Ads Management' : 'سٹوری اشتہارات'}</h2>
           <p className="text-xs text-slate-500">Inject sponsored stories into the viewer stream with deep tracking.</p>
         </div>
-        <button onClick={openNewModal} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl flex items-center gap-2 shadow-lg transition-transform hover:scale-105">
+        <button onClick={openNewModal} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-2xl flex items-center gap-2 shadow-lg transition-transform hover:scale-105">
           <Plus className="w-4 h-4" />
           {isEn ? 'Create Story Ad' : 'نیا اشتہار'}
         </button>
@@ -174,7 +174,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
 
           return (
             <div key={ad.id} className="bg-white border border-slate-200 rounded-3xl p-5 flex gap-5 shadow-sm">
-              <div className="w-24 h-40 shrink-0 bg-slate-900 rounded-xl overflow-hidden relative shadow-inner border border-slate-100">
+              <div className="w-24 h-40 shrink-0 bg-slate-900 rounded-2xl overflow-hidden relative shadow-inner border border-slate-100">
                 {ad.media_type === 'video' ? (
                   <video src={getOptimizedVideoUrl(ad.media_url)} className="w-full h-full object-cover opacity-80" />
                 ) : (
@@ -190,13 +190,13 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-bold text-slate-800 text-sm truncate">{ad.cta_text}</h3>
                     <div className="flex items-center gap-1">
-                      <button onClick={() => handleToggleActive(ad)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition" title={ad.active ? "Pause" : "Resume"}>
-                        {ad.active ? <Pause className="w-4 h-4 text-amber-500" /> : <Play className="w-4 h-4 text-emerald-500" />}
+                      <button onClick={() => handleToggleActive(ad)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-xl transition" title={ad.active ? "Pause" : "Resume"}>
+                        {ad.active ? <Pause className="w-4 h-4 text-emerald-500" /> : <Play className="w-4 h-4 text-emerald-500" />}
                       </button>
-                      <button onClick={() => openEditModal(ad)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition" title="Edit">
-                        <Edit2 className="w-4 h-4 text-blue-500" />
+                      <button onClick={() => openEditModal(ad)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-xl transition" title="Edit">
+                        <Edit2 className="w-4 h-4 text-emerald-500" />
                       </button>
-                      <button onClick={() => handleDelete(ad.id)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition" title="Delete">
+                      <button onClick={() => handleDelete(ad.id)} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-xl transition" title="Delete">
                         <Trash2 className="w-4 h-4 text-rose-500" />
                       </button>
                     </div>
@@ -204,17 +204,17 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                   <p className="text-[10px] text-slate-500 truncate mb-3" title={ad.cta_link}>{ad.cta_link}</p>
                   
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="bg-slate-50 p-2 rounded-xl text-center border border-slate-100">
+                    <div className="bg-slate-50 p-2 rounded-2xl text-center border border-slate-100">
                       <Eye className="w-3.5 h-3.5 mx-auto mb-1 text-slate-400" />
                       <p className="text-[9px] font-black text-slate-400 uppercase">Views</p>
                       <p className="text-sm font-bold text-slate-800">{ad.impressions || 0}</p>
                     </div>
-                    <div className="bg-slate-50 p-2 rounded-xl text-center border border-slate-100">
+                    <div className="bg-slate-50 p-2 rounded-2xl text-center border border-slate-100">
                       <MousePointerClick className="w-3.5 h-3.5 mx-auto mb-1 text-blue-400" />
                       <p className="text-[9px] font-black text-slate-400 uppercase">Clicks (CTR)</p>
                       <p className="text-sm font-bold text-slate-800">{ad.clicks || 0} <span className="text-[9px] font-medium text-slate-500">{ctr}%</span></p>
                     </div>
-                    <div className="bg-slate-50 p-2 rounded-xl text-center border border-slate-100">
+                    <div className="bg-slate-50 p-2 rounded-2xl text-center border border-slate-100">
                       <BarChart2 className="w-3.5 h-3.5 mx-auto mb-1 text-emerald-400" />
                       <p className="text-[9px] font-black text-slate-400 uppercase">Completions</p>
                       <p className="text-sm font-bold text-slate-800">{ad.completions || 0} <span className="text-[9px] font-medium text-slate-500">{completionRate}%</span></p>
@@ -222,8 +222,8 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-[10px] font-medium text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 mt-2">
-                  <span className="flex items-center gap-1 text-amber-600"><FastForward className="w-3 h-3" /> Skips: {ad.skips || 0} ({skipRate}%)</span>
+                <div className="flex items-center gap-4 text-[10px] font-medium text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 mt-2">
+                  <span className="flex items-center gap-1 text-emerald-600"><FastForward className="w-3 h-3" /> Skips: {ad.skips || 0} ({skipRate}%)</span>
                   <span className="flex items-center gap-1 text-rose-500"><XCircle className="w-3 h-3" /> Exits: {ad.exits || 0}</span>
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
               <form id="story-ad-form" onSubmit={handleSave} className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Media Type</label>
-                  <select value={mediaType} onChange={(e) => setMediaType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                  <select value={mediaType} onChange={(e) => setMediaType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
                     <option value="photo">Photo / Image</option>
                     <option value="video">Video</option>
                   </select>
@@ -260,9 +260,9 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Media URL (Storage URL)</label>
                   <div className="flex gap-2">
-                    <input type="text" required value={mediaUrl} onChange={e => setMediaUrl(e.target.value)} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" placeholder="https://..." />
+                    <input type="text" required value={mediaUrl} onChange={e => setMediaUrl(e.target.value)} className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="https://..." />
                     <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*,video/*" className="hidden" />
-                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isUploading} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-xl flex items-center gap-2 border border-slate-200 transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isUploading} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-2xl flex items-center gap-2 border border-slate-200 transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">
                       <Upload className="w-4 h-4" />
                       {isUploading ? (isEn ? 'Uploading...' : 'اپ لوڈ ہو رہا ہے...') : (isEn ? 'Upload from Gallery' : 'گیلری سے اپ لوڈ کریں')}
                     </button>
@@ -271,7 +271,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">CTA Type</label>
-                    <select value={ctaType} onChange={e => setCtaType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                    <select value={ctaType} onChange={e => setCtaType(e.target.value as any)} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
                       <option value="Website">Website</option>
                       <option value="WhatsApp">WhatsApp</option>
                       <option value="Phone">Phone Call</option>
@@ -292,7 +292,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
                       required 
                       value={ctaValue} 
                       onChange={e => setCtaValue(e.target.value)} 
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" 
+                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" 
                       placeholder={
                         ctaType === 'Website' ? 'https://yourbusiness.com' :
                         ctaType === 'WhatsApp' ? '+923001234567' :
@@ -305,23 +305,23 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">CTA Button Text</label>
-                  <input type="text" required value={ctaText} onChange={e => setCtaText(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                  <input type="text" required value={ctaText} onChange={e => setCtaText(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Duration (Seconds)</label>
-                    <input type="number" min="1" max="15" required value={duration} onChange={e => setDuration(Number(e.target.value))} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                    <input type="number" min="1" max="15" required value={duration} onChange={e => setDuration(Number(e.target.value))} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Frequency Cap (Views per user)</label>
-                    <input type="number" min="1" required value={frequencyCap} onChange={e => setFrequencyCap(Number(e.target.value))} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                    <input type="number" min="1" required value={frequencyCap} onChange={e => setFrequencyCap(Number(e.target.value))} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">Target Audience</label>
-                  <select value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
+                  <select value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
                     <option value="All">All Users</option>
                     <option value="Male 18-30">Males 18-30</option>
                     <option value="Female 18-30">Females 18-30</option>
@@ -332,10 +332,10 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
             </div>
             
             <div className="p-4 border-t border-slate-100 flex gap-3 shrink-0 bg-slate-50">
-              <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-sm transition-colors border-0">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-2xl text-sm transition-colors border-0">
                 Cancel
               </button>
-              <button type="submit" form="story-ad-form" className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-blue-500/30 border-0">
+              <button type="submit" form="story-ad-form" className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-sm transition-colors shadow-lg shadow-emerald-500/30 border-0">
                 {editingAd ? 'Save Changes' : 'Create Ad'}
               </button>
             </div>
@@ -345,3 +345,4 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
     </div>
   );
 }
+

@@ -86,7 +86,7 @@ export default function TvsPublicVerify({
   if (loading) {
     return (
       <div className="flex items-center justify-center p-12 text-slate-400 font-bold leading-normal">
-        <Award className="w-8 h-8 animate-pulse text-indigo-600 me-2" />
+        <Award className="w-8 h-8 animate-pulse text-emerald-600 me-2" />
         <span>Loading verification credentials...</span>
       </div>
     );
@@ -105,17 +105,17 @@ export default function TvsPublicVerify({
     <div className="min-h-[80vh] flex items-center justify-center p-4 sm:p-8 bg-slate-50/50 leading-normal">
       <div className="bg-white w-full max-w-2xl rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden p-6 sm:p-10 relative space-y-6">
         {onClose && (
-          <button onClick={onClose} className="absolute top-4 end-4 p-1.5 text-slate-400 hover:bg-slate-50 rounded-lg border-none bg-transparent cursor-pointer">
+          <button onClick={onClose} className="absolute top-4 end-4 p-1.5 text-slate-400 hover:bg-slate-50 rounded-xl border-none bg-transparent cursor-pointer">
             <X className="w-4 h-4" />
           </button>
         )}
 
         {/* Certificate Border decoration */}
-        <div className="absolute inset-4 rounded-2xl border-2 border-indigo-100 pointer-events-none" />
+        <div className="absolute inset-4 rounded-2xl border-2 border-emerald-100 pointer-events-none" />
 
         {/* Top Header */}
         <div className="text-center space-y-2 pt-4">
-          <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-full flex items-center justify-center mx-auto text-indigo-650 shadow-inner">
+          <div className="w-14 h-14 bg-emerald-50 border border-emerald-100 rounded-full flex items-center justify-center mx-auto text-indigo-650 shadow-inner">
             <Award className="w-8 h-8" />
           </div>
           <h2 className="text-lg font-black uppercase text-indigo-900 tracking-wider">
@@ -144,7 +144,7 @@ export default function TvsPublicVerify({
           <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-200/40 text-xs">
             <div>
               <p className="text-[9px] font-black text-slate-400 uppercase">Verification Level</p>
-              <p className="font-extrabold text-amber-500 uppercase mt-0.5">{certificate.verification_level}</p>
+              <p className="font-extrabold text-emerald-500 uppercase mt-0.5">{certificate.verification_level}</p>
             </div>
             <div>
               <p className="text-[9px] font-black text-slate-400 uppercase">Verification Number</p>
@@ -173,7 +173,7 @@ export default function TvsPublicVerify({
             <div className="flex flex-wrap gap-2 pt-2 justify-center sm:justify-start">
               <button 
                 onClick={() => window.print()}
-                className="flex items-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[9px] font-black uppercase rounded-lg transition-all border-none cursor-pointer"
+                className="flex items-center gap-1.5 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[9px] font-black uppercase rounded-xl transition-all border-none cursor-pointer"
               >
                 <Printer className="w-3.5 h-3.5" /> Print Certificate
               </button>
@@ -189,3 +189,4 @@ export default function TvsPublicVerify({
     </div>
   );
 }
+

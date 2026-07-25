@@ -29,7 +29,7 @@ export const AppSearchBar: React.FC<AppSearchBarProps> = ({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full ps-10 pe-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+          className="w-full ps-10 pe-10 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all duration-200"
         />
         {value && (
           <button
@@ -46,7 +46,7 @@ export const AppSearchBar: React.FC<AppSearchBarProps> = ({
         <button
           type="button"
           onClick={onFilterClick}
-          className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition-all border border-slate-200/40 cursor-pointer active:scale-95 shrink-0"
+          className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl transition-all border border-slate-200/40 cursor-pointer active:scale-95 shrink-0"
           aria-label="Toggle filters"
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -55,3 +55,4 @@ export const AppSearchBar: React.FC<AppSearchBarProps> = ({
     </div>
   );
 };
+

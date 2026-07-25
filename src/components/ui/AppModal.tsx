@@ -59,7 +59,7 @@ export const AppModal: React.FC<AppModalProps> = ({
       aria-labelledby="modal-title"
     >
       <div 
-        className={`bg-white w-full rounded-md shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-fade-in ${sizes[size]} ${className}`}
+        className={`bg-white w-full rounded-2xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-fade-in ${sizes[size]} ${className}`}
         onKeyDown={(e) => {
           if (e.key === 'Escape') onClose();
         }}
@@ -71,7 +71,7 @@ export const AppModal: React.FC<AppModalProps> = ({
           </h3>
           <button 
             onClick={onClose} 
-            className="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            className="p-1 hover:bg-slate-100 rounded-2xl text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
             aria-label="Close dialog"
           >
             <X className="w-5 h-5" />
@@ -93,3 +93,5 @@ export const AppModal: React.FC<AppModalProps> = ({
     </div>
   );
 };
+
+

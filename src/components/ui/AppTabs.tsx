@@ -41,7 +41,7 @@ export const AppTabs: React.FC<AppTabsProps> = ({
             {tab.count !== undefined && (
               <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full
                 ${active 
-                  ? 'bg-blue-100 text-primary' 
+                  ? 'bg-emerald-100 text-primary' 
                   : 'bg-slate-100 text-slate-500'
                 }`}
               >
@@ -54,3 +54,4 @@ export const AppTabs: React.FC<AppTabsProps> = ({
     </div>
   );
 };
+

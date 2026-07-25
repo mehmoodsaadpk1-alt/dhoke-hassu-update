@@ -84,7 +84,7 @@ const ClickableAvatar: React.FC<ClickableAvatarProps> = ({
         ) : (
           <div
             style={fallbackStyle}
-            className={`bg-blue-50 text-blue-600 font-bold text-sm shrink-0 hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 transition-all ${className}`}
+            className={`bg-emerald-50 text-emerald-600 font-bold text-sm shrink-0 hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 transition-all ${className}`}
             onClick={handleClick}
             role="button"
             tabIndex={0}
@@ -97,7 +97,7 @@ const ClickableAvatar: React.FC<ClickableAvatarProps> = ({
       {(showName || nameOnly) && (
         <span
           onClick={handleClick}
-          className={`cursor-pointer hover:text-blue-600 hover:underline transition-colors ${nameClassName}`}
+          className={`cursor-pointer hover:text-emerald-600 hover:underline transition-colors ${nameClassName}`}
           role="link"
           tabIndex={0}
           title={`View ${name}'s profile`}
@@ -111,3 +111,4 @@ const ClickableAvatar: React.FC<ClickableAvatarProps> = ({
 };
 
 export default ClickableAvatar;
+

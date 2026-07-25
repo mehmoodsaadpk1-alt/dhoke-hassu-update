@@ -53,7 +53,7 @@ export default function FollowRequests({ currentUser, onBack, isEn = true }: { c
             {requests.map(req => {
               const p = req.profiles;
               return (
-                <div key={req.id} className="flex items-center justify-between bg-white dark:bg-slate-800 p-3 rounded-xl shadow-sm">
+                <div key={req.id} className="flex items-center justify-between bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm">
                   <div className="flex items-center gap-3">
                     <AppAvatar name={p?.full_name ?? "Unknown User"} avatar={p?.profile_photo ?? undefined} size="md" />
                     <div>
@@ -79,3 +79,4 @@ export default function FollowRequests({ currentUser, onBack, isEn = true }: { c
     </div>
   );
 }
+

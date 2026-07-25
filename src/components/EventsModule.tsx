@@ -599,7 +599,7 @@ export default function EventsModule({
       
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg z-50 text-xs font-bold animate-bounce">
+        <div className="fixed bottom-5 end-5 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-lg z-50 text-xs font-bold animate-bounce">
           {toast}
         </div>
       )}
@@ -621,7 +621,7 @@ export default function EventsModule({
           {activeView !== 'list' && (
             <button
               onClick={onNavigateToList}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{isEn ? 'All Gatherings' : 'تقریبات دیکھیں'}</span>
@@ -651,7 +651,7 @@ export default function EventsModule({
                 setFormStatus('Upcoming');
                 onNavigateToCreate();
               }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
               id="create-event-btn"
             >
               <PlusCircle className="w-4 h-4" />
@@ -678,7 +678,7 @@ export default function EventsModule({
                   placeholder={isEn ? 'Search by title, organizer, keyword...' : 'تقریب تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -688,7 +688,7 @@ export default function EventsModule({
                 <select
                   value={selectedArea}
                   onChange={(e) => setSelectedArea(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   {areas.map(a => (
                     <option key={a} value={a}>
@@ -704,7 +704,7 @@ export default function EventsModule({
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'date' | 'newest' | 'popularity')}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   <option value="date">{isEn ? 'Event Date' : 'تقریب کی تاریخ'}</option>
                   <option value="newest">{isEn ? 'Recently Added' : 'حالیہ لسٹنگز'}</option>
@@ -719,14 +719,14 @@ export default function EventsModule({
               
               <div className="flex items-center gap-2">
                 <span>{isEn ? 'Ticket Pricing:' : 'ٹکٹ:'}</span>
-                <div className="flex rounded-lg border border-slate-200 overflow-hidden bg-white">
+                <div className="flex rounded-xl border border-slate-200 overflow-hidden bg-white">
                   {['All', 'Free', 'Paid'].map(type => (
                     <button
                       key={type}
                       type="button"
                       onClick={() => setTicketFilter(type as any)}
                       className={`px-3 py-1 text-[10px] font-black cursor-pointer font-bold ${
-                        ticketFilter === type ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'
+                        ticketFilter === type ? 'bg-emerald-600 text-white' : 'hover:bg-slate-50 text-slate-600'
                       }`}
                     >
                       {type}
@@ -737,14 +737,14 @@ export default function EventsModule({
 
               <div className="flex items-center gap-2">
                 <span>{isEn ? 'Status:' : 'حالت:'}</span>
-                <div className="flex rounded-lg border border-slate-200 overflow-hidden bg-white">
+                <div className="flex rounded-xl border border-slate-200 overflow-hidden bg-white">
                   {['All', 'Upcoming', 'Live', 'Completed'].map(stat => (
                     <button
                       key={stat}
                       type="button"
                       onClick={() => setStatusFilter(stat as any)}
                       className={`px-3 py-1 text-[10px] font-black cursor-pointer font-bold ${
-                        statusFilter === stat ? 'bg-blue-600 text-white' : 'hover:bg-slate-50 text-slate-600'
+                        statusFilter === stat ? 'bg-emerald-600 text-white' : 'hover:bg-slate-50 text-slate-600'
                       }`}
                     >
                       {stat}
@@ -763,9 +763,9 @@ export default function EventsModule({
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
+                    className={`px-4 py-2 rounded-2xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
                       isActive 
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' 
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -801,7 +801,7 @@ export default function EventsModule({
                     onClick={() => onNavigateToDetail(event.id)}
                     className={`bg-white border rounded-3xl overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between relative ${
                       event.pinned 
-                        ? 'border-blue-500 ring-1 ring-blue-50 bg-blue-50/5' 
+                        ? 'border-emerald-500 ring-1 ring-emerald-50 bg-emerald-50/5' 
                         : 'border-slate-200'
                     }`}
                     id={`event-card-${event.id}`}
@@ -818,13 +818,13 @@ export default function EventsModule({
                       {/* Pinned & Featured Status Badges */}
                       <div className="absolute top-4 start-4 flex gap-1.5 z-10">
                         {event.pinned && (
-                          <span className="bg-blue-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 uppercase font-bold">
+                          <span className="bg-emerald-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 uppercase font-bold">
                             <Pin className="w-2.5 h-2.5 rotate-45" />
                             {isEn ? 'Pinned' : 'پن شدہ'}
                           </span>
                         )}
                         {event.featured && (
-                          <span className="bg-amber-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 uppercase font-bold">
+                          <span className="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 uppercase font-bold">
                             <Sparkles className="w-2.5 h-2.5" />
                             {isEn ? 'Featured' : 'نمایاں'}
                           </span>
@@ -832,7 +832,7 @@ export default function EventsModule({
                       </div>
 
                       {/* Ticket price overlay */}
-                      <div className="absolute bottom-4 end-4 bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1 rounded-lg">
+                      <div className="absolute bottom-4 end-4 bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1 rounded-xl">
                         {event.ticketPrice || 'Free'}
                       </div>
                     </div>
@@ -843,7 +843,7 @@ export default function EventsModule({
                         
                         <div className="flex items-center justify-between text-[10px] font-black text-slate-400 uppercase tracking-wider font-bold">
                           <span>{event.category}</span>
-                          <span className={`px-2 py-0.5 rounded-md ${
+                          <span className={`px-2 py-0.5 rounded-xl ${
                             event.status === 'Live' ? 'bg-red-50 text-red-650 animate-pulse' : 'bg-slate-50 text-slate-500'
                           }`}>
                             {event.status || 'Upcoming'}
@@ -897,9 +897,9 @@ export default function EventsModule({
                       <div className="flex items-center gap-1">
                         <button
                           onClick={(e) => handleToggleSave(event.id, e)}
-                          className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                          className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
                             isSaved 
-                              ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                              ? 'bg-emerald-50 border-blue-200 text-emerald-600' 
                               : 'bg-white border-slate-200 text-slate-400 hover:text-slate-600'
                           }`}
                         >
@@ -908,7 +908,7 @@ export default function EventsModule({
 
                         <button
                           onClick={(e) => handleCopyLink(event.id, e)}
-                          className="p-1.5 bg-white border border-slate-200 text-slate-400 hover:text-slate-600 rounded-lg transition-colors cursor-pointer"
+                          className="p-1.5 bg-white border border-slate-200 text-slate-400 hover:text-slate-600 rounded-xl transition-colors cursor-pointer"
                           title={isEn ? "Copy Link" : "لنک کاپی کریں"}
                         >
                           <Share2 className="w-3.5 h-3.5" />
@@ -919,12 +919,12 @@ export default function EventsModule({
                       <button
                         onClick={(e) => handleRegisterUser(event, e)}
                         disabled={isFull && !registered}
-                        className={`px-4 py-2 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer font-bold ${
+                        className={`px-4 py-2 rounded-2xl text-xs font-black shadow-xs transition-all cursor-pointer font-bold ${
                           registered
                             ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                             : isFull 
                             ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-emerald-600 text-white hover:bg-emerald-700'
                         }`}
                       >
                         {registered ? (isEn ? 'Registered ✓' : 'رجسٹرڈ ✓') : isFull ? (isEn ? 'Full' : 'مکمل') : (isEn ? 'Register' : 'رجسٹر کریں')}
@@ -961,12 +961,12 @@ export default function EventsModule({
                   
                   <div className="absolute top-4 start-4 flex gap-1.5 z-10">
                   {selectedEvent.pinned && (
-                    <span className="bg-blue-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase font-bold">
+                    <span className="bg-emerald-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase font-bold">
                       {isEn ? 'Pinned' : 'پن شدہ'}
                     </span>
                   )}
                   {selectedEvent.featured && (
-                    <span className="bg-amber-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase font-bold">
+                    <span className="bg-emerald-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase font-bold">
                       {isEn ? 'Featured' : 'نمایاں'}
                     </span>
                   )}
@@ -1006,7 +1006,7 @@ export default function EventsModule({
                   </h4>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {selectedEvent.galleryImages.map((img, idx) => (
-                      <a key={idx} href={img} target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden rounded-xl h-24 border border-slate-100">
+                      <a key={idx} href={img} target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden rounded-2xl h-24 border border-slate-100">
                         <img
                           src={img}
                           alt="Gallery item"
@@ -1031,7 +1031,7 @@ export default function EventsModule({
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {(selectedEvent.attendees || []).map((att, idx) => (
-                      <div key={idx} className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                      <div key={idx} className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-2xl border border-slate-100">
                         <UserCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                         <div className="flex flex-col">
                           <span className="text-xs font-black text-slate-800">{att.name}</span>
@@ -1116,7 +1116,7 @@ export default function EventsModule({
                   rel="noopener noreferrer"
                   className="w-full flex flex-col items-center justify-center py-4 bg-slate-50 border border-slate-150 rounded-2xl hover:bg-slate-100 transition-colors"
                 >
-                  <Map className="w-5 h-5 text-blue-600" />
+                  <Map className="w-5 h-5 text-emerald-600" />
                   <span className="text-xs font-black text-slate-700 mt-1">{isEn ? 'Open Map' : 'نقشہ کھولیں'}</span>
                 </a>
               )}
@@ -1126,12 +1126,12 @@ export default function EventsModule({
                 <button
                   onClick={(e) => handleRegisterUser(selectedEvent, e)}
                   disabled={(selectedEvent.availableSeats !== undefined && selectedEvent.availableSeats <= 0) && !isUserRegistered(selectedEvent)}
-                  className={`w-full py-3 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer font-bold ${
+                  className={`w-full py-3 rounded-2xl text-xs font-black shadow-xs transition-all cursor-pointer font-bold ${
                     isUserRegistered(selectedEvent)
                       ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
                       : (selectedEvent.availableSeats !== undefined && selectedEvent.availableSeats <= 0)
                       ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
                   }`}
                 >
                   {isUserRegistered(selectedEvent) ? (isEn ? 'Cancel Registration' : 'رجسٹریشن منسوخ کریں') : (isEn ? 'Register Now' : 'ابھی رجسٹر کریں')}
@@ -1139,7 +1139,7 @@ export default function EventsModule({
 
                 <button
                   onClick={() => handleAddToCalendar(selectedEvent)}
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-xs font-black shadow-xs transition-all font-bold"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-2xl text-xs font-black shadow-xs transition-all font-bold"
                 >
                   <Download className="w-4 h-4" />
                   <span>{isEn ? 'Add to Calendar' : 'کیلنڈر میں شامل کریں'}</span>
@@ -1149,7 +1149,7 @@ export default function EventsModule({
               {/* Organizer details */}
               <div className="border-t border-slate-100 pt-5 space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
                     <UserIcon className="w-4 h-4" />
                   </div>
                   <div>
@@ -1160,7 +1160,7 @@ export default function EventsModule({
 
                 <a
                   href={`tel:${selectedEvent.contactNumber}`}
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-755 rounded-xl text-xs font-black transition-all font-bold"
+                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-755 rounded-2xl text-xs font-black transition-all font-bold"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>{selectedEvent.contactNumber}</span>
@@ -1176,20 +1176,20 @@ export default function EventsModule({
                   <div className="flex gap-2">
                     <button
                       onClick={(e) => handleEditClick(selectedEvent, e)}
-                      className="flex-1 py-2 bg-blue-50 hover:bg-blue-100 text-blue-755 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold"
+                      className="flex-1 py-2 bg-emerald-50 hover:bg-emerald-100 text-blue-755 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold"
                     >
                       {isEn ? 'Edit Details' : 'ترمیم'}
                     </button>
                     <button
                       onClick={(e) => handleCloseRegistration(selectedEvent.id, e)}
-                      className="flex-1 py-2 bg-amber-50 hover:bg-amber-100 text-amber-805 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold"
+                      className="flex-1 py-2 bg-emerald-50 hover:bg-amber-100 text-amber-805 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold"
                     >
                       {isEn ? 'Close Reg' : 'بند کریں'}
                     </button>
                   </div>
                   <button
                     onClick={(e) => handleDeleteClick(selectedEvent.id, e)}
-                    className="w-full py-2 bg-red-50 hover:bg-red-100 text-red-755 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold"
+                    className="w-full py-2 bg-red-50 hover:bg-red-100 text-red-755 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold"
                   >
                     {isEn ? 'Cancel / Delete Event' : 'تقریب منسوخ کریں'}
                   </button>
@@ -1205,16 +1205,16 @@ export default function EventsModule({
                   <div className="flex gap-2">
                     <button
                       onClick={(e) => handleTogglePin(selectedEvent.id, e)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold ${
-                        selectedEvent.pinned ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'
+                      className={`flex-1 py-2 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold ${
+                        selectedEvent.pinned ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       {selectedEvent.pinned ? (isEn ? 'Unpin' : 'ان پن') : (isEn ? 'Pin to Top' : 'پن کریں')}
                     </button>
                     <button
                       onClick={(e) => handleToggleFeature(selectedEvent.id, e)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold ${
-                        selectedEvent.featured ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-700'
+                      className={`flex-1 py-2 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold ${
+                        selectedEvent.featured ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       {selectedEvent.featured ? (isEn ? 'Unfeature' : 'عام کریں') : (isEn ? 'Feature' : 'نمایاں کریں')}
@@ -1280,7 +1280,7 @@ export default function EventsModule({
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                       placeholder={isEn ? 'e.g. Local Cricket Tournament 2026' : 'مثال کے طور پر: سالانہ کرکٹ ٹورنامنٹ 2026'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.title ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-title"
@@ -1296,7 +1296,7 @@ export default function EventsModule({
                     <select
                       value={formCategory}
                       onChange={(e) => setFormCategory(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-bold"
                       id="form-category"
                     >
                       {categories.filter(c => c !== 'All').map((cat) => (
@@ -1316,7 +1316,7 @@ export default function EventsModule({
                       type="date"
                       value={formDate}
                       onChange={(e) => setFormDate(e.target.value)}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold ${
                         errors.date ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-date"
@@ -1333,7 +1333,7 @@ export default function EventsModule({
                       type="time"
                       value={formStartTime}
                       onChange={(e) => setFormStartTime(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-start-time"
                     />
                   </div>
@@ -1347,7 +1347,7 @@ export default function EventsModule({
                       type="time"
                       value={formEndTime}
                       onChange={(e) => setFormEndTime(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-end-time"
                     />
                   </div>
@@ -1362,7 +1362,7 @@ export default function EventsModule({
                       value={formOrganizer}
                       onChange={(e) => setFormOrganizer(e.target.value)}
                       placeholder="e.g. Youth Sports Association"
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.organizer ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-organizer"
@@ -1380,7 +1380,7 @@ export default function EventsModule({
                       value={formContact}
                       onChange={(e) => setFormContact(e.target.value)}
                       placeholder="03xx-xxxxxxx"
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.contact ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-contact"
@@ -1398,7 +1398,7 @@ export default function EventsModule({
                       value={formVenue}
                       onChange={(e) => setFormVenue(e.target.value)}
                       placeholder="e.g. Main Cricket Ground, Gali 2"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-venue"
                     />
                   </div>
@@ -1413,7 +1413,7 @@ export default function EventsModule({
                       value={formArea}
                       onChange={(e) => setFormArea(e.target.value)}
                       placeholder="e.g. Dhoke Hassu"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-area"
                     />
                   </div>
@@ -1427,7 +1427,7 @@ export default function EventsModule({
                       type="number"
                       value={formMaxAttendees}
                       onChange={(e) => setFormMaxAttendees(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-max"
                     />
                   </div>
@@ -1442,7 +1442,7 @@ export default function EventsModule({
                       value={formTicketPrice}
                       onChange={(e) => setFormTicketPrice(e.target.value)}
                       placeholder="Free"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-price"
                     />
                   </div>
@@ -1456,7 +1456,7 @@ export default function EventsModule({
                       type="date"
                       value={formDeadline}
                       onChange={(e) => setFormDeadline(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-deadline"
                     />
                   </div>
@@ -1471,7 +1471,7 @@ export default function EventsModule({
                       value={formGoogleMap}
                       onChange={(e) => setFormGoogleMap(e.target.value)}
                       placeholder="https://maps.google.com/?q=..."
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-map"
                     />
                   </div>
@@ -1487,7 +1487,7 @@ export default function EventsModule({
                         value={formCoverImage}
                         onChange={(e) => setFormCoverImage(e.target.value)}
                         placeholder="https://example.com/cover.jpg"
-                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold"
                         id="form-cover"
                       />
                       
@@ -1502,10 +1502,10 @@ export default function EventsModule({
                       />
                       <label
                         htmlFor="event-cover-upload-input"
-                        className={`flex items-center justify-center gap-1.5 px-4 py-3 border border-dashed rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        className={`flex items-center justify-center gap-1.5 px-4 py-3 border border-dashed rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                           uploadingCover 
                             ? 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed' 
-                            : 'bg-blue-50/50 border-blue-200 hover:bg-blue-50 text-blue-700'
+                            : 'bg-emerald-50/50 border-blue-200 hover:bg-emerald-50 text-emerald-700'
                         }`}
                       >
                         <Upload className="w-4 h-4" />
@@ -1527,7 +1527,7 @@ export default function EventsModule({
                       value={formGalleryImages}
                       onChange={(e) => setFormGalleryImages(e.target.value)}
                       placeholder="https://example.com/img1.jpg&#10;https://example.com/img2.jpg"
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-gallery"
                     />
                   </div>
@@ -1540,7 +1540,7 @@ export default function EventsModule({
                     <select
                       value={formStatus}
                       onChange={(e) => setFormStatus(e.target.value as any)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                       id="form-status"
                     >
                       <option value="Upcoming">{isEn ? 'Upcoming' : 'آنے والی'}</option>
@@ -1560,7 +1560,7 @@ export default function EventsModule({
                       value={formDescription}
                       onChange={(e) => setFormDescription(e.target.value)}
                       placeholder={isEn ? 'Provide full details, itinerary, registration information...' : 'تقریب کی تفصیل درج کریں...'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.description ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-description"
@@ -1573,7 +1573,7 @@ export default function EventsModule({
                 <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="submit-event-form"
                   >
                     {editingEventId ? (isEn ? 'Save Changes' : 'تبدیلیاں محفوظ کریں') : (isEn ? 'Publish Event' : 'شائع کریں')}
@@ -1582,7 +1582,7 @@ export default function EventsModule({
                   <button
                     type="button"
                     onClick={onNavigateToList}
-                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                     id="cancel-event-form"
                   >
                     {isEn ? 'Cancel' : 'منسوخ کریں'}
@@ -1600,3 +1600,4 @@ export default function EventsModule({
     </div>
   );
 }
+

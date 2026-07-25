@@ -149,7 +149,8 @@ import {
   dbUploadAvatar,
   dbTogglePostLike,
   dbGetUserPostLikes,
-  dbGetPostLikeCounts
+  dbGetPostLikeCounts,
+  dbGetTotalUnreadMessages
 } from '../utils/supabaseClient';
 import { getOptimizedVideoUrl } from '../utils/cloudinary';
 import { videoProcessingService } from '../services/VideoProcessingService';
@@ -188,9 +189,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'ہوم',
     path: '/home',
     icon: HomeIcon,
-    bgClass: 'bg-blue-50 text-blue-600 hover:bg-blue-100/80',
-    activeBgClass: 'bg-blue-600 text-white shadow-md shadow-blue-500/20',
-    activeTextClass: 'text-blue-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string, activeTab: string) => activeTab === 'home' && !path.startsWith('/jobs') && !path.startsWith('/business') && !path.startsWith('/businesses') && !path.startsWith('/property') && !path.startsWith('/marketplace') && !path.startsWith('/services') && !path.startsWith('/alerts') && !path.startsWith('/events') && !path.startsWith('/deals') && !path.startsWith('/polls'),
   },
   {
@@ -199,9 +200,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'کمیونٹی',
     path: '/feed',
     icon: Rss,
-    bgClass: 'bg-teal-50 text-teal-600 hover:bg-teal-100/80',
-    activeBgClass: 'bg-teal-600 text-white shadow-md shadow-teal-500/20',
-    activeTextClass: 'text-teal-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string, activeTab: string) => activeTab === 'feed',
   },
   {
@@ -210,9 +211,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'ویڈیوز',
     path: '/videos',
     icon: Video,
-    bgClass: 'bg-red-50 text-red-600 hover:bg-red-100/80',
-    activeBgClass: 'bg-red-600 text-white shadow-md shadow-red-500/20',
-    activeTextClass: 'text-red-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string, activeTab: string) => activeTab === 'videos',
   },
   {
@@ -221,9 +222,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'ملازمتیں',
     path: '/jobs',
     icon: Briefcase,
-    bgClass: 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100/80',
-    activeBgClass: 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20',
-    activeTextClass: 'text-emerald-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/jobs'),
   },
   {
@@ -232,9 +233,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'مکانات',
     path: '/property',
     icon: Building2,
-    bgClass: 'bg-orange-50 text-orange-600 hover:bg-orange-100/80',
-    activeBgClass: 'bg-orange-500 text-white shadow-md shadow-orange-500/20',
-    activeTextClass: 'text-orange-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/property'),
   },
   {
@@ -243,9 +244,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'خرید و فروخت',
     path: '/marketplace',
     icon: ShoppingBag,
-    bgClass: 'bg-purple-50 text-purple-600 hover:bg-purple-100/80',
-    activeBgClass: 'bg-purple-600 text-white shadow-md shadow-purple-500/20',
-    activeTextClass: 'text-purple-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/marketplace'),
   },
   {
@@ -254,9 +255,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'سروسز',
     path: '/services',
     icon: Wrench,
-    bgClass: 'bg-cyan-50 text-cyan-600 hover:bg-cyan-100/80',
-    activeBgClass: 'bg-cyan-600 text-white shadow-md shadow-cyan-500/20',
-    activeTextClass: 'text-cyan-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/services'),
   },
   {
@@ -265,9 +266,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'کاروبار',
     path: '/business',
     icon: Store,
-    bgClass: 'bg-amber-50 text-amber-600 hover:bg-amber-100/80',
-    activeBgClass: 'bg-amber-500 text-white shadow-md shadow-amber-500/20',
-    activeTextClass: 'text-amber-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/business') || path.startsWith('/businesses'),
   },
   {
@@ -276,9 +277,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'الرٹس',
     path: '/alerts',
     icon: Bell,
-    bgClass: 'bg-red-50 text-red-600 hover:bg-red-100/80',
-    activeBgClass: 'bg-red-600 text-white shadow-md shadow-red-500/20',
-    activeTextClass: 'text-red-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/alerts'),
   },
   {
@@ -287,9 +288,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'تقریبات',
     path: '/events',
     icon: Calendar,
-    bgClass: 'bg-blue-50 text-blue-600 hover:bg-blue-100/80',
-    activeBgClass: 'bg-blue-600 text-white shadow-md shadow-blue-500/20',
-    activeTextClass: 'text-blue-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/events'),
   },
   {
@@ -298,9 +299,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'ڈیلز اور آفرز',
     path: '/deals',
     icon: Tag,
-    bgClass: 'bg-green-50 text-green-600 hover:bg-green-100/80',
-    activeBgClass: 'bg-green-600 text-white shadow-md shadow-green-500/20',
-    activeTextClass: 'text-green-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/deals'),
   },
   {
@@ -309,9 +310,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'رائے عامہ سروے',
     path: '/polls',
     icon: Clock,
-    bgClass: 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100/80',
-    activeBgClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20',
-    activeTextClass: 'text-indigo-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/polls'),
   },
   {
@@ -320,9 +321,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'صفحات',
     path: '/pages',
     icon: Building2, // Reusing Building2
-    bgClass: 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100/80',
-    activeBgClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20',
-    activeTextClass: 'text-indigo-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/pages'),
   },
   {
@@ -331,9 +332,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'گروپس',
     path: '/social-groups',
     icon: Users,
-    bgClass: 'bg-blue-50 text-blue-600 hover:bg-blue-100/80',
-    activeBgClass: 'bg-blue-600 text-white shadow-md shadow-blue-500/20',
-    activeTextClass: 'text-blue-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string) => path.startsWith('/social-groups'),
   },
   {
@@ -342,9 +343,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'چیٹ',
     path: '/chat',
     icon: MessageSquare,
-    bgClass: 'bg-pink-50 text-pink-600 hover:bg-pink-100/80',
-    activeBgClass: 'bg-pink-600 text-white shadow-md shadow-pink-500/20',
-    activeTextClass: 'text-pink-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string, activeTab: string) => activeTab === 'chat',
     hasBadge: true,
   },
@@ -354,9 +355,9 @@ const NAV_ITEMS_CONFIG = [
     labelUr: 'پروفائل',
     path: '/profile',
     icon: UserIcon,
-    bgClass: 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100/80',
-    activeBgClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20',
-    activeTextClass: 'text-indigo-600 font-extrabold',
+    bgClass: 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50',
+    activeBgClass: 'bg-[#308B54] text-white shadow-md shadow-emerald-500/20',
+    activeTextClass: 'text-[#308B54] font-extrabold',
     isActive: (path: string, activeTab: string) => activeTab === 'profile',
   }
 ];
@@ -385,11 +386,11 @@ export function DesktopSidebar({
   return (
     <aside 
       id="desktop-sidebar"
-      className="hidden md:flex flex-col fixed top-0 start-0 bottom-0 w-[72px] lg:w-[240px] bg-white border-e border-slate-200 z-50 h-screen shadow-sm shrink-0 transition-all duration-300"
+      className="hidden md:flex flex-col fixed top-0 left-0 bottom-0 w-[72px] lg:w-[240px] bg-white border-e border-slate-200 z-50 h-screen shadow-sm shrink-0 transition-all duration-300"
     >
       {/* Brand Logo & Slogan Area */}
       <div className="p-4 lg:p-5 border-b border-slate-100 flex items-center justify-center lg:justify-start gap-3.5 shrink-0 h-20">
-        <div className="p-2.5 bg-blue-600 text-white rounded-xl shadow-md shrink-0 transition-transform hover:scale-105 duration-200">
+        <div className="p-2.5 bg-emerald-600 text-white rounded-2xl shadow-md shrink-0 transition-transform hover:scale-105 duration-200">
           <svg className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
@@ -412,9 +413,9 @@ export function DesktopSidebar({
             <button
               key={item.id}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center justify-center lg:justify-start gap-3 p-2 rounded-xl transition-all duration-200 group relative cursor-pointer ${
+              className={`w-full flex items-center justify-center lg:justify-start gap-3 p-2 rounded-2xl transition-all duration-200 group relative cursor-pointer ${
                 active 
-                  ? 'bg-blue-50/80 border-s-4 border-blue-600 ps-1 lg:ps-1.5 font-bold shadow-xs' 
+                  ? 'bg-emerald-50/80 border-s-4 border-emerald-600 ps-1 lg:ps-1.5 font-bold shadow-xs' 
                   : 'hover:bg-slate-50'
               }`}
               id={`sidebar-btn-${item.id}`}
@@ -435,7 +436,7 @@ export function DesktopSidebar({
               <div className="hidden lg:flex flex-col min-w-0 text-start">
                 <span className={`text-xs transition-colors font-semibold leading-tight ${
                   active 
-                    ? 'text-blue-600 font-extrabold' 
+                    ? item.activeTextClass 
                     : 'text-slate-600 font-bold group-hover:text-slate-950'
                 }`}>
                   {currentLanguage === 'en' ? item.labelEn : item.labelUr}
@@ -460,7 +461,7 @@ export function DesktopSidebar({
         <div className="hidden lg:block pt-3 border-t border-slate-100 mt-2">
           <button
             onClick={() => navigate('/jobs/post')}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer border-0"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer border-0"
           >
             <PlusCircle className="w-4 h-4 text-white" />
             <span>{currentLanguage === 'en' ? 'Post a Job' : 'نوکری پوسٹ کریں'}</span>
@@ -483,12 +484,12 @@ export function DesktopSidebar({
                 className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-xs shrink-0 group-hover:scale-105 transition-transform" 
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-sm border border-indigo-100 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm border border-emerald-100 shrink-0">
                 {(user.fullName || '')?.substring(0, 2)?.toUpperCase()}
               </div>
             )}
             <div className="hidden lg:block text-start min-w-0">
-              <p className="text-xs font-black text-slate-800 leading-tight truncate group-hover:text-blue-600 transition-colors">
+              <p className="text-xs font-black text-slate-800 leading-tight truncate group-hover:text-emerald-600 transition-colors">
                 {user.fullName}
               </p>
               <p className="text-[10px] font-bold text-slate-400 truncate">
@@ -499,7 +500,7 @@ export function DesktopSidebar({
           
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2.5 px-2 lg:px-4 py-2.5 text-xs font-black text-red-600 hover:text-white hover:bg-red-600 rounded-xl border border-red-100 hover:border-red-600 transition-all duration-200 cursor-pointer shadow-sm hover:shadow"
+            className="w-full flex items-center justify-center gap-2.5 px-2 lg:px-4 py-2.5 text-xs font-black text-red-600 hover:text-white hover:bg-red-600 rounded-2xl border border-red-100 hover:border-red-600 transition-all duration-200 cursor-pointer shadow-sm hover:shadow"
             title={currentLanguage === 'en' ? 'Sign Out' : 'لاگ آؤٹ'}
           >
             <LogOut className="w-4 h-4 shrink-0" />
@@ -576,7 +577,7 @@ export function MobileBottomNav({
 
               {/* Text Label */}
               <span className={`text-[8px] mt-1 tracking-tighter text-center truncate w-full ${
-                active ? 'text-slate-950 font-black' : 'text-slate-500 font-extrabold'
+                active ? 'text-emerald-950 font-black' : 'text-slate-500 font-extrabold'
               }`}>
                 {currentLanguage === 'en' ? item.labelEn?.split(' ')[0] : item.labelUr}
               </span>
@@ -607,8 +608,8 @@ export function MobileBottomNav({
           <div 
             className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
               isMoreActive 
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' 
-                : 'bg-slate-50 text-slate-600 hover:bg-slate-100/80'
+                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20' 
+                : 'bg-emerald-50/50 text-[#308B54] hover:bg-emerald-50'
             }`}
           >
             <MoreHorizontal className="w-5.5 h-5.5 stroke-[2.2]" />
@@ -616,7 +617,7 @@ export function MobileBottomNav({
 
           {/* Text Label */}
           <span className={`text-[8px] mt-1 tracking-tighter text-center truncate w-full ${
-            isMoreActive ? 'text-slate-950 font-black' : 'text-slate-500 font-extrabold'
+            isMoreActive ? 'text-emerald-950 font-black' : 'text-slate-500 font-extrabold'
           }`}>
             {currentLanguage === 'en' ? 'More' : 'مزید'}
           </span>
@@ -1160,6 +1161,12 @@ export default function AppShell({
     } else if (path === '/groups/manage' && paramId) {
       url = `/groups/manage?groupId=${paramId}`;
       setSelectedGroupId(paramId);
+    } else if (path === '/social-groups/manage' && paramId) {
+      url = `/social-groups/manage?groupId=${paramId}`;
+      setSelectedGroupId(paramId);
+    } else if (path === '/social-groups/detail' && paramId) {
+      url = `/social-groups/detail?groupId=${paramId}`;
+      setSelectedGroupId(paramId);
     }
     window.history.pushState({}, '', url);
     setCurrentPath(path);
@@ -1297,6 +1304,45 @@ export default function AppShell({
     window.addEventListener('unread-count-changed', handleUnreadChange);
     return () => window.removeEventListener('unread-count-changed', handleUnreadChange);
   }, []);
+
+  React.useEffect(() => {
+    if (!isSupabaseConfigured || !supabase || !user.id) return;
+
+    let isMounted = true;
+    let channel: any;
+
+    const fetchUnreadCount = async () => {
+      const count = await dbGetTotalUnreadMessages(user.id!);
+      if (isMounted) {
+        setUnreadChatCount(count);
+      }
+    };
+
+    fetchUnreadCount();
+
+    channel = supabase
+      .channel(`global-chat-badge-${user.id}`)
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'messages'
+      }, () => {
+        // Any change in messages could affect unread count
+        fetchUnreadCount();
+      })
+      .subscribe((status, err) => {
+        if (status === 'CHANNEL_ERROR' || err) {
+          console.warn("Global chat badge subscription failed:", err || status);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, [user.id]);
 
   const [quickAction, setQuickAction] = useState<string | null>(null); // To view specific category list
 
@@ -1688,7 +1734,7 @@ export default function AppShell({
   const [storyPhoto, setStoryPhoto] = useState<string | null>(null);
   const [storyCaption, setStoryCaption] = useState('');
   const [storyTextContent, setStoryTextContent] = useState('');
-  const [storyBg, setStoryBg] = useState('from-purple-600 to-pink-500');
+  const [storyBg, setStoryBg] = useState('from-emerald-600 to-emerald-500');
   const [storyCamActive, setStoryCamActive] = useState(false);
   const storyVideoRef = React.useRef<HTMLVideoElement | null>(null);
   const storyStreamRef = React.useRef<MediaStream | null>(null);
@@ -2174,6 +2220,7 @@ export default function AppShell({
         isLiked={isLiked}
         likeCount={count}
         currentLanguage={currentLanguage}
+        currentUser={profileData}
         onLike={handleLikePost}
         onComment={(postId, text) => handleCommentAdd(postId, text)}
         isEntityVerified={isEntityVerified}
@@ -2194,18 +2241,18 @@ export default function AppShell({
     let items: any[] = [];
     let title = '';
     let iconColor = 'text-primary';
-    let bgColor = 'bg-blue-50';
+    let bgColor = 'bg-emerald-50';
 
     if (quickAction === 'jobs') {
       items = mockJobs;
       title = t.jobs;
-      iconColor = 'text-blue-600';
-      bgColor = 'bg-blue-50';
+      iconColor = 'text-emerald-600';
+      bgColor = 'bg-emerald-50';
     } else if (quickAction === 'property') {
       items = mockProperties;
       title = t.property;
-      iconColor = 'text-indigo-600';
-      bgColor = 'bg-indigo-50';
+      iconColor = 'text-emerald-600';
+      bgColor = 'bg-emerald-50';
     } else if (quickAction === 'buy-sell') {
       items = mockBuySell;
       title = t.buySell;
@@ -2214,8 +2261,8 @@ export default function AppShell({
     } else if (quickAction === 'business') {
       items = mockBusinesses;
       title = t.business;
-      iconColor = 'text-purple-600';
-      bgColor = 'bg-purple-50';
+      iconColor = 'text-emerald-600';
+      bgColor = 'bg-emerald-50';
     }
 
     // Filter items by search query if any
@@ -2236,7 +2283,7 @@ export default function AppShell({
       <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm mb-6 animate-fade-in">
         <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className={`p-2.5 rounded-xl ${bgColor}`}>
+            <div className={`p-2.5 rounded-2xl ${bgColor}`}>
               {quickAction === 'jobs' && <Briefcase className={`w-5 h-5 ${iconColor}`} />}
               {quickAction === 'property' && <Building2 className={`w-5 h-5 ${iconColor}`} />}
               {quickAction === 'buy-sell' && <ShoppingBag className={`w-5 h-5 ${iconColor}`} />}
@@ -2253,7 +2300,7 @@ export default function AppShell({
           </div>
           <button 
             onClick={() => { setQuickAction(null); setSearchQuery(''); }}
-            className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+            className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-600 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -2269,7 +2316,7 @@ export default function AppShell({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
+            className="w-full ps-10 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
           />
         </div>
 
@@ -2283,19 +2330,19 @@ export default function AppShell({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredItems.map((item) => (
-              <div key={item.id} className="p-4 border border-slate-100 rounded-xl hover:border-slate-300 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
+              <div key={item.id} className="p-4 border border-slate-100 rounded-2xl hover:border-slate-300 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start gap-2 mb-2">
                     <h4 className="font-bold text-slate-900 text-sm md:text-base leading-tight">
                       {item.title || item.name}
                     </h4>
                     {item.price && (
-                      <span className="text-xs font-bold px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-lg shrink-0">
+                      <span className="text-xs font-bold px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-xl shrink-0">
                         {item.price}
                       </span>
                     )}
                     {item.salary && (
-                      <span className="text-xs font-bold px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg shrink-0">
+                      <span className="text-xs font-bold px-2 py-1 bg-emerald-50 text-emerald-700 border border-blue-200 rounded-xl shrink-0">
                         {item.salary}
                       </span>
                     )}
@@ -2303,7 +2350,7 @@ export default function AppShell({
 
                   {/* Visual preview if it is buy and sell */}
                   {item.image && (
-                    <div className="my-3 rounded-lg overflow-hidden h-36 bg-slate-100">
+                    <div className="my-3 rounded-xl overflow-hidden h-36 bg-slate-100">
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                     </div>
                   )}
@@ -2321,14 +2368,14 @@ export default function AppShell({
                 <div className="flex items-center gap-2 pt-3 border-t border-slate-100 mt-2">
                   <a 
                     href={`tel:${item.contact}`}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-action hover:bg-action-dark text-white text-xs font-semibold rounded-lg shadow-sm transition-all duration-150"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-action hover:bg-action-dark text-white text-xs font-semibold rounded-xl shadow-sm transition-all duration-150"
                   >
                     <Phone className="w-3.5 h-3.5" />
                     {currentLanguage === 'en' ? 'Call Now' : 'کال کریں'}
                   </a>
                   <button 
                     onClick={() => alert(currentLanguage === 'en' ? 'Listing details saved successfully!' : 'اشتہار کامیابی سے محفوظ کر لیا گیا ہے!')}
-                    className="py-2 px-3 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-lg text-xs font-semibold transition-colors"
+                    className="py-2 px-3 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl text-xs font-semibold transition-colors"
                   >
                     {currentLanguage === 'en' ? 'Save' : 'محفوظ کریں'}
                   </button>
@@ -2716,7 +2763,7 @@ export default function AppShell({
     return (
       <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm mb-6 overflow-hidden" id="lost-found-quick-post-section">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100">
+        <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-emerald-50 to-emerald-50 border-b border-amber-100">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-xl shrink-0">
               🔍
@@ -2732,7 +2779,7 @@ export default function AppShell({
           </div>
           <button
             onClick={() => setShowLostFoundComposer(!showLostFoundComposer)}
-            className={`px-4 py-2 text-xs font-black rounded-xl transition-all cursor-pointer border-0 flex items-center gap-1.5 ${showLostFoundComposer ? 'bg-slate-200 text-slate-700' : 'bg-amber-500 hover:bg-amber-600 text-white shadow-sm'}`}
+            className={`px-4 py-2 text-xs font-black rounded-2xl transition-all cursor-pointer border-0 flex items-center gap-1.5 ${showLostFoundComposer ? 'bg-slate-200 text-slate-700' : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm'}`}
             id="lost-found-toggle-btn"
           >
             {showLostFoundComposer ? (
@@ -2747,11 +2794,11 @@ export default function AppShell({
         {showLostFoundComposer && (
           <div className="p-5 space-y-4 animate-fade-in" id="lost-found-form">
             {/* Lost / Found Toggle */}
-            <div className="flex bg-slate-100 p-1 rounded-xl gap-1">
+            <div className="flex bg-slate-100 p-1 rounded-2xl gap-1">
               <button
                 type="button"
                 onClick={() => setLfPostType('lost')}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${lfPostType === 'lost' ? 'bg-red-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                className={`flex-1 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${lfPostType === 'lost' ? 'bg-red-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 id="lf-type-lost-btn"
               >
                 🔍 {currentLanguage === 'en' ? 'I Lost Something' : 'کچھ گم ہو گیا'}
@@ -2759,7 +2806,7 @@ export default function AppShell({
               <button
                 type="button"
                 onClick={() => setLfPostType('found')}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${lfPostType === 'found' ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                className={`flex-1 py-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${lfPostType === 'found' ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 id="lf-type-found-btn"
               >
                 ✅ {currentLanguage === 'en' ? 'I Found Something' : 'کچھ مل گیا'}
@@ -2776,7 +2823,7 @@ export default function AppShell({
                 value={lfTitle}
                 onChange={(e) => setLfTitle(e.target.value)}
                 placeholder={currentLanguage === 'en' ? (lfPostType === 'lost' ? 'e.g. Black wallet, Blue bicycle...' : 'e.g. Found keys, Found phone...') : (lfPostType === 'lost' ? 'مثلاً: کالا بٹوہ، نیلی سائیکل...' : 'مثلاً: چابیاں ملی، موبائل ملا...')}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
                 id="lf-title-input"
               />
             </div>
@@ -2803,10 +2850,10 @@ export default function AppShell({
                   className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-2xl transition-all cursor-pointer ${
                     lfIsSubmitting
                       ? 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed'
-                      : 'bg-amber-50/20 border-amber-200 hover:bg-amber-50/50 text-amber-805'
+                      : 'bg-emerald-50/20 border-amber-200 hover:bg-emerald-50/50 text-amber-805'
                   }`}
                 >
-                  <Upload className="w-6 h-6 text-amber-600" />
+                  <Upload className="w-6 h-6 text-emerald-600" />
                   <span className="text-xs font-black">
                     {currentLanguage === 'en' ? 'Upload Photos' : 'تصاویر اپ لوڈ کریں'}
                   </span>
@@ -2827,7 +2874,7 @@ export default function AppShell({
                 {lfPreviews.length > 0 && (
                   <div className="grid grid-cols-5 gap-2 mt-2" id="lf-photos-preview-grid">
                     {lfPreviews.map((url, index) => (
-                      <div key={index} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group">
+                      <div key={index} className="relative aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 group">
                         <img src={url} alt="preview" className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -2856,7 +2903,7 @@ export default function AppShell({
                 value={lfDescription}
                 onChange={(e) => setLfDescription(e.target.value)}
                 placeholder={currentLanguage === 'en' ? 'Describe the item, color, size, brand, when & where...' : 'چیز کی تفصیل، رنگ، سائز، برانڈ، کب اور کہاں...'}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all resize-none min-h-[80px]"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all resize-none min-h-[80px]"
                 rows={3}
                 id="lf-description-input"
               />
@@ -2873,7 +2920,7 @@ export default function AppShell({
                   value={lfLocation}
                   onChange={(e) => setLfLocation(e.target.value)}
                   placeholder={currentLanguage === 'en' ? 'e.g. Near main gate, Block B...' : 'مثلاً: مین گیٹ کے قریب، بلاک بی...'}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
                   id="lf-location-input"
                 />
               </div>
@@ -2886,7 +2933,7 @@ export default function AppShell({
                   value={lfContact}
                   onChange={(e) => setLfContact(e.target.value)}
                   placeholder={currentLanguage === 'en' ? 'Phone or WhatsApp number' : 'فون یا واٹس ایپ نمبر'}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
                   id="lf-contact-input"
                 />
               </div>
@@ -2897,7 +2944,7 @@ export default function AppShell({
               <button
                 type="button"
                 onClick={() => setShowLostFoundComposer(false)}
-                className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-black rounded-xl transition-all cursor-pointer border-0"
+                className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-black rounded-2xl transition-all cursor-pointer border-0"
               >
                 {currentLanguage === 'en' ? 'Cancel' : 'منسوخ کریں'}
               </button>
@@ -2905,7 +2952,7 @@ export default function AppShell({
                 type="button"
                 onClick={handleLostFoundPost}
                 disabled={lfIsSubmitting || !lfTitle?.trim() || !lfDescription?.trim()}
-                className={`flex-1 py-2.5 px-4 text-white text-xs font-black rounded-xl transition-all cursor-pointer border-0 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${lfPostType === 'lost' ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'}`}
+                className={`flex-1 py-2.5 px-4 text-white text-xs font-black rounded-2xl transition-all cursor-pointer border-0 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${lfPostType === 'lost' ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'}`}
                 id="lf-submit-btn"
               >
                 {lfIsSubmitting
@@ -2933,7 +2980,7 @@ export default function AppShell({
           >
             <div className="relative w-14 h-14 rounded-full p-0.5 bg-slate-100 group-hover:bg-slate-200 transition-colors">
               <div className="w-full h-full rounded-full bg-slate-50 border-2 border-white flex items-center justify-center">
-                <Plus className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                <Plus className="w-6 h-6 text-slate-400 group-hover:text-emerald-500 transition-colors" />
               </div>
             </div>
             <span className="text-[10px] font-semibold text-slate-600 truncate w-16 text-center group-hover:text-slate-900">
@@ -2953,7 +3000,7 @@ export default function AppShell({
                 onClick={() => setViewingStoryIdx(flatIdx)}
                 className="flex flex-col items-center gap-1.5 shrink-0 cursor-pointer group snap-start"
               >
-                <div className={`relative w-14 h-14 rounded-full p-[2px] ${userStories.every(s => s.viewed) ? 'bg-slate-300' : 'bg-gradient-to-tr from-blue-500 via-pink-500 to-amber-500'} group-hover:scale-105 transition-transform duration-200`}>
+                <div className={`relative w-14 h-14 rounded-full p-[2px] ${userStories.every(s => s.viewed) ? 'bg-slate-300' : 'bg-gradient-to-tr from-emerald-500 via-emerald-500 to-emerald-500'} group-hover:scale-105 transition-transform duration-200`}>
                   <img 
                     src={ringStory.avatar} 
                     alt={ringStory.author}
@@ -2986,7 +3033,7 @@ export default function AppShell({
     const todayStr = new Date().toLocaleDateString(currentLanguage === 'en' ? 'en-US' : 'ur-PK', options);
 
     return (
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-lg p-6 shadow-md flex flex-col md:flex-row justify-between items-center gap-6 mb-6">
+      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center gap-6 mb-6">
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative flex items-center gap-4.5">
           <AppAvatar
@@ -3004,12 +3051,12 @@ export default function AppShell({
             <h2 className="text-h2 font-black leading-tight flex items-center gap-1.5 mt-0.5">
               {currentLanguage === 'en' ? `${greeting}, ${user.fullName}!` : `السلام علیکم، ${user.fullName}!`}
             </h2>
-            <p className="text-xs text-blue-100 font-semibold mt-1">
+            <p className="text-xs text-emerald-100 font-semibold mt-1">
               {todayStr}
             </p>
           </div>
         </div>
-        <div className="relative shrink-0 flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl text-xs font-black shadow-xs">
+        <div className="relative shrink-0 flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-2xl text-xs font-black shadow-xs">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
           <span>{currentLanguage === 'en' ? 'Verified Citizen' : 'تصدیق شدہ شہری'}</span>
         </div>
@@ -3019,20 +3066,20 @@ export default function AppShell({
 
   const renderQuickActions = () => {
     const actionItems = [
-      { id: 'post', titleEn: 'Create Post', titleUr: 'پوسٹ لکھیں', descEn: 'Share an update', descUr: 'اپڈیٹ شیئر کریں', icon: Send, path: '/feed', color: 'text-blue-500 bg-blue-50/50 hover:bg-blue-50' },
-      { id: 'lostfound', titleEn: 'Lost & Found', titleUr: 'گم شدہ / ملا', descEn: 'Report lost or found', descUr: 'گم یا ملی چیز کی اطلاع', icon: Search, path: '#', color: 'text-amber-500 bg-amber-50/50 hover:bg-amber-50' },
-      { id: 'polls', titleEn: 'Polls & Opinion', titleUr: 'رائے عامہ سروے', descEn: 'Participate & vote', descUr: 'رائے دیں اور ووٹ ڈالیں', icon: Clock, path: '/polls', color: 'text-indigo-500 bg-indigo-50/50 hover:bg-indigo-50' },
-      { id: 'marketplace', titleEn: 'Marketplace', titleUr: 'مارکیٹ', descEn: 'Buy & sell items', descUr: 'خرید و فروخت', icon: ShoppingBag, path: '/marketplace', color: 'text-purple-500 bg-purple-50/50 hover:bg-purple-50' },
+      { id: 'post', titleEn: 'Create Post', titleUr: 'پوسٹ لکھیں', descEn: 'Share an update', descUr: 'اپڈیٹ شیئر کریں', icon: Send, path: '/feed', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
+      { id: 'lostfound', titleEn: 'Lost & Found', titleUr: 'گم شدہ / ملا', descEn: 'Report lost or found', descUr: 'گم یا ملی چیز کی اطلاع', icon: Search, path: '#', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
+      { id: 'polls', titleEn: 'Polls & Opinion', titleUr: 'رائے عامہ سروے', descEn: 'Participate & vote', descUr: 'رائے دیں اور ووٹ ڈالیں', icon: Clock, path: '/polls', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
+      { id: 'marketplace', titleEn: 'Marketplace', titleUr: 'مارکیٹ', descEn: 'Buy & sell items', descUr: 'خرید و فروخت', icon: ShoppingBag, path: '/marketplace', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
       { id: 'jobs', titleEn: 'Local Jobs', titleUr: 'ملازمتیں', descEn: 'Find job vacancies', descUr: 'ملازمت تلاش کریں', icon: Briefcase, path: '/jobs', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
-      { id: 'property', titleEn: 'Properties', titleUr: 'پراپرٹی', descEn: 'Rent or buy homes', descUr: 'گھر یا دکان کرایہ پر', icon: Building2, path: '/property', color: 'text-orange-500 bg-orange-50/50 hover:bg-orange-50' },
-      { id: 'business', titleEn: 'Businesses', titleUr: 'کاروبار', descEn: 'Local business list', descUr: 'کاروبار دیکھیں', icon: Store, path: '/business', color: 'text-amber-500 bg-amber-50/50 hover:bg-amber-50' },
+      { id: 'property', titleEn: 'Properties', titleUr: 'پراپرٹی', descEn: 'Rent or buy homes', descUr: 'گھر یا دکان کرایہ پر', icon: Building2, path: '/property', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
+      { id: 'business', titleEn: 'Businesses', titleUr: 'کاروبار', descEn: 'Local business list', descUr: 'کاروبار دیکھیں', icon: Store, path: '/business', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
       { id: 'events', titleEn: 'Events', titleUr: 'تقاریب', descEn: 'Neighborhood activities', descUr: 'سرگرمیاں اور تقاریب', icon: Calendar, path: '/events', color: 'text-rose-500 bg-rose-50/50 hover:bg-rose-50' },
       { id: 'emergency', titleEn: 'Emergency', titleUr: 'ایمرجنسی', descEn: 'Report urgent alert', descUr: 'فوری اطلاع دیں', icon: AlertTriangle, path: '/alerts', color: 'text-red-500 bg-red-50/50 hover:bg-red-50' },
-      { id: 'services', titleEn: 'Services', titleUr: 'سروسز', descEn: 'Find local helpers', descUr: 'مددگار تلاش کریں', icon: Wrench, path: '/services', color: 'text-cyan-500 bg-cyan-50/50 hover:bg-cyan-50' },
+      { id: 'services', titleEn: 'Services', titleUr: 'سروسز', descEn: 'Find local helpers', descUr: 'مددگار تلاش کریں', icon: Wrench, path: '/services', color: 'text-emerald-500 bg-emerald-50/50 hover:bg-emerald-50' },
     ];
 
     return (
-      <div className="bg-white rounded-md border border-slate-200/60 p-5 shadow-xs mb-6">
+      <div className="bg-white rounded-xl border border-slate-200/60 p-5 shadow-xs mb-6">
         <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">
           ⚡ {currentLanguage === 'en' ? 'Quick Actions' : 'فوری روابط'}
         </h3>
@@ -3084,16 +3131,16 @@ export default function AppShell({
         </h3>
         
         <div className="grid grid-cols-2 gap-3.5">
-          <div className="p-3.5 bg-blue-50/50 border border-blue-100 rounded-2xl space-y-1 text-center hover:bg-blue-50 transition-all">
-            <span className="text-[10px] font-bold text-blue-600 block">{currentLanguage === 'en' ? 'Total Vacancies' : 'کل نوکریاں'}</span>
+          <div className="p-3.5 bg-emerald-50/50 border border-emerald-100 rounded-2xl space-y-1 text-center hover:bg-emerald-50 transition-all">
+            <span className="text-[10px] font-bold text-emerald-600 block">{currentLanguage === 'en' ? 'Total Vacancies' : 'کل نوکریاں'}</span>
             <span className="text-xl font-black text-slate-900 block">{jobs.length}</span>
           </div>
-          <div className="p-3.5 bg-purple-50/50 border border-purple-100 rounded-2xl space-y-1 text-center hover:bg-purple-50 transition-all">
-            <span className="text-[10px] font-bold text-purple-600 block">{currentLanguage === 'en' ? 'Local Shops' : 'مقامی کاروبار'}</span>
+          <div className="p-3.5 bg-emerald-50/50 border border-purple-100 rounded-2xl space-y-1 text-center hover:bg-emerald-50 transition-all">
+            <span className="text-[10px] font-bold text-emerald-600 block">{currentLanguage === 'en' ? 'Local Shops' : 'مقامی کاروبار'}</span>
             <span className="text-xl font-black text-slate-900 block">{businesses.length}</span>
           </div>
-          <div className="p-3.5 bg-orange-50/50 border border-orange-100 rounded-2xl space-y-1 text-center hover:bg-orange-50 transition-all">
-            <span className="text-[10px] font-bold text-orange-600 block">{currentLanguage === 'en' ? 'Properties' : 'پراپرٹیز'}</span>
+          <div className="p-3.5 bg-emerald-50/50 border border-orange-100 rounded-2xl space-y-1 text-center hover:bg-emerald-50 transition-all">
+            <span className="text-[10px] font-bold text-emerald-600 block">{currentLanguage === 'en' ? 'Properties' : 'پراپرٹیز'}</span>
             <span className="text-xl font-black text-slate-900 block">{properties.length}</span>
           </div>
           <div className="p-3.5 bg-rose-50/50 border border-rose-100 rounded-2xl space-y-1 text-center hover:bg-rose-50 transition-all">
@@ -3112,7 +3159,7 @@ export default function AppShell({
           <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider">
             🔥 {currentLanguage === 'en' ? 'Trending Deals' : 'ٹرینڈنگ ڈیلز'}
           </h3>
-          <button onClick={() => navigate('/deals')} className="text-[10px] font-black text-blue-600 hover:underline cursor-pointer border-0 bg-transparent">
+          <button onClick={() => navigate('/deals')} className="text-[10px] font-black text-emerald-600 hover:underline cursor-pointer border-0 bg-transparent">
             {currentLanguage === 'en' ? 'All' : 'تمام'}
           </button>
         </div>
@@ -3126,7 +3173,7 @@ export default function AppShell({
                 onClick={() => navigate('/deals/detail', deal.id)}
                 className="p-3 flex gap-3 hover:-translate-y-0.5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-all duration-200 cursor-pointer shadow-xs"
               >
-                <img src={displayImg} alt="" className="w-12 h-12 rounded-lg object-cover border border-slate-200 shrink-0 shadow-inner" />
+                <img src={displayImg} alt="" className="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0 shadow-inner" />
                 <div className="min-w-0 flex-1 space-y-1">
                   <h4 className="text-xs font-extrabold text-slate-800 truncate leading-tight">{deal.title}</h4>
                   <p className="text-[10px] text-slate-400 font-semibold truncate font-bold">🏢 {deal.businessName}</p>
@@ -3144,7 +3191,7 @@ export default function AppShell({
 
   const renderStatusComposer = () => {
     return (
-      <div className="bg-white rounded-md border border-slate-200/60 p-4 mb-6 shadow-xs space-y-4" id="premium-status-composer">
+      <div className="bg-white rounded-xl border border-slate-200/60 p-4 mb-6 shadow-xs space-y-4" id="premium-status-composer">
         <div className="flex gap-3">
           <AppAvatar
             name={profileData.fullName ?? "Unknown User"}
@@ -3157,13 +3204,13 @@ export default function AppShell({
               value={composerText}
               onChange={(e) => setComposerText(e.target.value)}
               placeholder={currentLanguage === 'en' ? "What's on your mind today, neighbor?" : "پڑوسی، آج آپ کے دل میں کیا ہے؟"}
-              className="w-full text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-200/60 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/60 resize-none transition-all duration-150 min-h-[70px]"
+              className="w-full text-sm text-slate-800 placeholder-slate-400 bg-slate-50 border border-slate-200/60 rounded-2xl p-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/60 resize-none transition-all duration-150 min-h-[70px]"
             />
           </div>
         </div>
 
         {composerImagePreview && (
-          <div className="relative ms-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
+          <div className="relative ms-12 rounded-2xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
             <img src={composerImagePreview} alt="Selected upload" className="w-full h-auto object-contain block" />
             <button 
               onClick={() => {
@@ -3179,7 +3226,7 @@ export default function AppShell({
         )}
 
         {composerVideoPreview && (
-          <div className="relative ms-12 rounded-xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
+          <div className="relative ms-12 rounded-2xl overflow-hidden border border-slate-100 bg-slate-50 mb-3">
             <video src={composerVideoPreview} controls preload="metadata" className="w-full h-auto max-h-[400px] object-contain block bg-black/5" />
             <button 
               onClick={() => {
@@ -3197,7 +3244,7 @@ export default function AppShell({
         {composerLocation !== null && (
           <div className="flex items-center ms-12 mb-3 max-w-[240px]" id="composer-location-input-container">
             <div className="relative flex-1 flex items-center">
-              <MapPin className="absolute start-3 w-4 h-4 text-blue-500 shrink-0" />
+              <MapPin className="absolute start-3 w-4 h-4 text-emerald-500 shrink-0" />
               <select
                 value={composerLocation}
                 onChange={(e) => {
@@ -3210,7 +3257,7 @@ export default function AppShell({
                     setComposerLongitude(matched.longitude);
                   }
                 }}
-                className="w-full ps-9 pe-8 py-2 text-xs bg-slate-50 border border-slate-200/80 rounded-xl text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold appearance-none"
+                className="w-full ps-9 pe-8 py-2 text-xs bg-slate-50 border border-slate-200/80 rounded-2xl text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all font-semibold appearance-none"
                 id="composer-location-input"
               >
                 {STATIC_AREAS.map((a) => (
@@ -3237,7 +3284,7 @@ export default function AppShell({
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
           <div className="flex items-center gap-2">
-            <label className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-bold cursor-pointer transition-colors border border-slate-200/40">
+            <label className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl text-xs font-bold cursor-pointer transition-colors border border-slate-200/40">
               <Camera className="w-4 h-4 text-emerald-500" />
               <span>📷 {currentLanguage === 'en' ? 'Photo' : 'تصویر'}</span>
               <input 
@@ -3249,7 +3296,7 @@ export default function AppShell({
             </label>
             
             {/* Video Upload Button */}
-            <label className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-bold cursor-pointer transition-colors border border-slate-200/40">
+            <label className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl text-xs font-bold cursor-pointer transition-colors border border-slate-200/40">
               <span className="text-sm">🎥</span>
               <span>{currentLanguage === 'en' ? 'Video' : 'ویڈیو'}</span>
               <input 
@@ -3266,8 +3313,8 @@ export default function AppShell({
             <button 
               type="button" 
               onClick={handleDetectLocation}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
-                composerLocation !== null ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-bold border transition-colors cursor-pointer ${
+                composerLocation !== null ? 'bg-emerald-50 border-blue-200 text-emerald-600' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
               📍 <span>{composerLocation || (currentLanguage === 'en' ? 'Location' : 'مقام')}</span>
@@ -3277,7 +3324,7 @@ export default function AppShell({
             type="submit" 
             onClick={handleCreateComposerPost}
             disabled={!composerText.trim() && !composerImagePreview && !composerVideoPreview}
-            className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-gradient-to-r from-emerald-600 to-emerald-600 hover:from-emerald-700 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentLanguage === 'en' ? 'Post' : 'پوسٹ کریں'}
           </button>
@@ -3334,7 +3381,7 @@ export default function AppShell({
                 stopStoryCam();
                 setShowAddStoryModal(false);
               }}
-              className="p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-lg transition-all cursor-pointer"
+              className="p-1.5 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded-xl transition-all cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -3349,7 +3396,7 @@ export default function AppShell({
                   setStoryType('photo');
                   stopStoryCam();
                 }}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${storyType === 'photo' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                className={`flex-1 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer ${storyType === 'photo' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
               >
                 📸 {currentLanguage === 'en' ? 'Photo Story' : 'تصویر اسٹیٹس'}
               </button>
@@ -3359,7 +3406,7 @@ export default function AppShell({
                   setStoryType('text');
                   stopStoryCam();
                 }}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${storyType === 'text' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                className={`flex-1 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer ${storyType === 'text' ? 'bg-white text-slate-950 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
               >
                 ✍️ {currentLanguage === 'en' ? 'Text Status' : 'ٹیکسٹ اسٹیٹس'}
               </button>
@@ -3392,7 +3439,7 @@ export default function AppShell({
                       </div>
                     ) : (
                       <div className="aspect-[3/4] w-full max-w-[240px] mx-auto rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-4 text-center gap-3">
-                        <div className="p-3 bg-blue-50 text-blue-600 rounded-full">
+                        <div className="p-3 bg-emerald-50 text-emerald-600 rounded-full">
                           <Camera className="w-6 h-6" />
                         </div>
                         <p className="text-[11px] font-bold text-slate-700">
@@ -3403,7 +3450,7 @@ export default function AppShell({
 
                     <div className="flex gap-3 w-full mt-4">
                       {/* File select */}
-                      <label className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-xs font-bold text-slate-700 cursor-pointer shadow-xs">
+                      <label className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-xs font-bold text-slate-700 cursor-pointer shadow-xs">
                         <input
                           type="file"
                           accept="image/*"
@@ -3425,7 +3472,7 @@ export default function AppShell({
                         <button
                           type="button"
                           onClick={stopStoryCam}
-                          className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                          className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition-all cursor-pointer"
                         >
                           ❌ {currentLanguage === 'en' ? 'Stop' : 'بند کریں'}
                         </button>
@@ -3433,7 +3480,7 @@ export default function AppShell({
                         <button
                           type="button"
                           onClick={startStoryCam}
-                          className="flex-1 py-2.5 px-4 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
+                          className="flex-1 py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 border border-blue-200 text-emerald-700 rounded-2xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
                         >
                           <Video className="w-3.5 h-3.5" />
                           <span>{currentLanguage === 'en' ? 'Use Camera' : 'کیمرہ'}</span>
@@ -3464,7 +3511,7 @@ export default function AppShell({
                         value={storyCaption}
                         onChange={(e) => setStoryCaption(e.target.value)}
                         placeholder={currentLanguage === 'en' ? "Write a short caption..." : "مختصر تفصیل لکھیں..."}
-                        className="w-full bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-100 border border-slate-200 rounded-xl py-2 px-3 text-xs font-medium focus:outline-none transition-all"
+                        className="w-full bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-100 border border-slate-200 rounded-2xl py-2 px-3 text-xs font-medium focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -3489,7 +3536,7 @@ export default function AppShell({
                       value={storyTextContent}
                       onChange={(e) => setStoryTextContent(e.target.value)}
                       placeholder={currentLanguage === 'en' ? "What is on your mind?" : "آپ کے دماغ میں کیا ہے؟"}
-                      className="w-full bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-100 border border-slate-200 rounded-xl py-2 px-3 text-xs font-medium focus:outline-none transition-all resize-none h-20"
+                      className="w-full bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-100 border border-slate-200 rounded-2xl py-2 px-3 text-xs font-medium focus:outline-none transition-all resize-none h-20"
                     />
                   </div>
 
@@ -3500,18 +3547,18 @@ export default function AppShell({
                     </label>
                     <div className="flex gap-2.5 overflow-x-auto pb-1">
                       {[
-                        'from-purple-600 to-pink-500',
-                        'from-blue-600 to-cyan-500',
-                        'from-orange-500 to-yellow-500',
-                        'from-emerald-600 to-teal-500',
+                        'from-emerald-600 to-emerald-500',
+                        'from-emerald-600 to-emerald-500',
+                        'from-emerald-500 to-yellow-500',
+                        'from-emerald-600 to-emerald-500',
                         'from-slate-800 to-slate-900',
-                        'from-red-600 to-pink-600'
+                        'from-red-600 to-emerald-600'
                       ].map((grad) => (
                         <button
                           key={grad}
                           type="button"
                           onClick={() => setStoryBg(grad)}
-                          className={`w-8 h-8 rounded-full bg-gradient-to-br ${grad} shrink-0 transition-all cursor-pointer ${storyBg === grad ? 'scale-110 ring-2 ring-blue-500 ring-offset-2' : 'hover:scale-105'}`}
+                          className={`w-8 h-8 rounded-full bg-gradient-to-br ${grad} shrink-0 transition-all cursor-pointer ${storyBg === grad ? 'scale-110 ring-2 ring-emerald-500 ring-offset-2' : 'hover:scale-105'}`}
                         />
                       ))}
                     </div>
@@ -3527,13 +3574,13 @@ export default function AppShell({
                   stopStoryCam();
                   setShowAddStoryModal(false);
                 }}
-                className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer"
+                className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl transition-all cursor-pointer"
               >
                 {currentLanguage === 'en' ? 'Cancel' : 'منسوخ کریں'}
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 bg-[#2563eb] hover:bg-blue-600 text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer"
+                className="flex-1 py-2.5 bg-[#2563eb] hover:bg-emerald-600 text-white text-xs font-bold rounded-2xl shadow-md transition-all cursor-pointer"
               >
                 🚀 {currentLanguage === 'en' ? 'Publish' : 'شائع کریں'}
               </button>
@@ -3665,7 +3712,7 @@ export default function AppShell({
           {/* Center Stage Render */}
           <div className="flex-1 flex items-center justify-center bg-slate-950 relative h-full">
             {story.type === 'text' ? (
-              <div className={`w-full h-full bg-gradient-to-br ${story.bgColor || 'from-purple-600 to-pink-500'} flex items-center justify-center p-8 text-center`}>
+              <div className={`w-full h-full bg-gradient-to-br ${story.bgColor || 'from-emerald-600 to-emerald-500'} flex items-center justify-center p-8 text-center`}>
                 <h3 className="text-xl sm:text-2xl font-black text-white tracking-wide leading-relaxed drop-shadow-md select-text break-words max-w-full">
                   {story.text}
                 </h3>
@@ -3764,7 +3811,7 @@ export default function AppShell({
       />
 
       {/* 2. MAIN CONTAINER (Header + Scrollable Main Content on the right) */}
-      <div className="h-full flex flex-col min-w-0 overflow-hidden relative ms-0 md:ms-[72px] lg:ms-[240px] transition-all duration-300">
+      <div className="h-full flex flex-col min-w-0 overflow-hidden relative ml-0 md:ml-[72px] lg:ml-[240px] transition-all duration-300">
         
         {/* MOBILE & DESKTOP HEADER */}
         <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>
@@ -3772,7 +3819,7 @@ export default function AppShell({
             
             {/* Brand Logo & Slogan (Only visible on Mobile since Desktop has it in sidebar) */}
             <div className="flex items-center gap-2.5 lg:hidden">
-              <div className="p-2 bg-primary text-white rounded-xl shadow-sm">
+              <div className="p-2 bg-primary text-white rounded-2xl shadow-sm">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -3783,7 +3830,7 @@ export default function AppShell({
                 </h1>
                 <button
                   onClick={() => navigate('/settings')}
-                  className="text-[10px] text-blue-600 hover:underline mt-1 font-bold border-0 bg-transparent p-0 cursor-pointer flex items-center gap-0.5"
+                  className="text-[10px] text-emerald-600 hover:underline mt-1 font-bold border-0 bg-transparent p-0 cursor-pointer flex items-center gap-0.5"
                   title="Change Location"
                 >
                   📍 {user.area || 'Dhoke Hassu'}
@@ -3795,7 +3842,7 @@ export default function AppShell({
             <div className="hidden lg:flex items-center gap-2.5">
               <button
                 onClick={() => navigate('/settings')}
-                className="text-xs bg-blue-50 text-blue-600 hover:bg-blue-105 border border-blue-100 font-extrabold px-3 py-1 rounded-full uppercase cursor-pointer transition-all"
+                className="text-xs bg-emerald-50 text-emerald-600 hover:bg-blue-105 border border-emerald-100 font-extrabold px-3 py-1 rounded-full uppercase cursor-pointer transition-all"
                 title="Change Location"
               >
                 📍 {user.area || 'Dhoke Hassu'} Connected
@@ -3810,16 +3857,16 @@ export default function AppShell({
               {/* Bilingual Switcher */}
               <button
                 onClick={() => onLanguageChange(currentLanguage === 'en' ? 'ur' : 'en')}
-                className="h-10 px-3 flex items-center justify-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs rounded-xl font-bold transition-all duration-150 shrink-0 cursor-pointer border border-slate-200"
+                className="h-10 px-3 flex items-center justify-center gap-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs rounded-2xl font-bold transition-all duration-150 shrink-0 cursor-pointer border border-slate-200"
               >
-                <Globe className="w-4 h-4 text-blue-600" />
+                <Globe className="w-4 h-4 text-emerald-600" />
                 <span>{t.languageToggle}</span>
               </button>
 
               {/* Global Search Button */}
               <button
                 onClick={() => navigate('/search')}
-                className="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-blue-600 rounded-xl transition-all cursor-pointer border border-slate-200 shrink-0 relative"
+                className="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-emerald-600 rounded-2xl transition-all cursor-pointer border border-slate-200 shrink-0 relative"
                 title={currentLanguage === 'en' ? 'Search' : 'تلاش کریں'}
                 id="header-global-search-btn"
               >
@@ -3832,7 +3879,7 @@ export default function AppShell({
               <div className="relative">
                 <button
                   onClick={() => setIsNotifDropdownOpen(!isNotifDropdownOpen)}
-                  className="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-blue-600 rounded-xl transition-all cursor-pointer border border-slate-200 shrink-0 relative"
+                  className="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-emerald-600 rounded-2xl transition-all cursor-pointer border border-slate-200 shrink-0 relative"
                   title={currentLanguage === 'en' ? 'Notifications' : 'اطلاعات'}
                   id="header-notifications-bell-btn"
                 >
@@ -3857,7 +3904,7 @@ export default function AppShell({
                               await dbMarkAllNotificationsRead(profileData.id);
                             }
                           }}
-                          className="text-[10px] font-extrabold text-blue-600 border-0 bg-transparent cursor-pointer"
+                          className="text-[10px] font-extrabold text-emerald-600 border-0 bg-transparent cursor-pointer"
                         >
                           {currentLanguage === 'en' ? 'Mark all read' : 'سب کو پڑھا ہوا کریں'}
                         </button>
@@ -3893,7 +3940,8 @@ export default function AppShell({
                                 navigate(path, notif.relatedId);
                               }
                             }}
-                            className={`p-3 flex gap-2.5 items-start hover:bg-slate-50 cursor-pointer transition-colors ${!notif.read ? 'bg-blue-50/10' : ''}`}
+                            className={`p-3 flex gap-2.5 items-start hover:bg-slate-50 cursor-pointer transition-colors ${!notif.read ? 'bg-emerald-50/10' : ''}`}
+                            dir="ltr"
                           >
                             <ClickableAvatar 
                               userId={notif.senderId}
@@ -3902,8 +3950,8 @@ export default function AppShell({
                               size={32}
                               className="shrink-0 border"
                             />
-                            <div className="flex-1 min-w-0 space-y-0.5">
-                              <h5 className={`text-[11px] text-slate-800 leading-snug truncate ${!notif.read ? 'font-black' : 'font-semibold'}`}>
+                            <div className="flex-1 min-w-0 space-y-0.5 text-left">
+                              <h5 className={`text-[11px] text-slate-800 leading-snug truncate text-left ${!notif.read ? 'font-black' : 'font-semibold'}`}>
                                 {notif.title}
                               </h5>
                               <p className="text-[10px] text-slate-400 truncate leading-normal">
@@ -3912,7 +3960,7 @@ export default function AppShell({
                               <span className="text-[8px] text-slate-400 font-bold block">{notif.timeAgo}</span>
                             </div>
                             {!notif.read && (
-                              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 mt-1.5" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0 mt-1.5" />
                             )}
                           </div>
                         ))
@@ -3924,7 +3972,7 @@ export default function AppShell({
                         setIsNotifDropdownOpen(false);
                         navigate('/notifications');
                       }}
-                      className="w-full text-center py-2 text-[10px] font-black text-slate-500 hover:text-blue-600 border-t border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer"
+                      className="w-full text-center py-2 text-[10px] font-black text-slate-500 hover:text-emerald-600 border-t border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
                       {currentLanguage === 'en' ? 'See all notifications' : 'تمام اطلاعات دیکھیں'}
                     </button>
@@ -3935,7 +3983,7 @@ export default function AppShell({
               {/* Settings Gear Button */}
               <button
                 onClick={() => navigate('/settings')}
-                className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-blue-600 rounded-xl transition-all cursor-pointer border border-slate-200/40 shrink-0 flex items-center justify-center relative shadow-xs"
+                className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-emerald-600 rounded-2xl transition-all cursor-pointer border border-slate-200/40 shrink-0 flex items-center justify-center relative shadow-xs"
                 title={currentLanguage === 'en' ? 'Settings' : 'ترتیبات'}
                 id="header-settings-btn"
               >
@@ -3945,7 +3993,7 @@ export default function AppShell({
               {/* User Avatar Quick Access */}
               <button
                 onClick={() => navigate('/profile')}
-                className="p-1 hover:bg-slate-100 rounded-xl transition-all cursor-pointer border border-slate-200/40 shrink-0 flex items-center gap-1"
+                className="p-1 hover:bg-slate-100 rounded-2xl transition-all cursor-pointer border border-slate-200/40 shrink-0 flex items-center gap-1"
                 title={currentLanguage === 'en' ? 'View Profile' : 'پروفائل دیکھیں'}
                 id="header-profile-quick-btn"
               >
@@ -3960,7 +4008,7 @@ export default function AppShell({
               <button 
                 onClick={onLogout}
                 title="Logout"
-                className="lg:hidden p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl border border-slate-200/50 transition-all cursor-pointer shrink-0"
+                className="lg:hidden p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl border border-slate-200/50 transition-all cursor-pointer shrink-0"
               >
                 <LogOut className="w-4.5 h-4.5" />
               </button>
@@ -3973,20 +4021,14 @@ export default function AppShell({
           
           {/* Welcome/Banner component visible at top of Feed */}
           {activeTab === 'feed' && !quickAction && (
-            <div className="bg-white rounded-2xl border border-slate-200/60 p-5 sm:p-6 mb-6 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold text-slate-950 flex items-center gap-2">
-                  {t.welcomeBack}, {user.fullName}! 👋
-                </h2>
-                <p className="text-xs text-slate-500 mt-1">
-                  📍 {currentLanguage === 'en' ? `You are active in ${user.area}` : `آپ ${user.area} کے رہائشی زون میں ایکٹیو ہیں`} • {currentLanguage === 'en' ? 'Stay updated with your neighbors.' : 'اپنے پڑوسیوں کے ساتھ باخبر رہیں۔'}
-                </p>
+              <div className="bg-[#488e63] bg-gradient-to-b from-[#3d855a] to-[#26623e] -mx-4 sm:-mx-6 -mt-6 mb-6 px-6 pt-10 pb-12 text-white relative rounded-b-[40px] shadow-md z-10 flex flex-col justify-center items-center font-['Noto_Sans_Arabic']" dir="rtl">
+                <div className="absolute inset-0 opacity-15 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none rounded-b-[40px]"></div>
+                
+                <div className="relative z-10 text-center space-y-2 mt-4">
+                  <h1 className="text-3xl font-bold tracking-tight">خوش آمدید، {profileData?.fullName?.split(' ')[0] || 'دوست'}!</h1>
+                  <p className="text-sm font-medium opacity-90">آپ کے مقامی نیٹ ورک کا مرکز</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 border border-green-100 rounded-xl text-xs font-semibold shrink-0">
-                <span className="w-2 h-2 rounded-full bg-action animate-ping" />
-                {t.verifiedResident}
-              </div>
-            </div>
           )}
 
           {activeTab === 'home' && !quickAction && renderHeroSection()}
@@ -4014,7 +4056,7 @@ export default function AppShell({
           {activeTab === 'home' && !quickAction && !currentPath.startsWith('/jobs') && !currentPath.startsWith('/business') && !currentPath.startsWith('/property') && !currentPath.startsWith('/groups') && !currentPath.startsWith('/search') && !currentPath.startsWith('/settings') && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               {/* Main Column */}
-              <div className="lg:col-span-2 space-y-6">
+              <div className="lg:col-span-2 space-y-6 order-1 lg:order-2">
                 {renderStoriesBar()}
                 {renderStatusComposer()}
                 {renderLostFoundComposer()}
@@ -4040,21 +4082,21 @@ export default function AppShell({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => scrollSlider('home-jobs-preview-grid', 'left')}
-                    className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                    className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                     aria-label="Scroll Left"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => scrollSlider('home-jobs-preview-grid', 'right')}
-                    className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                    className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                     aria-label="Scroll Right"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => navigate('/jobs')}
-                    className="text-xs font-extrabold text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow px-3.5 py-2 rounded-xl transition-all cursor-pointer border-0"
+                    className="text-xs font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm hover:shadow px-3.5 py-2 rounded-2xl transition-all cursor-pointer border-0"
                     id="home-view-all-jobs-btn"
                   >
                     {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4072,12 +4114,12 @@ export default function AppShell({
                   >
                     <div className="space-y-4">
                       <div className="space-y-1">
-                        <span className="inline-flex items-center text-[10px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span className="inline-flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                           {job.category || 'Other'}
                         </span>
                         <h4 
                           onClick={() => navigate('/jobs/detail', job.id)}
-                          className="font-bold text-slate-900 text-base hover:text-blue-600 cursor-pointer transition-colors leading-snug line-clamp-1"
+                          className="font-bold text-slate-900 text-base hover:text-emerald-600 cursor-pointer transition-colors leading-snug line-clamp-1"
                         >
                           {job.title}
                         </h4>
@@ -4088,7 +4130,7 @@ export default function AppShell({
 
                       {/* Info elements */}
                       <div className="space-y-2 border-t border-slate-50 pt-3 text-xs text-slate-600">
-                        <p className="flex items-center gap-1.5 font-bold text-blue-700 bg-blue-50/50 px-2.5 py-1 rounded-lg w-fit">
+                        <p className="flex items-center gap-1.5 font-bold text-emerald-700 bg-emerald-50/50 px-2.5 py-1 rounded-xl w-fit">
                           💰 <span className="truncate">{job.salary}</span>
                         </p>
                         <p className="flex items-center gap-1.5 text-xs text-slate-500 ps-0.5">
@@ -4109,7 +4151,7 @@ export default function AppShell({
                           );
                           window.open(`tel:${job.contact}`);
                         }}
-                        className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer border-0"
                         id={`preview-job-apply-btn-${job.id}`}
                       >
                         <Phone className="w-3.5 h-3.5" />
@@ -4118,7 +4160,7 @@ export default function AppShell({
                       
                       <button
                         onClick={() => navigate('/jobs/detail', job.id)}
-                        className="py-2 px-3.5 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                        className="py-2 px-3.5 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 rounded-2xl text-xs font-bold transition-all cursor-pointer"
                         id={`preview-job-detail-btn-${job.id}`}
                       >
                         {currentLanguage === 'en' ? 'Details' : 'تفصیل'}
@@ -4132,7 +4174,7 @@ export default function AppShell({
               <div className="text-center pt-2" id="home-view-all-bottom-container">
                 <button
                   onClick={() => navigate('/jobs')}
-                  className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                  className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                   id="home-view-all-jobs-bottom-btn"
                 >
                   {currentLanguage === 'en' ? 'View All Jobs in Dhoke Hassu' : 'ڈھوک حسو کی تمام نوکریاں دیکھیں'}
@@ -4153,7 +4195,7 @@ export default function AppShell({
                   
                   <button
                     onClick={() => navigate('/businesses')}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold"
+                    className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold"
                     id="home-view-all-business-btn"
                   >
                     {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4168,7 +4210,7 @@ export default function AppShell({
                       id={`preview-business-card-${bus.id}`}
                     >
                       <div className="space-y-2.5">
-                        <div className="relative w-full h-24 bg-slate-100 rounded-lg overflow-hidden">
+                        <div className="relative w-full h-24 bg-slate-100 rounded-xl overflow-hidden">
                           <img 
                             src={bus.image || 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=400'} 
                             alt={bus.name} 
@@ -4180,12 +4222,12 @@ export default function AppShell({
                         </div>
 
                         <div className="space-y-1">
-                          <span className="inline-flex items-center text-[8px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
+                          <span className="inline-flex items-center text-[8px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
                             {bus.category}
                           </span>
                           <h4 
                             onClick={() => navigate('/businesses/detail', bus.id)}
-                            className="font-extrabold text-slate-900 text-xs hover:text-blue-600 cursor-pointer transition-colors leading-tight line-clamp-1"
+                            className="font-extrabold text-slate-900 text-xs hover:text-emerald-600 cursor-pointer transition-colors leading-tight line-clamp-1"
                           >
                             {bus.name}
                           </h4>
@@ -4204,7 +4246,7 @@ export default function AppShell({
                             );
                             window.open(`tel:${bus.contact}`);
                           }}
-                          className="flex-1 flex items-center justify-center gap-1 py-1 px-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[9px] font-bold rounded-lg shadow-sm transition-all cursor-pointer border-0"
+                          className="flex-1 flex items-center justify-center gap-1 py-1 px-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[9px] font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
                           id={`preview-bus-call-btn-${bus.id}`}
                         >
                           <Phone className="w-2.5 h-2.5" />
@@ -4213,7 +4255,7 @@ export default function AppShell({
                         
                         <button
                           onClick={() => navigate('/businesses/detail', bus.id)}
-                          className="py-1 px-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-lg text-[9px] font-semibold transition-all cursor-pointer font-bold"
+                          className="py-1 px-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-[9px] font-semibold transition-all cursor-pointer font-bold"
                           id={`preview-bus-detail-btn-${bus.id}`}
                         >
                           {currentLanguage === 'en' ? 'Details' : 'تفصیل'}
@@ -4226,7 +4268,7 @@ export default function AppShell({
                 <div className="text-center pt-2" id="home-business-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/businesses')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="home-view-all-business-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Businesses in Dhoke Hassu' : 'ڈھوک حسو کے تمام کاروبار دیکھیں'}
@@ -4257,21 +4299,21 @@ export default function AppShell({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => scrollSlider('home-property-preview-grid', 'left')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Left"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => scrollSlider('home-property-preview-grid', 'right')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Right"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate('/property')}
-                      className="text-xs font-extrabold text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow px-3.5 py-2 rounded-xl transition-all cursor-pointer border-0"
+                      className="text-xs font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm hover:shadow px-3.5 py-2 rounded-2xl transition-all cursor-pointer border-0"
                       id="home-view-all-property-btn"
                     >
                       {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4298,19 +4340,19 @@ export default function AppShell({
                           <span className="absolute top-2.5 start-2.5 bg-black/75 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
                             {prop.purpose === 'Rent' ? (currentLanguage === 'en' ? 'Rent' : 'کرایہ') : (currentLanguage === 'en' ? 'Sale' : 'فروخت')}
                           </span>
-                          <div className="absolute bottom-2 start-2 bg-blue-600 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-emerald-600 text-white text-xs font-black px-2.5 py-1 rounded-xl shadow-sm">
                             {prop.price}
                           </div>
                         </div>
 
                         <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                           <div className="space-y-1.5">
-                            <span className="inline-flex items-center text-[10px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            <span className="inline-flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                               {prop.type}
                             </span>
                             <h4 
                               onClick={() => navigate('/property/detail', prop.id)}
-                              className="font-bold text-slate-900 text-sm hover:text-blue-600 cursor-pointer transition-colors leading-snug line-clamp-2"
+                              className="font-bold text-slate-900 text-sm hover:text-emerald-600 cursor-pointer transition-colors leading-snug line-clamp-2"
                             >
                               {prop.title}
                             </h4>
@@ -4328,7 +4370,7 @@ export default function AppShell({
                                 );
                                 window.open(`tel:${prop.contact}`);
                               }}
-                              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
+                              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer border-0"
                               id={`home-preview-prop-call-btn-${prop.id}`}
                             >
                               <Phone className="w-3.5 h-3.5" />
@@ -4337,7 +4379,7 @@ export default function AppShell({
                             
                             <button
                               onClick={() => navigate('/property/detail', prop.id)}
-                              className="py-1.5 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold transition-all cursor-pointer font-bold"
+                              className="py-1.5 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-semibold transition-all cursor-pointer font-bold"
                               id={`home-preview-prop-detail-btn-${prop.id}`}
                             >
                               {currentLanguage === 'en' ? 'Details' : 'تفصیل'}
@@ -4352,7 +4394,7 @@ export default function AppShell({
                 <div className="text-center pt-2" id="home-property-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/property')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
                     id="home-view-all-property-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Properties in Dhoke Hassu' : 'ڈھوک حسو کی تمام جائیدادیں دیکھیں'}
@@ -4375,21 +4417,21 @@ export default function AppShell({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => scrollSlider('home-deals-preview-grid', 'left')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Left"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => scrollSlider('home-deals-preview-grid', 'right')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Right"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate('/deals')}
-                      className="text-xs font-extrabold text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow px-3.5 py-2 rounded-xl transition-all cursor-pointer border-0"
+                      className="text-xs font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm hover:shadow px-3.5 py-2 rounded-2xl transition-all cursor-pointer border-0"
                       id="home-view-all-deals-btn"
                     >
                       {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4415,19 +4457,19 @@ export default function AppShell({
                           <span className="absolute top-2.5 start-2.5 bg-green-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
                             {deal.category}
                           </span>
-                          <div className="absolute bottom-2 start-2 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-emerald-500 text-white text-xs font-black px-2.5 py-1 rounded-xl shadow-sm">
                             {deal.discountText}
                           </div>
                         </div>
 
                         <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                           <div className="space-y-1.5">
-                            <span className="inline-flex items-center text-[10px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            <span className="inline-flex items-center text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                               🏢 {deal.businessName}
                             </span>
                             <h4 
                               onClick={() => navigate('/deals/detail', deal.id)}
-                              className="font-bold text-slate-900 text-sm hover:text-blue-600 cursor-pointer transition-colors leading-snug line-clamp-2"
+                              className="font-bold text-slate-900 text-sm hover:text-emerald-600 cursor-pointer transition-colors leading-snug line-clamp-2"
                             >
                               {deal.title}
                             </h4>
@@ -4445,7 +4487,7 @@ export default function AppShell({
                                 );
                                 window.open(`tel:${deal.contact}`);
                               }}
-                              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
+                              className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm transition-all cursor-pointer border-0"
                               id={`home-preview-deal-call-btn-${deal.id}`}
                             >
                               <Phone className="w-3.5 h-3.5" />
@@ -4454,7 +4496,7 @@ export default function AppShell({
                             
                             <button
                               onClick={() => navigate('/deals/detail', deal.id)}
-                              className="py-1.5 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold transition-all cursor-pointer font-bold"
+                              className="py-1.5 px-3 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-semibold transition-all cursor-pointer font-bold"
                               id={`home-preview-deal-detail-btn-${deal.id}`}
                             >
                               {currentLanguage === 'en' ? 'Details' : 'تفصیل'}
@@ -4469,7 +4511,7 @@ export default function AppShell({
                 <div className="text-center pt-2" id="home-deals-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/deals')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
                     id="home-view-all-deals-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Trending Deals & Coupons' : 'ڈھوک حسو کے تمام کوپنز دیکھیں'}
@@ -4499,21 +4541,21 @@ export default function AppShell({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => scrollSlider('home-marketplace-preview-grid', 'left')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Left"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => scrollSlider('home-marketplace-preview-grid', 'right')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Right"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate('/marketplace')}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold"
+                      className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold"
                       id="home-view-all-marketplace-btn"
                     >
                       {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4540,7 +4582,7 @@ export default function AppShell({
                           <span className="absolute top-2.5 start-2.5 bg-[#2563eb] text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                             {item.category}
                           </span>
-                          <div className="absolute bottom-2 start-2 bg-[#22c55e] text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-sm">
+                          <div className="absolute bottom-2 start-2 bg-[#22c55e] text-white text-[10px] font-black px-2 py-1 rounded-xl shadow-sm">
                             {item.price}
                           </div>
                         </div>
@@ -4569,7 +4611,7 @@ export default function AppShell({
                                     );
                                   }
                               }}
-                              className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 bg-[#2563eb] hover:bg-blue-600 text-white text-[10px] font-bold rounded-lg shadow-sm transition-all cursor-pointer border-0"
+                              className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 bg-[#2563eb] hover:bg-emerald-600 text-white text-[10px] font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
                               id={`home-preview-market-chat-btn-${item.id}`}
                             >
                               <MessageCircle className="w-3.5 h-3.5" />
@@ -4578,7 +4620,7 @@ export default function AppShell({
                             
                             <button
                               onClick={() => navigate('/marketplace/detail', item.id)}
-                              className="py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-lg text-[10px] font-semibold transition-all cursor-pointer font-bold"
+                              className="py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-[10px] font-semibold transition-all cursor-pointer font-bold"
                               id={`home-preview-market-detail-btn-${item.id}`}
                             >
                               {currentLanguage === 'en' ? 'View' : 'دیکھیں'}
@@ -4593,7 +4635,7 @@ export default function AppShell({
                 <div className="text-center pt-2 pb-4" id="home-marketplace-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/marketplace')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-emerald-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="home-view-all-marketplace-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'Browse Buy & Sell Deals' : 'خرید و فروخت کے سودے براؤز کریں'}
@@ -4616,21 +4658,21 @@ export default function AppShell({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => scrollSlider('home-services-preview-grid', 'left')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Left"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => scrollSlider('home-services-preview-grid', 'right')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Right"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate('/services')}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold"
+                      className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold"
                       id="home-view-all-services-btn"
                     >
                       {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4660,7 +4702,7 @@ export default function AppShell({
                           }`}>
                             {isAvailable ? (currentLanguage === 'en' ? 'Available' : 'دستیاب') : (currentLanguage === 'en' ? 'Busy' : 'مصروف')}
                           </span>
-                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-1.5 py-0.5 rounded-md">
+                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[8px] font-bold px-1.5 py-0.5 rounded-xl">
                             🎓 {item.experience}
                           </div>
                         </div>
@@ -4668,10 +4710,10 @@ export default function AppShell({
                         <div className="p-3.5 space-y-2 flex-1 flex flex-col justify-between font-sans">
                           <div className="space-y-1">
                             <div className="flex items-center justify-between gap-1">
-                              <span className="text-[8px] font-black text-[#2563eb] bg-blue-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide truncate max-w-[70px]">
+                              <span className="text-[8px] font-black text-[#2563eb] bg-emerald-50 px-1.5 py-0.5 rounded-xl uppercase tracking-wide truncate max-w-[70px]">
                                 {item.category}
                               </span>
-                              <span className="text-[9px] font-black text-amber-500 flex items-center shrink-0">★ {item.rating.toFixed(1)}</span>
+                              <span className="text-[9px] font-black text-emerald-500 flex items-center shrink-0">★ {item.rating.toFixed(1)}</span>
                             </div>
                             
                             <h4 className="font-extrabold text-slate-950 text-xs hover:text-[#2563eb] cursor-pointer transition-colors leading-tight line-clamp-1">
@@ -4693,7 +4735,7 @@ export default function AppShell({
                                 e.stopPropagation();
                                 navigate('/services/detail', item.id);
                               }}
-                              className="flex-1 py-1 px-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[9px] font-black rounded-lg transition-all cursor-pointer"
+                              className="flex-1 py-1 px-1 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[9px] font-black rounded-xl transition-all cursor-pointer"
                               id={`home-preview-service-view-btn-${item.id}`}
                             >
                               {currentLanguage === 'en' ? 'View' : 'دیکھیں'}
@@ -4704,7 +4746,7 @@ export default function AppShell({
                                 e.stopPropagation();
                                 navigate('/services/detail', item.id);
                               }}
-                              className="flex-1 py-1 px-1 bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-black rounded-lg shadow-xs transition-all cursor-pointer border-0"
+                              className="flex-1 py-1 px-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[9px] font-black rounded-xl shadow-xs transition-all cursor-pointer border-0"
                               id={`home-preview-service-book-btn-${item.id}`}
                             >
                               {currentLanguage === 'en' ? 'Book' : 'بکنگ'}
@@ -4719,7 +4761,7 @@ export default function AppShell({
                 <div className="text-center pt-2 pb-4" id="home-services-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/services')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-emerald-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
                     id="home-view-all-services-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Local Experts' : 'تمام مقامی ماہرین کی لسٹ دیکھیں'}
@@ -4750,21 +4792,21 @@ export default function AppShell({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => scrollSlider('home-alerts-preview-grid', 'left')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Left"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => scrollSlider('home-alerts-preview-grid', 'right')}
-                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer border-0 flex items-center justify-center"
+                      className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl transition-all cursor-pointer border-0 flex items-center justify-center"
                       aria-label="Scroll Right"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => navigate('/alerts')}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold"
+                      className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold"
                       id="home-view-all-alerts-btn"
                     >
                       {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4778,12 +4820,12 @@ export default function AppShell({
                     const isHigh = item.priority === 'High';
                     const isNormal = item.priority === 'Normal' || (!isCritical && !isHigh);
 
-                    const severityColor = isCritical ? 'bg-red-500' : isHigh ? 'bg-amber-500' : 'bg-blue-500';
+                    const severityColor = isCritical ? 'bg-red-500' : isHigh ? 'bg-emerald-500' : 'bg-emerald-500';
                     const severityBg = isCritical 
                       ? 'bg-red-50 text-red-700 border-red-150' 
                       : isHigh 
-                      ? 'bg-amber-50 text-amber-700 border-amber-100' 
-                      : 'bg-blue-50 text-blue-700 border-blue-100';
+                      ? 'bg-emerald-50 text-amber-700 border-amber-100' 
+                      : 'bg-emerald-50 text-emerald-700 border-emerald-100';
 
                     return (
                       <div
@@ -4836,7 +4878,7 @@ export default function AppShell({
                 <div className="text-center pt-2 pb-4" id="home-alerts-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/alerts')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-emerald-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="home-view-all-alerts-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Active Alerts' : 'تمام فعال الرٹس دیکھیں'}
@@ -4858,7 +4900,7 @@ export default function AppShell({
                   
                   <button
                     onClick={() => navigate('/events')}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold"
+                    className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold"
                     id="home-view-all-events-btn"
                   >
                     {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -4884,7 +4926,7 @@ export default function AppShell({
                           <span className="absolute top-2.5 start-2.5 bg-[#2563eb]/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                             {item.category}
                           </span>
-                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                          <div className="absolute bottom-2 start-2 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-xl flex items-center gap-1">
                             📅 {item.date}
                           </div>
                         </div>
@@ -4914,7 +4956,7 @@ export default function AppShell({
                                 e.stopPropagation();
                                 navigate('/events/detail', item.id);
                               }}
-                              className="flex-1 py-1.5 px-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold rounded-lg transition-all cursor-pointer"
+                              className="flex-1 py-1.5 px-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer"
                               id={`home-preview-event-view-btn-${item.id}`}
                             >
                               {currentLanguage === 'en' ? 'View' : 'دیکھیں'}
@@ -4925,7 +4967,7 @@ export default function AppShell({
                                 e.stopPropagation();
                                 navigate('/events/detail', item.id);
                               }}
-                              className="flex-1 py-1.5 px-2 bg-[#2563eb] hover:bg-blue-600 text-white text-[10px] font-bold rounded-lg shadow-sm transition-all cursor-pointer border-0"
+                              className="flex-1 py-1.5 px-2 bg-[#2563eb] hover:bg-emerald-600 text-white text-[10px] font-bold rounded-xl shadow-sm transition-all cursor-pointer border-0"
                               id={`home-preview-event-rsvp-btn-${item.id}`}
                             >
                               {currentLanguage === 'en' ? 'RSVP' : 'شرکت'}
@@ -4940,7 +4982,7 @@ export default function AppShell({
                 <div className="text-center pt-2 pb-4" id="home-events-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/events')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-[#2563eb] hover:bg-emerald-600 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="home-view-all-events-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Local Events' : 'تمام مقامی تقریبات دیکھیں'}
@@ -4962,7 +5004,7 @@ export default function AppShell({
                   
                   <button
                     onClick={() => navigate('/groups')}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold border-0"
+                    className="text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-2xl transition-all cursor-pointer font-bold border-0"
                     id="home-view-all-groups-btn"
                   >
                     {currentLanguage === 'en' ? 'View All →' : 'تمام دیکھیں ←'}
@@ -5004,7 +5046,7 @@ export default function AppShell({
                         }}
                       >
                         <div className="space-y-2">
-                          <div className="relative h-24 rounded-lg overflow-hidden bg-slate-100">
+                          <div className="relative h-24 rounded-xl overflow-hidden bg-slate-100">
                             <img src={group.coverImage} alt={group.name} className="w-full h-full object-cover" />
                             <span className="absolute bottom-1.5 start-1.5 text-[8px] bg-slate-900/80 text-white px-2 py-0.5 rounded font-black">
                               {catLabel}
@@ -5012,7 +5054,7 @@ export default function AppShell({
                           </div>
 
                           <div className="space-y-1">
-                            <h4 className="font-bold text-slate-900 text-xs hover:text-blue-600 transition-colors line-clamp-1 leading-tight">
+                            <h4 className="font-bold text-slate-900 text-xs hover:text-emerald-600 transition-colors line-clamp-1 leading-tight">
                               {group.name}
                             </h4>
                             <p className="text-[10px] text-slate-500 font-medium flex items-center gap-0.5 truncate">
@@ -5067,12 +5109,12 @@ export default function AppShell({
                                 alert(currentLanguage === 'en' ? `Joined "${group.name}"!` : 'شامل ہو گئے!');
                               }
                             }}
-                            className={`w-full py-1.5 px-2 text-[10px] font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer border-0 ${
+                            className={`w-full py-1.5 px-2 text-[10px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer border-0 ${
                               isMember 
                                 ? 'bg-slate-100 hover:bg-slate-200 text-slate-700' 
                                 : isRequested 
-                                ? 'bg-amber-50 text-amber-700' 
-                                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
+                                ? 'bg-emerald-50 text-amber-700' 
+                                : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
                             }`}
                           >
                             {isMember ? (
@@ -5092,7 +5134,7 @@ export default function AppShell({
                 <div className="text-center pt-2 pb-4" id="home-groups-view-all-bottom-container">
                   <button
                     onClick={() => navigate('/groups')}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer font-bold border-0"
                     id="home-view-all-groups-bottom-btn"
                   >
                     {currentLanguage === 'en' ? 'View All Community Groups' : 'تمام کمیونٹی گروپس دیکھیں'}
@@ -5102,7 +5144,7 @@ export default function AppShell({
             </div>
 
             {/* Sidebar Column */}
-              <div className="space-y-6">
+              <div className="space-y-6 order-2 lg:order-1">
                 {renderCommunityStats()}
                 {renderTrendingSidebarDeals()}
               </div>
@@ -5305,6 +5347,9 @@ export default function AppShell({
             <SocialGroupsModule
               currentUser={profileData}
               currentLanguage={currentLanguage}
+              onShareRequest={(type, id, preview) => setShareModalData({ isOpen: true, entityType: type as ShareEntityType, entityId: id, preview })}
+              selectedGroupId={selectedGroupId}
+              initialTab={currentPath.includes('/manage') ? 'manage' : undefined}
             />
           )}
 
@@ -5332,21 +5377,14 @@ export default function AppShell({
               onNavigate={navigate}
               selectedGroupId={selectedGroupId}
               onSelectGroupId={setSelectedGroupId}
+              onShareRequest={(type, id, preview) => setShareModalData({ isOpen: true, entityType: type as ShareEntityType, entityId: id, preview })}
             />
             </ErrorBoundary>
           )}
 
           {/* TAB 2: FEED */}
           {activeTab === 'feed' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold text-slate-900">
-                  📢 {t.feed}
-                </h2>
-                <span className="text-xs text-slate-500">
-                  📍 {user.area} Zone
-                </span>
-              </div>
+            <div className="space-y-6 pb-20">
               
               {/* Community Feed Top Banner Ad */}
               {communityBannerMap[0] && (
@@ -5373,13 +5411,13 @@ export default function AppShell({
                         <div className="mt-6 flex gap-3 w-full">
                           <button 
                             onClick={() => setComposerUploadStage('None')}
-                            className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition-colors"
+                            className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors"
                           >
                             Cancel
                           </button>
                           <button 
                             onClick={handleCreateComposerPost}
-                            className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors"
+                            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors"
                           >
                             Retry
                           </button>
@@ -5391,7 +5429,7 @@ export default function AppShell({
                           <svg className="w-24 h-24 transform -rotate-90">
                             <circle className="text-slate-100" strokeWidth="8" stroke="currentColor" fill="transparent" r="40" cx="48" cy="48" />
                             <circle 
-                              className="text-blue-600 transition-all duration-300 ease-out" 
+                              className="text-emerald-600 transition-all duration-300 ease-out" 
                               strokeWidth="8" 
                               strokeDasharray={251.2} 
                               strokeDashoffset={251.2 - (251.2 * composerUploadProgress) / 100} 
@@ -5473,12 +5511,12 @@ export default function AppShell({
                       const alertItem = item as any;
                       const isCritical = alertItem.priority === 'Critical' || alertItem.severity === 'Urgent';
                       const isHigh = alertItem.priority === 'High';
-                      const severityColor = isCritical ? 'bg-red-500' : isHigh ? 'bg-amber-500' : 'bg-blue-500';
+                      const severityColor = isCritical ? 'bg-red-500' : isHigh ? 'bg-emerald-500' : 'bg-emerald-500';
                       const severityBg = isCritical 
                         ? 'bg-red-50 text-red-700 border-red-150' 
                         : isHigh 
-                        ? 'bg-amber-50 text-amber-700 border-amber-100' 
-                        : 'bg-blue-50 text-blue-700 border-blue-100';
+                        ? 'bg-emerald-50 text-amber-700 border-amber-100' 
+                        : 'bg-emerald-50 text-emerald-700 border-emerald-100';
 
                       elements.push(
                         <FeedCard
@@ -5521,7 +5559,7 @@ export default function AppShell({
                               onClick={() => navigate('/alerts/detail', alertItem.id)}
                             >
                               <div className="w-full max-w-[700px] relative">
-                                <img src={alertItem.image} alt={alertItem.title} className="w-full rounded-xl max-h-[500px] object-contain block" />
+                                <img src={alertItem.image} alt={alertItem.title} className="w-full rounded-2xl max-h-[500px] object-contain block" />
                               </div>
                             </div>
                           )}
@@ -5549,7 +5587,7 @@ export default function AppShell({
                                   : (currentLanguage === 'en' ? 'No Expiry' : 'کوئی آخری تاریخ نہیں'))
                           }
                           badge={
-                            <span className="text-[9px] bg-indigo-50 text-indigo-700 font-black px-1.5 py-0.5 rounded uppercase">
+                            <span className="text-[9px] bg-emerald-50 text-emerald-700 font-black px-1.5 py-0.5 rounded uppercase">
                               {poll.category}
                             </span>
                           }
@@ -5559,12 +5597,12 @@ export default function AppShell({
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-2">
                                 {poll.featured && (
-                                  <span className="px-2 py-0.5 bg-amber-500 text-white text-[9px] font-black uppercase rounded-md tracking-wider">
+                                  <span className="px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-black uppercase rounded-xl tracking-wider">
                                     {currentLanguage === 'en' ? 'Featured' : 'اہم'}
                                   </span>
                                 )}
                                 {isClosed && (
-                                  <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[9px] font-black uppercase rounded-md tracking-wider">
+                                  <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[9px] font-black uppercase rounded-xl tracking-wider">
                                     {currentLanguage === 'en' ? 'Closed' : 'بند'}
                                   </span>
                                 )}
@@ -5582,7 +5620,7 @@ export default function AppShell({
                           {poll.cover_image && (
                             <div className="w-full flex justify-center mt-3 bg-slate-50 border-t border-b border-slate-100">
                               <div className="w-full max-w-[700px] relative">
-                                <img src={poll.cover_image} alt={poll.title} className="w-full rounded-xl max-h-[500px] object-contain block" />
+                                <img src={poll.cover_image} alt={poll.title} className="w-full rounded-2xl max-h-[500px] object-contain block" />
                               </div>
                             </div>
                           )}
@@ -5596,9 +5634,9 @@ export default function AppShell({
                                     const pct = totalOptionVotes > 0 ? Math.round((votes / totalOptionVotes) * 100) : 0;
                                     const isUserChoice = userVotes[poll.id] === opt.id;
                                     return (
-                                      <div key={opt.id || idx} className="w-full bg-slate-50 border border-slate-200/60 rounded-xl overflow-hidden relative h-10 flex items-center justify-between px-4 font-bold text-xs">
+                                      <div key={opt.id || idx} className="w-full bg-slate-50 border border-slate-200/60 rounded-2xl overflow-hidden relative h-10 flex items-center justify-between px-4 font-bold text-xs">
                                         <div 
-                                          className={`absolute start-0 top-0 bottom-0 transition-all duration-500 ${isUserChoice ? 'bg-green-500/10 border-e border-green-500/30' : 'bg-indigo-500/10 border-e border-indigo-500/30'}`} 
+                                          className={`absolute start-0 top-0 bottom-0 transition-all duration-500 ${isUserChoice ? 'bg-green-500/10 border-e border-green-500/30' : 'bg-emerald-500/10 border-e border-emerald-500/30'}`} 
                                           style={{ width: `${pct}%` }} 
                                         />
                                         <span className="relative z-10 flex items-center gap-1.5 text-slate-700">
@@ -5616,7 +5654,7 @@ export default function AppShell({
                                     <button
                                       key={opt.id || idx}
                                       onClick={() => handleInlineVote(poll.id, opt.id)}
-                                      className="w-full h-10 px-4 bg-white hover:bg-indigo-50/30 text-slate-700 hover:text-indigo-700 text-xs font-bold rounded-xl text-start border border-slate-200 hover:border-indigo-500/50 transition-all cursor-pointer shadow-2xs flex items-center justify-between"
+                                      className="w-full h-10 px-4 bg-white hover:bg-emerald-50/30 text-slate-700 hover:text-emerald-700 text-xs font-bold rounded-2xl text-start border border-slate-200 hover:border-emerald-500/50 transition-all cursor-pointer shadow-2xs flex items-center justify-between"
                                     >
                                       <span>{opt.option_text}</span>
                                       <span className="w-4 h-4 rounded-full border border-slate-350 flex items-center justify-center shrink-0" />
@@ -5881,7 +5919,7 @@ export default function AppShell({
                   <button
                     key={idx}
                     onClick={() => setActiveGalleryIndex(idx)}
-                    className={`w-2.5 h-2.5 rounded-full transition-all border-0 cursor-pointer ${idx === activeGalleryIndex ? 'bg-amber-500 scale-125' : 'bg-white/40'}`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all border-0 cursor-pointer ${idx === activeGalleryIndex ? 'bg-emerald-500 scale-125' : 'bg-white/40'}`}
                   />
                 ))}
               </div>
@@ -5912,6 +5950,7 @@ export default function AppShell({
     </div>
   );
 }
+
 
 
 

@@ -392,7 +392,7 @@ const VoiceMessageBubble = ({
       <button
         onClick={handlePlayPause}
         className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 border-0 cursor-pointer shadow-xs transition-colors ${
-          isPlaying ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-[#2563eb] text-white hover:bg-blue-600'
+          isPlaying ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-[#2563eb] text-white hover:bg-emerald-600'
         }`}
       >
         {isPlaying ? (
@@ -436,7 +436,7 @@ const VoiceMessageBubble = ({
       {msg.voice.uploadStatus === 'failed' && (
         <button
           onClick={() => handleRetryVoiceUpload(msg.id, msg.voice.url, msg.voice.duration, msg.voice.size || 0)}
-          className="p-1.5 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 border-0 cursor-pointer text-[9px] font-black"
+          className="p-1.5 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 border-0 cursor-pointer text-[9px] font-black"
           title="Retry upload"
         >
           🔄
@@ -445,7 +445,7 @@ const VoiceMessageBubble = ({
 
       {/* Upload Status Shimmer */}
       {msg.voice.uploadStatus === 'uploading' && (
-        <span className="w-2.5 h-2.5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin shrink-0" title="Uploading..." />
+        <span className="w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin shrink-0" title="Uploading..." />
       )}
     </div>
   );
@@ -1063,9 +1063,11 @@ export default function ChatModule({
                 }
                 return m;
               });
+              const newUnreadCount = updatedMessages.filter(m => m.sender !== 'me' && !m.isSeen).length;
               return {
                 ...c,
-                messages: updatedMessages
+                messages: updatedMessages,
+                unreadCount: newUnreadCount
               };
             }
             return c;
@@ -1089,14 +1091,19 @@ export default function ChatModule({
     
     async function markRead() {
       try {
-        const success = await dbMarkMessagesAsSeen(activeContact!, user.id!);
-        if (success) {
-          // Refresh conversations to reset unreadCount badge in UI
-          const refreshed = await dbGetConversations(user.id!);
-          setConversations(mergeLocalAndDbChats(refreshed));
-        } else {
-          console.error("Unread update failed");
-        }
+        // Optimistic update to clear badge instantly and avoid race conditions
+        setConversations(prev => prev.map(c => {
+          if (c.id === activeContact || c.contact === activeContact) {
+            return {
+              ...c,
+              unreadCount: 0,
+              messages: c.messages.map(m => ({ ...m, isSeen: true }))
+            };
+          }
+          return c;
+        }));
+        
+        await dbMarkMessagesAsSeen(activeContact!, user.id!);
       } catch (err) {
         console.error("Unread update failed", err);
       }
@@ -2059,6 +2066,7 @@ export default function ChatModule({
   );
 
   const activeConv = conversations.find(c => isChatMatch(c, activeContact));
+  const chatMessages = activeConv?.messages || [];
 
   const t = {
     en: {
@@ -2199,7 +2207,7 @@ export default function ChatModule({
           
           {/* WhatsApp-style Search Bar */}
           <div className="relative flex items-center gap-2">
-            <div className="relative flex-1 bg-white rounded-lg flex items-center px-3 border border-slate-200/50 shadow-sm">
+            <div className="relative flex-1 bg-white rounded-xl flex items-center px-3 border border-slate-200/50 shadow-sm">
               <Search size={18} className="text-[#54656F]" />
               <input
                 type="text"
@@ -2246,7 +2254,7 @@ export default function ChatModule({
                   onClick={() => setSearchFilter(pill.key as any)}
                   className={`py-1.5 px-3.5 rounded-full text-[10px] font-black tracking-wider transition-all cursor-pointer whitespace-nowrap border shrink-0 ${
                     isActive 
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-xs' 
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs' 
                       : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
                   }`}
                 >
@@ -2273,7 +2281,7 @@ export default function ChatModule({
                         setRecentSearches([]);
                         localStorage.removeItem('dh_chat_recent_searches');
                       }}
-                      className="text-[10px] font-extrabold text-blue-600 border-0 bg-transparent cursor-pointer"
+                      className="text-[10px] font-extrabold text-emerald-600 border-0 bg-transparent cursor-pointer"
                     >
                       {isEn ? 'Clear All' : 'صاف کریں'}
                     </button>
@@ -2289,7 +2297,7 @@ export default function ChatModule({
                     {recentSearches.map((s, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-2.5 hover:bg-slate-100 rounded-xl cursor-pointer group"
+                        className="flex items-center justify-between p-2.5 hover:bg-slate-100 rounded-2xl cursor-pointer group"
                       >
                         <span 
                           onClick={() => setTempSearchQuery(s)}
@@ -2364,7 +2372,7 @@ export default function ChatModule({
                             {p.avatar ? (
                               <img src={p.avatar} alt="" className="w-9 h-9 rounded-full object-cover border" />
                             ) : (
-                              <div className="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
+                              <div className="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">
                                 {p.name?.charAt(0)}
                               </div>
                             )}
@@ -2416,7 +2424,7 @@ export default function ChatModule({
                             {c.avatar ? (
                               <img src={c.avatar} alt="" className="w-9 h-9 rounded-full object-cover border" />
                             ) : (
-                              <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                              <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">
                                 {c.name?.charAt(0)}
                               </div>
                             )}
@@ -2430,7 +2438,7 @@ export default function ChatModule({
                             </p>
                           </div>
                           {c.unreadCount > 0 && (
-                            <span className="absolute end-3.5 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">
+                            <span className="absolute end-3.5 top-1/2 -translate-y-1/2 bg-emerald-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full">
                               {c.unreadCount}
                             </span>
                           )}
@@ -2484,7 +2492,7 @@ export default function ChatModule({
                               <span className="text-[10px] font-black text-slate-800 truncate">{m.conversationName}</span>
                               <span className="text-[8px] text-slate-400 font-bold whitespace-nowrap ms-2">{m.time}</span>
                             </div>
-                            <span className="text-[9px] font-extrabold text-blue-600 block mb-0.5">{m.senderName}:</span>
+                            <span className="text-[9px] font-extrabold text-emerald-600 block mb-0.5">{m.senderName}:</span>
                             <p className="text-[10px] text-slate-500 font-semibold leading-normal break-words">
                               {highlightMatch(m.text, searchQuery)}
                             </p>
@@ -2547,7 +2555,7 @@ export default function ChatModule({
                   {pinnedConversations.length > 0 && (
                     <div className="space-y-1">
                       <div className="flex items-center gap-1 px-3 mb-1.5 text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                        <Pin className="w-3 h-3 rotate-45 text-blue-600" /> {isEn ? 'Pinned' : 'پن شدہ'}
+                        <Pin className="w-3 h-3 rotate-45 text-emerald-600" /> {isEn ? 'Pinned' : 'پن شدہ'}
                       </div>
                       {pinnedConversations.map(conv => renderConversationCard(conv, true))}
                     </div>
@@ -2685,7 +2693,7 @@ export default function ChatModule({
             {/* Chat Messages Log */}
             <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-[#EFEAE2]" id="chat-messages-container">
               {activeConv.messages.length === 0 ? (
-                <div className="text-center py-6 text-[#54656F] text-xs font-semibold bg-white rounded-lg shadow-sm mx-auto max-w-[280px]">
+                <div className="text-center py-6 text-[#54656F] text-xs font-semibold bg-white rounded-xl shadow-sm mx-auto max-w-[280px]">
                   {isEn ? 'Send a message to start chatting' : 'گفتگو شروع کرنے کے لیے پیغام بھیجیں'}
                 </div>
               ) : (
@@ -2720,7 +2728,7 @@ export default function ChatModule({
 
                       {/* Bubble styling: Rounded bubbles and WhatsApp style colors */}
                       {msg.voice ? (
-                        <div className={`shadow-sm rounded-lg ${isMe ? 'bg-[#D9FDD3] rounded-se-none' : 'bg-white rounded-ss-none'}`}>
+                        <div className={`shadow-sm rounded-xl ${isMe ? 'bg-[#D9FDD3] rounded-se-none' : 'bg-white rounded-ss-none'}`}>
                           <VoiceMessageBubble
                             msg={msg}
                             isMe={isMe}
@@ -2735,8 +2743,8 @@ export default function ChatModule({
                         <div
                           className={`px-2.5 py-1.5 text-[14.5px] shadow-sm relative min-w-[90px] ${
                             isMe 
-                              ? 'bg-[#D9FDD3] text-[#111B21] rounded-lg rounded-se-none' 
-                              : 'bg-white text-[#111B21] rounded-lg rounded-ss-none'
+                              ? 'bg-[#D9FDD3] text-[#111B21] rounded-xl rounded-se-none' 
+                              : 'bg-white text-[#111B21] rounded-xl rounded-ss-none'
                           }`}
                         >
                           <p className="leading-snug whitespace-pre-wrap pe-10">{msg.text}</p>
@@ -2791,7 +2799,7 @@ export default function ChatModule({
               </button>
 
               {/* Message Input Container */}
-              <div className="flex-1 min-w-0 relative flex items-center bg-white border border-transparent focus-within:border-white rounded-lg px-2 py-1.5 transition-all">
+              <div className="flex-1 min-w-0 relative flex items-center bg-white border border-transparent focus-within:border-white rounded-xl px-2 py-1.5 transition-all">
                 {/* Emoji button */}
                 <button
                   type="button"
@@ -2803,7 +2811,7 @@ export default function ChatModule({
                 </button>
 
                 {showEmojiPicker && (
-                  <div className="absolute bottom-full start-0 mb-2 bg-white border border-[#D1D7DB] rounded-lg shadow-sm p-3 w-64 grid grid-cols-6 gap-2 z-50 max-h-48 overflow-y-auto">
+                  <div className="absolute bottom-full start-0 mb-2 bg-white border border-[#D1D7DB] rounded-xl shadow-sm p-3 w-64 grid grid-cols-6 gap-2 z-50 max-h-48 overflow-y-auto">
                     {NATIVE_EMOJIS.map(emoji => (
                       <button
                         key={emoji}
@@ -2895,7 +2903,7 @@ export default function ChatModule({
                   ) : (
                     <>
                       <button onClick={() => { setCameraPhotoUrl(null); setCameraPhotoBlob(null); }} className="text-white bg-transparent border-0 cursor-pointer text-sm">Retake</button>
-                      <button onClick={sendCapturedPhoto} className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full flex items-center justify-center border-0 cursor-pointer shadow-lg"><Send className="w-6 h-6 ms-1" /></button>
+                      <button onClick={sendCapturedPhoto} className="bg-emerald-600 hover:bg-emerald-700 text-white w-14 h-14 rounded-full flex items-center justify-center border-0 cursor-pointer shadow-lg"><Send className="w-6 h-6 ms-1" /></button>
                     </>
                   )}
                 </div>
@@ -2927,7 +2935,7 @@ export default function ChatModule({
                       <div className="w-4 h-4 bg-red-600 rounded-sm" />
                     </button>
                   ) : (
-                    <button onClick={sendVoiceMessage} className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center border-0 cursor-pointer hover:bg-blue-700 shadow-md">
+                    <button onClick={sendVoiceMessage} className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center border-0 cursor-pointer hover:bg-emerald-700 shadow-md">
                       <Send className="w-4 h-4 ms-1" />
                     </button>
                   )}
@@ -2938,7 +2946,7 @@ export default function ChatModule({
             {/* Uploading Overlay */}
             {isUploadingAttachment && (
               <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-40 flex items-center justify-center flex-col gap-3">
-                <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin" />
                 <span className="font-bold text-slate-800 text-sm">Uploading...</span>
               </div>
             )}
@@ -2950,7 +2958,7 @@ export default function ChatModule({
               title={isEn ? 'Community Messenger' : 'کمیونٹی چیٹ'}
               description={currentT.selectChat}
               illustration={
-                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-sm mx-auto">
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-sm mx-auto">
                   💬
                 </div>
               }
@@ -2961,3 +2969,4 @@ export default function ChatModule({
     </div>
   );
 }
+

@@ -89,69 +89,43 @@ export const ShortsActions: React.FC<ShortsActionsProps> = React.memo(({
     <div className="flex flex-col items-center space-y-3 pb-0">
       {/* Like Button */}
       <button onClick={handleLikeClick} className="flex flex-col items-center group transition-transform active:scale-90">
-        <div className={`bg-black/40 p-2 rounded-full backdrop-blur-sm border border-white/10 shadow-lg ${hasLikedInitially ? 'text-red-500' : 'text-white'}`}>
-          <Heart size={24} fill={hasLikedInitially ? 'currentColor' : 'none'} />
+        <div className={`drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] ${hasLikedInitially ? 'text-red-500' : 'text-white'}`}>
+          <Heart size={32} fill={hasLikedInitially ? 'currentColor' : 'none'} strokeWidth={1.5} />
         </div>
-        <span className="text-white text-xs font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">{formatCount(likesCount)}</span>
+        <span className="text-white text-[10px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">لائک</span>
+        <span className="text-white text-[9px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-none">{formatCount(likesCount)}</span>
       </button>
 
       {/* Comment Button */}
       <button onClick={(e) => { e.stopPropagation(); onComment(videoId); }} className="flex flex-col items-center group transition-transform active:scale-90">
-        <div className="bg-black/40 p-2 rounded-full text-white backdrop-blur-sm border border-white/10 shadow-lg">
-          <MessageCircle size={24} />
+        <div className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-2">
+          <MessageCircle size={32} strokeWidth={1.5} />
         </div>
-        <span className="text-white text-xs font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">{formatCount(commentsCount)}</span>
-      </button>
-
-      {/* Save Button (Instagram style) */}
-      <button onClick={handleSaveClick} className="flex flex-col items-center group transition-transform active:scale-90">
-        <div className={`bg-black/40 p-2 rounded-full backdrop-blur-sm border border-white/10 shadow-lg ${hasSaved ? 'text-yellow-400' : 'text-white'}`}>
-          <Bookmark size={24} fill={hasSaved ? 'currentColor' : 'none'} />
-        </div>
-        <span className="text-white text-xs font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">{hasSaved ? 'Saved' : 'Save'}</span>
+        <span className="text-white text-[10px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">کمنٹ</span>
+        <span className="text-white text-[9px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-none">{formatCount(commentsCount)}</span>
       </button>
 
       {/* Share Button */}
       <button onClick={(e) => { e.stopPropagation(); onShare(videoId); }} className="flex flex-col items-center group transition-transform active:scale-90">
-        <div className="bg-black/40 p-2 rounded-full text-white backdrop-blur-sm border border-white/10 shadow-lg">
-          <Share2 size={24} />
+        <div className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-2">
+          <Share2 size={32} strokeWidth={1.5} />
         </div>
-        <span className="text-white text-xs font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">Share</span>
+        <span className="text-white text-[10px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">شیئر</span>
+        <span className="text-white text-[9px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-none">10K</span>
       </button>
 
-      {/* More Options */}
-      <div className="relative">
-        <button onClick={(e) => { e.stopPropagation(); setShowOptions(!showOptions); }} className="bg-black/40 p-2 rounded-full text-white backdrop-blur-sm border border-white/10 shadow-lg transition-transform active:scale-90">
-          <MoreVertical size={24} />
-        </button>
-        
-        {showOptions && (
-          <div className="absolute end-14 bottom-0 bg-gray-900/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl w-40 overflow-hidden z-50 animate-in fade-in slide-in-from-end-4 duration-200">
-            {isOwner && onDelete && (
-              <button 
-                className="w-full text-start px-4 py-3 text-red-500 hover:bg-gray-800 text-sm font-bold transition-colors border-b border-gray-700"
-                onClick={(e) => { e.stopPropagation(); onDelete(videoId); setShowOptions(false); }}
-              >
-                Delete Video
-              </button>
-            )}
-            <button 
-              className="w-full text-start px-4 py-3 text-red-400 hover:bg-gray-800 text-sm font-medium transition-colors"
-              onClick={(e) => { e.stopPropagation(); onReport(videoId); setShowOptions(false); }}
-            >
-              Report Video
-            </button>
-            <button 
-              className="w-full text-start px-4 py-3 text-white hover:bg-gray-800 text-sm font-medium transition-colors"
-              onClick={(e) => { e.stopPropagation(); setShowOptions(false); }}
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-      </div>
+      {/* Save Button */}
+      <button onClick={handleSaveClick} className="flex flex-col items-center group transition-transform active:scale-90">
+        <div className={`drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-2 ${hasSaved ? 'text-yellow-400' : 'text-white'}`}>
+          <Bookmark size={32} fill={hasSaved ? 'currentColor' : 'none'} strokeWidth={1.5} />
+        </div>
+        <span className="text-white text-[10px] font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">محفوظ</span>
+      </button>
+
+
     </div>
   );
 });
 
 ShortsActions.displayName = 'ShortsActions';
+

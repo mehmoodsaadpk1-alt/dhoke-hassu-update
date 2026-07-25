@@ -90,7 +90,7 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
             <button 
               disabled={selectedStoryIds.size === 0}
               onClick={() => setStep(2)}
-              className="px-4 py-1.5 bg-blue-600 text-white text-sm font-bold rounded-full disabled:opacity-50"
+              className="px-4 py-1.5 bg-emerald-600 text-white text-sm font-bold rounded-full disabled:opacity-50"
             >
               {isEn ? 'Next' : 'اگلا'}
             </button>
@@ -99,7 +99,7 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
             <button 
               disabled={!title?.trim() || isSaving}
               onClick={handleSave}
-              className="px-4 py-1.5 bg-blue-600 text-white text-sm font-bold rounded-full disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-1.5 bg-emerald-600 text-white text-sm font-bold rounded-full disabled:opacity-50 flex items-center gap-2"
             >
               {isSaving && <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />}
               {isEn ? 'Done' : 'ہو گیا'}
@@ -111,7 +111,7 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
           <div className="flex-1 overflow-y-auto p-4 bg-slate-50">
             {loading ? (
               <div className="flex justify-center mt-10">
-                <span className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
               </div>
             ) : archivedStories.length === 0 ? (
               <div className="text-center mt-10 text-slate-500">
@@ -125,19 +125,19 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
                     <div 
                       key={story.id} 
                       onClick={() => toggleStory(story.id)}
-                      className={`relative aspect-[9/16] bg-slate-800 rounded-xl overflow-hidden cursor-pointer transition-all ${isSelected ? 'ring-4 ring-blue-500 scale-95' : 'hover:opacity-90'}`}
+                      className={`relative aspect-[9/16] bg-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all ${isSelected ? 'ring-4 ring-emerald-500 scale-95' : 'hover:opacity-90'}`}
                     >
                       {story.type === 'photo' || story.type === 'video' ? (
                         <img src={story.image} className="w-full h-full object-cover" />
                       ) : (
-                        <div className={`w-full h-full p-2 text-white text-[10px] font-bold text-center flex items-center justify-center ${story.bgColor || 'bg-gradient-to-br from-purple-500 to-indigo-500'}`}>
+                        <div className={`w-full h-full p-2 text-white text-[10px] font-bold text-center flex items-center justify-center ${story.bgColor || 'bg-gradient-to-br from-emerald-500 to-emerald-500'}`}>
                           {story.text}
                         </div>
                       )}
                       
                       {isSelected && (
-                        <div className="absolute inset-0 bg-blue-500/20 flex flex-col items-end p-2">
-                          <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white border-2 border-white">
+                        <div className="absolute inset-0 bg-emerald-500/20 flex flex-col items-end p-2">
+                          <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white border-2 border-white">
                             <Check className="w-3 h-3" />
                           </div>
                         </div>
@@ -161,7 +161,7 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
                   return <ImageIcon className="w-8 h-8 text-slate-400" />;
                 })()}
               </div>
-              <p className="text-xs text-blue-600 font-bold cursor-pointer hover:underline">{isEn ? 'Edit Cover' : 'کوَر تبدیل کریں'}</p>
+              <p className="text-xs text-emerald-600 font-bold cursor-pointer hover:underline">{isEn ? 'Edit Cover' : 'کوَر تبدیل کریں'}</p>
             </div>
 
             <div className="space-y-2">
@@ -171,7 +171,7 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={isEn ? "E.g. Travel, Events..." : "نام لکھیں..."} 
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-lg font-bold"
+                className="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none text-lg font-bold"
                 autoFocus
               />
             </div>
@@ -185,3 +185,4 @@ export default function HighlightCreator({ user, isEn, onClose, onComplete }: Hi
     </div>
   );
 }
+

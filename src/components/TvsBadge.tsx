@@ -21,13 +21,13 @@ export default function TvsBadge({
   // Styling based on Badge Type
   const config = {
     Individual: {
-      color: 'bg-blue-600 text-white hover:bg-blue-700',
+      color: 'bg-emerald-600 text-white hover:bg-emerald-700',
       icon: Check,
       label: 'Verified Individual',
       badgeColor: '🟦'
     },
     Business: {
-      color: 'bg-amber-500 text-white hover:bg-amber-600',
+      color: 'bg-emerald-500 text-white hover:bg-emerald-600',
       icon: Briefcase,
       label: 'Verified Business',
       badgeColor: '🟨'
@@ -45,7 +45,7 @@ export default function TvsBadge({
       badgeColor: '🟩'
     },
     NGO: {
-      color: 'bg-purple-600 text-white hover:bg-purple-700',
+      color: 'bg-emerald-600 text-white hover:bg-purple-700',
       icon: Globe,
       label: 'NGO Verified',
       badgeColor: '🟪'
@@ -117,3 +117,4 @@ export default function TvsBadge({
     </div>
   );
 }
+

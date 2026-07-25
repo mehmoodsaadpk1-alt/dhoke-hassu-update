@@ -95,14 +95,14 @@ export default function TvsApplicationModal({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto leading-normal">
       <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-indigo-50/50">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
           <div className="flex items-center gap-2">
             <Award className="w-5 h-5 text-indigo-650" />
             <h3 className="font-black text-slate-900 text-sm">
               {isEn ? 'Apply for Trust & Verification' : 'تصدیقی بیج کے لئے درخواست دیں'}
             </h3>
           </div>
-          <button onClick={onClose} className="p-1 text-slate-400 hover:bg-slate-100 rounded-lg border-none bg-transparent cursor-pointer">
+          <button onClick={onClose} className="p-1 text-slate-400 hover:bg-slate-100 rounded-xl border-none bg-transparent cursor-pointer">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -124,7 +124,7 @@ export default function TvsApplicationModal({
               type="text" 
               value={entityName}
               onChange={(e) => setEntityName(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
               placeholder={isEn ? 'e.g. Zia-ur-Rehman' : 'مثال: ضیاء الرحمن'}
             />
           </div>
@@ -137,7 +137,7 @@ export default function TvsApplicationModal({
               <select
                 value={entityType}
                 onChange={(e) => setEntityType(e.target.value as any)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:outline-none"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-600 focus:outline-none"
               >
                 <option value="Individual">{isEn ? 'Individual' : 'انفرادی'}</option>
                 <option value="Business">{isEn ? 'Business' : 'کاروبار'}</option>
@@ -158,7 +158,7 @@ export default function TvsApplicationModal({
               <select
                 value={level}
                 onChange={(e) => setLevel(e.target.value as any)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:outline-none"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-600 focus:outline-none"
               >
                 <option value="Basic">{isEn ? 'Basic Verified' : 'بنیادی تصدیق'}</option>
                 <option value="Professional">{isEn ? 'Professional Verified' : 'پیشہ ورانہ'}</option>
@@ -177,7 +177,7 @@ export default function TvsApplicationModal({
               value={cnic}
               onChange={(e) => setCnic(e.target.value)}
               placeholder="e.g. 37405-1234567-1"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-semibold focus:outline-none"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-mono font-semibold focus:outline-none"
             />
             <p className="text-[10px] text-slate-400 font-semibold mt-1">
               🔒 {isEn ? 'Your ID number is securely hashed before submission to prevent duplicate identity registry. The plain text is never stored.' : 'آپ کا شناختی نمبر محفوظ طریقے سے ہیش کیا جائے گا۔'}
@@ -218,7 +218,7 @@ export default function TvsApplicationModal({
               <div className="space-y-1.5 pt-2">
                 <p className="text-[10px] font-black text-slate-400 uppercase">{isEn ? 'Uploaded Documents:' : 'منسلک دستاویزات:'}</p>
                 {attachedFiles.map((file, idx) => (
-                  <div key={idx} className="flex justify-between items-center bg-indigo-50/40 p-2 rounded-xl text-[10px] font-bold text-indigo-700">
+                  <div key={idx} className="flex justify-between items-center bg-emerald-50/40 p-2 rounded-2xl text-[10px] font-bold text-emerald-700">
                     <span className="truncate">{file.type} (Stored Securely)</span>
                     <span className="text-slate-400">✓ Attached</span>
                   </div>
@@ -231,14 +231,14 @@ export default function TvsApplicationModal({
             <button
               type="button"
               onClick={onClose}
-              className="py-2 px-5 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-xl cursor-pointer bg-transparent"
+              className="py-2 px-5 border border-slate-200 text-slate-650 hover:bg-slate-50 text-xs font-black rounded-2xl cursor-pointer bg-transparent"
             >
               {isEn ? 'Cancel' : 'منسوخ'}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="py-2.5 px-6 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-350 text-white text-xs font-black rounded-xl cursor-pointer border-none shadow-md"
+              className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 disabled:bg-indigo-350 text-white text-xs font-black rounded-2xl cursor-pointer border-none shadow-md"
             >
               {isSubmitting ? (isEn ? 'Submitting...' : 'جمع ہو رہا ہے...') : (isEn ? 'Submit Application' : 'درخواست جمع کریں')}
             </button>
@@ -248,3 +248,4 @@ export default function TvsApplicationModal({
     </div>
   );
 }
+

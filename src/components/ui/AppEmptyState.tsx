@@ -23,7 +23,7 @@ export const AppEmptyState: React.FC<AppEmptyStateProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex flex-col items-center justify-center text-center p-8 bg-white border border-slate-200/60 rounded-md shadow-xs space-y-4 max-w-md mx-auto ${className}`}>
+    <div className={`flex flex-col items-center justify-center text-center p-8 bg-white border border-slate-200/60 rounded-2xl shadow-xs space-y-4 max-w-md mx-auto ${className}`}>
       {illustration ? (
         <div className="text-slate-300 mb-2">{illustration}</div>
       ) : (
@@ -52,3 +52,5 @@ export const AppEmptyState: React.FC<AppEmptyStateProps> = ({
     </div>
   );
 };
+
+

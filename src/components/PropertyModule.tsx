@@ -459,7 +459,7 @@ export default function PropertyModule({
                   setIsSuccessMessage(false);
                   onNavigateToList();
                 }}
-                className="py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-sm transition-all cursor-pointer font-bold"
+                className="py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-sm transition-all cursor-pointer font-bold"
                 id="success-view-list-btn"
               >
                 {t.goToList}
@@ -485,7 +485,7 @@ export default function PropertyModule({
                 value={formTitle}
                 onChange={(e) => setFormTitle(e.target.value)}
                 placeholder={currentLanguage === 'en' ? "e.g., Beautiful 5 Marla Double Story House" : "مثال: خوبصورت 5 مرلہ ڈبل سٹوری مکان"}
-                className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.title ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.title ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                 id="form-title-input"
               />
               {formErrors.title && <p className="text-xs font-semibold text-red-500">{formErrors.title}</p>}
@@ -499,7 +499,7 @@ export default function PropertyModule({
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full border border-slate-200 px-4 py-3 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="w-full border border-slate-200 px-4 py-3 rounded-2xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="form-type-select"
                 >
                   <option value="House">{t.house}</option>
@@ -514,11 +514,11 @@ export default function PropertyModule({
               {/* Purpose */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.createPurpose}</label>
-                <div className="flex bg-slate-100 p-1 rounded-xl">
+                <div className="flex bg-slate-100 p-1 rounded-2xl">
                   <button
                     type="button"
                     onClick={() => setFormPurpose('Rent')}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${formPurpose === 'Rent' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${formPurpose === 'Rent' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
                     id="form-purpose-rent"
                   >
                     {t.rent}
@@ -526,7 +526,7 @@ export default function PropertyModule({
                   <button
                     type="button"
                     onClick={() => setFormPurpose('Sale')}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${formPurpose === 'Sale' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                    className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${formPurpose === 'Sale' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
                     id="form-purpose-sale"
                   >
                     {t.sale}
@@ -545,7 +545,7 @@ export default function PropertyModule({
                   value={formPrice}
                   onChange={(e) => setFormPrice(e.target.value)}
                   placeholder={t.createPricePlaceholder}
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.price ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.price ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="form-price-input"
                 />
                 {formErrors.price && <p className="text-xs font-semibold text-red-500">{formErrors.price}</p>}
@@ -559,7 +559,7 @@ export default function PropertyModule({
                   value={formArea}
                   onChange={(e) => setFormArea(e.target.value)}
                   placeholder="e.g., 5 Marla, 1 Kanal"
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.area ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.area ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="form-area-input"
                 />
                 {formErrors.area && <p className="text-xs font-semibold text-red-500">{formErrors.area}</p>}
@@ -576,7 +576,7 @@ export default function PropertyModule({
                   value={formRooms}
                   onChange={(e) => setFormRooms(e.target.value)}
                   placeholder={t.createRoomsPlaceholder}
-                  className="w-full border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="w-full border border-slate-200 px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="form-rooms-input"
                 />
               </div>
@@ -589,7 +589,7 @@ export default function PropertyModule({
                   value={formFloor}
                   onChange={(e) => setFormFloor(e.target.value)}
                   placeholder={t.createFloorPlaceholder}
-                  className="w-full border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="w-full border border-slate-200 px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="form-floor-input"
                 />
               </div>
@@ -603,7 +603,7 @@ export default function PropertyModule({
                 onChange={(e) => setFormDescription(e.target.value)}
                 placeholder={currentLanguage === 'en' ? "Describe the condition, near landmarks, utilities (water, gas, electricity)..." : "جائیداد کی حالت، قریبی معروف مقامات، سہولیات (پانی، گیس، بجلی) کی تفصیل..."}
                 rows={4}
-                className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.description ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.description ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                 id="form-desc-textarea"
               />
               {formErrors.description && <p className="text-xs font-semibold text-red-500">{formErrors.description}</p>}
@@ -617,7 +617,7 @@ export default function PropertyModule({
                 value={formContact}
                 onChange={(e) => setFormContact(e.target.value)}
                 placeholder={t.createContactPlaceholder}
-                className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.contact ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.contact ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                 id="form-contact-input"
               />
               {formErrors.contact && <p className="text-xs font-semibold text-red-500">{formErrors.contact}</p>}
@@ -634,13 +634,13 @@ export default function PropertyModule({
                   value={imageUrlInput}
                   onChange={(e) => setImageUrlInput(e.target.value)}
                   placeholder={t.imagePlaceholder}
-                  className="flex-1 border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="flex-1 border border-slate-200 px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="form-custom-image-url"
                 />
                 <button
                   type="button"
                   onClick={handleAddCustomImageUrl}
-                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer"
+                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl transition-all cursor-pointer"
                   id="form-add-image-url-btn"
                 >
                   {t.uploadBtn}
@@ -661,7 +661,7 @@ export default function PropertyModule({
                   type="button"
                   onClick={() => document.getElementById('property-gallery-file-input')?.click()}
                   disabled={isUploadingImage}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 hover:bg-blue-100 disabled:opacity-60 disabled:cursor-not-allowed text-blue-700 font-bold text-sm rounded-xl border-2 border-dashed border-blue-200 transition-all cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-50 hover:bg-emerald-100 disabled:opacity-60 disabled:cursor-not-allowed text-emerald-700 font-bold text-sm rounded-2xl border-2 border-dashed border-blue-200 transition-all cursor-pointer"
                   id="property-gallery-upload-btn"
                 >
                   {isUploadingImage ? (
@@ -696,11 +696,11 @@ export default function PropertyModule({
                       <div 
                         key={idx}
                         onClick={() => handleSelectPreset(url)}
-                        className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all hover:scale-105 ${isSelected ? 'border-blue-600 scale-95 ring-2 ring-blue-100' : 'border-transparent'}`}
+                        className={`relative aspect-video rounded-xl overflow-hidden cursor-pointer border-2 transition-all hover:scale-105 ${isSelected ? 'border-emerald-600 scale-95 ring-2 ring-emerald-100' : 'border-transparent'}`}
                       >
                         <img src={url} alt={`Preset ${idx + 1}`} className="w-full h-full object-cover" />
                         {isSelected && (
-                          <div className="absolute inset-0 bg-blue-600/25 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-emerald-600/25 flex items-center justify-center">
                             <CheckCircle className="w-5 h-5 text-white drop-shadow-md" />
                           </div>
                         )}
@@ -718,7 +718,7 @@ export default function PropertyModule({
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {formImages.map((url, index) => (
-                      <div key={index} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 group">
+                      <div key={index} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 group">
                         <img src={url} alt="Selected Property" className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -738,7 +738,7 @@ export default function PropertyModule({
             <div className="pt-4 flex gap-3 border-t border-slate-100">
               <button
                 type="submit"
-                className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center font-bold border-0"
+                className="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center font-bold border-0"
                 id="form-submit-publish-btn"
               >
                 🚀 {t.publishBtn}
@@ -792,7 +792,7 @@ export default function PropertyModule({
               />
               
               {/* Index label */}
-              <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-extrabold px-3 py-1.5 rounded-xl backdrop-blur-xs z-10">
+              <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-extrabold px-3 py-1.5 rounded-2xl backdrop-blur-xs z-10">
                 {activeImageIndex + 1} / {images.length}
               </span>
             
@@ -815,7 +815,7 @@ export default function PropertyModule({
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${idx === activeImageIndex ? 'border-blue-600 scale-95 shadow-sm' : 'border-slate-200 opacity-70 hover:opacity-100'}`}
+                  className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 cursor-pointer transition-all ${idx === activeImageIndex ? 'border-emerald-600 scale-95 shadow-sm' : 'border-slate-200 opacity-70 hover:opacity-100'}`}
                 >
                   <img src={img} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
                 </button>
@@ -830,7 +830,7 @@ export default function PropertyModule({
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2 items-center justify-between">
               <div className="flex flex-wrap gap-2 items-center">
-                <span className="inline-flex items-center text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider font-bold">
+                <span className="inline-flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider font-bold">
                   ⚡ {selectedProperty.purpose === 'Rent' ? t.rent : t.sale}
                 </span>
                 <span className="inline-flex items-center text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full uppercase tracking-wider font-bold">
@@ -846,7 +846,7 @@ export default function PropertyModule({
                   className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors border ${
                     selectedProperty.unavailable 
                       ? 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100' 
-                      : 'bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100'
+                      : 'bg-emerald-50 text-emerald-600 border-amber-200 hover:bg-amber-100'
                   }`}
                   id="detail-toggle-avail-btn"
                 >
@@ -880,11 +880,11 @@ export default function PropertyModule({
                 </p>
               </div>
 
-              <div className="bg-blue-50/50 border border-blue-100/30 p-4 rounded-2xl flex flex-col justify-center shrink-0">
-                <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider font-bold">
+              <div className="bg-emerald-50/50 border border-emerald-100/30 p-4 rounded-2xl flex flex-col justify-center shrink-0">
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider font-bold">
                   {currentLanguage === 'en' ? 'Price' : 'قیمت'}
                 </span>
-                <span className="text-xl sm:text-2xl font-black text-blue-600">
+                <span className="text-xl sm:text-2xl font-black text-emerald-600">
                   {selectedProperty.price}
                 </span>
               </div>
@@ -893,23 +893,23 @@ export default function PropertyModule({
 
           {/* Meta Specifications Grid */}
           <div className="grid grid-cols-4 gap-2 bg-slate-50/50 p-4 rounded-2xl border border-slate-100" id="detail-specs-grid">
-            <div className="text-center p-2 bg-white rounded-xl shadow-xs flex flex-col items-center justify-center space-y-1">
-              <Grid className="w-4 h-4 text-blue-500" />
+            <div className="text-center p-2 bg-white rounded-2xl shadow-xs flex flex-col items-center justify-center space-y-1">
+              <Grid className="w-4 h-4 text-emerald-500" />
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{t.areaLabel}</span>
               <span className="text-xs sm:text-sm font-black text-slate-800">{selectedProperty.area}</span>
             </div>
-            <div className="text-center p-2 bg-white rounded-xl shadow-xs flex flex-col items-center justify-center space-y-1">
-              <Home className="w-4 h-4 text-blue-500" />
+            <div className="text-center p-2 bg-white rounded-2xl shadow-xs flex flex-col items-center justify-center space-y-1">
+              <Home className="w-4 h-4 text-emerald-500" />
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{t.roomsLabel}</span>
               <span className="text-xs sm:text-sm font-black text-slate-800">{selectedProperty.rooms || 'N/A'}</span>
             </div>
-            <div className="text-center p-2 bg-white rounded-xl shadow-xs flex flex-col items-center justify-center space-y-1">
-              <Layers className="w-4 h-4 text-blue-500" />
+            <div className="text-center p-2 bg-white rounded-2xl shadow-xs flex flex-col items-center justify-center space-y-1">
+              <Layers className="w-4 h-4 text-emerald-500" />
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{t.floorLabel}</span>
               <span className="text-xs sm:text-sm font-black text-slate-800">{selectedProperty.floor || 'N/A'}</span>
             </div>
-            <div className="text-center p-2 bg-white rounded-xl shadow-xs flex flex-col items-center justify-center space-y-1">
-              <Clock className="w-4 h-4 text-blue-500" />
+            <div className="text-center p-2 bg-white rounded-2xl shadow-xs flex flex-col items-center justify-center space-y-1">
+              <Clock className="w-4 h-4 text-emerald-500" />
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{t.statusLabel}</span>
               <span className={`text-xs sm:text-sm font-black ${selectedProperty.unavailable ? 'text-rose-600' : 'text-emerald-600'}`}>
                 {selectedProperty.unavailable ? t.unavailableBadge : (currentLanguage === 'en' ? 'Available' : 'دستیاب')}
@@ -933,7 +933,7 @@ export default function PropertyModule({
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between" id="detail-owner-card">
             <div className="flex items-center gap-3">
               <div 
-                className="w-12 h-12 bg-blue-600 text-white font-extrabold rounded-full flex items-center justify-center text-lg shadow-sm uppercase cursor-pointer hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 transition-all"
+                className="w-12 h-12 bg-emerald-600 text-white font-extrabold rounded-full flex items-center justify-center text-lg shadow-sm uppercase cursor-pointer hover:ring-2 hover:ring-blue-400 hover:ring-offset-1 transition-all"
                 data-profile-name={selectedProperty.ownerName || 'Local Member'}
               >
                 {(selectedProperty.ownerName || 'U')[0]}
@@ -941,7 +941,7 @@ export default function PropertyModule({
               <div>
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{t.owner}</span>
                 <h4 
-                  className="font-extrabold text-slate-900 text-sm leading-tight cursor-pointer hover:text-blue-600 hover:underline transition-colors"
+                  className="font-extrabold text-slate-900 text-sm leading-tight cursor-pointer hover:text-emerald-600 hover:underline transition-colors"
                   data-profile-name={selectedProperty.ownerName || 'Local Member'}
                 >
                   {selectedProperty.ownerName || (currentLanguage === 'en' ? 'Local Member' : 'مقامی ممبر')}
@@ -967,7 +967,7 @@ export default function PropertyModule({
                 window.open(`tel:${selectedProperty.contact}`);
               }}
               disabled={selectedProperty.unavailable}
-              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-black text-sm rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer border-0 ${
+              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-black text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer border-0 ${
                 selectedProperty.unavailable ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-green-500 hover:bg-green-600'
               }`}
               id="detail-call-btn"
@@ -990,8 +990,8 @@ export default function PropertyModule({
                 }
               }}
               disabled={selectedProperty.unavailable}
-              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-extrabold text-sm rounded-xl transition-all cursor-pointer border-0 ${
-                selectedProperty.unavailable ? 'bg-slate-300 cursor-not-allowed' : 'bg-[#2563eb] hover:bg-blue-700'
+              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-extrabold text-sm rounded-2xl transition-all cursor-pointer border-0 ${
+                selectedProperty.unavailable ? 'bg-slate-300 cursor-not-allowed' : 'bg-[#2563eb] hover:bg-emerald-700'
               }`}
               id="detail-message-btn"
             >
@@ -1002,7 +1002,7 @@ export default function PropertyModule({
             {/* Save */}
             <button
               onClick={() => handleToggleSave(selectedProperty.id)}
-              className={`py-3 px-4 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs ${isSaved ? 'bg-rose-50 border-rose-200 text-rose-600' : 'border-slate-200 hover:bg-slate-50 text-slate-600'}`}
+              className={`py-3 px-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs ${isSaved ? 'bg-rose-50 border-rose-200 text-rose-600' : 'border-slate-200 hover:bg-slate-50 text-slate-600'}`}
               id="detail-save-btn"
             >
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-600 text-rose-600' : ''}`} />
@@ -1012,7 +1012,7 @@ export default function PropertyModule({
             {/* Share */}
             <button
               onClick={handleShare}
-              className="py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs"
+              className="py-3 px-4 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs"
               id="detail-share-btn"
             >
               <Share2 className="w-4 h-4" />
@@ -1069,7 +1069,7 @@ export default function PropertyModule({
             </div>
             <button
               onClick={onNavigateToList}
-              className="py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl transition-all cursor-pointer font-bold border-0"
+              className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl transition-all cursor-pointer font-bold border-0"
               id="saved-browse-btn"
             >
               {t.browseAll}
@@ -1110,14 +1110,14 @@ export default function PropertyModule({
                     </button>
 
                     {/* Price overlay */}
-                    <div className="absolute bottom-3 start-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
+                    <div className="absolute bottom-3 start-3 bg-emerald-600 text-white text-xs font-black px-3 py-1.5 rounded-2xl shadow-md">
                       {prop.price}
                     </div>
 
                     {/* Unavailable Badge */}
                     {prop.unavailable && (
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                        <span className="bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-lg">
+                        <span className="bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-xl">
                           {t.unavailableBadge}
                         </span>
                       </div>
@@ -1129,7 +1129,7 @@ export default function PropertyModule({
                     <div className="space-y-2">
                       {/* Chip indicators */}
                       <div className="flex flex-wrap items-center gap-1.5 text-[9px] font-bold text-slate-500">
-                        <span className="bg-slate-100 px-2 py-0.5 rounded-full uppercase font-bold text-blue-600">
+                        <span className="bg-slate-100 px-2 py-0.5 rounded-full uppercase font-bold text-emerald-600">
                           {prop.type}
                         </span>
                         <span className="bg-slate-100 px-2 py-0.5 rounded-full font-bold">
@@ -1145,7 +1145,7 @@ export default function PropertyModule({
                       {/* Title */}
                       <h3 
                         onClick={() => onNavigateToDetail(prop.id)}
-                        className="font-black text-slate-900 text-sm hover:text-blue-600 cursor-pointer transition-colors leading-tight line-clamp-1"
+                        className="font-black text-slate-900 text-sm hover:text-emerald-600 cursor-pointer transition-colors leading-tight line-clamp-1"
                       >
                         {prop.title}
                       </h3>
@@ -1160,7 +1160,7 @@ export default function PropertyModule({
                     <div className="flex items-center gap-1.5 pt-3 border-t border-slate-100 mt-2">
                       <button
                         onClick={() => onNavigateToDetail(prop.id)}
-                        className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-[10px] font-bold rounded-lg transition-all cursor-pointer"
+                        className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer"
                         id={`saved-view-detail-btn-${prop.id}`}
                       >
                         <Eye className="w-3.5 h-3.5 text-slate-500" />
@@ -1169,7 +1169,7 @@ export default function PropertyModule({
 
                       <button
                         onClick={() => handleToggleSave(prop.id)}
-                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border rounded-lg transition-all cursor-pointer text-[10px] font-bold ${
+                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border rounded-xl transition-all cursor-pointer text-[10px] font-bold ${
                           isSaved 
                             ? 'bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100' 
                             : 'border-slate-200 hover:bg-slate-50 text-slate-700'
@@ -1189,7 +1189,7 @@ export default function PropertyModule({
                           window.open(`tel:${prop.contact}`);
                         }}
                         disabled={prop.unavailable}
-                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 text-white text-[10px] font-bold rounded-lg shadow-xs transition-all cursor-pointer border-0 ${
+                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 text-white text-[10px] font-bold rounded-xl shadow-xs transition-all cursor-pointer border-0 ${
                           prop.unavailable ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-emerald-600 hover:bg-emerald-700'
                         }`}
                         id={`saved-call-owner-btn-${prop.id}`}
@@ -1247,7 +1247,7 @@ export default function PropertyModule({
           {/* Post Property button */}
           <button
             onClick={onNavigateToCreate}
-            className="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer font-bold border-0"
+            className="inline-flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer font-bold border-0"
             id="list-post-property-btn"
           >
             <Plus className="w-4 h-4" />
@@ -1265,7 +1265,7 @@ export default function PropertyModule({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full bg-slate-50 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-blue-500 rounded-2xl py-2.5 ps-10 pe-4 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all"
+            className="w-full bg-slate-50 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-emerald-500 rounded-2xl py-2.5 ps-10 pe-4 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-100 transition-all"
             id="list-search-input"
           />
         </div>
@@ -1280,7 +1280,7 @@ export default function PropertyModule({
                 onClick={() => setSelectedCategory(chip.id)}
                 className={`py-1.5 px-4 rounded-full text-xs font-extrabold border transition-all cursor-pointer whitespace-nowrap ${
                   isSelected 
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-xs' 
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs' 
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
                 }`}
                 id={`chip-filter-${chip.id?.toLowerCase()}`}
@@ -1299,14 +1299,14 @@ export default function PropertyModule({
             <div key={i} className="bg-white rounded-3xl border border-slate-100 p-4 space-y-4 animate-pulse">
               <div className="aspect-video bg-slate-200 rounded-2xl w-full" />
               <div className="space-y-2">
-                <div className="h-4 bg-slate-200 rounded-md w-3/4" />
-                <div className="h-3 bg-slate-100 rounded-md w-1/2" />
-                <div className="h-3 bg-slate-100 rounded-md w-5/6" />
+                <div className="h-4 bg-slate-200 rounded-xl w-3/4" />
+                <div className="h-3 bg-slate-100 rounded-xl w-1/2" />
+                <div className="h-3 bg-slate-100 rounded-xl w-5/6" />
               </div>
               <div className="flex gap-2 pt-2 border-t border-slate-100">
-                <div className="h-8 bg-slate-100 rounded-lg flex-1" />
-                <div className="h-8 bg-slate-100 rounded-lg flex-1" />
-                <div className="h-8 bg-slate-100 rounded-lg flex-1" />
+                <div className="h-8 bg-slate-100 rounded-xl flex-1" />
+                <div className="h-8 bg-slate-100 rounded-xl flex-1" />
+                <div className="h-8 bg-slate-100 rounded-xl flex-1" />
               </div>
             </div>
           ))}
@@ -1366,14 +1366,14 @@ export default function PropertyModule({
                     </button>
 
                     {/* Price overlay */}
-                    <div className="absolute bottom-3 start-3 bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-md">
+                    <div className="absolute bottom-3 start-3 bg-emerald-600 text-white text-xs font-black px-3 py-1.5 rounded-2xl shadow-md">
                       {prop.price}
                     </div>
 
                     {/* Unavailable Badge */}
                     {prop.unavailable && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                        <span className="bg-red-600 text-white font-black text-xs px-3 py-1 rounded-lg">
+                        <span className="bg-red-600 text-white font-black text-xs px-3 py-1 rounded-xl">
                           {t.unavailableBadge}
                         </span>
                       </div>
@@ -1385,7 +1385,7 @@ export default function PropertyModule({
                     <div className="space-y-2">
                       {/* Chip indicators */}
                       <div className="flex flex-wrap items-center gap-1.5 text-[9px] font-bold text-slate-500">
-                        <span className="bg-slate-100 px-2 py-0.5 rounded-full uppercase font-bold text-blue-600">
+                        <span className="bg-slate-100 px-2 py-0.5 rounded-full uppercase font-bold text-emerald-600">
                           {prop.type}
                         </span>
                         <span className="bg-slate-100 px-2 py-0.5 rounded-full font-bold">
@@ -1401,7 +1401,7 @@ export default function PropertyModule({
                       {/* Title */}
                       <h3 
                         onClick={() => onNavigateToDetail(prop.id)}
-                        className="font-black text-slate-900 text-sm hover:text-blue-600 cursor-pointer transition-colors leading-tight line-clamp-1"
+                        className="font-black text-slate-900 text-sm hover:text-emerald-600 cursor-pointer transition-colors leading-tight line-clamp-1"
                       >
                         {prop.title}
                       </h3>
@@ -1424,7 +1424,7 @@ export default function PropertyModule({
                       {/* View Details button */}
                       <button
                         onClick={() => onNavigateToDetail(prop.id)}
-                        className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-[10px] font-bold rounded-lg transition-all cursor-pointer"
+                        className="flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border border-slate-200 hover:bg-slate-50 text-slate-700 text-[10px] font-bold rounded-xl transition-all cursor-pointer"
                         id={`view-detail-btn-${prop.id}`}
                       >
                         <Eye className="w-3.5 h-3.5 text-slate-500" />
@@ -1434,7 +1434,7 @@ export default function PropertyModule({
                       {/* Save button */}
                       <button
                         onClick={() => handleToggleSave(prop.id)}
-                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border rounded-lg transition-all cursor-pointer text-[10px] font-bold ${
+                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 border rounded-xl transition-all cursor-pointer text-[10px] font-bold ${
                           isSaved 
                             ? 'bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100' 
                             : 'border-slate-200 hover:bg-slate-50 text-slate-700'
@@ -1455,7 +1455,7 @@ export default function PropertyModule({
                           window.open(`tel:${prop.contact}`);
                         }}
                         disabled={prop.unavailable}
-                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 text-white text-[10px] font-bold rounded-lg shadow-xs transition-all cursor-pointer border-0 ${
+                        className={`flex-1 flex items-center justify-center gap-1 py-1.5 px-2 text-white text-[10px] font-bold rounded-xl shadow-xs transition-all cursor-pointer border-0 ${
                           prop.unavailable ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-emerald-600 hover:bg-emerald-700'
                         }`}
                         id={`call-owner-btn-${prop.id}`}
@@ -1484,3 +1484,4 @@ export default function PropertyModule({
     </div>
   );
 }
+

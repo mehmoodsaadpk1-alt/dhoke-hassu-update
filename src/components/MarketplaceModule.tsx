@@ -354,13 +354,13 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => navigate('/marketplace/my-listings')}
-                  className="text-xs px-3 py-1.5 border border-slate-200 rounded-md font-medium text-slate-700 bg-slate-50 hover:bg-slate-100"
+                  className="text-xs px-3 py-1.5 border border-slate-200 rounded-xl font-medium text-slate-700 bg-slate-50 hover:bg-slate-100"
                 >
                   {currentLanguage === 'en' ? 'My Ads' : 'میری اشتہارات'}
                 </button>
                 <button
                   onClick={() => navigate('/marketplace/create')}
-                  className="flex items-center gap-1 text-xs px-3 py-1.5 bg-[#2E7D32] text-white rounded-md font-medium hover:bg-green-800"
+                  className="flex items-center gap-1 text-xs px-3 py-1.5 bg-[#2E7D32] text-white rounded-xl font-medium hover:bg-green-800"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   {currentLanguage === 'en' ? 'Sell' : 'بیچیں'}
@@ -376,12 +376,12 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   placeholder={currentLanguage === 'en' ? 'Search items...' : 'چیزیں تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-100 border border-slate-200 ps-9 pe-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32] focus:bg-white"
+                  className="w-full bg-slate-100 border border-slate-200 ps-9 pe-4 py-2 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32] focus:bg-white"
                 />
               </div>
               <button
                 onClick={() => setIsFilterOpen(true)}
-                className="px-3 border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700"
+                className="px-3 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700"
               >
                 <Filter className="w-4 h-4" />
               </button>
@@ -405,7 +405,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2E7D32]"></div>
               </div>
             ) : items.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-xl border border-slate-100 p-8 shadow-sm">
+              <div className="text-center py-16 bg-white rounded-2xl border border-slate-100 p-8 shadow-sm">
                 <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                 <p className="text-slate-500 font-medium">
                   {currentLanguage === 'en' ? 'No items found matching filters.' : 'فلٹرز کے مطابق کوئی چیز نہیں ملی۔'}
@@ -432,7 +432,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                       <div
                         key={item.id}
                         onClick={() => navigate('/marketplace/detail', item.id)}
-                        className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow duration-200 cursor-pointer relative group"
+                        className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow duration-200 cursor-pointer relative group"
                       >
                         {/* Image Frame */}
                         <div className="aspect-square relative bg-slate-100 overflow-hidden">
@@ -486,7 +486,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                                     e.stopPropagation();
                                     navigate('/marketplace/chat', item.id);
                                   }}
-                                  className="flex items-center gap-0.5 text-xs text-blue-600 hover:text-blue-800 font-semibold"
+                                  className="flex items-center gap-0.5 text-xs text-emerald-600 hover:text-blue-800 font-semibold"
                                 >
                                   <MessageSquare className="w-3 h-3" />
                                   {currentLanguage === 'en' ? 'Chat' : 'چیٹ'}
@@ -527,7 +527,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
             </h1>
           </div>
 
-          <form onSubmit={handlePostAd} className="bg-white border rounded-xl p-5 shadow-sm space-y-4">
+          <form onSubmit={handlePostAd} className="bg-white border rounded-2xl p-5 shadow-sm space-y-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
                 {currentLanguage === 'en' ? 'Item Title' : 'عنوان'} *
@@ -537,7 +537,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 placeholder={currentLanguage === 'en' ? 'e.g. iPhone 13 Pro Max...' : 'مثال کے طور پر آئی فون 13...'}
                 value={formTitle}
                 onChange={(e) => setFormTitle(e.target.value)}
-                className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                className="w-full border rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
               />
               {formErrors.title && <p className="text-red-500 text-xs mt-1">{formErrors.title}</p>}
             </div>
@@ -550,7 +550,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 <select
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full border rounded-lg p-2.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                  className="w-full border rounded-xl p-2.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                 >
                   {CATEGORIES.filter(c => c.id !== 'All').map(c => (
                     <option key={c.id} value={c.id}>
@@ -567,7 +567,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 <select
                   value={formCondition}
                   onChange={(e) => setFormCondition(e.target.value as any)}
-                  className="w-full border rounded-lg p-2.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                  className="w-full border rounded-xl p-2.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                 >
                   <option value="New">New</option>
                   <option value="Used">Used</option>
@@ -586,7 +586,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   placeholder="Leave empty for negotiable"
                   value={formPrice}
                   onChange={(e) => setFormPrice(e.target.value)}
-                  className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                  className="w-full border rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                 />
               </div>
 
@@ -598,7 +598,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   value={formPriceText}
                   onChange={(e) => setFormPriceText(e.target.value)}
                   disabled={!!formPrice}
-                  className="w-full border rounded-lg p-2.5 text-sm bg-white disabled:bg-slate-100 disabled:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                  className="w-full border rounded-xl p-2.5 text-sm bg-white disabled:bg-slate-100 disabled:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                 >
                   <option value="Negotiable">Negotiable</option>
                   <option value="Call for price">Call for price</option>
@@ -616,7 +616,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 placeholder={currentLanguage === 'en' ? 'Describe key details, defects, accessories included...' : 'تفصیل درج کریں...'}
                 value={formDescription}
                 onChange={(e) => setFormDescription(e.target.value)}
-                className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                className="w-full border rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
               />
               {formErrors.description && <p className="text-red-500 text-xs mt-1">{formErrors.description}</p>}
             </div>
@@ -629,7 +629,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 type="text"
                 value={formLocation}
                 onChange={(e) => setFormLocation(e.target.value)}
-                className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                className="w-full border rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
               />
             </div>
 
@@ -642,7 +642,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 placeholder="e.g. +92 300 1234567"
                 value={formContact}
                 onChange={(e) => setFormContact(e.target.value)}
-                className="w-full border rounded-lg p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                className="w-full border rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
               />
               {formErrors.contact && <p className="text-red-500 text-xs mt-1">{formErrors.contact}</p>}
             </div>
@@ -661,7 +661,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   const newImages = [...formImages, ...files]?.slice(0, 5);
                   setFormImages(newImages);
                 }}
-                className="border-2 border-dashed border-slate-300 hover:border-[#2E7D32] rounded-xl p-6 text-center cursor-pointer bg-slate-50 transition-colors flex flex-col items-center justify-center gap-2 mb-3"
+                className="border-2 border-dashed border-slate-300 hover:border-[#2E7D32] rounded-2xl p-6 text-center cursor-pointer bg-slate-50 transition-colors flex flex-col items-center justify-center gap-2 mb-3"
                 onClick={() => document.getElementById('marketplace-file-input')?.click()}
               >
                 <Camera className="w-8 h-8 text-slate-400" />
@@ -713,7 +713,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   {formImages.map((img, idx) => {
                     const src = typeof img === 'string' ? img : URL.createObjectURL(img);
                     return (
-                      <div key={idx} className="relative aspect-square border rounded-lg overflow-hidden group shadow-sm bg-slate-100">
+                      <div key={idx} className="relative aspect-square border rounded-xl overflow-hidden group shadow-sm bg-slate-100">
                         <img src={src} className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -736,7 +736,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
             <button
               type="submit"
               disabled={isPosting}
-              className="w-full py-3 bg-[#2E7D32] hover:bg-green-800 text-white font-bold rounded-lg transition-colors flex justify-center items-center gap-2"
+              className="w-full py-3 bg-[#2E7D32] hover:bg-green-800 text-white font-bold rounded-xl transition-colors flex justify-center items-center gap-2"
             >
               {isPosting ? 'Publishing...' : (currentLanguage === 'en' ? 'Post Ad' : 'اشتہار شائع کریں')}
             </button>
@@ -773,7 +773,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
           </div>
 
           {/* Details Card */}
-          <div className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             {/* Gallery Frame */}
             <div className="w-full flex justify-center bg-slate-900 relative overflow-hidden rounded-t-xl border-b border-slate-200">
               <div className="w-full max-w-[700px] h-60 sm:h-80 relative flex items-center justify-center">
@@ -835,7 +835,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
 
               {/* Seller details card */}
               <div 
-                className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between cursor-pointer hover:border-slate-300 transition-colors"
+                className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between cursor-pointer hover:border-slate-300 transition-colors"
                 data-profile-name={selectedItem.seller_profile?.full_name || 'Seller'}
                 data-profile-avatar={selectedItem.seller_profile?.profile_photo || ''}
                 data-profile-id={selectedItem.posted_by || ''}
@@ -852,7 +852,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     <div className="text-sm font-bold text-slate-800 flex items-center gap-1">
                       {selectedItem.seller_profile?.full_name || 'Seller'}
                       {selectedItem.seller_profile?.verified && (
-                        <CheckCircle className="w-3.5 h-3.5 text-blue-500 fill-blue-500" />
+                        <CheckCircle className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
                       )}
                     </div>
                     <span className="text-xs text-slate-400">Verified community member</span>
@@ -862,7 +862,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 <div className="flex gap-2">
                   <a
                     href={`tel:${selectedItem.location}`}
-                    className="p-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg"
+                    className="p-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl"
                     onClick={() => analytics.track("seller_contact", { entity_type: 'listing', module: "marketplace", entity_id: selectedItem.id, metadata: { contact_type: 'phone' }})}
                   >
                     <Phone className="w-4 h-4" />
@@ -871,7 +871,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     href={`https://wa.me/${selectedItem.location.replace(/[^0-9]/g, '')}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-lg"
+                    className="p-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-xl"
                     onClick={() => analytics.track("seller_contact", { entity_type: 'listing', module: "marketplace", entity_id: selectedItem.id, metadata: { contact_type: 'whatsapp' }})}
                   >
                     <Send className="w-4 h-4 rotate-45" />
@@ -884,7 +884,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 {selectedItem.posted_by === (currentUser?.id || 'mock-user-id') ? (
                   <button
                     disabled
-                    className="w-full py-3 bg-slate-100 text-slate-400 font-bold rounded-xl text-center text-sm border border-slate-200 cursor-not-allowed flex items-center justify-center gap-1"
+                    className="w-full py-3 bg-slate-100 text-slate-400 font-bold rounded-2xl text-center text-sm border border-slate-200 cursor-not-allowed flex items-center justify-center gap-1"
                   >
                     <Sparkles className="w-4 h-4 text-yellow-500" />
                     {currentLanguage === 'en' ? 'Boost (Coming Soon)' : 'فروغ دیں'}
@@ -893,13 +893,13 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => navigate('/marketplace/chat', selectedItem.id)}
-                      className="py-3 bg-[#2E7D32] hover:bg-green-800 text-white font-bold rounded-xl text-center text-sm shadow-sm transition-colors"
+                      className="py-3 bg-[#2E7D32] hover:bg-green-800 text-white font-bold rounded-2xl text-center text-sm shadow-sm transition-colors"
                     >
                       {currentLanguage === 'en' ? 'Chat Seller' : 'فروخت کنندہ سے چیٹ'}
                     </button>
                     <button
                       disabled
-                      className="py-3 bg-slate-100 text-slate-400 font-bold rounded-xl text-center text-sm border border-slate-200 cursor-not-allowed flex items-center justify-center gap-1"
+                      className="py-3 bg-slate-100 text-slate-400 font-bold rounded-2xl text-center text-sm border border-slate-200 cursor-not-allowed flex items-center justify-center gap-1"
                     >
                       <Sparkles className="w-4 h-4 text-yellow-500" />
                       {currentLanguage === 'en' ? 'Boost (Coming Soon)' : 'فروغ دیں'}
@@ -1008,21 +1008,21 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
 
           <div className="space-y-3">
             {fetchMyListings().length === 0 ? (
-              <div className="text-center py-16 bg-white border rounded-xl p-8">
+              <div className="text-center py-16 bg-white border rounded-2xl p-8">
                 <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto mb-3" />
                 <p className="text-slate-500 font-medium">
                   {currentLanguage === 'en' ? 'You have not posted any ads yet.' : 'آپ نے ابھی تک کوئی اشتہار پوسٹ نہیں کیا۔'}
                 </p>
                 <button
                   onClick={() => navigate('/marketplace/create')}
-                  className="mt-4 px-4 py-2 bg-[#2E7D32] text-white rounded-lg text-xs font-semibold hover:bg-green-800"
+                  className="mt-4 px-4 py-2 bg-[#2E7D32] text-white rounded-xl text-xs font-semibold hover:bg-green-800"
                 >
                   {currentLanguage === 'en' ? 'Post An Ad' : 'نیا اشتہار لگائیں'}
                 </button>
               </div>
             ) : (
               fetchMyListings().map(item => (
-                <div key={item.id} className="bg-white rounded-xl border border-slate-100 p-3 flex gap-3 shadow-sm justify-between items-center">
+                <div key={item.id} className="bg-white rounded-2xl border border-slate-100 p-3 flex gap-3 shadow-sm justify-between items-center">
                   <div className="flex gap-3 items-center">
                     <div className="w-16 h-16 rounded overflow-hidden bg-slate-100 flex-shrink-0">
                       <img
@@ -1046,7 +1046,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     {!item.is_sold && (
                       <button
                         onClick={() => markAsSold(item.id)}
-                        className="px-2.5 py-1.5 bg-[#2E7D32] text-white rounded-md text-[11px] font-bold hover:bg-green-800"
+                        className="px-2.5 py-1.5 bg-[#2E7D32] text-white rounded-xl text-[11px] font-bold hover:bg-green-800"
                       >
                         {currentLanguage === 'en' ? 'Mark Sold' : 'فروخت شدہ'}
                       </button>
@@ -1081,14 +1081,14 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     placeholder="Min Price"
                     value={filters.minPrice}
                     onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                    className="border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                    className="border rounded-xl p-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                   />
                   <input
                     type="number"
                     placeholder="Max Price"
                     value={filters.maxPrice}
                     onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                    className="border rounded-lg p-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                    className="border rounded-xl p-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
                   />
                 </div>
               </div>
@@ -1101,7 +1101,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                       key={cond}
                       type="button"
                       onClick={() => setFilters({ ...filters, condition: filters.condition === cond ? '' : cond })}
-                      className={`flex-1 py-2 rounded-lg text-xs font-semibold border ${
+                      className={`flex-1 py-2 rounded-xl text-xs font-semibold border ${
                         filters.condition === cond
                           ? 'bg-[#2E7D32] text-white border-[#2E7D32]'
                           : 'bg-slate-50 text-slate-700 border-slate-200'
@@ -1120,13 +1120,13 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   setFilters({ minPrice: '', maxPrice: '', condition: '' });
                   setIsFilterOpen(false);
                 }}
-                className="flex-1 py-2.5 border rounded-lg text-xs font-bold text-slate-600 bg-slate-50 hover:bg-slate-100"
+                className="flex-1 py-2.5 border rounded-xl text-xs font-bold text-slate-600 bg-slate-50 hover:bg-slate-100"
               >
                 Clear
               </button>
               <button
                 onClick={() => setIsFilterOpen(false)}
-                className="flex-1 py-2.5 bg-[#2E7D32] text-white rounded-lg text-xs font-bold hover:bg-green-800 shadow-sm"
+                className="flex-1 py-2.5 bg-[#2E7D32] text-white rounded-xl text-xs font-bold hover:bg-green-800 shadow-sm"
               >
                 Apply Filters
               </button>
@@ -1138,7 +1138,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
       {/* REPORT LISTING MODAL */}
       {isReportOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-sm p-5 space-y-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4">
             <div className="flex justify-between items-center border-b pb-3">
               <h3 className="font-bold text-slate-800 text-sm">
                 {currentLanguage === 'en' ? 'Report Listing' : 'رپورٹ کریں'}
@@ -1155,20 +1155,20 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 placeholder="e.g. Inappropriate item, counterfeit products, duplicate listing, fake seller..."
                 value={reportReason}
                 onChange={(e) => setReportReason(e.target.value)}
-                className="w-full border rounded-lg p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
+                className="w-full border rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#2E7D32]"
               />
             </div>
 
             <div className="flex gap-2">
               <button
                 onClick={() => setIsReportOpen(false)}
-                className="flex-1 py-2 border rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                className="flex-1 py-2 border rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleReportSubmit}
-                className="flex-1 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700"
+                className="flex-1 py-2 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700"
               >
                 Submit Report
               </button>
@@ -1180,3 +1180,4 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
     </div>
   );
 }
+

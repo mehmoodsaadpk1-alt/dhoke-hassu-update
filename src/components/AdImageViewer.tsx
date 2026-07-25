@@ -311,7 +311,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
       <div className="w-full flex items-center justify-between z-10 px-2 sm:px-4">
         {/* Sponsored / Advertiser label */}
         <div className="flex flex-col text-start">
-          <span className="bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full w-fit">
+          <span className="bg-emerald-500 text-slate-950 text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full w-fit">
             📢 Sponsored
           </span>
           {ad.advertiser_name && (
@@ -324,10 +324,10 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
         {/* Action controllers */}
         <div className="flex items-center gap-3">
           {/* Zoom controls */}
-          <div className="hidden sm:flex items-center bg-slate-800/80 rounded-xl p-1 border border-slate-700/50">
+          <div className="hidden sm:flex items-center bg-slate-800/80 rounded-2xl p-1 border border-slate-700/50">
             <button
               onClick={handleZoomIn}
-              className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-xl transition-colors cursor-pointer"
               title="Zoom In"
               aria-label="Zoom In"
             >
@@ -335,7 +335,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
             </button>
             <button
               onClick={handleZoomOut}
-              className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-xl transition-colors cursor-pointer"
               title="Zoom Out"
               aria-label="Zoom Out"
             >
@@ -344,7 +344,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
             {zoom > 1 && (
               <button
                 onClick={handleZoomReset}
-                className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 hover:bg-slate-700 text-slate-300 rounded-xl transition-colors cursor-pointer"
                 title="Reset Zoom"
                 aria-label="Reset Zoom"
               >
@@ -395,7 +395,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
         >
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-500"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-500"></div>
             </div>
           )}
 
@@ -410,7 +410,7 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
               ref={imgRef}
               src={imagesList[currentIdx]}
               alt={ad.title}
-              className="max-w-full max-h-[90vh] sm:max-h-[95vh] rounded-xl object-contain shadow-2xl transition-transform duration-100 ease-out pointer-events-none select-none"
+              className="max-w-full max-h-[90vh] sm:max-h-[95vh] rounded-2xl object-contain shadow-2xl transition-transform duration-100 ease-out pointer-events-none select-none"
               style={{
                 transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
               }}
@@ -466,13 +466,13 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
         {/* CTA Redirect Button */}
         <div 
           onClick={() => setShowViewer(true)}
-          className="w-full md:w-64 h-48 rounded-xl overflow-hidden border border-amber-200/60 shrink-0 bg-white shadow-lg cursor-zoom-in group/img relative"
+          className="w-full md:w-64 h-48 rounded-2xl overflow-hidden border border-amber-200/60 shrink-0 bg-white shadow-lg cursor-zoom-in group/img relative"
         >
           <img src={ad.banner_url} alt={ad.title} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-350" />
         </div>
         <button
           onClick={handleCtaClick}
-          className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 active:scale-[0.98] text-slate-950 font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer border-0"
+          className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-slate-950 font-black text-xs rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer border-0"
         >
           {getCtaIcon()}
           <span>{getCtaLabel()}</span>
@@ -481,3 +481,4 @@ export default function AdImageViewer({ ad, onClose, onNavigateToModule }: AdIma
     </div>
   );
 }
+

@@ -159,7 +159,7 @@ export default function PageCreateForm({
               </label>
               <div 
                 className={`relative w-full h-48 md:h-64 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors overflow-hidden ${
-                  coverPreview ? 'border-transparent' : 'border-slate-300 hover:border-blue-500 bg-slate-50'
+                  coverPreview ? 'border-transparent' : 'border-slate-300 hover:border-emerald-500 bg-slate-50'
                 }`}
                 onClick={() => coverInputRef.current?.click()}
               >
@@ -167,7 +167,7 @@ export default function PageCreateForm({
                   <>
                     <img src={coverPreview} alt="Cover Preview" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="text-white font-bold text-sm bg-black/60 px-4 py-2 rounded-xl backdrop-blur-sm">
+                      <span className="text-white font-bold text-sm bg-black/60 px-4 py-2 rounded-2xl backdrop-blur-sm">
                         {isEn ? 'Change Cover' : 'کور تبدیل کریں'}
                       </span>
                     </div>
@@ -189,7 +189,7 @@ export default function PageCreateForm({
               </label>
               <div 
                 className={`relative w-24 h-24 rounded-full border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors overflow-hidden ${
-                  profilePreview ? 'border-transparent' : 'border-slate-300 hover:border-blue-500 bg-slate-50'
+                  profilePreview ? 'border-transparent' : 'border-slate-300 hover:border-emerald-500 bg-slate-50'
                 }`}
                 onClick={() => profileInputRef.current?.click()}
               >
@@ -221,7 +221,7 @@ export default function PageCreateForm({
                 value={name} 
                 onChange={e => setName(e.target.value)} 
                 required
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "E.g. Ali's Bakery" : "مثال: علی بیکری"}
               />
             </div>
@@ -234,7 +234,7 @@ export default function PageCreateForm({
                   value={slug} 
                   onChange={e => setSlug(e.target.value?.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} 
                   required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-9 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-9 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                   placeholder="alis-bakery"
                 />
               </div>
@@ -247,7 +247,7 @@ export default function PageCreateForm({
               <select 
                 value={category} 
                 onChange={e => setCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-4 pe-10 py-3 text-sm font-semibold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-4 pe-10 py-3 text-sm font-semibold appearance-none focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -263,7 +263,7 @@ export default function PageCreateForm({
               value={description} 
               onChange={e => setDescription(e.target.value)}
               rows={4}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all resize-none"
               placeholder={isEn ? "Tell people about your page..." : "لوگوں کو اپنے صفحہ کے بارے میں بتائیں..."}
             />
           </div>
@@ -280,7 +280,7 @@ export default function PageCreateForm({
                 type="url" 
                 value={website} 
                 onChange={e => setWebsite(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "Website URL" : "ویب سائٹ کا ربط"}
               />
             </div>
@@ -290,7 +290,7 @@ export default function PageCreateForm({
                 type="tel" 
                 value={phone} 
                 onChange={e => setPhone(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "Phone Number" : "فون نمبر"}
               />
             </div>
@@ -300,7 +300,7 @@ export default function PageCreateForm({
                 type="email" 
                 value={email} 
                 onChange={e => setEmail(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "Email Address" : "ای میل ایڈریس"}
               />
             </div>
@@ -310,7 +310,7 @@ export default function PageCreateForm({
                 type="text" 
                 value={address} 
                 onChange={e => setAddress(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "Street Address" : "گلی کا پتہ"}
               />
             </div>
@@ -320,7 +320,7 @@ export default function PageCreateForm({
                 type="text" 
                 value={location} 
                 onChange={e => setLocation(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl ps-10 pe-4 py-3 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 placeholder={isEn ? "City, Country" : "شہر، ملک"}
               />
             </div>
@@ -341,7 +341,7 @@ export default function PageCreateForm({
                 <select 
                   value={visibility} 
                   onChange={e => setVisibility(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl ps-4 pe-10 py-2.5 text-sm font-bold appearance-none focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full bg-white border border-slate-200 rounded-2xl ps-4 pe-10 py-2.5 text-sm font-bold appearance-none focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all"
                 >
                   <option value="Public">Public</option>
                   <option value="Private">Private</option>
@@ -351,22 +351,22 @@ export default function PageCreateForm({
             </div>
 
             <label className="flex items-center gap-3 cursor-pointer group">
-              <div className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors ${allowMessages ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 bg-white'}`}>
+              <div className={`w-6 h-6 rounded-xl border flex items-center justify-center transition-colors ${allowMessages ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'}`}>
                 {allowMessages && <CheckCircle2 className="w-4 h-4" />}
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{isEn ? 'Allow Messages' : 'پیغامات کی اجازت دیں'}</p>
+                <p className="text-sm font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">{isEn ? 'Allow Messages' : 'پیغامات کی اجازت دیں'}</p>
                 <p className="text-xs font-semibold text-slate-500">{isEn ? 'Let users send messages to your page' : 'صارفین کو آپ کے صفحہ پر پیغامات بھیجنے کی اجازت دیں'}</p>
               </div>
               <input type="checkbox" className="hidden" checked={allowMessages} onChange={e => setAllowMessages(e.target.checked)} />
             </label>
 
             <label className="flex items-center gap-3 cursor-pointer group">
-              <div className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors ${allowReviews ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 bg-white'}`}>
+              <div className={`w-6 h-6 rounded-xl border flex items-center justify-center transition-colors ${allowReviews ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'}`}>
                 {allowReviews && <CheckCircle2 className="w-4 h-4" />}
               </div>
               <div>
-                <p className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{isEn ? 'Allow Reviews' : 'جائزوں کی اجازت دیں'}</p>
+                <p className="text-sm font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">{isEn ? 'Allow Reviews' : 'جائزوں کی اجازت دیں'}</p>
                 <p className="text-xs font-semibold text-slate-500">{isEn ? 'Let users leave reviews on your page' : 'صارفین کو آپ کے صفحہ پر جائزے چھوڑنے کی اجازت دیں'}</p>
               </div>
               <input type="checkbox" className="hidden" checked={allowReviews} onChange={e => setAllowReviews(e.target.checked)} />
@@ -380,14 +380,14 @@ export default function PageCreateForm({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-xl transition-colors cursor-pointer"
+            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-2xl transition-colors cursor-pointer"
           >
             {isEn ? 'Cancel' : 'منسوخ کریں'}
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-8 py-2.5 bg-[#2563eb] hover:bg-blue-700 text-white text-sm font-black rounded-xl shadow-md transition-all cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="px-8 py-2.5 bg-[#2563eb] hover:bg-emerald-700 text-white text-sm font-black rounded-2xl shadow-md transition-all cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
             {loading ? (isEn ? 'Creating...' : 'بن رہا ہے...') : (isEn ? 'Create Page' : 'صفحہ بنائیں')}
@@ -397,3 +397,4 @@ export default function PageCreateForm({
     </div>
   );
 }
+

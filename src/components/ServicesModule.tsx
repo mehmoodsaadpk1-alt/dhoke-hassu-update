@@ -551,7 +551,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
           {activeView !== 'list' && (
             <button
               onClick={onNavigateToList}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-xs cursor-pointer font-bold"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{isEn ? 'View Directory' : 'ڈائریکٹری دیکھیں'}</span>
@@ -577,7 +577,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                 setFormPricing('');
                 onNavigateToCreate();
               }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
               id="list-service-btn"
             >
               <PlusCircle className="w-4 h-4" />
@@ -602,7 +602,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   placeholder={isEn ? 'Search by business name, provider, keyword...' : 'سروس یا ہنرمند تلاش کریں...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold"
+                  className="w-full ps-10 pe-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold"
                 />
               </div>
 
@@ -612,7 +612,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                 <select
                   value={selectedArea}
                   onChange={(e) => setSelectedArea(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   {areas.map(a => (
                     <option key={a} value={a}>
@@ -628,7 +628,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'rating' | 'newest')}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-bold"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-bold"
                 >
                   <option value="rating">{isEn ? 'Highest Rating' : 'بہترین ریٹنگ'}</option>
                   <option value="newest">{isEn ? 'Newest Listings' : 'جدید ترین'}</option>
@@ -643,7 +643,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   type="checkbox"
                   checked={showOnlyVerified}
                   onChange={() => setShowOnlyVerified(!showOnlyVerified)}
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer w-4 h-4"
+                  className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer w-4 h-4"
                 />
                 <span>{isEn ? 'Verified Providers' : 'تصدیق شدہ ہنرمند'}</span>
               </label>
@@ -653,7 +653,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   type="checkbox"
                   checked={showOnlyFeatured}
                   onChange={() => setShowOnlyFeatured(!showOnlyFeatured)}
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer w-4 h-4"
+                  className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer w-4 h-4"
                 />
                 <span>{isEn ? 'Featured Services' : 'نمایاں سروسز'}</span>
               </label>
@@ -667,9 +667,9 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
+                    className={`px-4 py-2 rounded-2xl text-xs font-black whitespace-nowrap transition-all border cursor-pointer font-bold ${
                       isActive 
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' 
                         : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -687,7 +687,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="animate-pulse bg-white border rounded-2xl p-5 border-slate-200">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-16 h-16 bg-slate-200 rounded-xl" />
+                    <div className="w-16 h-16 bg-slate-200 rounded-2xl" />
                     <div className="flex-1 space-y-2">
                       <div className="h-4 bg-slate-200 rounded w-3/4" />
                       <div className="h-3 bg-slate-200 rounded w-1/2" />
@@ -704,7 +704,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
             <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-xs">
               <AlertCircle className="w-12 h-12 text-slate-350 mx-auto mb-3" />
               <p className="text-base font-extrabold text-slate-800">{isEn ? 'Failed to load services' : 'سروسز لوڈ کرنے میں ناکامی'}</p>
-              <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
+              <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-2xl hover:bg-emerald-700">
                 {isEn ? 'Retry' : 'دوبارہ کوشش'}
               </button>
             </div>
@@ -731,7 +731,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       onClick={() => onNavigateToDetail(item.id)}
                       className={`bg-white border rounded-2xl p-5 hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between relative ${
                         item.featured 
-                          ? 'border-blue-400 bg-blue-50/5 ring-1 ring-blue-50' 
+                          ? 'border-blue-400 bg-emerald-50/5 ring-1 ring-emerald-50' 
                           : 'border-slate-200'
                       }`}
                       id={`service-card-${item.id}`}
@@ -739,7 +739,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       {/* Featured / Verified / Pending status tags */}
                       <div className="absolute top-5 start-5 flex items-center gap-1.5 z-10">
                         {item.featured && (
-                          <span className="bg-blue-600 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                          <span className="bg-emerald-600 text-white text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-0.5">
                             <Sparkles className="w-2.5 h-2.5" />
                             {isEn ? 'Featured' : 'نمایاں'}
                           </span>
@@ -757,7 +757,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                           <img
                             src={item.image || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=150'}
                             alt={item.title || item.name}
-                            className="w-16 h-16 rounded-xl object-cover border border-slate-100 shrink-0"
+                            className="w-16 h-16 rounded-2xl object-cover border border-slate-100 shrink-0"
                           />
                           <div className="space-y-1">
                             <div className="flex items-center gap-1">
@@ -781,7 +781,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
 
                         {/* Provider rating and reviews count */}
                         <div className="flex items-center gap-4 mt-4 text-xs font-extrabold text-slate-700">
-                          <div className="flex items-center gap-1 text-amber-500">
+                          <div className="flex items-center gap-1 text-emerald-500">
                             <Star className="w-4 h-4 fill-current" />
                             <span>{item.rating || 5.0}</span>
                           </div>
@@ -803,9 +803,9 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         <div className="flex items-center gap-1">
                           <button
                             onClick={(e) => handleToggleSave(item.id, e)}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                            className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
                               isSaved 
-                                ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                                ? 'bg-emerald-50 border-blue-200 text-emerald-600' 
                                 : 'bg-white border-slate-200 text-slate-400 hover:text-slate-600'
                             }`}
                           >
@@ -817,7 +817,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                             <>
                               <button
                                 onClick={(e) => handleToggleVerify(item.id, e)}
-                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                className={`p-1.5 rounded-xl transition-colors cursor-pointer ${
                                   item.verified ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-400 hover:bg-slate-50'
                                 }`}
                                 title={item.verified ? (isEn ? "Unverify" : "غیر تصدیق کریں") : (isEn ? "Verify" : "تصدیق کریں")}
@@ -826,8 +826,8 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                               </button>
                               <button
                                 onClick={(e) => handleToggleFeature(item.id, e)}
-                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                                  item.featured ? 'text-blue-600 hover:bg-blue-50' : 'text-slate-400 hover:bg-slate-50'
+                                className={`p-1.5 rounded-xl transition-colors cursor-pointer ${
+                                  item.featured ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-400 hover:bg-slate-50'
                                 }`}
                                 title={item.featured ? (isEn ? "Unfeature" : "عام کریں") : (isEn ? "Feature" : "نمایاں کریں")}
                               >
@@ -841,14 +841,14 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                             <>
                               <button
                                 onClick={(e) => handleEditClick(item, e)}
-                                className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                                className="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer"
                                 title={isEn ? "Edit" : "ترمیم"}
                               >
                                 <Edit className="w-3.5 h-3.5" />
                               </button>
                               <button
                                 onClick={(e) => handleDeleteClick(item.id, e)}
-                                className="p-1.5 text-slate-450 hover:text-red-650 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                className="p-1.5 text-slate-450 hover:text-red-650 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                                 title={isEn ? "Delete" : "حذف"}
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
@@ -926,7 +926,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {selectedItem.galleryImages.map((imgUrl, idx) => (
-                      <a key={idx} href={imgUrl} target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden rounded-xl h-24 border border-slate-100">
+                      <a key={idx} href={imgUrl} target="_blank" rel="noopener noreferrer" className="relative group overflow-hidden rounded-2xl h-24 border border-slate-100">
                         <img
                           src={imgUrl}
                           alt="Gallery item"
@@ -948,7 +948,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                 <form onSubmit={handleReviewSubmit} className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-500 font-bold">{isEn ? 'Your Rating:' : 'آپ کی ریٹنگ:'}</span>
-                    <div className="flex items-center gap-1 text-amber-500">
+                    <div className="flex items-center gap-1 text-emerald-500">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
@@ -967,13 +967,13 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                     placeholder={isEn ? 'Write your experience with this service provider...' : 'اپنا تجربہ لکھیں...'}
                     value={reviewText}
                     onChange={(e) => setReviewText(e.target.value)}
-                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                   />
 
                   <div className="flex items-center justify-between">
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black shadow-sm transition-all cursor-pointer font-bold"
+                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-black shadow-sm transition-all cursor-pointer font-bold"
                     >
                       {isEn ? 'Submit Review' : 'تبصرہ جمع کریں'}
                     </button>
@@ -994,7 +994,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                           <span className="text-xs font-black text-slate-800">{rev.user}</span>
                           <span className="text-[10px] font-bold text-slate-400">{rev.date}</span>
                         </div>
-                        <div className="flex items-center gap-0.5 text-amber-500">
+                        <div className="flex items-center gap-0.5 text-emerald-500">
                           {Array.from({ length: rev.rating }).map((_, i) => (
                             <Star key={i} className="w-3.5 h-3.5 fill-current" />
                           ))}
@@ -1031,7 +1031,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
               {/* Quick Info Grid */}
               <div className="space-y-4 border-t border-b border-slate-50 py-5">
                 <div 
-                  className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-all"
+                  className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-2xl transition-all"
                   data-profile-name={selectedItem.name}
                   data-profile-id={selectedItem.user_id || ''}
                   onClick={() => {
@@ -1044,7 +1044,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   <UserIcon className="w-5 h-5 text-slate-450" />
                   <div>
                     <span className="text-[9px] font-black text-slate-450 uppercase block">{isEn ? 'Provider' : 'نام ہنرمند'}</span>
-                    <span className="text-xs font-black text-slate-800 hover:text-blue-600 hover:underline">{selectedItem.name}</span>
+                    <span className="text-xs font-black text-slate-800 hover:text-emerald-600 hover:underline">{selectedItem.name}</span>
                   </div>
                 </div>
 
@@ -1094,7 +1094,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       metadata: { contact_type: 'phone' }
                     });
                   }}
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all font-bold"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all font-bold"
                 >
                   <Phone className="w-4 h-4" />
                   {isEn ? 'Call Provider' : 'رابطہ کریں'}
@@ -1112,7 +1112,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         metadata: { contact_type: 'whatsapp' }
                       });
                     }}
-                    className="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all font-bold"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all font-bold"
                   >
                     <MessageCircle className="w-4 h-4" />
                     {isEn ? 'WhatsApp Provider' : 'واٹس ایپ کریں'}
@@ -1129,13 +1129,13 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   <div className="flex gap-2">
                     <button
                       onClick={(e) => handleApproveStatus(selectedItem.id, true, e)}
-                      className="flex-1 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-755 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold"
+                      className="flex-1 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-755 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold"
                     >
                       {isEn ? 'Approve' : 'منظور کریں'}
                     </button>
                     <button
                       onClick={(e) => handleApproveStatus(selectedItem.id, false, e)}
-                      className="flex-1 py-2 bg-red-50 hover:bg-red-100 text-red-755 rounded-xl text-xs font-extrabold transition-all cursor-pointer font-bold"
+                      className="flex-1 py-2 bg-red-50 hover:bg-red-100 text-red-755 rounded-2xl text-xs font-extrabold transition-all cursor-pointer font-bold"
                     >
                       {isEn ? 'Reject' : 'مسترد کریں'}
                     </button>
@@ -1187,7 +1187,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                       placeholder={isEn ? 'e.g. Al-Rehman Plumbing Solutions' : 'مثال کے طور پر: الرحمن پلمبنگ ورکس'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.title ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-title"
@@ -1205,7 +1205,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
                       placeholder={isEn ? 'e.g. Zahid Mehmood' : 'مثال کے طور پر: زاہد محمود'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.name ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-name"
@@ -1221,7 +1221,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                     <select
                       value={formCategory}
                       onChange={(e) => setFormCategory(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-bold"
                       id="form-category"
                     >
                       {categories.filter(c => c !== 'All').map((cat) => (
@@ -1240,7 +1240,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                     <select
                       value={formExperience}
                       onChange={(e) => setFormExperience(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-bold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-bold"
                       id="form-experience"
                     >
                       <option value="1 Year">{isEn ? '1 Year' : '1 سال'}</option>
@@ -1261,7 +1261,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formPricing}
                       onChange={(e) => setFormPricing(e.target.value)}
                       placeholder={isEn ? 'e.g. Call for estimate / Rs. 500 Visit fee' : 'مثال کے طور پر: 500 وزٹ فیس'}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-pricing"
                     />
                   </div>
@@ -1276,7 +1276,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formArea}
                       onChange={(e) => setFormArea(e.target.value)}
                       placeholder="e.g. Dhoke Hassu, Sector 2"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-area"
                     />
                   </div>
@@ -1291,7 +1291,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formHours}
                       onChange={(e) => setFormHours(e.target.value)}
                       placeholder="e.g. 9 AM - 6 PM"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-hours"
                     />
                   </div>
@@ -1306,7 +1306,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formContact}
                       onChange={(e) => setFormContact(e.target.value)}
                       placeholder="03xx-xxxxxxx"
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.contact ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-contact"
@@ -1324,7 +1324,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formWhatsApp}
                       onChange={(e) => setFormWhatsApp(e.target.value)}
                       placeholder="03xx-xxxxxxx"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-whatsapp"
                     />
                   </div>
@@ -1339,7 +1339,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formAddress}
                       onChange={(e) => setFormAddress(e.target.value)}
                       placeholder={isEn ? 'e.g. Shop 3, Main Market' : 'پتہ درج کریں...'}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                       id="form-address"
                     />
                   </div>
@@ -1355,7 +1355,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         value={formImage}
                         onChange={(e) => setFormImage(e.target.value)}
                         placeholder="https://example.com/logo.jpg"
-                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                         id="form-image"
                       />
                       <input
@@ -1369,14 +1369,14 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         type="button"
                         onClick={() => document.getElementById('service-logo-file-input')?.click()}
                         disabled={isUploadingLogo}
-                        className="px-4 py-3 bg-blue-50 hover:bg-blue-100 disabled:opacity-60 text-blue-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer border border-blue-200"
+                        className="px-4 py-3 bg-emerald-50 hover:bg-emerald-100 disabled:opacity-60 text-emerald-700 font-extrabold text-xs rounded-2xl transition-all cursor-pointer border border-blue-200"
                       >
                         {isUploadingLogo ? (isEn ? 'Uploading...' : 'اپلوڈ ہو رہا ہے...') : (isEn ? '📷 Upload' : '📷 اپلوڈ')}
                       </button>
                     </div>
                     {formImage && (
                       <div className="mt-2 relative inline-block">
-                        <img src={formImage} alt="Logo preview" className="w-16 h-16 rounded-xl object-cover border border-slate-200" />
+                        <img src={formImage} alt="Logo preview" className="w-16 h-16 rounded-2xl object-cover border border-slate-200" />
                         <button
                           type="button"
                           onClick={() => setFormImage('')}
@@ -1399,7 +1399,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         value={formGalleryImages}
                         onChange={(e) => setFormGalleryImages(e.target.value)}
                         placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
-                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800 font-semibold"
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 text-slate-800 font-semibold"
                         id="form-gallery"
                       />
                       <input
@@ -1414,7 +1414,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                         type="button"
                         onClick={() => document.getElementById('service-gallery-file-input')?.click()}
                         disabled={isUploadingGallery}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 hover:bg-blue-100 disabled:opacity-60 disabled:cursor-not-allowed text-blue-700 font-bold text-sm rounded-xl border-2 border-dashed border-blue-200 transition-all cursor-pointer"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-50 hover:bg-emerald-100 disabled:opacity-60 disabled:cursor-not-allowed text-emerald-700 font-bold text-sm rounded-2xl border-2 border-dashed border-blue-200 transition-all cursor-pointer"
                       >
                         {isUploadingGallery ? (
                           <>
@@ -1443,7 +1443,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                           const trimmed = url?.trim();
                           if (!trimmed) return null;
                           return (
-                            <div key={idx} className="relative group overflow-hidden rounded-xl h-16 border border-slate-200">
+                            <div key={idx} className="relative group overflow-hidden rounded-2xl h-16 border border-slate-200">
                               <img src={trimmed} alt="Work gallery preview" className="w-full h-full object-cover" />
                               <button
                                 type="button"
@@ -1473,7 +1473,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                       value={formDescription}
                       onChange={(e) => setFormDescription(e.target.value)}
                       placeholder={isEn ? 'e.g. Specialist in home electrical wiring, UPS repair, and fan installations...' : 'سروسز کی تفصیل لکھیں...'}
-                      className={`w-full px-4 py-3 bg-slate-50 border rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:bg-white text-slate-800 font-semibold ${
+                      className={`w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-semibold ${
                         errors.description ? 'border-red-400 focus:border-red-500' : 'border-slate-200'
                       }`}
                       id="form-description"
@@ -1485,7 +1485,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                 <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-xs font-extrabold shadow-md hover:shadow-lg transition-all cursor-pointer font-bold"
                     id="submit-service-form"
                   >
                     {editingItemId ? (isEn ? 'Save Changes' : 'تبدیلیاں محفوظ کریں') : (isEn ? 'Register Now' : 'رجسٹر کریں')}
@@ -1494,7 +1494,7 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
                   <button
                     type="button"
                     onClick={onNavigateToList}
-                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold"
+                    className="px-6 py-3 bg-slate-150 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold"
                     id="cancel-service-form"
                   >
                     {isEn ? 'Cancel' : 'منسوخ کریں'}
@@ -1512,3 +1512,4 @@ const servicesBannerMap = useAdRotator('Technical Services', 1, 1, 'Banner');
     </div>
   );
 }
+

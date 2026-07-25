@@ -79,7 +79,7 @@ export default function HighlightsBar({ userId, isSelf, isEn, onCreateNew }: Hig
           <div className="flex flex-col items-center gap-2 shrink-0">
             <button 
               onClick={onCreateNew}
-              className="w-16 h-16 rounded-full border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50 flex items-center justify-center transition"
+              className="w-16 h-16 rounded-full border-2 border-dashed border-slate-300 hover:border-emerald-500 hover:bg-emerald-50 flex items-center justify-center transition"
             >
               <Plus className="w-6 h-6 text-slate-400" />
             </button>
@@ -122,3 +122,4 @@ export default function HighlightsBar({ userId, isSelf, isEn, onCreateNew }: Hig
     </div>
   );
 }
+

@@ -481,7 +481,7 @@ export default function DealsModule({
                   setIsSuccessMessage(false);
                   onNavigateToList();
                 }}
-                className="py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-sm transition-all cursor-pointer border-0"
+                className="py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-sm transition-all cursor-pointer border-0"
                 id="deal-success-view-list"
               >
                 {t.goToList}
@@ -507,7 +507,7 @@ export default function DealsModule({
                 value={formTitle}
                 onChange={(e) => setFormTitle(e.target.value)}
                 placeholder={currentLanguage === 'en' ? "e.g., Special Eid Discount on All Boutique Suits" : "مثال: تمام سوٹس پر عید کی خصوصی رعایت"}
-                className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.title ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.title ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                 id="deal-form-title-input"
               />
               {formErrors.title && <p className="text-xs font-semibold text-red-500">{formErrors.title}</p>}
@@ -521,7 +521,7 @@ export default function DealsModule({
                 <select
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full border border-slate-200 px-4 py-3 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="w-full border border-slate-200 px-4 py-3 rounded-2xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="deal-form-category-select"
                 >
                   {categoriesList.map(cat => (
@@ -538,7 +538,7 @@ export default function DealsModule({
                   value={formBusinessName}
                   onChange={(e) => setFormBusinessName(e.target.value)}
                   placeholder="e.g., Siddique Sweets, Hamza Mobile"
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.businessName ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.businessName ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="deal-form-business-input"
                 />
                 {formErrors.businessName && <p className="text-xs font-semibold text-red-500">{formErrors.businessName}</p>}
@@ -555,7 +555,7 @@ export default function DealsModule({
                   value={formDiscountText}
                   onChange={(e) => setFormDiscountText(e.target.value)}
                   placeholder={t.createDiscountPlaceholder}
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.discountText ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.discountText ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="deal-form-discount-input"
                 />
                 {formErrors.discountText && <p className="text-xs font-semibold text-red-500">{formErrors.discountText}</p>}
@@ -569,7 +569,7 @@ export default function DealsModule({
                   value={formArea}
                   onChange={(e) => setFormArea(e.target.value)}
                   placeholder="e.g., Street 10, Main Bazar Road"
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.area ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.area ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="deal-form-area-input"
                 />
                 {formErrors.area && <p className="text-xs font-semibold text-red-500">{formErrors.area}</p>}
@@ -586,7 +586,7 @@ export default function DealsModule({
                   value={formExpiryDate}
                   min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setFormExpiryDate(e.target.value)}
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.expiryDate ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.expiryDate ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="deal-form-expiry-input"
                 />
                 {formErrors.expiryDate && <p className="text-xs font-semibold text-red-500">{formErrors.expiryDate}</p>}
@@ -600,7 +600,7 @@ export default function DealsModule({
                   value={formContact}
                   onChange={(e) => setFormContact(e.target.value)}
                   placeholder="e.g., 0321-5551234"
-                  className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.contact ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                  className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.contact ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                   id="deal-form-contact-input"
                 />
                 {formErrors.contact && <p className="text-xs font-semibold text-red-500">{formErrors.contact}</p>}
@@ -615,7 +615,7 @@ export default function DealsModule({
                 onChange={(e) => setFormDescription(e.target.value)}
                 placeholder={currentLanguage === 'en' ? "Explain what the offer includes, why it's great, how to claim it..." : "تفصیل لکھیں کہ اس آفر میں کیا شامل ہے، یہ کس طرح حاصل کی جا سکتی ہے..."}
                 rows={4}
-                className={`w-full border px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${formErrors.description ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-blue-500'}`}
+                className={`w-full border px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all ${formErrors.description ? 'border-red-400 bg-red-50/10' : 'border-slate-200 focus:border-emerald-500'}`}
                 id="deal-form-desc-textarea"
               />
               {formErrors.description && <p className="text-xs font-semibold text-red-500">{formErrors.description}</p>}
@@ -629,7 +629,7 @@ export default function DealsModule({
                 value={formTerms}
                 onChange={(e) => setFormTerms(e.target.value)}
                 placeholder={t.createTermsPlaceholder}
-                className="w-full border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                className="w-full border border-slate-200 px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                 id="deal-form-terms-input"
               />
             </div>
@@ -645,13 +645,13 @@ export default function DealsModule({
                   value={imageUrlInput}
                   onChange={(e) => setImageUrlInput(e.target.value)}
                   placeholder={t.imagePlaceholder}
-                  className="flex-1 border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all focus:border-blue-500"
+                  className="flex-1 border border-slate-200 px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all focus:border-emerald-500"
                   id="deal-form-custom-image-url"
                 />
                 <button
                   type="button"
                   onClick={handleAddCustomImageUrl}
-                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer border-0"
+                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl transition-all cursor-pointer border-0"
                   id="deal-form-add-image-url-btn"
                 >
                   {t.uploadBtn}
@@ -670,10 +670,10 @@ export default function DealsModule({
                 />
                 <label
                   htmlFor="deal-gallery-upload-input"
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-dashed rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-dashed rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                     uploadingImage 
                       ? 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed' 
-                      : 'bg-blue-50/50 border-blue-200 hover:bg-blue-50 text-blue-700'
+                      : 'bg-emerald-50/50 border-blue-200 hover:bg-emerald-50 text-emerald-700'
                   }`}
                 >
                   <Upload className="w-4 h-4" />
@@ -694,17 +694,17 @@ export default function DealsModule({
                       <div 
                         key={category}
                         onClick={() => handleSelectPreset(category)}
-                        className={`relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all hover:scale-105 ${isSelected ? 'border-blue-600 scale-95 ring-2 ring-blue-100' : 'border-transparent'}`}
+                        className={`relative aspect-video rounded-xl overflow-hidden cursor-pointer border-2 transition-all hover:scale-105 ${isSelected ? 'border-emerald-600 scale-95 ring-2 ring-emerald-100' : 'border-transparent'}`}
                         title={category}
                       >
                         <img src={url} alt={category} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-1">
-                          <span className="text-[9px] font-black text-white text-center bg-black/60 px-1.5 py-0.5 rounded-md truncate max-w-full">
+                          <span className="text-[9px] font-black text-white text-center bg-black/60 px-1.5 py-0.5 rounded-xl truncate max-w-full">
                             {t.categories[category as keyof typeof t.categories] || category}
                           </span>
                         </div>
                         {isSelected && (
-                          <div className="absolute inset-0 bg-blue-600/30 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-emerald-600/30 flex items-center justify-center">
                             <CheckCircle className="w-5 h-5 text-white drop-shadow-md" />
                           </div>
                         )}
@@ -722,7 +722,7 @@ export default function DealsModule({
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {formImages.map((url, index) => (
-                      <div key={index} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 group">
+                      <div key={index} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 group">
                         <img src={url} alt="Deal Thumbnail" className="w-full h-full object-cover" />
                         <button
                           type="button"
@@ -744,7 +744,7 @@ export default function DealsModule({
             <div className="pt-4 flex gap-3 border-t border-slate-100">
               <button
                 type="submit"
-                className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center border-0"
+                className="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center border-0"
                 id="deal-form-submit-btn"
               >
                 🚀 {t.publishBtn}
@@ -796,7 +796,7 @@ export default function DealsModule({
               className="w-full h-full object-cover"
             />
             {/* Gallery Indicator */}
-            <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-black px-3 py-1.5 rounded-xl backdrop-blur-xs">
+            <span className="absolute bottom-4 end-4 bg-black/75 text-white text-xs font-black px-3 py-1.5 rounded-2xl backdrop-blur-xs">
               {activeImageIndex + 1} / {images.length}
             </span>
 
@@ -822,7 +822,7 @@ export default function DealsModule({
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${idx === activeImageIndex ? 'border-blue-600 scale-95 shadow-sm' : 'border-slate-200 opacity-70 hover:opacity-100'}`}
+                  className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 cursor-pointer transition-all ${idx === activeImageIndex ? 'border-emerald-600 scale-95 shadow-sm' : 'border-slate-200 opacity-70 hover:opacity-100'}`}
                 >
                   <img src={img} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
                 </button>
@@ -836,7 +836,7 @@ export default function DealsModule({
           {/* Header metadata */}
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2 items-center justify-between">
-              <span className="inline-flex items-center text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
+              <span className="inline-flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider font-extrabold">
                 🏷️ {t.categories[selectedDeal.category as keyof typeof t.categories] || selectedDeal.category}
               </span>
               
@@ -853,7 +853,7 @@ export default function DealsModule({
                     handleToggleReport(selectedDeal.id, e);
                     onNavigateToList();
                   }}
-                  className="p-1 px-2.5 hover:bg-rose-50 border border-slate-200 text-rose-600 hover:text-rose-700 font-extrabold text-[10px] rounded-lg cursor-pointer flex items-center gap-1"
+                  className="p-1 px-2.5 hover:bg-rose-50 border border-slate-200 text-rose-600 hover:text-rose-700 font-extrabold text-[10px] rounded-xl cursor-pointer flex items-center gap-1"
                   id="deal-detail-report-btn"
                 >
                   <Flag className="w-3 h-3" />
@@ -868,7 +868,7 @@ export default function DealsModule({
                   {selectedDeal.title}
                 </h1>
                 <div className="flex items-center gap-1.5 text-slate-500 font-bold text-sm">
-                  <Store className="w-4 h-4 text-blue-600" />
+                  <Store className="w-4 h-4 text-emerald-600" />
                   <span>{selectedDeal.businessName}</span>
                   <span className="text-slate-300">•</span>
                   <MapPin className="w-3.5 h-3.5 text-slate-400" />
@@ -880,8 +880,8 @@ export default function DealsModule({
 
           {/* Details & Specs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100" id="deal-detail-specs">
-            <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-xs">
-              <Calendar className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-100 shadow-xs">
+              <Calendar className="w-5 h-5 text-emerald-600" />
               <div>
                 <span className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider block">{t.validity}</span>
                 <span className="text-xs font-black text-slate-800">
@@ -889,7 +889,7 @@ export default function DealsModule({
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-xs">
+            <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-100 shadow-xs">
               <Tag className="w-5 h-5 text-green-500" />
               <div>
                 <span className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider block">{t.createDiscount}</span>
@@ -914,8 +914,8 @@ export default function DealsModule({
               <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 ⚠️ {t.termsLabel}
               </h3>
-              <div className="text-xs text-slate-500 bg-amber-50/50 border border-amber-100/60 p-4 rounded-2xl whitespace-pre-wrap flex gap-2">
-                <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+              <div className="text-xs text-slate-500 bg-emerald-50/50 border border-amber-100/60 p-4 rounded-2xl whitespace-pre-wrap flex gap-2">
+                <Info className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                 <span>{selectedDeal.terms}</span>
               </div>
             </div>
@@ -924,7 +924,7 @@ export default function DealsModule({
           {/* Contact and Business Details Block */}
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between" id="deal-detail-business-card">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-600 text-white font-black rounded-full flex items-center justify-center text-lg shadow-sm">
+              <div className="w-12 h-12 bg-emerald-600 text-white font-black rounded-full flex items-center justify-center text-lg shadow-sm">
                 <Store className="w-6 h-6" />
               </div>
               <div>
@@ -953,7 +953,7 @@ export default function DealsModule({
                 window.open(`tel:${selectedDeal.contact}`);
               }}
               disabled={expired}
-              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-black text-sm rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer border-0 ${
+              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-black text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer border-0 ${
                 expired ? 'bg-slate-300 cursor-not-allowed shadow-none' : 'bg-green-500 hover:bg-green-600'
               }`}
               id="deal-call-now-btn"
@@ -972,8 +972,8 @@ export default function DealsModule({
                 }
               }}
               disabled={expired}
-              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-extrabold text-sm rounded-xl transition-all cursor-pointer border-0 ${
-                expired ? 'bg-slate-300 cursor-not-allowed' : 'bg-[#2563eb] hover:bg-blue-700'
+              className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 py-3 px-6 text-white font-extrabold text-sm rounded-2xl transition-all cursor-pointer border-0 ${
+                expired ? 'bg-slate-300 cursor-not-allowed' : 'bg-[#2563eb] hover:bg-emerald-700'
               }`}
               id="deal-msg-now-btn"
             >
@@ -984,7 +984,7 @@ export default function DealsModule({
             {/* Save */}
             <button
               onClick={() => handleToggleSave(selectedDeal.id)}
-              className={`py-3 px-4 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs ${isSaved ? 'bg-rose-50 border-rose-200 text-rose-600' : 'border-slate-200 hover:bg-slate-50 text-slate-600'}`}
+              className={`py-3 px-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs ${isSaved ? 'bg-rose-50 border-rose-200 text-rose-600' : 'border-slate-200 hover:bg-slate-50 text-slate-600'}`}
               id="deal-save-toggle-btn"
             >
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-600 text-rose-600' : ''}`} />
@@ -994,7 +994,7 @@ export default function DealsModule({
             {/* Share */}
             <button
               onClick={() => handleShare(selectedDeal.id)}
-              className="py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs"
+              className="py-3 px-4 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-all cursor-pointer flex items-center justify-center gap-1.5 font-bold text-xs"
               id="deal-share-action-btn"
             >
               <Share2 className="w-4 h-4" />
@@ -1051,7 +1051,7 @@ export default function DealsModule({
             </div>
             <button
               onClick={onNavigateToList}
-              className="py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl transition-all cursor-pointer border-0"
+              className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl transition-all cursor-pointer border-0"
               id="saved-deals-browse-btn"
             >
               {t.browseAll}
@@ -1087,7 +1087,7 @@ export default function DealsModule({
                     )}
 
                     {/* Discount Text Stamp */}
-                    <div className="absolute bottom-3 start-3 bg-green-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl shadow-md border border-green-400">
+                    <div className="absolute bottom-3 start-3 bg-green-500 text-white text-[11px] font-black px-3 py-1.5 rounded-2xl shadow-md border border-green-400">
                       🎉 {deal.discountText}
                     </div>
                   </div>
@@ -1098,7 +1098,7 @@ export default function DealsModule({
                         {deal.title}
                       </h3>
                       <div className="flex items-center gap-1.5 text-slate-500 text-[11px] font-bold">
-                        <Store className="w-3.5 h-3.5 text-blue-600" />
+                        <Store className="w-3.5 h-3.5 text-emerald-600" />
                         <span className="truncate max-w-[120px]">{deal.businessName}</span>
                         <span>•</span>
                         <MapPin className="w-3 h-3 text-slate-400" />
@@ -1120,7 +1120,7 @@ export default function DealsModule({
                         >
                           <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
                         </button>
-                        <span className="text-blue-600 hover:text-blue-700 font-extrabold cursor-pointer flex items-center gap-0.5">
+                        <span className="text-emerald-600 hover:text-emerald-700 font-extrabold cursor-pointer flex items-center gap-0.5">
                           {t.viewBtn} &rarr;
                         </span>
                       </div>
@@ -1165,7 +1165,7 @@ export default function DealsModule({
           {/* Saved offers navigation */}
           <button
             onClick={onNavigateToSaved}
-            className="flex items-center gap-1.5 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer border-0"
+            className="flex items-center gap-1.5 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs rounded-2xl transition-all cursor-pointer border-0"
             id="deals-nav-saved-btn"
           >
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
@@ -1175,7 +1175,7 @@ export default function DealsModule({
           {/* Create deal navigation */}
           <button
             onClick={onNavigateToCreate}
-            className="flex items-center gap-1.5 py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs rounded-xl shadow-md shadow-green-100 transition-all cursor-pointer border-0"
+            className="flex items-center gap-1.5 py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs rounded-2xl shadow-md shadow-green-100 transition-all cursor-pointer border-0"
             id="deals-nav-create-btn"
           >
             <Plus className="w-4 h-4" />
@@ -1194,7 +1194,7 @@ export default function DealsModule({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full ps-10 pe-4 py-3 bg-slate-100/70 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500 rounded-full text-sm focus:outline-none transition-all placeholder:text-slate-400 font-medium"
+            className="w-full ps-10 pe-4 py-3 bg-slate-100/70 border-0 focus:bg-white focus:ring-2 focus:ring-emerald-500 rounded-full text-sm focus:outline-none transition-all placeholder:text-slate-400 font-medium"
             id="deals-search-input"
           />
         </div>
@@ -1206,7 +1206,7 @@ export default function DealsModule({
             onClick={() => setSelectedCategory('All')}
             className={`px-4 py-1.5 rounded-full text-xs font-black shrink-0 transition-all cursor-pointer border ${
               selectedCategory === 'All' 
-                ? 'bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-100' 
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm shadow-emerald-100' 
                 : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
             }`}
           >
@@ -1220,7 +1220,7 @@ export default function DealsModule({
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-1.5 rounded-full text-xs font-black shrink-0 transition-all cursor-pointer border ${
                 selectedCategory === cat 
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-100' 
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm shadow-emerald-100' 
                   : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
               }`}
             >
@@ -1241,13 +1241,13 @@ export default function DealsModule({
       {/* Main Deals Feed */}
       {isLoading ? (
         <div className="py-20 flex flex-col items-center justify-center space-y-3" id="deals-feed-loading">
-          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs font-extrabold text-slate-500 tracking-wider">Loading premium deals...</span>
         </div>
       ) : filteredDeals.length === 0 ? (
         <div className="bg-white border border-slate-200/60 rounded-3xl p-16 text-center space-y-4 shadow-sm" id="deals-feed-empty">
-          <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto shadow-sm">
-            <Tag className="w-8 h-8 text-blue-500" />
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto shadow-sm">
+            <Tag className="w-8 h-8 text-emerald-500" />
           </div>
           <div className="space-y-1">
             <h4 className="font-extrabold text-slate-800 text-base">{currentLanguage === 'en' ? 'No Live Offers Found' : 'کوئی آفرز نہیں ملیں'}</h4>
@@ -1258,7 +1258,7 @@ export default function DealsModule({
               setSearchQuery('');
               setSelectedCategory('All');
             }}
-            className="py-2.5 px-6 border border-slate-200 hover:bg-slate-50 text-slate-700 font-extrabold text-xs rounded-xl transition-all cursor-pointer"
+            className="py-2.5 px-6 border border-slate-200 hover:bg-slate-50 text-slate-700 font-extrabold text-xs rounded-2xl transition-all cursor-pointer"
             id="deals-feed-reset-filters"
           >
             {currentLanguage === 'en' ? 'Reset Filters' : 'فلٹرز صاف کریں'}
@@ -1303,7 +1303,7 @@ export default function DealsModule({
                     )}
 
                     {/* Discount Text Overlay (Bright Green or Blue background) */}
-                    <div className="absolute bottom-3 start-3 bg-emerald-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-xl shadow-lg border border-emerald-400 font-sans tracking-tight">
+                    <div className="absolute bottom-3 start-3 bg-emerald-500 text-white text-[11px] font-black px-3.5 py-1.5 rounded-2xl shadow-lg border border-emerald-400 font-sans tracking-tight">
                       ⚡ {deal.discountText}
                     </div>
 
@@ -1320,16 +1320,16 @@ export default function DealsModule({
                   {/* Content Block */}
                   <div className="p-4 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-2">
-                      <h3 className="font-extrabold text-slate-900 text-base leading-snug group-hover:text-blue-600 transition-colors">
+                      <h3 className="font-extrabold text-slate-900 text-base leading-snug group-hover:text-emerald-600 transition-colors">
                         {deal.title}
                       </h3>
                       
                       <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold text-slate-500">
-                        <div className="flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-md text-slate-700">
-                          <Store className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <div className="flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-xl text-slate-700">
+                          <Store className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                           <span className="truncate max-w-[140px]">{deal.businessName}</span>
                         </div>
-                        <div className="flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-md text-slate-700">
+                        <div className="flex items-center gap-1 bg-slate-100 px-2 py-0.5 rounded-xl text-slate-700">
                           <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
                           <span>{deal.area}</span>
                         </div>
@@ -1381,3 +1381,4 @@ export default function DealsModule({
     </div>
   );
 }
+

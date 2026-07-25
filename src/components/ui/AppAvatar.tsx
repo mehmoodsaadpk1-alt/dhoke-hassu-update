@@ -98,7 +98,7 @@ export const AppAvatar: React.FC<AppAvatarProps> = ({
       ) : null}
 
       <div
-        className={`avatar-fallback w-full h-full rounded-full bg-blue-50 text-blue-600 font-extrabold flex items-center justify-center border border-slate-200/60 shadow-inner text-sm uppercase ${avatar ? 'hidden absolute inset-0' : ''}`}
+        className={`avatar-fallback w-full h-full rounded-full bg-emerald-50 text-emerald-600 font-extrabold flex items-center justify-center border border-slate-200/60 shadow-inner text-sm uppercase ${avatar ? 'hidden absolute inset-0' : ''}`}
         style={{ fontSize: pixelSize > 40 ? '1.1rem' : '0.85rem' }}
       >
         {safeName?.substring(0, 2)?.toUpperCase()}
@@ -123,3 +123,4 @@ export const AppAvatar: React.FC<AppAvatarProps> = ({
     </div>
   );
 };
+

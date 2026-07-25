@@ -16,7 +16,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
   const [mediaType, setMediaType] = useState<'photo' | 'video' | 'text'>('text');
   
   const [text, setText] = useState('');
-  const [bgColor, setBgColor] = useState('bg-gradient-to-br from-blue-500 to-purple-600');
+  const [bgColor, setBgColor] = useState('bg-gradient-to-br from-emerald-500 to-emerald-600');
   const [textColor, setTextColor] = useState('text-white');
   const [fontFamily, setFontFamily] = useState('font-sans');
   const [isUploading, setIsUploading] = useState(false);
@@ -142,14 +142,14 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                 <button
                   key={opt}
                   onClick={() => setPrivacy(opt as any)}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl border ${privacy === opt ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-gray-700 bg-gray-800 text-gray-300'}`}
+                  className={`w-full flex items-center justify-between p-3 rounded-2xl border ${privacy === opt ? 'border-emerald-500 bg-emerald-500/10 text-blue-400' : 'border-gray-700 bg-gray-800 text-gray-300'}`}
                 >
                   <span className="capitalize">{opt.replace('_', ' ')}</span>
                   {privacy === opt && <Check className="w-4 h-4" />}
                 </button>
               ))}
             </div>
-            <button onClick={() => setShowSettings(false)} className="mt-4 w-full py-2 bg-gray-800 rounded-lg">Done</button>
+            <button onClick={() => setShowSettings(false)} className="mt-4 w-full py-2 bg-gray-800 rounded-xl">Done</button>
           </div>
         ) : (
           <div className="flex-1 flex flex-col gap-4">
@@ -158,7 +158,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-1 flex flex-col items-center justify-center p-4 bg-gray-800 rounded-2xl hover:bg-gray-700 transition"
               >
-                <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center mb-2">
+                <div className="w-12 h-12 bg-emerald-500/20 text-blue-400 rounded-full flex items-center justify-center mb-2">
                   <ImageIcon className="w-6 h-6" />
                 </div>
                 <span className="text-sm font-medium">Photo / Video</span>
@@ -167,7 +167,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                 onClick={handleCreateTextStory}
                 className="flex-1 flex flex-col items-center justify-center p-4 bg-gray-800 rounded-2xl hover:bg-gray-700 transition"
               >
-                <div className="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center mb-2">
+                <div className="w-12 h-12 bg-emerald-500/20 text-purple-400 rounded-full flex items-center justify-center mb-2">
                   <Type className="w-6 h-6" />
                 </div>
                 <span className="text-sm font-medium">Text</span>
@@ -188,10 +188,10 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                   <label className="text-sm text-gray-400 mb-2 block">Background Color</label>
                   <div className="flex flex-wrap gap-2">
                     {[
-                      'bg-gradient-to-br from-blue-500 to-purple-600',
-                      'bg-gradient-to-br from-pink-500 to-rose-500',
+                      'bg-gradient-to-br from-emerald-500 to-emerald-600',
+                      'bg-gradient-to-br from-emerald-500 to-rose-500',
                       'bg-gradient-to-br from-orange-400 to-red-500',
-                      'bg-gradient-to-br from-emerald-400 to-cyan-500',
+                      'bg-gradient-to-br from-emerald-400 to-emerald-500',
                       'bg-gray-900'
                     ].map((bg, idx) => (
                       <button
@@ -206,11 +206,11 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                 <div>
                   <label className="text-sm text-gray-400 mb-2 block">Text Color</label>
                   <div className="flex flex-wrap gap-2">
-                    {['text-white', 'text-black', 'text-yellow-400', 'text-pink-500', 'text-emerald-400'].map(tc => (
+                    {['text-white', 'text-black', 'text-yellow-400', 'text-emerald-500', 'text-emerald-400'].map(tc => (
                       <button 
                         key={tc} 
                         onClick={() => setTextColor(tc)} 
-                        className={`w-8 h-8 rounded-full border border-gray-600 bg-gray-800 flex items-center justify-center ${textColor === tc ? 'ring-2 ring-blue-500' : ''}`}
+                        className={`w-8 h-8 rounded-full border border-gray-600 bg-gray-800 flex items-center justify-center ${textColor === tc ? 'ring-2 ring-emerald-500' : ''}`}
                       >
                         <span className={`text-xs font-bold ${tc}`}>A</span>
                       </button>
@@ -225,7 +225,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
                       <button 
                         key={ff} 
                         onClick={() => setFontFamily(ff)} 
-                        className={`px-3 py-1 rounded-full border border-gray-600 bg-gray-800 text-sm ${ff} ${fontFamily === ff ? 'ring-2 ring-blue-500 text-white' : 'text-gray-300'}`}
+                        className={`px-3 py-1 rounded-full border border-gray-600 bg-gray-800 text-sm ${ff} ${fontFamily === ff ? 'ring-2 ring-emerald-500 text-white' : 'text-gray-300'}`}
                       >
                         Aa
                       </button>
@@ -243,7 +243,7 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
             handlePostStory();
           }}
           disabled={isUploading || (mediaType === 'text' && text?.trim().length === 0) || (mediaType !== 'text' && !mediaFile)}
-          className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold flex items-center justify-center gap-2 mt-4"
+          className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-bold flex items-center justify-center gap-2 mt-4"
         >
           {isUploading ? (
             <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -292,3 +292,4 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
     </div>
   );
 }
+

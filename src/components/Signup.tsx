@@ -207,35 +207,74 @@ export default function Signup({
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
-      {/* Action green accent banner to differentiate signup visually */}
-      <div className="h-2 bg-action w-full" />
+    <div className="w-full max-w-md bg-white overflow-hidden flex flex-col min-h-screen md:min-h-0 sm:rounded-[36px] md:rounded-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative md:py-8" dir="rtl">
+      
+      {/* --- DESKTOP CORNER MANDALAS --- */}
+      <div className="hidden md:block absolute top-0 left-0 w-40 h-40 opacity-40 pointer-events-none -translate-x-12 -translate-y-12 z-0">
+        <div className="w-full h-full rounded-full bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] mix-blend-multiply bg-[#2A7649]" />
+      </div>
+      <div className="hidden md:block absolute bottom-0 left-0 w-40 h-40 opacity-40 pointer-events-none -translate-x-12 translate-y-12 z-0">
+        <div className="w-full h-full rounded-full bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] mix-blend-multiply bg-[#2A7649]" />
+      </div>
 
-      <div className="p-8">
-        {/* Language & Info bar */}
-        <div className="flex justify-between items-center mb-6">
+      {/* --- MOBILE: FULL BLEED HEADER (HIDDEN ON DESKTOP) --- */}
+      <div className="md:hidden w-full h-[35vh] bg-gradient-to-br from-[#1a5130] via-[#2A7649] to-[#348A54] relative flex flex-col items-center justify-center -mb-8 z-0">
+        <div className="absolute inset-0 opacity-15 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] mix-blend-overlay pointer-events-none" />
+        
+        <div className="relative z-10 flex flex-col items-center mt-6">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30 shadow-lg mb-2">
+            <svg className="w-6 h-6 text-white drop-shadow-md" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C7.03 2 3 6.03 3 11V22H14C18.97 22 23 17.97 23 13C23 8.03 18.97 2 12 2ZM19 13C19 15.76 16.76 18 14 18H7V11C7 8.24 9.24 6 12 6C14.76 6 17 8.24 17 11V13C17 14.1 16.1 15 15 15C13.9 15 13 14.1 13 13V11H11V13C11 15.21 12.79 17 15 17C17.21 17 19 15.21 19 13V11C19 9.34 17.66 8 16 8C14.34 8 13 9.34 13 11V14.5C13 15.33 12.33 16 11.5 16C10.67 16 10 15.33 10 14.5V11C10 7.69 12.69 5 16 5C19.86 5 23 8.14 23 12V13Z" />
+              <path d="M17.42 2.58C17.24 2.58 17.06 2.59 16.89 2.61C18.57 3.55 19.89 5.05 20.57 6.86C20.85 6.09 21 5.27 21 4.42C21 3.51 20.8 2.64 20.45 1.84C19.57 2.31 18.53 2.58 17.42 2.58Z" opacity="0.3"/>
+            </svg>
+          </div>
+          <h1 className="text-2xl font-extrabold font-['Noto_Sans_Arabic'] text-white drop-shadow-md text-center" dir="rtl">
+            اکاؤنٹ بنائیں
+          </h1>
+          <p className="text-xs font-medium text-green-100 font-['Noto_Sans_Arabic'] tracking-wide" dir="rtl">
+            راولپنڈی کے مقامی نیٹ ورک میں شامل ہوں
+          </p>
+        </div>
+      </div>
+
+      {/* Main Form Area */}
+      <div className="px-6 md:px-10 pt-10 pb-12 bg-white flex-1 flex flex-col relative z-10 rounded-t-[32px] md:rounded-t-none md:rounded-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-none">
+        
+        {/* Desktop Heading */}
+        <div className="hidden md:block text-center mb-8 relative z-20">
+          <h1 className="text-2xl font-extrabold font-['Noto_Sans_Arabic'] text-slate-900 drop-shadow-sm">
+            {currentLanguage === 'en' ? 'Create an Account' : 'اکاؤنٹ بنائیں'}
+          </h1>
+          <p className="text-sm font-medium opacity-90 text-slate-500 mt-2 font-['Noto_Sans_Arabic']" dir="rtl">
+            {currentLanguage === 'en' ? 'Join Dhoke Hassu Connect' : 'ڈھوک حسو کنیکٹ میں شامل ہوں'}
+          </p>
+        </div>
+
+        {/* Language & Info bar (Desktop only) */}
+        <div className="hidden md:flex justify-between items-center mb-6">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <ShieldCheck className="w-4 h-4 text-action" />
+            <ShieldCheck className="w-4 h-4 text-[#308B54]" />
             <span>Secure Signup</span>
           </div>
           <button
             onClick={() => onLanguageChange(currentLanguage === 'en' ? 'ur' : 'en')}
             className="flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-full font-semibold transition-all duration-200"
+            type="button"
           >
-            <Globe className="w-3.5 h-3.5 text-action" />
-            {t.languageToggle}
+            <Globe className="w-3.5 h-3.5 text-[#308B54]" />
+            {currentLanguage === 'en' ? '(اردو)' : '(English)'}
           </button>
         </div>
 
-        {/* Heading */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900 leading-tight">
-            {t.signupTitle}
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            {t.signupSubtitle}
-          </p>
-        </div>
+        {/* Mobile Language toggle absolute position */}
+        <button
+          onClick={() => onLanguageChange(currentLanguage === 'en' ? 'ur' : 'en')}
+          className="md:hidden absolute top-4 end-4 flex items-center gap-1.5 px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-[10px] rounded-full font-semibold transition-all duration-200 z-50 backdrop-blur-md"
+          type="button"
+        >
+          <Globe className="w-3 h-3" />
+          {currentLanguage === 'en' ? 'اردو' : 'EN'}
+        </button>
 
         {/* Success/Error Alerts */}
         {error && (

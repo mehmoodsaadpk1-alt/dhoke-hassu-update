@@ -53,9 +53,9 @@ export const ShortsShare: React.FC<ShortsShareProps> = ({ videoId, isOpen, onClo
   const shareTargets = [
     { name: 'Copy Link', icon: LinkIcon, color: 'bg-gray-700', action: handleCopyLink },
     { name: 'WhatsApp', icon: MessageCircle, color: 'bg-green-500', url: `https://wa.me/?text=${encodeURIComponent(shareUrl)}` },
-    { name: 'Facebook', icon: Facebook, color: 'bg-blue-600', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
+    { name: 'Facebook', icon: Facebook, color: 'bg-emerald-600', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
     { name: 'X (Twitter)', icon: Twitter, color: 'bg-black border border-gray-700', url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}` },
-    { name: 'Telegram', icon: Send, color: 'bg-blue-500', url: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}` },
+    { name: 'Telegram', icon: Send, color: 'bg-emerald-500', url: `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}` },
   ];
 
   return (
@@ -66,7 +66,7 @@ export const ShortsShare: React.FC<ShortsShareProps> = ({ videoId, isOpen, onClo
         {navigator.share && (
           <button 
             onClick={handleNativeShare}
-            className="w-full mb-6 flex items-center justify-center space-x-2 bg-white text-black font-semibold py-3 rounded-xl hover:bg-gray-200 transition-colors"
+            className="w-full mb-6 flex items-center justify-center space-x-2 bg-white text-black font-semibold py-3 rounded-2xl hover:bg-gray-200 transition-colors"
           >
             <ShareIcon size={18} />
             <span>Share via Device</span>
@@ -103,3 +103,4 @@ const ShareIcon = ({ size }: { size: number }) => (
     <line x1="12" y1="2" x2="12" y2="15"></line>
   </svg>
 );
+

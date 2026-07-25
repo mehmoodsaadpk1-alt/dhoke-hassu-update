@@ -32,8 +32,8 @@ export const AppButton: React.FC<AppButtonProps> = ({
 
   const sizes = {
     sm: "px-3 py-1.5 text-xs rounded-sm gap-1.5 h-8",
-    md: "px-4.5 py-2.5 text-sm rounded-md gap-2 h-10.5",
-    lg: "px-6 py-3.5 text-base rounded-lg gap-2.5 h-13",
+    md: "px-4.5 py-2.5 text-sm rounded-2xl gap-2 h-10.5",
+    lg: "px-6 py-3.5 text-base rounded-2xl gap-2.5 h-13",
   };
 
   return (
@@ -54,3 +54,5 @@ export const AppButton: React.FC<AppButtonProps> = ({
     </button>
   );
 };
+
+

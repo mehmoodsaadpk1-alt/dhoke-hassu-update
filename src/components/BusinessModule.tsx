@@ -465,7 +465,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-5">
             <div>
               <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
-                <Store className="w-7 h-7 text-blue-600" />
+                <Store className="w-7 h-7 text-emerald-600" />
                 {isEn ? 'Local Businesses' : 'مقامی کاروبار'}
               </h1>
               <p className="text-xs text-slate-500 mt-1">
@@ -475,7 +475,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             
             <button
               onClick={onNavigateToCreate}
-              className="flex items-center justify-center gap-2 py-2.5 px-5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-sm hover:shadow-md transition-all shrink-0 cursor-pointer self-start sm:self-auto"
+              className="flex items-center justify-center gap-2 py-2.5 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-sm hover:shadow-md transition-all shrink-0 cursor-pointer self-start sm:self-auto"
               id="create-business-button-nav"
             >
               <PlusCircle className="w-4 h-4" />
@@ -494,7 +494,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={isEn ? 'Search business by name, category, or area (e.g., Main Road)...' : 'کاروبار کا نام، کیٹیگری یا علاقہ تلاش کریں (جیسے مین روڈ)...'}
-                className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all shadow-sm"
+                className="w-full ps-11 pe-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all shadow-sm"
                 id="business-search-input"
               />
             </div>
@@ -504,7 +504,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               onClick={() => setShowSavedOnly(!showSavedOnly)}
               className={`px-5 py-3 rounded-2xl border text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ${
                 showSavedOnly 
-                  ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                  ? 'bg-emerald-50 border-blue-200 text-emerald-600' 
                   : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
               id="saved-listings-filter-toggle"
@@ -522,7 +522,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 text-xs font-bold rounded-full border transition-all shrink-0 cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-blue-600 border-blue-600 text-white shadow-sm font-extrabold'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm font-extrabold'
                     : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
                 }`}
                 id={`chip-${cat?.toLowerCase().replace(' ', '-')}`}
@@ -551,7 +551,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     <div className="w-3/4 h-5 bg-slate-100 rounded" />
                     <div className="w-1/2 h-3.5 bg-slate-100 rounded" />
                   </div>
-                  <div className="w-full h-8 bg-slate-50 rounded-lg pt-2" />
+                  <div className="w-full h-8 bg-slate-50 rounded-xl pt-2" />
                 </div>
               ))}
             </div>
@@ -569,7 +569,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               {showSavedOnly && (
                 <button
                   onClick={() => setShowSavedOnly(false)}
-                  className="mt-4 py-2 px-4 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all cursor-pointer"
+                  className="mt-4 py-2 px-4 bg-slate-100 text-slate-700 text-xs font-bold rounded-2xl hover:bg-slate-200 transition-all cursor-pointer"
                 >
                   {isEn ? 'Show All Businesses' : 'تمام کاروبار دیکھیں'}
                 </button>
@@ -612,30 +612,30 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                           {/* Fast Bookmark Toggle Button on Image */}
                           <button
                             onClick={(e) => toggleSave(bus.id, e)}
-                            className="absolute top-3 end-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 flex items-center justify-center transition-all shadow-sm cursor-pointer border-0"
+                            className="absolute top-3 end-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 hover:text-emerald-600 flex items-center justify-center transition-all shadow-sm cursor-pointer border-0"
                             title={isEn ? "Save Business" : "محفوظ کریں"}
                           >
                             {isSaved ? (
-                              <BookmarkCheck className="w-4 h-4 text-blue-600 fill-current" />
+                              <BookmarkCheck className="w-4 h-4 text-emerald-600 fill-current" />
                             ) : (
                               <Bookmark className="w-4 h-4" />
                             )}
                           </button>
                           
                           {/* Rating bubble */}
-                          <span className="absolute bottom-3 end-3 bg-black/75 text-white text-[10px] font-black px-2 py-0.5 rounded-md flex items-center gap-0.5 backdrop-blur-xs shadow-xs">
+                          <span className="absolute bottom-3 end-3 bg-black/75 text-white text-[10px] font-black px-2 py-0.5 rounded-xl flex items-center gap-0.5 backdrop-blur-xs shadow-xs">
                             ⭐ {bus.rating.toFixed(1)}
                           </span>
                         </div>
 
                         <div className="space-y-1">
-                          <span className="inline-block text-[9px] font-black text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="inline-block text-[9px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                             {bus.category}
                           </span>
                           
                           <h3 
                             onClick={() => onNavigateToDetail(bus.id)}
-                            className="font-black text-slate-900 text-base md:text-lg hover:text-blue-600 cursor-pointer transition-colors leading-tight line-clamp-1 pt-0.5 flex items-center gap-1.5"
+                            className="font-black text-slate-900 text-base md:text-lg hover:text-emerald-600 cursor-pointer transition-colors leading-tight line-clamp-1 pt-0.5 flex items-center gap-1.5"
                           >
                             <span>{bus.name}</span>
                             {isEntityVerified(bus.name) && (
@@ -664,7 +664,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                         {/* Contact button */}
                         <button
                           onClick={() => handleCall(bus)}
-                          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer border-0"
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer border-0"
                           id={`business-contact-btn-${bus.id}`}
                         >
                           <Phone className="w-3.5 h-3.5" />
@@ -673,7 +673,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                         
                         <button
                           onClick={() => onNavigateToDetail(bus.id)}
-                          className="flex-1 py-2 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-xl transition-all cursor-pointer text-center font-bold border-0"
+                          className="flex-1 py-2 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-2xl transition-all cursor-pointer text-center font-bold border-0"
                           id={`business-view-btn-${bus.id}`}
                         >
                           {isEn ? 'View Detail' : 'تفصیل دیکھیں'}
@@ -682,9 +682,9 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                         {/* Save Option */}
                         <button
                           onClick={(e) => toggleSave(bus.id, e)}
-                          className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                          className={`p-2 rounded-2xl border transition-all cursor-pointer ${
                             isSaved 
-                              ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                              ? 'bg-emerald-50 border-blue-200 text-emerald-600' 
                               : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-500'
                           }`}
                           id={`business-save-btn-${bus.id}`}
@@ -700,7 +700,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                               e.stopPropagation();
                               onShareToCommunity(bus);
                             }}
-                            className="p-2 rounded-xl border bg-white border-slate-200 hover:bg-slate-50 text-slate-500 hover:text-blue-600 transition-all cursor-pointer border-0 flex items-center justify-center"
+                            className="p-2 rounded-2xl border bg-white border-slate-200 hover:bg-slate-50 text-slate-500 hover:text-emerald-600 transition-all cursor-pointer border-0 flex items-center justify-center"
                             id={`business-share-btn-${bus.id}`}
                             title={isEn ? "Share to Community Feed" : "کمیونٹی فیڈ پر شیئر کریں"}
                           >
@@ -741,7 +741,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             {/* Back Arrow Overlay */}
             <button
               onClick={onNavigateToList}
-              className="absolute top-4 start-4 inline-flex items-center gap-1.5 text-xs font-black text-slate-700 hover:text-slate-950 bg-white/95 backdrop-blur-xs px-3.5 py-2 rounded-xl transition-all cursor-pointer shadow-md border-0"
+              className="absolute top-4 start-4 inline-flex items-center gap-1.5 text-xs font-black text-slate-700 hover:text-slate-950 bg-white/95 backdrop-blur-xs px-3.5 py-2 rounded-2xl transition-all cursor-pointer shadow-md border-0"
               id="business-detail-back"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -749,7 +749,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             </button>
 
             {/* Quick stats rating badge */}
-            <div className="absolute top-4 end-4 bg-black/60 backdrop-blur-xs text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm">
+            <div className="absolute top-4 end-4 bg-black/60 backdrop-blur-xs text-white text-xs font-bold px-3 py-1.5 rounded-2xl flex items-center gap-1 shadow-sm">
               ⭐ {currentBusiness.rating.toFixed(1)} {isEn ? 'Rating' : 'درجہ بندی'}
             </div>
 
@@ -758,7 +758,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               <img 
                 src={currentBusiness.image || currentBusiness.logo || 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=150'} 
                 alt={`${currentBusiness.name} logo`} 
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-cover rounded-2xl"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -771,7 +771,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-slate-100 pb-5">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="inline-flex items-center gap-1 text-[10px] font-black text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     {currentBusiness.category}
                   </span>
                   <span className="inline-flex items-center text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">
@@ -814,9 +814,9 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 {/* Save Toggle */}
                 <button
                   onClick={() => toggleSave(currentBusiness.id)}
-                  className={`py-2 px-4 text-xs font-extrabold rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`py-2 px-4 text-xs font-extrabold rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${
                     savedBusinesses[currentBusiness.id]
-                      ? 'bg-blue-50 border-blue-200 text-blue-600 shadow-xs'
+                      ? 'bg-emerald-50 border-blue-200 text-emerald-600 shadow-xs'
                       : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-700'
                   }`}
                   id="business-detail-save-btn"
@@ -834,7 +834,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     navigator.clipboard.writeText(window.location.href);
                     alert(isEn ? 'Share link copied to clipboard!' : 'لنک کاپی ہو گیا ہے!');
                   }}
-                  className="p-2 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl transition-all cursor-pointer"
+                  className="p-2 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-2xl transition-all cursor-pointer"
                   title={isEn ? "Share Link" : "لنک شیئر کریں"}
                 >
                   <Share2 className="w-4 h-4" />
@@ -844,7 +844,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 {onShareToCommunity && (
                   <button
                     onClick={() => onShareToCommunity(currentBusiness)}
-                    className="py-2 px-4 text-xs font-extrabold rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 text-blue-600 hover:text-blue-700 transition-all cursor-pointer flex items-center gap-1.5"
+                    className="py-2 px-4 text-xs font-extrabold rounded-2xl border border-blue-200 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-600 hover:text-emerald-700 transition-all cursor-pointer flex items-center gap-1.5"
                     title={isEn ? "Share to Community Feed" : "کمیونٹی فیڈ پر شیئر کریں"}
                   >
                     <Send className="w-4 h-4" />
@@ -855,7 +855,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 {/* Report Option */}
                 <button
                   onClick={(e) => triggerReport(currentBusiness.id, e)}
-                  className="p-2 border border-red-200 bg-red-50/50 hover:bg-red-50 text-red-600 hover:text-red-700 rounded-xl transition-all cursor-pointer"
+                  className="p-2 border border-red-200 bg-red-50/50 hover:bg-red-50 text-red-600 hover:text-red-700 rounded-2xl transition-all cursor-pointer"
                   title={isEn ? "Report Listing" : "رپورٹ کریں"}
                 >
                   <Flag className="w-4 h-4" />
@@ -867,7 +867,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 rounded-2xl p-4 border border-slate-100">
               <div className="space-y-1">
                 <span className="text-[9px] uppercase font-black text-slate-400 tracking-wider flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-blue-500" />
+                  <Clock className="w-3.5 h-3.5 text-emerald-500" />
                   {isEn ? 'Business Hours' : 'کام کے اوقات'}
                 </span>
                 <span className="text-sm font-bold text-slate-800 block">
@@ -908,8 +908,8 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     <div 
                       key={idx} 
                       onClick={() => setActiveGalleryIndex(idx)}
-                      className={`relative aspect-video rounded-xl bg-slate-50 overflow-hidden cursor-pointer border-2 transition-all ${
-                        activeGalleryIndex === idx ? 'border-blue-600 scale-[0.98]' : 'border-transparent hover:border-slate-300'
+                      className={`relative aspect-video rounded-2xl bg-slate-50 overflow-hidden cursor-pointer border-2 transition-all ${
+                        activeGalleryIndex === idx ? 'border-emerald-600 scale-[0.98]' : 'border-transparent hover:border-slate-300'
                       }`}
                     >
                       <img 
@@ -972,7 +972,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 <div>
                   <h4 className="font-extrabold text-sm text-slate-900 flex items-center gap-1.5">
                     <span
-                      className="cursor-pointer hover:text-blue-600 hover:underline transition-colors"
+                      className="cursor-pointer hover:text-emerald-600 hover:underline transition-colors"
                       data-profile-name={currentBusiness.ownerName || ''}
                       data-profile-avatar={currentBusiness.ownerAvatar || ''}
                     >{currentBusiness.ownerName || (isEn ? 'Local entrepreneur' : 'مقامی دکاندار')}</span>
@@ -1011,7 +1011,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
             <div className="flex gap-3 pt-4 border-t border-slate-100">
               <button
                 onClick={() => handleCall(currentBusiness)}
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
                 id="business-detail-call"
               >
                 <Phone className="w-4 h-4" />
@@ -1020,7 +1020,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
 
               <button
                 onClick={() => handleMessage(currentBusiness)}
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
                 id="business-detail-message"
               >
                 <MessageSquare className="w-4 h-4" />
@@ -1036,7 +1036,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   onClick={() => setActiveTab('posts')}
                   className={`flex-1 pb-2.5 text-xs font-bold text-center border-b-2 transition-all cursor-pointer ${
                     activeTab === 'posts'
-                      ? 'border-blue-600 text-blue-600 font-black'
+                      ? 'border-emerald-600 text-emerald-600 font-black'
                       : 'border-transparent text-slate-400 hover:text-slate-600'
                   }`}
                 >
@@ -1047,7 +1047,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   onClick={() => setActiveTab('reviews')}
                   className={`flex-1 pb-2.5 text-xs font-bold text-center border-b-2 transition-all cursor-pointer ${
                     activeTab === 'reviews'
-                      ? 'border-blue-600 text-blue-600 font-black'
+                      ? 'border-emerald-600 text-emerald-600 font-black'
                       : 'border-transparent text-slate-400 hover:text-slate-600'
                   }`}
                 >
@@ -1058,17 +1058,17 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               {/* POSTS TAB CONTENT */}
               {activeTab === 'posts' && (
                 <div className="space-y-4">
-                  <form onSubmit={handleAddPost} className="bg-slate-50 rounded-xl p-3 border border-slate-200/50 flex gap-2">
+                  <form onSubmit={handleAddPost} className="bg-slate-50 rounded-2xl p-3 border border-slate-200/50 flex gap-2">
                     <input
                       type="text"
                       value={newPostText}
                       onChange={(e) => setNewPostText(e.target.value)}
                       placeholder={isEn ? "Post announcement on your shop's timeline..." : "دکان کی ٹائم لائن پر اعلان لکھیں..."}
-                      className="flex-1 bg-white border border-slate-200 rounded-lg text-xs px-3 focus:outline-none focus:border-blue-500 shadow-sm"
+                      className="flex-1 bg-white border border-slate-200 rounded-xl text-xs px-3 focus:outline-none focus:border-emerald-500 shadow-sm"
                     />
                     <button
                       type="submit"
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg flex items-center gap-1 cursor-pointer font-bold shrink-0 border-0"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1 cursor-pointer font-bold shrink-0 border-0"
                     >
                       <Send className="w-3.5 h-3.5" />
                       {isEn ? 'Publish' : 'شائع کریں'}
@@ -1082,9 +1082,9 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   ) : (
                     <div className="space-y-3">
                       {getCurrentPosts(currentBusiness.id, currentBusiness.posts).map((post) => (
-                        <div key={post.id} className="p-3.5 border border-slate-100 rounded-xl space-y-1.5 bg-white shadow-xs">
+                        <div key={post.id} className="p-3.5 border border-slate-100 rounded-2xl space-y-1.5 bg-white shadow-xs">
                           <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold">
-                            <span className="text-blue-600">📢 {isEn ? 'Official Shop Bulletin' : 'سرکاری دکان کا اعلان'}</span>
+                            <span className="text-emerald-600">📢 {isEn ? 'Official Shop Bulletin' : 'سرکاری دکان کا اعلان'}</span>
                             <span className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" /> {post.date}
                             </span>
@@ -1102,7 +1102,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               {/* REVIEWS TAB CONTENT */}
               {activeTab === 'reviews' && (
                 <div className="space-y-4">
-                  <form onSubmit={handleAddReview} className="bg-slate-50 rounded-xl p-4 border border-slate-200/50 space-y-3 shadow-xs">
+                  <form onSubmit={handleAddReview} className="bg-slate-50 rounded-2xl p-4 border border-slate-200/50 space-y-3 shadow-xs">
                     <h4 className="text-xs font-black text-slate-800">
                       ✍️ {isEn ? 'Submit Review & Rating' : 'تبصرہ اور درجہ بندی لکھیں'}
                     </h4>
@@ -1127,11 +1127,11 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                         value={newReviewText}
                         onChange={(e) => setNewReviewText(e.target.value)}
                         placeholder={isEn ? "Tell the community about your experience..." : "اس دکان کے متعلق اپنا سچا تجربہ بتائیں..."}
-                        className="flex-1 bg-white border border-slate-200 rounded-lg text-xs px-3 py-2.5 focus:outline-none focus:border-blue-500 shadow-sm"
+                        className="flex-1 bg-white border border-slate-200 rounded-xl text-xs px-3 py-2.5 focus:outline-none focus:border-emerald-500 shadow-sm"
                       />
                       <button
                         type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 rounded-lg flex items-center justify-center cursor-pointer font-bold shrink-0 border-0"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 rounded-xl flex items-center justify-center cursor-pointer font-bold shrink-0 border-0"
                       >
                         {isEn ? 'Submit' : 'درج کریں'}
                       </button>
@@ -1145,7 +1145,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   ) : (
                     <div className="space-y-3">
                       {getCurrentReviews(currentBusiness.id, currentBusiness.reviews).map((rev) => (
-                        <div key={rev.id} className="p-3.5 border border-slate-100 rounded-xl space-y-1 bg-white shadow-xs">
+                        <div key={rev.id} className="p-3.5 border border-slate-100 rounded-2xl space-y-1 bg-white shadow-xs">
                           <div className="flex justify-between items-center text-xs">
                             <span className="font-black text-slate-800 flex items-center gap-1">
                               👤 {rev.user}
@@ -1184,7 +1184,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
         <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-8 shadow-sm space-y-6" id="create-business-form-card">
           <button
             onClick={onNavigateToList}
-            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl transition-all cursor-pointer border-0"
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-2xl transition-all cursor-pointer border-0"
             id="business-create-back"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -1225,7 +1225,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
                     placeholder={isEn ? 'e.g., Dhoke Sweets & Bakers' : 'مثال کے طور پر: ڈھوک سویٹس اینڈ بیکرز'}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-100'} rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.name ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-100'} rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                     id="input-bus-name"
                   />
                   {errors.name && <p className="text-[10px] text-red-500 font-bold">{errors.name}</p>}
@@ -1239,7 +1239,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all cursor-pointer"
                     id="select-bus-category"
                   >
                     {categories.filter(c => c !== 'All').map((cat) => (
@@ -1267,7 +1267,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     value={formPhone}
                     onChange={(e) => setFormPhone(e.target.value)}
                     placeholder="e.g., 0312-5556789"
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.phone ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-100'} rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.phone ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-100'} rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                     id="input-bus-phone"
                   />
                   {errors.phone && <p className="text-[10px] text-red-500 font-bold">{errors.phone}</p>}
@@ -1283,7 +1283,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     value={formOwnerName}
                     onChange={(e) => setFormOwnerName(e.target.value)}
                     placeholder={isEn ? "e.g., Haji Muhammad Irfan" : "مثال کے طور پر: حاجی محمد عرفان"}
-                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.owner ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-100'} rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                    className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.owner ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-100'} rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                     id="input-bus-owner"
                   />
                   {errors.owner && <p className="text-[10px] text-red-500 font-bold">{errors.owner}</p>}
@@ -1297,7 +1297,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   <select
                     value={formArea}
                     onChange={(e) => setFormArea(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all cursor-pointer"
                     id="select-bus-area"
                   >
                     {areas.map((ar) => (
@@ -1316,7 +1316,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     value={formOpeningHours}
                     onChange={(e) => setFormOpeningHours(e.target.value)}
                     placeholder="e.g., 09:00 AM - 11:00 PM"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                     id="input-bus-hours"
                   />
                 </div>
@@ -1332,7 +1332,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   value={formAddress}
                   onChange={(e) => setFormAddress(e.target.value)}
                   placeholder={isEn ? 'e.g., Shop No. 12, Gali No. 4, near Railway Crossing Road, Rawalpindi' : 'مثال کے طور پر: دکان نمبر 12، گلی نمبر 4، ریلوے کراسنگ کے قریب، راولپنڈی'}
-                  className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.address ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-100'} rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
+                  className={`w-full px-4 py-2.5 bg-slate-50 border ${errors.address ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-100'} rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   id="input-bus-address"
                 />
                 {errors.address && <p className="text-[10px] text-red-500 font-bold">{errors.address}</p>}
@@ -1356,7 +1356,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                       type="button"
                       disabled={isUploadingCover}
                       onClick={() => document.getElementById('business-cover-upload-file')?.click()}
-                      className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
+                      className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
                     >
                       {isUploadingCover ? (
                         <span>{isEn ? 'Uploading...' : 'اپلوڈ ہو رہا ہے...'}</span>
@@ -1384,7 +1384,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                       type="button"
                       disabled={isUploadingGallery}
                       onClick={() => document.getElementById('business-gallery-upload-files')?.click()}
-                      className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
+                      className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-sm flex items-center justify-center gap-1.5 cursor-pointer border-0 disabled:opacity-50"
                     >
                       {isUploadingGallery ? (
                         <span>{isEn ? 'Uploading...' : 'اپلوڈ ہو رہا ہے...'}</span>
@@ -1406,13 +1406,13 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     {formCoverImage && (
                       <div className="space-y-1 relative">
                         <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 start-1">{isEn ? 'Cover' : 'کور'}</span>
-                        <img src={formCoverImage} className="w-full aspect-square rounded-lg object-cover border border-slate-200" alt="Cover preview" referrerPolicy="no-referrer" />
+                        <img src={formCoverImage} className="w-full aspect-square rounded-xl object-cover border border-slate-200" alt="Cover preview" referrerPolicy="no-referrer" />
                       </div>
                     )}
                     {formGallery.map((img, idx) => (
                       <div key={idx} className="space-y-1 relative">
                         <span className="text-[8px] bg-black/60 text-white px-1 rounded absolute top-1 start-1">{isEn ? `Item ${idx+1}` : `تصویر ${idx+1}`}</span>
-                        <img src={img} className="w-full aspect-square rounded-lg object-cover border border-slate-200" alt="Gallery item" referrerPolicy="no-referrer" />
+                        <img src={img} className="w-full aspect-square rounded-xl object-cover border border-slate-200" alt="Gallery item" referrerPolicy="no-referrer" />
                       </div>
                     ))}
                   </div>
@@ -1429,7 +1429,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   onChange={(e) => setFormDescription(e.target.value)}
                   placeholder={isEn ? 'Detail your products, special offers, customer focus, and services...' : 'اپنی دکان، خاص آفرز اور روزمرہ مصنوعات کے متعلق تفصیل درج کریں...'}
                   rows={4}
-                  className={`w-full px-4 py-3 bg-slate-50 border ${errors.description ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-100'} rounded-xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none`}
+                  className={`w-full px-4 py-3 bg-slate-50 border ${errors.description ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-100'} rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 transition-all resize-none`}
                   id="input-bus-description"
                 />
                 {errors.description && <p className="text-[10px] text-red-500 font-bold">{errors.description}</p>}
@@ -1439,7 +1439,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
               <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="submit"
-                  className="flex-1 py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center font-bold border-0"
+                  className="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center font-bold border-0"
                   id="btn-publish-business"
                 >
                   {isEn ? 'Publish Business Listing' : 'کاروبار لائیو شائع کریں'}
@@ -1447,7 +1447,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 <button
                   type="button"
                   onClick={onNavigateToList}
-                  className="px-6 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-bold transition-all cursor-pointer font-bold border-0"
+                  className="px-6 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-bold transition-all cursor-pointer font-bold border-0"
                 >
                   {isEn ? 'Cancel' : 'منسوخ کریں'}
                 </button>
@@ -1486,7 +1486,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   value={reportReason}
                   rows={3}
                   placeholder={isEn ? "Reason for reporting (e.g., Closed permanently, incorrect number)..." : "رپورٹ کی وجہ (مثال کے طور پر: مستقل بند ہے، غلط معلومات)..."}
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-red-500 resize-none font-medium text-slate-800"
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-red-500 resize-none font-medium text-slate-800"
                   onChange={(e) => setReportReason(e.target.value)}
                 />
               </div>
@@ -1496,7 +1496,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                   type="button"
                   onClick={submitReport}
                   disabled={!reportReason?.trim()}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-300 text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer border-0"
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-300 text-white text-xs font-bold rounded-2xl shadow-xs cursor-pointer border-0"
                 >
                   {isEn ? 'Submit Report' : 'رپورٹ بھیجیں'}
                 </button>
@@ -1506,7 +1506,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     setReportModalBusinessId(null);
                     setReportReason('');
                   }}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl cursor-pointer border-0"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl cursor-pointer border-0"
                 >
                   {isEn ? 'Cancel' : 'منسوخ کریں'}
                 </button>
@@ -1519,3 +1519,4 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
     </div>
   );
 }
+

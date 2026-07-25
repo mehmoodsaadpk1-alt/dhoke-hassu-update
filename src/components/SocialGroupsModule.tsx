@@ -20,9 +20,12 @@ import SocialGroupDetailView from './SocialGroupDetailView';
 interface SocialGroupsModuleProps {
   currentUser: User;
   currentLanguage: 'en' | 'ur';
+  onShareRequest?: (type: string, id: string, preview?: any) => void;
+  selectedGroupId?: string | null;
+  initialTab?: string;
 }
 
-export default function SocialGroupsModule({ currentUser, currentLanguage, posts = [], renderPostComposer, renderPost }: SocialGroupsModuleProps) {
+export default function SocialGroupsModule({ currentUser, currentLanguage, onShareRequest, selectedGroupId, initialTab }: SocialGroupsModuleProps) {
   const isEn = currentLanguage === 'en';
   const isAdmin = isUserAdminOrModerator(currentUser);
 
@@ -38,8 +41,9 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
   const [searchQuery, setSearchQuery] = useState('');
   
   // View states: 'list' | 'create' | 'detail'
-  const [activeView, setActiveView] = useState<'list' | 'create' | 'detail'>('list');
+  const [activeView, setActiveView] = useState<'list' | 'create' | 'detail' | 'manage'>('list');
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
+  const [internalInitialTab, setInternalInitialTab] = useState<string | undefined>(initialTab);
   
   // Detail State
   const [groupPosts, setGroupPosts] = useState<GroupPost[]>([]);
@@ -52,6 +56,16 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
     setLoading(true);
     const data = await dbGetGroupsAdvanced();
     setGroups(data);
+    
+    // Handle deep linking
+    if (selectedGroupId) {
+      const g = data.find(x => x.id === selectedGroupId);
+      if (g) {
+        setSelectedGroup(g);
+        setActiveView(initialTab === 'manage' ? 'manage' : 'detail');
+      }
+    }
+    
     setLoading(false);
   };
 
@@ -82,7 +96,7 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
           <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                <Users className="w-6 h-6 text-indigo-600" />
+                <Users className="w-6 h-6 text-emerald-600" />
                 {isEn ? 'Social Groups' : 'سوشل گروپس'}
               </h2>
               <p className="text-xs text-slate-500 font-bold mt-1">
@@ -97,12 +111,12 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
                   placeholder={isEn ? "Search groups..." : "گروپس تلاش کریں..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full ps-9 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500"
+                  className="w-full ps-9 pe-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <button 
                 onClick={() => setActiveView('create')}
-                className="bg-[#2563eb] hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 shrink-0 border-none cursor-pointer shadow-sm transition-all"
+                className="bg-[#2563eb] hover:bg-emerald-700 text-white px-4 py-2.5 rounded-2xl text-sm font-black flex items-center gap-2 shrink-0 border-none cursor-pointer shadow-sm transition-all"
               >
                 <PlusCircle className="w-4 h-4" />
                 {isEn ? 'Create' : 'بنائیں'}
@@ -119,7 +133,7 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
 
           {/* Listing Grid */}
           {loading ? (
-             <div className="text-center py-12"><div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+             <div className="text-center py-12"><div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div></div>
           ) : filteredGroups.length === 0 ? (
             <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center">
               <Users className="w-12 h-12 text-slate-300 mx-auto mb-4" />
@@ -143,9 +157,9 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
                         {group.cover_url ? (
                           <img src={group.cover_url} alt="Cover" className="w-full h-full object-cover" />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100" />
+                          <div className="w-full h-full bg-gradient-to-r from-emerald-100 to-emerald-100" />
                         )}
-                        <div className="absolute top-3 end-3 bg-black/50 backdrop-blur-sm text-white text-[10px] font-black px-2 py-1 rounded-lg flex items-center gap-1.5">
+                        <div className="absolute top-3 end-3 bg-black/50 backdrop-blur-sm text-white text-[10px] font-black px-2 py-1 rounded-xl flex items-center gap-1.5">
                            {group.visibility === 'Private' ? <Lock className="w-3 h-3" /> : group.visibility === 'Hidden' ? <EyeOff className="w-3 h-3" /> : <Globe className="w-3 h-3" />}
                            {group.visibility}
                         </div>
@@ -158,7 +172,7 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
                           {group.description || (isEn ? 'No description provided.' : 'کوئی تفصیل فراہم نہیں کی گئی۔')}
                         </p>
                         <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-slate-500">
-                           <span className="bg-slate-100 px-2 py-1 rounded-md">{group.category}</span>
+                           <span className="bg-slate-100 px-2 py-1 rounded-xl">{group.category}</span>
                            <span>{group.members_count} {isEn ? 'Members' : 'ممبران'}</span>
                         </div>
                       </div>
@@ -194,7 +208,38 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
           currentUser={currentUser}
           currentLanguage={currentLanguage}
           posts={groupPosts}
-          onBack={() => setActiveView('list')}
+          initialTab={internalInitialTab}
+          onBack={() => {
+            setActiveView('list');
+            setSelectedGroup(null);
+            setInternalInitialTab(undefined);
+          }}
+          onRefresh={() => {
+            loadGroups();
+            loadGroupPosts(selectedGroup.id);
+          }}
+          onShareRequest={onShareRequest}
+        />
+      )}
+
+      {/* MANAGE VIEW DEEP LINKING SUPPORT */}
+      {activeView === 'manage' && selectedGroup && (
+        <SocialGroupDetailView
+          group={selectedGroup}
+          currentUser={currentUser}
+          currentLanguage={currentLanguage}
+          posts={groupPosts}
+          initialTab="manage_requests"
+          onBack={() => {
+            setActiveView('list');
+            setSelectedGroup(null);
+            setInternalInitialTab(undefined);
+          }}
+          onRefresh={() => {
+            loadGroups();
+            loadGroupPosts(selectedGroup.id);
+          }}
+          onShareRequest={onShareRequest}
         />
       )}
 
@@ -213,6 +258,7 @@ export default function SocialGroupsModule({ currentUser, currentLanguage, posts
     </div>
   );
 }
+
 
 
 

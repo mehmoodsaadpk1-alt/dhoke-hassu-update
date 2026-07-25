@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MessageCircle, Share2, Send, CheckCircle, Eye } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Send, CheckCircle, Eye, Users } from 'lucide-react';
 import ClickableAvatar from './ClickableAvatar';
 import TvsBadge from './TvsBadge';
 import RichText from './RichText';
@@ -7,6 +7,7 @@ import MentionTextarea from './MentionTextarea';
 import FeedCard from './FeedCard';
 import { VideoPlayer } from './video/VideoPlayer';
 import { analytics } from '../services/AnalyticsService';
+import { supabase, dbGetUserProfile, dbCheckGroupMembership, dbJoinGroup, dbLeaveGroup } from '../utils/supabaseClient';
 
 const viewedPostsInSession = new Set<string>();
 
@@ -23,6 +24,7 @@ interface PostCardProps {
   /** 'en' | 'ur'. Defaults to 'en' */
   currentLanguage?: 'en' | 'ur';
   onShareRequest?: (type: string, id: string, preview?: any) => void;
+  currentUser?: any;
 }
 
 const PostCardComponent = ({
@@ -36,10 +38,34 @@ const PostCardComponent = ({
   onImageClick,
   currentLanguage = 'en',
   onShareRequest,
+  currentUser
 }: PostCardProps) => {
   const isEn = currentLanguage === 'en';
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentText, setCommentText] = useState('');
+  const [currentUserData, setCurrentUserData] = useState<{avatar?: string, name?: string} | null>(null);
+
+  // Group membership state for shared group posts
+  const [isMember, setIsMember] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
+  const [localMemberCount, setLocalMemberCount] = useState<number | null>(null);
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        if (data?.user) {
+          const profile = await dbGetUserProfile(data.user.id);
+          setCurrentUserData({
+            name: profile?.fullName || data.user.user_metadata?.fullName || 'User',
+            avatar: profile?.profilePhoto || profile?.avatar || data.user.user_metadata?.avatar_url
+          });
+        }
+      } catch (e) {}
+    };
+    fetchUser();
+  }, []);
 
   const handleAddComment = () => {
     if (!commentText?.trim()) return;
@@ -127,47 +153,167 @@ const PostCardComponent = ({
       videoUrl = entity.videoUrl || entity.video_url || '';
     }
 
+    const isSharedGroup = post.postType === 'share' && !!entity.groups;
+    const groupData = isSharedGroup ? (Array.isArray(entity.groups) ? entity.groups[0] : entity.groups) : null;
+    
+    // Check membership on mount if it's a shared group post
+    useEffect(() => {
+      let isMounted = true;
+      if (groupData && currentUser && currentUser.id) {
+        dbCheckGroupMembership(groupData.id, currentUser.id).then(member => {
+          if (isMounted) setIsMember(member);
+        });
+      }
+      return () => { isMounted = false; };
+    }, [groupData?.id, currentUser?.id]);
+
+    const handleJoinGroup = async () => {
+      if (!currentUser || !groupData) return;
+      setIsJoining(true);
+      const success = await dbJoinGroup(groupData.id, currentUser.id);
+      if (success) {
+        setIsMember(true);
+        setLocalMemberCount(prev => (prev !== null ? prev + 1 : ((groupData.group_members?.[0]?.count || 0) + 1)));
+      } else {
+        alert(isEn ? 'Failed to join group.' : 'گروپ میں شامل ہونے میں ناکامی۔');
+      }
+      setIsJoining(false);
+    };
+
+    const handleLeaveGroup = async () => {
+      if (!currentUser || !groupData) return;
+      setIsJoining(true);
+      const success = await dbLeaveGroup(groupData.id, currentUser.id);
+      if (success) {
+        setIsMember(false);
+        setLocalMemberCount(prev => (prev !== null ? Math.max(0, prev - 1) : Math.max(0, (groupData.group_members?.[0]?.count || 0) - 1)));
+      } else {
+        alert(isEn ? 'Failed to leave group.' : 'گروپ چھوڑنے میں ناکامی۔');
+      }
+      setIsJoining(false);
+      setShowLeaveConfirm(false);
+    };
+
+    const handleGroupClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (groupData?.id) {
+        window.history.pushState({}, '', `/groups/${groupData.id}`);
+        window.dispatchEvent(new Event('popstate'));
+      }
+    };
+
     return (
       <div className="bg-white">
-        <div className="p-3 flex items-center gap-2 border-b border-slate-100">
-          <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
-            {(entity.avatar || entity.profiles?.profile_photo) ? (
-              <img src={entity.avatar || entity.profiles?.profile_photo} className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-xs font-bold text-slate-500">{title.charAt(0)}</span>
+        {groupData && (
+          <div className="p-4 border-b border-slate-100 flex items-center justify-between gap-3 bg-slate-50/50 relative" dir="ltr">
+            <div className="flex items-center gap-3 overflow-hidden cursor-pointer group" onClick={handleGroupClick}>
+              <div className="w-12 h-12 rounded-xl bg-slate-200 flex flex-col items-center justify-center shrink-0 overflow-hidden shadow-sm border border-slate-200 group-hover:ring-2 ring-emerald-500 transition-all">
+                {(groupData.coverImage || groupData.logo_url || groupData.cover_url) ? (
+                  <img src={groupData.coverImage || groupData.logo_url || groupData.cover_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                ) : (
+                  <span className="text-xl font-bold text-slate-400">🏘</span>
+                )}
+              </div>
+              <div className="flex flex-col overflow-hidden text-left">
+                <h4 className="text-[15px] font-black text-slate-900 truncate flex items-center gap-1 justify-start group-hover:text-emerald-600 transition-colors">{groupData.name}</h4>
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mt-0.5 justify-start">
+                  <span className="flex items-center gap-1"><Users className="w-3 h-3"/> {localMemberCount !== null ? localMemberCount : (groupData.group_members?.[0]?.count || 0)} {isEn ? 'Members' : 'ممبران'}</span>
+                  <span>•</span>
+                  <span>{groupData.privacy === 'Public' ? (isEn ? 'Public Group' : 'پبلک گروپ') : (isEn ? 'Private Group' : 'پرائیویٹ گروپ')}</span>
+                </div>
+              </div>
+            </div>
+            
+            {(!isMember && currentUser) ? (
+              <button
+                onClick={(e) => { e.stopPropagation(); handleJoinGroup(); }}
+                disabled={isJoining}
+                className="shrink-0 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs hover:bg-emerald-200 transition-colors flex items-center gap-1.5"
+              >
+                {isJoining ? (isEn ? 'Joining...' : 'شامل ہو رہا ہے...') : (isEn ? 'Join' : 'شامل ہوں')}
+              </button>
+            ) : (currentUser ? (
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowLeaveConfirm(true); }}
+                disabled={isJoining}
+                className="shrink-0 px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-bold text-xs flex items-center gap-1 hover:bg-slate-200 transition-colors cursor-pointer"
+              >
+                <CheckCircle className="w-3.5 h-3.5" />
+                {isEn ? 'Joined' : 'شامل ہو گئے'}
+              </button>
+            ) : null)}
+
+            {/* Leave Confirmation Modal */}
+            {showLeaveConfirm && (
+              <div className="absolute end-4 top-14 bg-white rounded-xl shadow-lg border border-slate-100 p-4 z-10 w-64 animate-in fade-in zoom-in-95" dir={isEn ? 'ltr' : 'rtl'}>
+                <h4 className="font-bold text-slate-900 mb-1">{isEn ? 'Leave Group?' : 'گروپ چھوڑیں؟'}</h4>
+                <p className="text-xs text-slate-500 mb-4">{isEn ? 'Are you sure you want to leave this group?' : 'کیا آپ واقعی اس گروپ کو چھوڑنا چاہتے ہیں؟'}</p>
+                <div className="flex items-center justify-end gap-2">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setShowLeaveConfirm(false); }}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  >
+                    {isEn ? 'Cancel' : 'منسوخ کریں'}
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleLeaveGroup(); }}
+                    disabled={isJoining}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                  >
+                    {isEn ? 'Leave Group' : 'گروپ چھوڑیں'}
+                  </button>
+                </div>
+              </div>
             )}
           </div>
-          <div>
-            <h5 className="text-sm font-bold text-slate-900 leading-tight flex items-center gap-1">
-              {title}
-              {entity.verified && <CheckCircle className="w-3 h-3 text-blue-500" />}
+        )}
+
+        <div className="p-3 flex items-center gap-3 border-b border-slate-100" dir="ltr">
+          <ClickableAvatar
+            userId={entity.author_id || entity.user_id || title}
+            name={title}
+            avatar={entity.avatar || entity.profiles?.profile_photo}
+            size={36}
+            className="shrink-0 ring-1 ring-slate-100 shadow-xs"
+          />
+          <div className="text-left flex-1">
+            <h5 className="text-sm font-bold text-slate-900 leading-tight flex items-center gap-1 justify-start">
+              <ClickableAvatar
+                userId={entity.author_id || entity.user_id || title}
+                name={title}
+                nameOnly={true}
+                nameClassName="text-sm font-bold text-slate-900 leading-tight hover:underline cursor-pointer"
+              />
+              {entity.verified && <CheckCircle className="w-3.5 h-3.5 text-blue-500 fill-blue-500/10" />}
             </h5>
-            <p className="text-xs text-slate-500">{subtitle}</p>
+            <p className="text-[11px] font-medium text-slate-500 mt-0.5 text-left">{subtitle}</p>
           </div>
         </div>
 
-        <div className="p-3">
-          {content && <RichText text={content} className="text-sm text-slate-800 line-clamp-4 mb-2" />}
+        <div className="px-4 pb-4 pt-1 text-right font-['Noto_Sans_Arabic']" dir="rtl">
+          {title && <h3 className="font-bold text-slate-900 text-lg mb-2">{title}</h3>}
+          {content && <RichText text={content} className="text-[15px] font-medium text-slate-800 mb-2 leading-relaxed whitespace-pre-wrap" />}
         </div>
 
         {image && !videoUrl && (
-          <div className="w-full flex justify-center bg-slate-50 border-t border-slate-100">
-            <div className="w-full relative">
-              <img src={image} className="w-full object-cover max-h-[400px] block" />
+          <div className="w-full flex justify-center px-4 pb-4 pt-1 bg-white">
+            <div className="w-fit max-w-full relative overflow-hidden rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E5E7EB] dark:border-white/10 md:hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-300 group bg-slate-50">
+              <img src={image} className="max-w-full max-h-[500px] w-auto h-auto object-contain block transition-transform duration-300 ease-out md:group-hover:scale-[1.02]" />
             </div>
           </div>
         )}
 
         {videoUrl && (
-          <div className="w-full flex justify-center bg-black border-t border-slate-900 relative">
-            <div className="w-full relative h-[400px]">
+          <div className="w-full flex justify-center px-4 pb-4 pt-1 bg-white">
+            <div className="w-full relative h-[350px] sm:h-[400px] bg-black overflow-hidden rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E5E7EB] dark:border-white/10 md:hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-300 group">
               <VideoPlayer
                 videoId={`shared-${entity.id}`}
                 src={videoUrl}
                 preloadType="metadata"
                 className="w-full h-full object-contain block"
               />
-              <div className="absolute bottom-2 end-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {entity.viewsCount ?? 0}</div>
+              <div className="absolute bottom-3 end-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-[12px] z-20 text-[11px] font-bold shadow-sm border border-white/10"><Eye className="w-3.5 h-3.5"/> {entity.viewsCount ?? 0}</div>
             </div>
           </div>
         )}
@@ -188,7 +334,15 @@ const PostCardComponent = ({
         tvsBadgeType={getTvsBadgeType(post.author)}
         badge={
           post.postType === 'share' ? (
-            <span className="text-slate-500 font-medium ms-1 lowercase">{isEn ? 'shared' : 'نے شیئر کیا'}</span>
+            <div className="flex flex-col text-slate-500 font-medium ms-1 text-[13px] leading-snug">
+              <span className="lowercase">{isEn ? 'shared a post' : 'نے ایک پوسٹ شیئر کی'}</span>
+              {post.sharedOriginalEntity?.groups && (
+                <span className="text-[11px] text-slate-400">
+                  {isEn ? 'from ' : 'سے '}
+                  <span className="font-bold text-slate-600">{Array.isArray(post.sharedOriginalEntity.groups) ? post.sharedOriginalEntity.groups[0]?.name : post.sharedOriginalEntity.groups.name}</span>
+                </span>
+              )}
+            </div>
           ) : post.postTag && (
             <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black ${post.postTag === 'lost' ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'}`}>
               {post.postTag === 'lost' ? '🔍 LOST ITEM' : '✅ FOUND ITEM'}
@@ -227,6 +381,7 @@ const PostCardComponent = ({
                     <div
                       key={comment.id || Math.random().toString()}
                       className="flex gap-3 items-start text-slate-800 bg-slate-50 p-3 rounded-xl"
+                      dir="ltr"
                     >
                       <ClickableAvatar
                         userId={comment.userId}
@@ -235,9 +390,9 @@ const PostCardComponent = ({
                         size={32}
                         className="border border-slate-100 shrink-0"
                       />
-                      <div className="space-y-0.5 flex-1">
-                        <div className="flex items-center gap-1.5">
-                          <h5 className="font-semibold text-sm text-slate-900 flex items-center gap-1">
+                      <div className="space-y-0.5 flex-1 text-left">
+                        <div className="flex items-center gap-1.5 justify-start">
+                          <h5 className="font-semibold text-sm text-slate-900 flex items-center gap-1 justify-start">
                             <ClickableAvatar
                               userId={comment.userId}
                               name={comment.author}
@@ -258,9 +413,13 @@ const PostCardComponent = ({
                 })}
               </div>
 
-                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2">
-                  <div className="w-[34px] h-[34px] rounded-full bg-slate-200 overflow-hidden shrink-0 mt-0.5">
-                    <img src="https://ui-avatars.com/api/?name=User&background=random" className="w-full h-full object-cover opacity-80" alt="Avatar" />
+                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2" dir="ltr">
+                  <div className="w-[34px] h-[34px] rounded-full bg-slate-200 overflow-hidden shrink-0 mt-0.5 border border-slate-100 shadow-sm">
+                    <img 
+                      src={currentUserData?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData?.name || 'User')}&background=random`} 
+                      className="w-full h-full object-cover" 
+                      alt="Avatar" 
+                    />
                   </div>
                   <div className="flex-1 relative bg-slate-100 rounded-[20px] flex items-end overflow-hidden transition-colors focus-within:bg-slate-200/70 border border-transparent focus-within:border-slate-300">
                     <MentionTextarea
@@ -299,19 +458,19 @@ const PostCardComponent = ({
         )}
 
         {post.postType !== 'share' && post.image && (
-          <div className="w-full flex justify-center mt-3 bg-slate-50 border-t border-b border-slate-100">
+          <div className="w-full flex justify-center mt-3 mb-2 px-4">
             <div
               onClick={() => {
                 if (onImageClick) {
                   onImageClick(post.images && post.images.length > 0 ? post.images : [post.image]);
                 }
               }}
-              className="w-full max-w-[700px] relative cursor-pointer"
+              className="w-fit max-w-full relative cursor-pointer overflow-hidden rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E5E7EB] dark:border-white/10 md:hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-300 group bg-slate-50"
             >
               <img
                 src={post.image}
                 alt="Post content"
-                className="w-full max-h-[500px] object-contain block"
+                className="max-w-full max-h-[500px] w-auto h-auto object-contain block transition-transform duration-300 ease-out md:group-hover:scale-[1.02] animate-[fadeIn_0.5s_ease-out]"
               />
               {post.images && post.images.length > 1 && (
                 <div className="absolute bottom-3 end-3 bg-black/70 backdrop-blur-xs text-white text-[10px] font-black px-2.5 py-1.5 rounded-xl border border-white/20 flex items-center gap-1">
@@ -326,15 +485,15 @@ const PostCardComponent = ({
         )}
 
         {post.videoUrl && (
-            <div className="w-full flex justify-center mt-3 bg-black border-t border-b border-slate-900 relative">
-              <div className="w-full max-w-[700px] relative aspect-[4/5] md:h-[500px]">
+            <div className="w-full flex justify-center mt-3 mb-2 px-4">
+              <div className="w-full max-w-[700px] relative h-[350px] sm:h-[450px] bg-black overflow-hidden rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[#E5E7EB] dark:border-white/10 md:hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-300 group">
                 <VideoPlayer
                   videoId={post.id}
                   src={post.videoUrl}
                   preloadType="metadata"
                   className="w-full h-full object-contain block"
                 />
-                <div className="absolute bottom-2 end-2 flex items-center gap-1 bg-black/50 text-white px-2 py-1 rounded z-20"><Eye className="w-3 h-3"/> {post.viewsCount ?? 0}</div>
+                <div className="absolute bottom-3 end-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-[12px] z-20 text-[11px] font-bold shadow-sm border border-white/10"><Eye className="w-3.5 h-3.5"/> {post.viewsCount ?? 0}</div>
               </div>
             </div>
           )}

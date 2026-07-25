@@ -220,6 +220,61 @@ class VideoService {
     if (error) throw error;
   }
 
+  async getSavedVideos(userId: string) {
+    // 1. Get saved video IDs from the saves table
+    const { data: saves, error: savesError } = await supabase
+      .from('video_saves')
+      .select('video_id')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    
+    if (savesError) {
+      console.warn('Could not fetch video saves from DB', savesError);
+      return [];
+    }
+
+    if (!saves || saves.length === 0) return [];
+    
+    const videoIds = saves.map(s => s.video_id);
+
+    // 2. Fetch the actual video details
+    const { data: videos, error: videosError } = await supabase
+      .from('videos')
+      .select('id, user_id, title, description, video_url, thumbnail_url, duration, views, likes, comments_count, shares, created_at, profiles:user_id(full_name, profile_photo)')
+      .in('id', videoIds);
+
+    if (videosError) {
+      console.warn('Could not fetch videos for saves', videosError);
+      return [];
+    }
+    
+    // 3. Map them in the correct sorted order, and add hasSaved / hasLiked 
+    // (Assuming if it's in the saves list, it hasSaved = true)
+    
+    // Let's also fetch likes for these videos for the current user
+    const { data: likesData } = await supabase
+      .from('video_likes')
+      .select('video_id')
+      .eq('user_id', userId)
+      .in('video_id', videoIds);
+      
+    const likedIds = new Set(likesData?.map(l => l.video_id) || []);
+
+    const videoMap = new Map(videos?.map(v => [v.id, v]));
+    
+    const orderedVideos = videoIds.map(id => {
+      const v = videoMap.get(id);
+      if (!v) return null;
+      return {
+        ...v,
+        hasSaved: true,
+        hasLiked: likedIds.has(id)
+      };
+    }).filter(Boolean);
+
+    return orderedVideos;
+  }
+
   async unsaveVideo(videoId: string, userId: string) {
     const { error } = await supabase.from('video_saves').delete().match({ video_id: videoId, user_id: userId });
     if (error) throw error;

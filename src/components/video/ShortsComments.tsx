@@ -155,7 +155,7 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
                   </div>
                   
                   {activeOptionsId === c.id && (
-                    <div className="absolute end-0 top-6 bg-gray-800 border border-gray-700 rounded-lg shadow-xl w-32 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-100">
+                    <div className="absolute end-0 top-6 bg-gray-800 border border-gray-700 rounded-xl shadow-xl w-32 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-100">
                       <button 
                         onClick={() => startEditing(c)}
                         className="w-full text-start px-3 py-2 text-white hover:bg-gray-700 text-xs font-medium transition-colors"
@@ -176,7 +176,7 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
                   <div className="mt-2 flex flex-col space-y-2">
                     <input 
                       type="text" 
-                      className="w-full bg-gray-800 text-white text-sm rounded px-3 py-1.5 outline-none border border-gray-700 focus:border-blue-500"
+                      className="w-full bg-gray-800 text-white text-sm rounded px-3 py-1.5 outline-none border border-gray-700 focus:border-emerald-500"
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && saveEdit(c.id)}
@@ -223,7 +223,7 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
           <button 
             onClick={handlePost}
             disabled={!text.trim()}
-            className="p-2 bg-blue-600 rounded-full text-white disabled:opacity-50 disabled:bg-gray-700 transition-colors"
+            className="p-2 bg-emerald-600 rounded-full text-white disabled:opacity-50 disabled:bg-gray-700 transition-colors"
           >
             <Send size={16} />
           </button>
@@ -232,3 +232,4 @@ export const ShortsComments: React.FC<ShortsCommentsProps> = ({ videoId, isOpen,
     </BottomSheet>
   );
 };
+

@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Compass } from 'lucide-react';
+import PostCard from './PostCard';
 import { 
   dbGetCities, 
   dbGetAreas, 
@@ -45,13 +46,16 @@ import {
   AlertTriangle,
   X,
   Video,
-  Upload
+  Upload,
+  Play
 } from 'lucide-react';
 import { User, Post, JobItem, BusinessItem, PropertyItem, BuySellItem, ServiceItem, AlertItem, EventItem, DealItem, Language, Gender } from '../types';
 import FollowListModal from './FollowListModal';
 import DateOfBirthPicker from './DateOfBirthPicker';
 import { isEntityVerified } from '../utils/verification';
 import { validateDemographics } from '../utils/demographics';
+import { ShortsFeed } from './video/ShortsFeed';
+
 
 interface ProfileModuleProps {
   user: User;
@@ -200,9 +204,10 @@ export default function ProfileModule({
     currentPath === '/profile/badges' ? 'badges' : 'main';
 
   // Sub-tabs for main view
-  const [activeTab, setActiveTab] = useState<'posts' | 'activity' | 'badges' | 'saved'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'activity' | 'badges' | 'saved' | 'saved_videos'>('posts');
   const [showFollowModal, setShowFollowModal] = useState(false);
   const [activeFollowTab, setActiveFollowTab] = useState<'followers'|'following'>('followers');
+  const [activeVideoViewer, setActiveVideoViewer] = useState<string | null>(null);
 
   // State initialization with localStorage persistence
   const [profileData, setProfileData] = useState<User>(() => {
@@ -532,6 +537,27 @@ export default function ProfileModule({
   useEffect(() => {
     localStorage.setItem('dh_user_saved_items', JSON.stringify(savedItemsList));
   }, [savedItemsList]);
+
+  // Saved Videos state and fetch logic
+  const [savedVideos, setSavedVideos] = useState<any[]>([]);
+  const [isSavedVideosLoading, setIsSavedVideosLoading] = useState(false);
+
+  useEffect(() => {
+    async function loadSavedVideos() {
+      if (!user?.id) return;
+      setIsSavedVideosLoading(true);
+      try {
+        const { videoService } = await import('../services/VideoService');
+        const videos = await videoService.getSavedVideos(user.id);
+        setSavedVideos(videos);
+      } catch (err) {
+        console.error('Failed to load saved videos:', err);
+      } finally {
+        setIsSavedVideosLoading(false);
+      }
+    }
+    loadSavedVideos();
+  }, [user?.id]);
 
   // Calculate static counts
   const ownPosts = posts.filter(p => p.author === profileData.fullName);
@@ -1317,180 +1343,159 @@ export default function ProfileModule({
         </div>
       )}
 
-      {/* 1. FACEBOOK-INSPIRED PROFILE COVER & AVATAR BLOCK */}
-      <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm overflow-hidden relative">
+      {/* PROFILE HEADER MOCKUP DESIGN */}
+      <div className="bg-white rounded-[32px] sm:rounded-[36px] shadow-sm overflow-hidden relative border border-slate-100 font-['Noto_Sans_Arabic']" dir="rtl">
+        
         {/* Cover Photo */}
-        <div className="h-48 sm:h-64 bg-slate-200 relative overflow-hidden group">
-          <img src={profileData.coverPhoto} alt="Cover image" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <div className="h-40 sm:h-56 relative overflow-hidden flex items-start justify-center pt-5 bg-slate-200">
+          {profileData.coverPhoto ? (
+            <img 
+              src={profileData.coverPhoto} 
+              alt="Cover" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-[#3d855a] bg-gradient-to-b from-[#2d6f46] to-[#429563]"></div>
+              <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none mix-blend-overlay"></div>
+            </>
+          )}
+          
+          <div className="absolute inset-0 bg-black/10"></div>
+          
+          <div className="relative z-10 drop-shadow-md">
+            <span className="text-white font-bold text-lg sm:text-xl tracking-wide">{currentLanguage === 'en' ? 'My Profile' : 'میری پروفائل'}</span>
+          </div>
+
           <button 
             onClick={() => navigate('/profile/edit')}
-            className="absolute bottom-3 end-3 bg-black/60 hover:bg-black/80 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer"
+            className="absolute top-4 start-4 bg-black/20 hover:bg-black/40 text-white p-2.5 rounded-full backdrop-blur-sm transition-all z-20 cursor-pointer shadow-sm"
           >
-            <Camera className="w-3.5 h-3.5" />
-            <span>{currentLanguage === 'en' ? 'Edit Layout' : 'تبدیل کریں'}</span>
+            <Edit className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Profile Avatar Overlay & Bio Details */}
-        <div className="px-6 pb-6 relative">
-          <div className="flex flex-col items-center sm:items-start gap-4">
-            {/* Avatar Frame */}
-            <div className="-mt-12 sm:-mt-16 relative z-10">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white bg-slate-100 overflow-hidden shadow-lg relative group shrink-0 mx-auto sm:mx-0">
-                <img src={profileData.profilePhoto} alt={profileData.fullName} className="w-full h-full object-cover" />
-                <button 
-                  onClick={() => setShowAvatarModal(true)}
-                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold cursor-pointer"
-                >
-                  <Camera className="w-5 h-5" />
-                </button>
-              </div>
+        {/* Profile Content Area */}
+        <div className="px-4 sm:px-8 pb-6 relative grid grid-cols-1 md:grid-cols-[320px_1fr] gap-x-8 gap-y-4" dir="ltr">
+          
+          {/* Cell 1: Avatar & Name */}
+          <div className="w-full flex flex-col relative z-10 items-start text-left md:col-start-1 md:row-start-1" dir="ltr">
+            
+            {/* Avatar Frame (Left Side LTR) */}
+            <div className="w-[110px] h-[110px] sm:w-[150px] sm:h-[150px] rounded-full border-[4px] sm:border-[5px] border-white bg-slate-100 overflow-hidden shadow-lg shrink-0 relative mt-[-55px] sm:mt-[-75px] mb-1">
+              <img src={profileData.profilePhoto || "https://ui-avatars.com/api/?name=User&background=random"} alt={profileData.fullName} className="w-full h-full object-cover" />
+              <button 
+                onClick={() => setShowAvatarModal(true)}
+                className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white cursor-pointer"
+              >
+                <Camera className="w-6 h-6 sm:w-8 sm:h-8" />
+              </button>
             </div>
 
-            {/* Basic Info */}
-            <div className="w-full text-center sm:text-start space-y-1.5">
-              <div className="flex items-center sm:justify-start justify-center gap-2 flex-wrap">
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                  {profileData.fullName}
-                </h2>
-                
+            {/* Name & Title */}
+            <div className="mt-1 w-full text-left">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight flex items-center justify-start gap-1.5">
+                {profileData.fullName}
                 {(profileData.verified || isEntityVerified(profileData.fullName)) && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-green-50 text-green-700 border border-green-200 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0 shadow-xs animate-pulse">
-                    <ShieldCheck className="w-3.5 h-3.5 text-action fill-current" />
-                    {currentLangLabels.verifiedResident}
-                  </span>
+                  <ShieldCheck className="w-5 h-5 text-[#308B54] fill-current" />
                 )}
-              </div>
+              </h2>
+              <p className="text-[13px] font-semibold text-slate-500">
+                {profileData.jobTitle || (currentLanguage === 'en' ? 'Community Member' : 'کمیونٹی ممبر')}
+              </p>
+            </div>
+          </div>
 
-              {profileData.username && (
-                <p className="text-xs font-bold text-blue-600 font-mono">
-                  @{profileData.username}
+          {/* Cell 2: Statistics Grid (Mobile: Middle, Desktop: Right) */}
+          <div className="w-full text-start md:col-start-2 md:row-start-1 md:row-span-2 mt-1 md:mt-2" dir="rtl">
+            <h3 className="text-xs font-bold text-slate-400 mb-2">{currentLanguage === 'en' ? 'Statistics' : 'اعداد و شمار'}</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+              <div className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-default">
+                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700">{ownPosts.length}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Posts' : 'پوسٹس'}</span>
+              </div>
+              <div 
+                onClick={() => { setActiveFollowTab('followers'); setShowFollowModal(true); }}
+                className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-pointer hover:bg-emerald-50 transition-colors"
+              >
+                <UserIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700">{profileData.followers_count || 0}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Followers' : 'فالوورز'}</span>
+              </div>
+              <div 
+                onClick={() => { setActiveFollowTab('following'); setShowFollowModal(true); }}
+                className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-pointer hover:bg-emerald-50 transition-colors"
+              >
+                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700">{profileData.following_count || 0}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Following' : 'فالوونگ'}</span>
+              </div>
+              <div className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-default">
+                <ThumbsUp className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700">{ownPosts.reduce((acc, post) => acc + (post.likes || 0), 0)}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Likes' : 'لائیکس'}</span>
+              </div>
+              <div className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-default">
+                <Award className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700">{profileData.reputationScore}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Score' : 'سکور'}</span>
+              </div>
+              <div className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-default">
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#308B54]" />
+                <span className="text-[13px] sm:text-[14px] font-black text-slate-700 truncate w-full text-center">{profileData.area || 'N/A'}</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500">{currentLanguage === 'en' ? 'Area' : 'علاقہ'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Cell 3: Bio & Social */}
+          <div className="w-full flex flex-col items-start text-left md:col-start-1 md:row-start-2" dir="ltr">
+            {/* Bio */}
+            <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100 w-full text-left">
+              <h3 className="text-xs font-bold text-slate-400 mb-2">{currentLanguage === 'en' ? 'About Me' : 'میرے بارے میں'}</h3>
+              {profileData.bio ? (
+                <p className="text-[14px] text-slate-700 leading-relaxed whitespace-pre-wrap text-left" dir="rtl">
+                  {profileData.bio}
+                </p>
+              ) : (
+                <p className="text-[13px] text-slate-400 leading-relaxed italic text-left" dir="rtl">
+                  {currentLanguage === 'en' ? 'No bio added yet.' : 'ابھی تک بائیو شامل نہیں کی گئی۔'}
                 </p>
               )}
+            </div>
 
-              <div className="pt-1 select-none flex justify-center md:justify-start">
-                <button
-                  onClick={() => navigate('/verification')}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/60 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer shadow-2xs"
-                  id="go-to-verification-center-from-profile-btn"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-blue-600 fill-blue-50" />
-                  <span>{currentLanguage === 'en' ? 'Verification Center' : 'تصدیق کا مرکز'}</span>
+            {/* Social Links Ribbon */}
+            <div className="flex justify-start items-center gap-3 mt-5 w-full" dir="ltr">
+              {profileData.socialLinks?.facebook && (
+                <a href={`https://${profileData.socialLinks.facebook}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-emerald-50 text-[#308B54] flex items-center justify-center hover:bg-[#308B54] hover:text-white transition-colors">
+                  <Facebook className="w-4 h-4" />
+                </a>
+              )}
+              {profileData.socialLinks?.twitter && (
+                <a href={`https://${profileData.socialLinks.twitter}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-emerald-50 text-[#308B54] flex items-center justify-center hover:bg-[#308B54] hover:text-white transition-colors">
+                  <Twitter className="w-4 h-4" />
+                </a>
+              )}
+              {profileData.socialLinks?.linkedin && (
+                <a href={`https://${profileData.socialLinks.linkedin}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-emerald-50 text-[#308B54] flex items-center justify-center hover:bg-[#308B54] hover:text-white transition-colors">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+              {profileData.socialLinks?.website && (
+                <a href={`https://${profileData.socialLinks.website}`} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-emerald-50 text-[#308B54] flex items-center justify-center hover:bg-[#308B54] hover:text-white transition-colors">
+                  <Globe className="w-4 h-4" />
+                </a>
+              )}
+              {!profileData.socialLinks?.website && (
+                <button onClick={() => {}} className="w-10 h-10 rounded-full bg-emerald-50 text-[#308B54] flex items-center justify-center hover:bg-[#308B54] hover:text-white transition-colors cursor-pointer">
+                  <Share2 className="w-4 h-4" />
                 </button>
-              </div>
-
-              {/* Badges Quick Row */}
-              <div className="flex flex-wrap justify-center md:justify-start gap-1.5 pt-1">
-                {profileData.badges?.map(badgeId => {
-                  const badge = BADGES_CONFIG.find(b => b.id === badgeId);
-                  if (!badge) return null;
-                  return (
-                    <span 
-                      key={badge.id}
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${badge.bgColor} border shadow-xs`}
-                      title={currentLanguage === 'en' ? badge.descEn : badge.descUr}
-                    >
-                      <span>{badge.icon}</span>
-                      <span>{currentLanguage === 'en' ? badge.nameEn : badge.nameUr}</span>
-                    </span>
-                  );
-                })}
-              </div>
-
-              {/* Map details */}
-              <div className="flex flex-wrap justify-center md:justify-start items-center gap-3.5 text-[11px] text-slate-500 font-bold pt-1">
-                <span className="flex items-center gap-1 bg-slate-100 py-1 px-2.5 rounded-lg border border-slate-200/50">
-                  <MapPin className="w-3.5 h-3.5 text-[#2563eb]" />
-                  <span>{profileData.area} Zone</span>
-                </span>
-                {profileData.gender && profileData.gender !== 'Unknown' && (
-                  <span className="flex items-center gap-1 bg-slate-100 py-1 px-2.5 rounded-lg border border-slate-200/50">
-                    <span>Gender: {profileData.gender}</span>
-                  </span>
-                )}
-                {calculateAge(profileData.dateOfBirth) !== null && (
-                  <span className="flex items-center gap-1 bg-slate-100 py-1 px-2.5 rounded-lg border border-slate-200/50">
-                    <span>Age: {calculateAge(profileData.dateOfBirth)} yrs</span>
-                  </span>
-                )}
-                <span className="flex items-center gap-1 bg-slate-100 py-1 px-2.5 rounded-lg border border-slate-200/50">
-                  <Calendar className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>{currentLangLabels.memberSince}: {profileData.joinDate}</span>
-                </span>
-              </div>
-
-              {/* Followers / Following Counts */}
-              <div className="flex items-center gap-6 pt-3 justify-center md:justify-start">
-                <button 
-                  onClick={() => { setActiveFollowTab('followers'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-start bg-transparent border-none cursor-pointer p-0"
-                >
-                  <span className="text-lg font-black text-slate-900 leading-none">{profileData.followers_count || 0}</span>
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{currentLanguage === 'en' ? 'Followers' : 'فالوورز'}</span>
-                </button>
-                <button 
-                  onClick={() => { setActiveFollowTab('following'); setShowFollowModal(true); }}
-                  className="flex flex-col hover:opacity-80 transition-opacity text-center md:text-start bg-transparent border-none cursor-pointer p-0"
-                >
-                  <span className="text-lg font-black text-slate-900 leading-none">{profileData.following_count || 0}</span>
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mt-1">{currentLanguage === 'en' ? 'Following' : 'فالوونگ'}</span>
-                </button>
-              </div>
+              )}
             </div>
           </div>
-
-          {/* Edit Buttons */}
-          <div className="flex items-center gap-2 mt-4 sm:mt-0 sm:absolute sm:top-6 sm:end-6 justify-center">
-            <button
-              onClick={() => navigate('/profile/edit')}
-              className="flex items-center justify-center gap-2 py-2 px-5 bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs font-black rounded-full shadow-sm transition-all cursor-pointer border border-slate-300"
-              id="edit-profile-main-btn"
-            >
-              <Edit className="w-4 h-4" />
-              <span>{currentLangLabels.editProfileBtn}</span>
-            </button>
-          </div>
         </div>
-
-        {/* Bio Text area */}
-        {profileData.bio && (
-          <div className="px-6 pb-6 pt-3 border-t border-slate-100 text-slate-600 text-xs sm:text-sm leading-relaxed text-center md:text-start font-medium whitespace-pre-line italic">
-            "{profileData.bio}"
-          </div>
-        )}
-
-        {/* Social Links Ribbon */}
-        {profileData.socialLinks && (Object.values(profileData.socialLinks).some(Boolean)) && (
-          <div className="px-6 py-3 bg-slate-50/50 border-t border-slate-100 flex flex-wrap justify-center md:justify-start gap-4 text-xs font-semibold text-slate-500">
-            {profileData.socialLinks.facebook && (
-              <a href={`https://${profileData.socialLinks.facebook}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-blue-600 transition-colors">
-                <Facebook className="w-3.5 h-3.5 text-blue-600" />
-                <span className="truncate max-w-[120px]">{profileData.socialLinks.facebook.replace('facebook.com/', '')}</span>
-              </a>
-            )}
-            {profileData.socialLinks.twitter && (
-              <a href={`https://${profileData.socialLinks.twitter}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-sky-500 transition-colors">
-                <Twitter className="w-3.5 h-3.5 text-sky-400" />
-                <span className="truncate max-w-[120px]">{profileData.socialLinks.twitter.replace('twitter.com/', '')}</span>
-              </a>
-            )}
-            {profileData.socialLinks.linkedin && (
-              <a href={`https://${profileData.socialLinks.linkedin}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-blue-800 transition-colors">
-                <Linkedin className="w-3.5 h-3.5 text-blue-700" />
-                <span className="truncate max-w-[120px]">{profileData.socialLinks.linkedin.replace('linkedin.com/in/', '')}</span>
-              </a>
-            )}
-            {profileData.socialLinks.website && (
-              <a href={`https://${profileData.socialLinks.website}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-emerald-600 transition-colors">
-                <Globe className="w-3.5 h-3.5 text-slate-600" />
-                <span className="truncate max-w-[120px]">{profileData.socialLinks.website}</span>
-              </a>
-            )}
-          </div>
-        )}
       </div>
-
       {/* 2. REPUTATION & LEVEL PROGRESS TRACKER CARD */}
       <div className="bg-white rounded-3xl border border-slate-200/70 p-6 shadow-sm space-y-4 relative overflow-hidden" id="reputation-tracker-card">
         <div className="absolute top-0 start-0 w-2 h-full bg-emerald-500" />
@@ -1646,9 +1651,9 @@ export default function ProfileModule({
         <div className="flex border-b border-slate-200 font-bold text-xs">
           <button
             onClick={() => setActiveTab('posts')}
-            className={`py-3 px-5 transition-colors border-b-2 font-black cursor-pointer uppercase tracking-wider ${activeTab === 'posts' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+            className={`py-3 px-5 transition-colors border-b-2 font-black cursor-pointer tracking-wide font-['Noto_Sans_Arabic'] ${activeTab === 'posts' ? 'border-[#308B54] text-[#308B54]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
           >
-            📌 {currentLangLabels.postsTab}
+            {currentLanguage === 'en' ? 'A Glimpse of You' : 'آپ کی جھلک'}
           </button>
           <button
             onClick={() => setActiveTab('activity')}
@@ -1668,6 +1673,12 @@ export default function ProfileModule({
           >
             🔖 {currentLangLabels.savedTab}
           </button>
+          <button
+            onClick={() => setActiveTab('saved_videos')}
+            className={`py-3 px-5 transition-colors border-b-2 font-black cursor-pointer uppercase tracking-wider ${activeTab === 'saved_videos' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+          >
+            ▶️ {currentLanguage === 'en' ? 'Saved Videos' : 'محفوظ ویڈیوز'}
+          </button>
         </div>
 
         {/* Tab Contents */}
@@ -1683,34 +1694,22 @@ export default function ProfileModule({
                 className="space-y-4"
               >
                 {ownPosts.length === 0 ? (
-                  <div className="text-center py-10 bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm text-slate-400 text-xs">
-                    <p className="font-semibold">{currentLangLabels.noPosts}</p>
+                  <div className="text-center py-10 bg-white rounded-[24px] border border-slate-100 p-6 shadow-sm text-slate-400 text-sm font-['Noto_Sans_Arabic']">
+                    <p className="font-semibold">{currentLanguage === 'en' ? 'No posts yet.' : 'ابھی تک کوئی پوسٹ نہیں۔'}</p>
                   </div>
                 ) : (
                   ownPosts.map(post => (
-                    <div key={post.id} className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-xs space-y-3 text-start">
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2.5">
-                          <img src={profileData.profilePhoto} alt={profileData.fullName} className="w-8 h-8 rounded-full object-cover" />
-                          <div>
-                            <h4 className="font-extrabold text-slate-900 text-xs">{profileData.fullName}</h4>
-                            <p className="text-[10px] text-slate-400">{post.time || '1 day ago'} • {post.area}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-xs text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">{post.content}</p>
-                      
-                      {post.image && (
-                        <div className="rounded-xl overflow-hidden bg-slate-100 border border-slate-100">
-                          <img src={post.image} alt="Post asset" className="w-full h-auto object-contain block" />
-                        </div>
-                      )}
-
-                      <div className="flex items-center gap-4 pt-2.5 border-t border-slate-100 text-[10px] text-slate-500 font-bold">
-                        <span>❤️ {post.likes} Likes</span>
-                        <span>💬 {post.commentsCount} Comments</span>
-                      </div>
-                    </div>
+                    <PostCard 
+                      key={post.id} 
+                      post={post}
+                      isLiked={false}
+                      likeCount={post.likes || 0}
+                      onLike={() => {}}
+                      onComment={() => {}}
+                      isEntityVerified={isEntityVerified}
+                      getTvsBadgeType={() => 'blue'}
+                      currentLanguage={currentLanguage}
+                    />
                   ))
                 )}
               </motion.div>
@@ -1864,11 +1863,80 @@ export default function ProfileModule({
                     ))}
                   </div>
                 )}
+
+              </motion.div>
+            )}
+
+            {/* SAVED VIDEOS */}
+            {activeTab === 'saved_videos' && (
+              <motion.div
+                key="saved_videos"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-3"
+              >
+                <div className="pt-2">
+                  <h3 className="text-sm font-bold text-slate-800 mb-4 px-1">
+                    {currentLanguage === 'en' ? 'Saved Videos' : 'محفوظ ویڈیوز'}
+                  </h3>
+                  
+                  {isSavedVideosLoading ? (
+                    <div className="flex justify-center p-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    </div>
+                  ) : savedVideos.length === 0 ? (
+                    <div className="text-center py-10 bg-slate-50 rounded-3xl border border-slate-100 p-6 text-slate-400 text-xs font-semibold">
+                      {currentLanguage === 'en' ? 'No saved videos yet.' : 'ابھی تک کوئی ویڈیو محفوظ نہیں کی گئی۔'}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-1">
+                      {savedVideos.map((video) => (
+                        <div
+                          key={video.id}
+                          className="aspect-[9/16] bg-slate-900 relative cursor-pointer group"
+                          onClick={() => setActiveVideoViewer(video.id)}
+                        >
+                          <img
+                            src={video.thumbnail_url || 'https://via.placeholder.com/150'}
+                            alt="Video Thumbnail"
+                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                            <Play className="text-white w-8 h-8 drop-shadow-md" fill="currentColor" />
+                          </div>
+                          <div className="absolute bottom-1 start-1 flex items-center gap-1 text-white text-[10px] font-bold drop-shadow-md">
+                            <Play className="w-3 h-3" />
+                            {video.views || 0}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
+
+      {activeVideoViewer && (
+        <div className="fixed inset-0 z-[100] bg-black">
+          <ShortsFeed
+            videos={savedVideos}
+            loading={false}
+            error={null}
+            hasMore={false}
+            onLoadMore={() => {}}
+            onRefresh={() => {}}
+            onBack={() => setActiveVideoViewer(null)}
+            currentUserId={user.id}
+            onVideoDeleted={(id) => {
+              setSavedVideos(prev => prev.filter(v => v.id !== id));
+            }}
+          />
+        </div>
+      )}
 
       {showFollowModal && (
         <FollowListModal

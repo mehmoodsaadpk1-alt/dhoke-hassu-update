@@ -207,20 +207,20 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
 
   const kpis = useMemo(() => [
     // Users
-    { label: isEn ? 'Total Users' : 'کل صارفین', value: totalUsers, growth: { pct: 0, positive: true }, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: isEn ? 'New Registrations' : 'نئی رجسٹریشن', value: 0 /* Need specific registration metric */, growth: { pct: 0, positive: true }, icon: UserPlus, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+    { label: isEn ? 'Total Users' : 'کل صارفین', value: totalUsers, growth: { pct: 0, positive: true }, icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: isEn ? 'New Registrations' : 'نئی رجسٹریشن', value: 0 /* Need specific registration metric */, growth: { pct: 0, positive: true }, icon: UserPlus, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: isEn ? 'Active Users' : 'فعال صارفین', value: getMetric('active_users'), growth: calculateGrowth('active_users'), icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     
     // Content
-    { label: isEn ? 'Posts Created' : 'پوسٹس', value: getMetric('post_create'), growth: calculateGrowth('post_create'), icon: FileText, color: 'text-purple-600', bg: 'bg-purple-50' },
+    { label: isEn ? 'Posts Created' : 'پوسٹس', value: getMetric('post_create'), growth: calculateGrowth('post_create'), icon: FileText, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: isEn ? 'Videos Uploaded' : 'ویڈیوز', value: totalVideos, growth: { pct: 0, positive: true }, icon: Video, color: 'text-rose-600', bg: 'bg-rose-50' },
-    { label: isEn ? 'Listings' : 'لسٹنگز', value: getMetric('listing_create'), growth: calculateGrowth('listing_create'), icon: ShoppingBag, color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: isEn ? 'Events' : 'تقریبات', value: getMetric('event_create'), growth: calculateGrowth('event_create'), icon: Calendar, color: 'text-teal-600', bg: 'bg-teal-50' },
+    { label: isEn ? 'Listings' : 'لسٹنگز', value: getMetric('listing_create'), growth: calculateGrowth('listing_create'), icon: ShoppingBag, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: isEn ? 'Events' : 'تقریبات', value: getMetric('event_create'), growth: calculateGrowth('event_create'), icon: Calendar, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     
     // Engagement
-    { label: isEn ? 'Likes' : 'پسند', value: getMetric('post_like'), growth: calculateGrowth('post_like'), icon: ThumbsUp, color: 'text-pink-600', bg: 'bg-pink-50' },
-    { label: isEn ? 'Comments' : 'تبصرے', value: getMetric('post_comment'), growth: calculateGrowth('post_comment'), icon: MessageSquare, color: 'text-cyan-600', bg: 'bg-cyan-50' },
-    { label: isEn ? 'Shares' : 'شیئر', value: getMetric('post_share'), growth: calculateGrowth('post_share'), icon: Share2, color: 'text-orange-600', bg: 'bg-orange-50' },
+    { label: isEn ? 'Likes' : 'پسند', value: getMetric('post_like'), growth: calculateGrowth('post_like'), icon: ThumbsUp, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: isEn ? 'Comments' : 'تبصرے', value: getMetric('post_comment'), growth: calculateGrowth('post_comment'), icon: MessageSquare, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: isEn ? 'Shares' : 'شیئر', value: getMetric('post_share'), growth: calculateGrowth('post_share'), icon: Share2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: isEn ? 'Messages' : 'پیغامات', value: getMetric('message_sent'), growth: calculateGrowth('message_sent'), icon: MessageSquare, color: 'text-sky-600', bg: 'bg-sky-50' },
   ], [totalUsers, totalVideos, getMetric, calculateGrowth, isEn]);
 
@@ -242,7 +242,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px] space-y-4">
-        <Loader2 className="w-10 h-10 text-indigo-600 animate-spin" />
+        <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
         <p className="text-sm font-bold text-slate-500">{isEn ? 'Compiling analytics data...' : 'ڈیٹا لوڈ ہو رہا ہے...'}</p>
       </div>
     );
@@ -255,7 +255,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         <p className="text-sm font-bold text-red-700">{error}</p>
         <button 
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700"
+          className="px-4 py-2 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700"
         >
           {isEn ? 'Retry' : 'دوبارہ کوشش کریں'}
         </button>
@@ -275,7 +275,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
   const GrowthBadge = ({ growth }: { growth: { pct: number, positive: boolean } }) => {
     if (growth.pct === 0) return <span className="text-[10px] font-bold text-slate-400">0%</span>;
     return (
-      <span className={`flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-md ${growth.positive ? 'text-emerald-700 bg-emerald-100' : 'text-red-700 bg-red-100'}`}>
+      <span className={`flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-xl ${growth.positive ? 'text-emerald-700 bg-emerald-100' : 'text-red-700 bg-red-100'}`}>
         {growth.positive ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
         {Math.abs(growth.pct)}%
       </span>
@@ -289,7 +289,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <BarChart2 className="w-6 h-6 text-indigo-600" />
+            <BarChart2 className="w-6 h-6 text-emerald-600" />
             {isEn ? 'Analytics Center' : 'تجزیاتی مرکز'}
           </h2>
           <p className="text-sm font-bold text-slate-500 mt-1">
@@ -298,15 +298,15 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+          <div className="flex items-center bg-white border border-slate-200 rounded-2xl p-1 shadow-sm">
             <Filter className="w-4 h-4 text-slate-400 ml-2 mr-1 shrink-0" />
             {(['today', '7d', '30d', '90d'] as DateRange[]).map((range) => (
               <button
                 key={range}
                 onClick={() => setDateRange(range)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   dateRange === range 
-                    ? 'bg-indigo-50 text-indigo-700' 
+                    ? 'bg-emerald-50 text-emerald-700' 
                     : 'text-slate-500 hover:bg-slate-50'
                 }`}
               >
@@ -320,7 +320,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
 
           <button 
             onClick={handleExportCSV}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-sm"
           >
             <Download className="w-4 h-4" />
             <span className="hidden sm:inline">{isEn ? 'Export CSV' : 'ایکسپورٹ'}</span>
@@ -332,14 +332,14 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-slate-50">
-            {realtimeStatus === 'connecting' && <Loader2 className="w-5 h-5 text-indigo-500 animate-spin" />}
+            {realtimeStatus === 'connecting' && <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" />}
             {realtimeStatus === 'connected' && (
               <>
                 <span className="absolute w-3 h-3 bg-emerald-500 rounded-full animate-ping opacity-75"></span>
                 <span className="relative w-3 h-3 bg-emerald-500 rounded-full"></span>
               </>
             )}
-            {realtimeStatus === 'limitation' && <AlertCircle className="w-5 h-5 text-amber-500" />}
+            {realtimeStatus === 'limitation' && <AlertCircle className="w-5 h-5 text-emerald-500" />}
           </div>
           <div>
             <h3 className="text-sm font-black text-slate-800">
@@ -374,7 +374,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         {kpis.map((card, idx) => (
           <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
             <div className="flex items-center justify-between mb-3">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${card.bg}`}>
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${card.bg}`}>
                 <card.icon className={`w-4 h-4 ${card.color}`} />
               </div>
               <GrowthBadge growth={card.growth} />
@@ -391,7 +391,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
       {insights.length > 0 && (
         <div className="flex flex-col space-y-4">
           <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             {isEn ? 'AI-Powered Insights' : 'مصنوعی ذہانت کے تجزیات'}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -400,8 +400,8 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                 switch(type) {
                   case 'growth': return 'bg-emerald-50 border-emerald-100 text-emerald-800';
                   case 'warning': return 'bg-red-50 border-red-100 text-red-800';
-                  case 'opportunity': return 'bg-amber-50 border-amber-100 text-amber-800';
-                  case 'trend': return 'bg-indigo-50 border-indigo-100 text-indigo-800';
+                  case 'opportunity': return 'bg-emerald-50 border-amber-100 text-amber-800';
+                  case 'trend': return 'bg-emerald-50 border-emerald-100 text-indigo-800';
                   default: return 'bg-slate-50 border-slate-100 text-slate-800';
                 }
               };
@@ -409,8 +409,8 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                 switch(type) {
                   case 'growth': return <TrendingUp className="w-5 h-5 text-emerald-600" />;
                   case 'warning': return <AlertCircle className="w-5 h-5 text-red-600" />;
-                  case 'opportunity': return <Award className="w-5 h-5 text-amber-600" />;
-                  case 'trend': return <Activity className="w-5 h-5 text-indigo-600" />;
+                  case 'opportunity': return <Award className="w-5 h-5 text-emerald-600" />;
+                  case 'trend': return <Activity className="w-5 h-5 text-emerald-600" />;
                   default: return <BarChart2 className="w-5 h-5 text-slate-600" />;
                 }
               };
@@ -423,7 +423,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                       <h4 className="font-bold text-sm tracking-tight">{insight.title}</h4>
                     </div>
                     {insight.metric && (
-                      <span className="text-[10px] font-black px-2 py-1 rounded-md bg-white/60">
+                      <span className="text-[10px] font-black px-2 py-1 rounded-xl bg-white/60">
                         {insight.metric}
                       </span>
                     )}
@@ -461,14 +461,14 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                 </h4>
                 {forecast.data ? (
                   <div className="flex-1 flex flex-col justify-center">
-                    <h5 className={`text-sm font-bold mb-1 ${forecast.data.type === 'growth' ? 'text-emerald-700' : forecast.data.type === 'decline' ? 'text-red-700' : 'text-indigo-700'}`}>
+                    <h5 className={`text-sm font-bold mb-1 ${forecast.data.type === 'growth' ? 'text-emerald-700' : forecast.data.type === 'decline' ? 'text-red-700' : 'text-emerald-700'}`}>
                       {forecast.data.title}
                     </h5>
                     <p className="text-xs font-medium text-slate-500 leading-relaxed">
                       {forecast.data.description}
                     </p>
                     <div className="mt-4 flex items-center justify-between">
-                      <span className="text-[10px] font-bold text-slate-400 px-2 py-1 bg-slate-50 rounded-md">
+                      <span className="text-[10px] font-bold text-slate-400 px-2 py-1 bg-slate-50 rounded-xl">
                         {isEn ? 'Confidence:' : 'اعتماد:'} <span className="uppercase text-slate-600">{forecast.data.confidence}</span>
                       </span>
                     </div>
@@ -510,14 +510,14 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
               </div>
               <div className="flex items-center justify-between opacity-50">
                 <span className="text-sm font-bold text-slate-700">WAU (Weekly)</span>
-                <span className="text-[10px] font-bold text-amber-600 px-2 py-0.5 bg-amber-50 rounded-md">Limitation</span>
+                <span className="text-[10px] font-bold text-emerald-600 px-2 py-0.5 bg-emerald-50 rounded-xl">Limitation</span>
               </div>
               <div className="flex items-center justify-between opacity-50">
                 <span className="text-sm font-bold text-slate-700">MAU (Monthly)</span>
-                <span className="text-[10px] font-bold text-amber-600 px-2 py-0.5 bg-amber-50 rounded-md">Limitation</span>
+                <span className="text-[10px] font-bold text-emerald-600 px-2 py-0.5 bg-emerald-50 rounded-xl">Limitation</span>
               </div>
             </div>
-            <p className="mt-4 text-[10px] font-medium text-slate-400 bg-slate-50 p-2 rounded-lg border border-slate-100">
+            <p className="mt-4 text-[10px] font-medium text-slate-400 bg-slate-50 p-2 rounded-xl border border-slate-100">
               * WAU/MAU requires user-level analytics aggregation.
             </p>
           </div>
@@ -560,7 +560,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm min-h-[300px] flex flex-col lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-blue-600" />
+              <TrendingUp className="w-4 h-4 text-emerald-600" />
               {isEn ? 'Platform Activity Trend' : 'سرگرمی کا رجحان'}
             </h3>
           </div>
@@ -622,7 +622,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
       {/* 2.75 Creator Analytics Section */}
       <div className="flex flex-col space-y-4">
         <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-          <Award className="w-5 h-5 text-purple-600" />
+          <Award className="w-5 h-5 text-emerald-600" />
           {isEn ? 'Creator Analytics' : 'تخلیق کار کے تجزیات'}
         </h3>
         
@@ -764,7 +764,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
           <div className="p-4 border-b border-slate-100 bg-slate-50/50">
             <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-purple-600" />
+              <MessageSquare className="w-4 h-4 text-emerald-600" />
               {isEn ? 'Most Viewed Posts' : 'مشہور پوسٹس'}
             </h3>
           </div>
@@ -792,8 +792,8 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                     </td>
                     <td className="px-4 py-3 text-right font-black text-slate-900">{post.views?.toLocaleString()}</td>
                     <td className="px-4 py-3 text-right font-bold text-slate-500">
-                      <span className="text-pink-600 mr-1">{post.likes}</span>/ 
-                      <span className="text-cyan-600 ml-1">{post.comments}</span>
+                      <span className="text-emerald-600 mr-1">{post.likes}</span>/ 
+                      <span className="text-emerald-600 ml-1">{post.comments}</span>
                     </td>
                   </tr>
                 ))}
@@ -833,7 +833,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                       <span className="font-bold">{video.video_id ? `Video ${video.video_id.substring(0, 6)}...` : 'Unknown'}</span>
                     </td>
                     <td className="px-4 py-3 text-right font-black text-slate-900">{video.views?.toLocaleString()}</td>
-                    <td className="px-4 py-3 text-right font-bold text-indigo-600">{Math.floor((video.watch_time_seconds || 0) / 60)}m</td>
+                    <td className="px-4 py-3 text-right font-bold text-emerald-600">{Math.floor((video.watch_time_seconds || 0) / 60)}m</td>
                   </tr>
                 ))}
               </tbody>
@@ -845,7 +845,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
           <div className="p-4 border-b border-slate-100 bg-slate-50/50">
             <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
-              <Award className="w-4 h-4 text-amber-500" />
+              <Award className="w-4 h-4 text-emerald-500" />
               {isEn ? 'Most Active Users' : 'فعال ترین صارفین'}
             </h3>
           </div>
@@ -868,7 +868,7 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
                   <tr key={i} className="hover:bg-slate-50 transition-colors">
                     <td className="px-4 py-3 font-bold text-slate-700 flex items-center gap-2">
                       <span className="text-[10px] font-black text-slate-400">#{i + 1}</span>
-                      <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-700">
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-[10px] text-emerald-700">
                         {user.user_id ? user.user_id.charAt(0).toUpperCase() : '?'}
                       </div>
                       <span className="truncate max-w-[80px]">{user.user_id ? `User ${user.user_id.substring(0, 4)}...` : 'Unknown'}</span>
@@ -888,3 +888,4 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
     </div>
   );
 }
+

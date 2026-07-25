@@ -476,7 +476,7 @@ export default function VerificationModule({
             {currentPath !== '/verification' && (
               <button 
                 onClick={() => navigate('/verification')}
-                className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer border-0"
+                className="p-1.5 rounded-2xl hover:bg-slate-100 text-slate-600 transition-colors cursor-pointer border-0"
                 id="back-to-verification-center-btn"
                 title={t.backToCenter}
               >
@@ -484,7 +484,7 @@ export default function VerificationModule({
               </button>
             )}
             <h1 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
-              <ShieldCheck className="w-7 h-7 text-blue-600 fill-blue-50/50" />
+              <ShieldCheck className="w-7 h-7 text-emerald-600 fill-emerald-50/50" />
               {t.verificationCenter}
             </h1>
           </div>
@@ -519,7 +519,7 @@ export default function VerificationModule({
             <div className="bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm space-y-4" id="my-verification-status-card">
               <div className="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 className="text-sm sm:text-base font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                  <Award className="w-5 h-5 text-blue-600" />
+                  <Award className="w-5 h-5 text-emerald-600" />
                   {t.myStatusTitle}
                 </h3>
               </div>
@@ -543,7 +543,7 @@ export default function VerificationModule({
                   {processedRequests.some(r => r.name?.toLowerCase() === currentUser.fullName?.toLowerCase()) ? (
                     <button
                       onClick={() => navigate('/verification/status')}
-                      className="w-full sm:w-auto py-2 px-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition-all shadow-xs cursor-pointer"
+                      className="w-full sm:w-auto py-2 px-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-2xl transition-all shadow-xs cursor-pointer"
                       id="view-verified-app-btn"
                     >
                       {t.viewStatusButton}
@@ -551,9 +551,9 @@ export default function VerificationModule({
                   ) : null}
                 </div>
               ) : activeRequest ? (
-                <div className="bg-amber-50/60 border border-amber-100 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="bg-emerald-50/60 border border-amber-100 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
                       <Clock className="w-6 h-6 animate-pulse" />
                     </div>
                     <div>
@@ -568,7 +568,7 @@ export default function VerificationModule({
                   
                   <button
                     onClick={() => navigate('/verification/status')}
-                    className="w-full sm:w-auto py-2.5 px-5 bg-amber-600 hover:bg-amber-700 text-white font-black text-xs rounded-xl transition-all shadow-md cursor-pointer border-0"
+                    className="w-full sm:w-auto py-2.5 px-5 bg-emerald-600 hover:bg-amber-700 text-white font-black text-xs rounded-2xl transition-all shadow-md cursor-pointer border-0"
                     id="track-active-app-btn"
                   >
                     {t.viewStatusButton}
@@ -582,7 +582,7 @@ export default function VerificationModule({
                   
                   <button
                     onClick={() => navigate('/verification/apply')}
-                    className="py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs rounded-xl transition-all shadow-md hover:shadow-lg cursor-pointer border-0"
+                    className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-2xl transition-all shadow-md hover:shadow-lg cursor-pointer border-0"
                     id="apply-for-verification-btn"
                   >
                     {t.applyButton}
@@ -605,8 +605,8 @@ export default function VerificationModule({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 p-3 rounded-2xl hover:bg-slate-50/80 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                    <ShieldCheck className="w-5 h-5 text-blue-600 fill-blue-500" style={{ stroke: 'white' }} />
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-emerald-600 fill-emerald-500" style={{ stroke: 'white' }} />
                   </div>
                   <div className="space-y-0.5">
                     <h4 className="font-bold text-slate-800 text-xs sm:text-sm">
@@ -633,7 +633,7 @@ export default function VerificationModule({
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-2xl hover:bg-slate-50/80 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-purple-100 text-emerald-600 flex items-center justify-center shrink-0">
                     <UserCheck className="w-5 h-5" />
                   </div>
                   <div className="space-y-0.5">
@@ -647,7 +647,7 @@ export default function VerificationModule({
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-2xl hover:bg-slate-50/80 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-orange-100 text-emerald-600 flex items-center justify-center shrink-0">
                     <Lock className="w-5 h-5" />
                   </div>
                   <div className="space-y-0.5">
@@ -661,7 +661,7 @@ export default function VerificationModule({
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-2xl hover:bg-slate-50/80 transition-colors md:col-span-2">
-                  <div className="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-pink-100 text-emerald-600 flex items-center justify-center shrink-0">
                     <Info className="w-5 h-5" />
                   </div>
                   <div className="space-y-0.5">
@@ -687,7 +687,7 @@ export default function VerificationModule({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-slate-50 hover:bg-slate-100/60 rounded-2xl p-4 border border-slate-150 transition-colors text-center space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
                     <UserCheck className="w-5 h-5" />
                   </div>
                   <h4 className="font-black text-slate-800 text-xs sm:text-sm">
@@ -711,7 +711,7 @@ export default function VerificationModule({
                 </div>
 
                 <div className="bg-slate-50 hover:bg-slate-100/60 rounded-2xl p-4 border border-slate-150 transition-colors text-center space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mx-auto shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 text-emerald-600 flex items-center justify-center mx-auto shadow-xs">
                     <Building className="w-5 h-5" />
                   </div>
                   <h4 className="font-black text-slate-800 text-xs sm:text-sm">
@@ -748,9 +748,9 @@ export default function VerificationModule({
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                            req.type === 'User' ? 'bg-blue-50 text-blue-600 border border-blue-100' :
+                            req.type === 'User' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
                             req.type === 'Business' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
-                            'bg-purple-50 text-purple-600 border border-purple-100'
+                            'bg-emerald-50 text-emerald-600 border border-purple-100'
                           }`}>
                             {req.type === 'User' ? t.typeUser : req.type === 'Business' ? t.typeBusiness : t.typeOrg}
                           </span>
@@ -795,7 +795,7 @@ export default function VerificationModule({
           >
             <div className="border-b border-slate-100 pb-4">
               <h2 className="text-lg font-black text-slate-900 flex items-center gap-1.5">
-                <Shield className="w-5.5 h-5.5 text-blue-600" />
+                <Shield className="w-5.5 h-5.5 text-emerald-600" />
                 {t.applyTitle}
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -804,7 +804,7 @@ export default function VerificationModule({
             </div>
 
             {formError && (
-              <div className="bg-red-50 text-red-700 text-xs font-bold p-3.5 rounded-xl border border-red-200/80 flex items-center gap-2">
+              <div className="bg-red-50 text-red-700 text-xs font-bold p-3.5 rounded-2xl border border-red-200/80 flex items-center gap-2">
                 <ShieldAlert className="w-4.5 h-4.5 text-red-600" />
                 <span>{formError}</span>
               </div>
@@ -825,7 +825,7 @@ export default function VerificationModule({
                     }}
                     className={`py-3 px-2 rounded-2xl border text-center font-bold text-xs transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
                       formType === 'User' 
-                        ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-sm' 
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm' 
                         : 'bg-slate-50/50 border-slate-200 hover:bg-slate-100 text-slate-600'
                     }`}
                   >
@@ -857,7 +857,7 @@ export default function VerificationModule({
                     }}
                     className={`py-3 px-2 rounded-2xl border text-center font-bold text-xs transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
                       formType === 'Organization' 
-                        ? 'bg-purple-50 border-purple-500 text-purple-700 shadow-sm' 
+                        ? 'bg-emerald-50 border-emerald-500 text-purple-700 shadow-sm' 
                         : 'bg-slate-50/50 border-slate-200 hover:bg-slate-100 text-slate-600'
                     }`}
                   >
@@ -877,7 +877,7 @@ export default function VerificationModule({
                   required
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                  className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                   placeholder={formType === 'User' ? 'e.g. Sajid Khan' : 'e.g. Al-Hamd General Store'}
                 />
               </div>
@@ -894,7 +894,7 @@ export default function VerificationModule({
                     required
                     value={formContact}
                     onChange={(e) => setFormContact(e.target.value)}
-                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                     placeholder="e.g. 0333-1234567"
                   />
                 </div>
@@ -912,7 +912,7 @@ export default function VerificationModule({
                     required
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
-                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                     placeholder="e.g. s.khan@domain.com"
                   />
                 </div>
@@ -928,7 +928,7 @@ export default function VerificationModule({
                   <select
                     value={formArea}
                     onChange={(e) => setFormArea(e.target.value)}
-                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                    className="w-full ps-10 pe-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-2xl text-sm font-black text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all cursor-pointer"
                   >
                     {LOCAL_AREAS.map((a) => (
                       <option key={a} value={a}>{a}</option>
@@ -948,7 +948,7 @@ export default function VerificationModule({
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all resize-none"
+                  className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-2xl text-xs font-semibold text-slate-800 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all resize-none"
                   placeholder={isUr ? 'تصدیق سے متعلق کوئی اضافی معلومات یہاں لکھیں۔' : 'Explain why this entity should be verified or link any social profiles.'}
                 />
               </div>
@@ -958,7 +958,7 @@ export default function VerificationModule({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-3 px-6 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-black text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border-0"
+                  className="flex-1 py-3 px-6 bg-emerald-600 hover:bg-emerald-700 disabled:bg-blue-300 text-white font-black text-xs sm:text-sm rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 border-0"
                   id="submit-verification-app-btn"
                 >
                   {isSubmitting ? (
@@ -977,7 +977,7 @@ export default function VerificationModule({
                 <button
                   type="button"
                   onClick={() => navigate('/verification')}
-                  className="py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer border-0"
+                  className="py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs sm:text-sm rounded-2xl transition-all cursor-pointer border-0"
                 >
                   {isUr ? 'منسوخ کریں' : 'Cancel'}
                 </button>
@@ -1002,7 +1002,7 @@ export default function VerificationModule({
                 </p>
                 <button
                   onClick={() => navigate('/verification/apply')}
-                  className="py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs rounded-xl transition-all shadow-md cursor-pointer border-0"
+                  className="py-2.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-2xl transition-all shadow-md cursor-pointer border-0"
                 >
                   {t.applyButton}
                 </button>
@@ -1019,7 +1019,7 @@ export default function VerificationModule({
                       {/* Top status indicator ribbon */}
                       <div className={`absolute top-0 start-0 w-2.5 h-full ${
                         req.status === 'Pending' ? 'bg-yellow-400' :
-                        req.status === 'Under Review' ? 'bg-blue-500' :
+                        req.status === 'Under Review' ? 'bg-emerald-500' :
                         req.status === 'Approved' ? 'bg-green-500' :
                         'bg-red-500'
                       }`} />
@@ -1033,7 +1033,7 @@ export default function VerificationModule({
                             {req.name}
                             
                             {req.status === 'Approved' && (
-                              <ShieldCheck className="w-5 h-5 text-blue-600 fill-current text-white shrink-0" />
+                              <ShieldCheck className="w-5 h-5 text-emerald-600 fill-current text-white shrink-0" />
                             )}
                           </h3>
                           <p className="text-xs text-slate-500 font-medium">
@@ -1045,12 +1045,12 @@ export default function VerificationModule({
                         <div className="shrink-0 ps-1 sm:ps-0">
                           <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wide border ${
                             req.status === 'Pending' ? 'bg-yellow-50 text-yellow-800 border-yellow-200' :
-                            req.status === 'Under Review' ? 'bg-blue-50 text-blue-800 border-blue-200' :
+                            req.status === 'Under Review' ? 'bg-emerald-50 text-blue-800 border-blue-200' :
                             req.status === 'Approved' ? 'bg-green-50 text-green-800 border-green-200' :
                             'bg-red-50 text-red-800 border-red-200'
                           }`}>
                             {req.status === 'Pending' && <Clock className="w-4 h-4 animate-pulse text-yellow-600" />}
-                            {req.status === 'Under Review' && <Info className="w-4 h-4 text-blue-600" />}
+                            {req.status === 'Under Review' && <Info className="w-4 h-4 text-emerald-600" />}
                             {req.status === 'Approved' && <CheckCircle className="w-4 h-4 text-green-600" />}
                             {req.status === 'Rejected' && <XCircle className="w-4 h-4 text-red-600" />}
                             
@@ -1081,7 +1081,7 @@ export default function VerificationModule({
                           <div className="h-32 sm:h-44 w-full sm:w-72 rounded-2xl overflow-hidden border border-slate-200 relative group">
                             <img src={req.supportingDocument} alt="Supporting Doc" className="w-full h-full object-cover" />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                              <span className="bg-white/90 text-slate-800 text-[10px] font-bold px-3 py-1 rounded-xl shadow-xs flex items-center gap-1">
+                              <span className="bg-white/90 text-slate-800 text-[10px] font-bold px-3 py-1 rounded-2xl shadow-xs flex items-center gap-1">
                                 <FileText className="w-3.5 h-3.5" />
                                 {isUr ? 'تفصیل دیکھیں' : 'View Document'}
                               </span>
@@ -1113,7 +1113,7 @@ export default function VerificationModule({
                     <div className="text-center">
                       <button
                         onClick={() => navigate('/verification')}
-                        className="inline-flex items-center gap-1.5 py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer border-0"
+                        className="inline-flex items-center gap-1.5 py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-2xl transition-all cursor-pointer border-0"
                       >
                         <ArrowLeft className="w-4 h-4" />
                         {t.backToCenter}
@@ -1131,3 +1131,4 @@ export default function VerificationModule({
     </div>
   );
 }
+

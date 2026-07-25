@@ -36,16 +36,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
     setActiveTab(initialTab);
   }, [initialTab]);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  // Removed body overflow hidden to prevent scroll jump
 
   const loadData = useCallback(async () => {
     if (!isOpen || !userId || !viewerId) return;
@@ -164,13 +155,13 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
         <div className="flex border-b border-slate-100 p-2 gap-2">
           <button 
             onClick={() => { setActiveTab('followers'); setSearch(''); }}
-            className={`flex-1 py-2 text-sm font-bold rounded-xl transition-all ${activeTab === 'followers' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex-1 py-2 text-sm font-bold rounded-2xl transition-all ${activeTab === 'followers' ? 'bg-emerald-50 text-emerald-600' : 'text-slate-500 hover:bg-slate-50'}`}
           >
             {isEn ? 'Followers' : 'فالوورز'}
           </button>
           <button 
             onClick={() => { setActiveTab('following'); setSearch(''); }}
-            className={`flex-1 py-2 text-sm font-bold rounded-xl transition-all ${activeTab === 'following' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex-1 py-2 text-sm font-bold rounded-2xl transition-all ${activeTab === 'following' ? 'bg-emerald-50 text-emerald-600' : 'text-slate-500 hover:bg-slate-50'}`}
           >
             {isEn ? 'Following' : 'فالو کر رہے ہیں'}
           </button>
@@ -185,7 +176,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder={isEn ? 'Search users...' : 'صارفین تلاش کریں...'}
-                className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl ps-10 pe-4 py-2.5 focus:outline-none focus:border-blue-300 focus:bg-white transition-all font-medium"
+                className="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-2xl ps-10 pe-4 py-2.5 focus:outline-none focus:border-blue-300 focus:bg-white transition-all font-medium"
               />
             </div>
           </div>
@@ -207,7 +198,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
                   <div className="h-4 w-32 bg-slate-100 rounded" />
                   <div className="h-3 w-20 bg-slate-100 rounded" />
                 </div>
-                <div className="w-20 h-8 bg-slate-100 rounded-xl" />
+                <div className="w-20 h-8 bg-slate-100 rounded-2xl" />
               </div>
             ))
           ) : users.length === 0 ? (
@@ -224,24 +215,24 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
               const isTargetSelf = targetId === viewerId;
 
               return (
-                <div key={u.id} className="flex items-center justify-between gap-3 group">
+                <div key={u.id} className="flex items-center justify-between gap-3 group" dir="ltr">
                   <div 
-                    className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer"
+                    className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer text-left"
                     onClick={() => {
                       onClose();
                       onNavigateToProfile(targetId);
                     }}
                   >
                     <OnlineIndicator userId={targetId} viewerId={viewerId}><AppAvatar src={targetUser.profile_photo} name={targetUser.full_name} size="md" /></OnlineIndicator>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1">
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="flex items-center gap-1 justify-start">
                         <span className="text-sm font-bold text-slate-900 truncate">{targetUser.full_name}</span>
                         {isEntityVerified(targetUser.full_name) && <TvsBadge badgeType="green" />}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-start">
                         <span className="text-xs font-medium text-slate-500 truncate">@{targetUser.full_name?.toLowerCase().replace(/\s+/g, '')}</span>
                         {mutualStatuses[targetId] && !isTargetSelf && (
-                          <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md ms-1 whitespace-nowrap">
+                          <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-xl ms-1 whitespace-nowrap">
                             {isEn ? 'Follows You' : 'آپ کو فالو کرتا ہے'}
                           </span>
                         )}
@@ -278,7 +269,7 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
                     {!isTargetSelf && (
                       <button 
                         onClick={() => handleBlockUser(targetId)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                         title={isEn ? 'Block User' : 'بلاک کریں'}
                       >
                         <Ban className="w-4 h-4" />
@@ -301,3 +292,4 @@ export default function FollowListModal({ isOpen, onClose, userId, viewerId, ini
     </div>
   );
 }
+

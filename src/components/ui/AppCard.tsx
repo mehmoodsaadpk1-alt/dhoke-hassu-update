@@ -12,7 +12,7 @@ export const AppCard: React.FC<AppCardProps> = ({
   className = '',
   ...props
 }) => {
-  const baseStyle = "bg-white rounded-md p-5 border transition-all duration-200";
+  const baseStyle = "bg-white rounded-2xl p-5 border transition-all duration-200";
   
   const variants = {
     default: "border-slate-200/60 shadow-xs",
@@ -70,3 +70,5 @@ export const AppStatCard: React.FC<AppStatCardProps> = ({
     </AppCard>
   );
 };
+
+

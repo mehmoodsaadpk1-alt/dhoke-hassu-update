@@ -164,7 +164,7 @@ export default function SocialGroupCreateForm({ currentUser, currentLanguage, on
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
             <div className="text-sm font-bold text-red-700">{error}</div>
           </div>
@@ -269,7 +269,7 @@ export default function SocialGroupCreateForm({ currentUser, currentLanguage, on
                 <select
                   value={formData.category}
                   onChange={(e) => handleInputChange('category', e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500 text-slate-700"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-emerald-500 text-slate-700"
                 >
                   {CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -284,7 +284,7 @@ export default function SocialGroupCreateForm({ currentUser, currentLanguage, on
                 <select
                   value={formData.visibility}
                   onChange={(e) => handleInputChange('visibility', e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500 text-slate-700"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:border-emerald-500 text-slate-700"
                 >
                   <option value="public">{isEn ? 'Public (Anyone can see and join)' : 'پبلک (کوئی بھی دیکھ سکتا ہے)'}</option>
                   <option value="private">{isEn ? 'Private (Approval required to join)' : 'پرائیویٹ (شمولیت کے لیے منظوری)'}</option>
@@ -347,5 +347,6 @@ export default function SocialGroupCreateForm({ currentUser, currentLanguage, on
     </div>
   );
 }
+
 
 
