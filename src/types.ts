@@ -360,6 +360,7 @@ export interface BusinessItem {
   ownerBio?: string;
   images?: string[];
   reported?: boolean;
+  allowMessages?: boolean;
 }
 
 export interface ServiceReview {
@@ -819,6 +820,10 @@ export interface Page {
   followers_count: number;
   created_at: string;
   updated_at?: string;
+  allow_messages?: boolean;
+  allow_reviews?: boolean;
+  visibility?: string;
+  is_private?: boolean;
 }
 
 export interface PageFollower {

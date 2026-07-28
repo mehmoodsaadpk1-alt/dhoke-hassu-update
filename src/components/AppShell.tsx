@@ -1118,7 +1118,7 @@ export default function AppShell({
 
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('groupId') || (mockGroups[0]?.id || null);
+    return params.get('groupId') || null;
   });
 
   React.useEffect(() => {
@@ -1167,6 +1167,8 @@ export default function AppShell({
     } else if (path === '/social-groups/detail' && paramId) {
       url = `/social-groups/detail?groupId=${paramId}`;
       setSelectedGroupId(paramId);
+    } else if (path === '/social-groups' || path === '/groups') {
+      setSelectedGroupId(null);
     }
     window.history.pushState({}, '', url);
     setCurrentPath(path);

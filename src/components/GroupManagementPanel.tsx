@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Settings, Users, Shield, Trash2, Edit3, Save, X, Search, UserMinus, UserPlus, CheckCircle, Upload } from 'lucide-react';
-import { supabase, dbUpdateGroup, dbGetGroupMembers, dbDeleteGroup, dbUpdateGroupMemberRole, dbRemoveGroupMember, dbGetGroupRequests, dbUpdateGroupRequestStatus, dbTriggerNotification } from '../utils/supabaseClient';
+import { supabase, isSupabaseConfigured, dbUpdateGroup, dbGetGroupMembers, dbDeleteGroup, dbUpdateGroupMemberRole, dbRemoveGroupMember, dbGetGroupRequests, dbUpdateGroupRequestStatus, dbTriggerNotification } from '../utils/supabaseClient';
 import ClickableAvatar from './ClickableAvatar';
 import { AppButton } from './ui';
 
@@ -256,9 +256,9 @@ function GroupMembersTab({ group, isEn, currentUser }: { group: any, isEn: boole
           {filteredMembers.map(member => (
             <div key={member.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-3">
-                <ClickableAvatar userId={member.user_id} name={member.profiles?.name} avatar={member.profiles?.avatar_url} size={40} />
+                <ClickableAvatar userId={member.user_id} name={member.profiles?.full_name || member.profiles?.name} avatar={member.profiles?.profile_photo || member.profiles?.avatar_url} size={40} />
                 <div dir="ltr" className="text-left">
-                  <p className="font-bold text-slate-900">{member.profiles?.name}</p>
+                  <p className="font-bold text-slate-900">{member.profiles?.full_name || member.profiles?.name}</p>
                   <p className="text-xs text-slate-500 capitalize">{member.role === 'Owner' && isOwner && member.user_id === group.owner_id ? 'Owner' : member.role}</p>
                 </div>
               </div>
@@ -318,6 +318,25 @@ function GroupRequestsTab({ group, isEn, currentUser }: { group: any, isEn: bool
 
   useEffect(() => {
     loadRequests();
+
+    if (isSupabaseConfigured && supabase) {
+      const channel = supabase
+        .channel(`group_requests_${group.id}`)
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'group_members',
+          filter: `group_id=eq.${group.id}`
+        }, (payload) => {
+          // If a new member requests to join or a status changes, reload
+          loadRequests();
+        })
+        .subscribe();
+      
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, [group.id]);
 
   const handleStatus = async (userId: string, status: string) => {
@@ -366,9 +385,9 @@ function GroupRequestsTab({ group, isEn, currentUser }: { group: any, isEn: bool
           {requests.map(req => (
             <div key={req.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-3">
-                <ClickableAvatar userId={req.user_id} name={req.profiles?.name} avatar={req.profiles?.avatar_url} size={40} />
+                <ClickableAvatar userId={req.user_id} name={req.profiles?.full_name || req.profiles?.name} avatar={req.profiles?.profile_photo || req.profiles?.avatar_url} size={40} />
                 <div dir="ltr" className="text-left">
-                  <p className="font-bold text-slate-900">{req.profiles?.name}</p>
+                  <p className="font-bold text-slate-900">{req.profiles?.full_name || req.profiles?.name}</p>
                   <p className="text-xs text-slate-500">{isEn ? 'Wants to join' : 'شامل ہونا چاہتا ہے'}</p>
                 </div>
               </div>

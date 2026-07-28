@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Building2, Search, PlusCircle, ArrowLeft, Image as ImageIcon,
-  CheckCircle, Share2, MapPin, Phone, Globe, Mail, Clock, Shield, AlertTriangle
+  CheckCircle, Share2, MapPin, Phone, Globe, Mail, Clock, Shield, AlertTriangle, MessageSquare
 } from 'lucide-react';
 import { Page, PagePost, User } from '../types';
 import { dbGetPages, dbCreatePage, dbGetPagePosts, dbCreatePagePost, dbTriggerNotification, dbFollowPage, dbUnfollowPage, dbCheckPageFollow, dbGetUserFollowedPages } from '../utils/supabaseClient';
@@ -135,20 +135,34 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
 
   const handleShare = async () => {
     if (!selectedPage) return;
-    const shareData = {
-      title: selectedPage.name,
-      text: selectedPage.description,
-      url: window.location.href,
-    };
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        alert(isEn ? 'Link copied to clipboard!' : 'ربط کلپ بورڈ میں کاپی ہو گیا!');
-      }
+      await navigator.share({
+        title: selectedPage.name,
+        text: selectedPage.description || 'Check out this page!',
+        url: window.location.href
+      });
     } catch (err) {
       console.error('Error sharing:', err);
+    }
+  };
+
+  const handleMessage = () => {
+    if (!selectedPage) return;
+    if ((window as any).openChat) {
+      const firstMsg = isEn 
+        ? `Hi, I'm interested in your page: ${selectedPage.name}.`
+        : `السلام علیکم، میں آپ کے صفحہ ${selectedPage.name} کے بارے میں بات کرنا چاہتا ہوں۔`;
+      // Use phone or owner_id for the chat contact
+      const chatContact = selectedPage.phone || selectedPage.owner_id || (selectedPage as any).ownerId || (selectedPage as any).user_id || (selectedPage as any).userId || (selectedPage as any).created_by || (selectedPage as any).createdBy;
+      (window as any).openChat(chatContact, selectedPage.name, selectedPage.logo_url, firstMsg);
+    } else {
+      const msg = prompt(isEn ? "Enter your query/message:" : "اپنا پیغام لکھیں:");
+      if (msg) {
+        alert(isEn 
+          ? `Query dispatched safely to ${selectedPage.name}!`
+          : `${selectedPage.name} کو آپ کا پیغام کامیابی سے بھیج دیا گیا ہے!`
+        );
+      }
     }
   };
 
@@ -301,8 +315,30 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                           </p>
                         </div>
                         <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-slate-500">
-                           <span className="bg-slate-100 px-2 py-1 rounded-xl">{page.category}</span>
-                           <span>{page.followers_count} {isEn ? 'Followers' : 'فالوورز'}</span>
+                           <div className="flex gap-2 items-center">
+                             <span className="bg-slate-100 px-2 py-1 rounded-xl">{page.category}</span>
+                             <span>{page.followers_count} {isEn ? 'Followers' : 'فالوورز'}</span>
+                           </div>
+                           {page.allow_messages !== false && page.owner_id !== currentUser.id && (
+                             <button
+                               onClick={(e) => {
+                                 e.stopPropagation();
+                                 if ((window as any).openChat) {
+                                   const firstMsg = isEn 
+                                     ? `Hi, I'm interested in your page: ${page.name}.`
+                                     : `السلام علیکم، میں آپ کے صفحہ ${page.name} کے بارے میں بات کرنا چاہتا ہوں۔`;
+                                   (window as any).openChat(page.phone || page.owner_id, page.name, page.logo_url, firstMsg);
+                                 } else {
+                                   alert(isEn ? "Chat is unavailable." : "چیٹ دستیاب نہیں ہے۔");
+                                 }
+                               }}
+                               className="bg-emerald-50 hover:bg-emerald-100 text-emerald-600 p-2 rounded-xl transition-colors border-none cursor-pointer flex items-center gap-1 shadow-sm"
+                               title={isEn ? "Message" : "پیغام"}
+                             >
+                               <MessageSquare className="w-3.5 h-3.5" />
+                               <span className="hidden md:inline">{isEn ? 'Message' : 'پیغام'}</span>
+                             </button>
+                           )}
                         </div>
                       </div>
                     </div>
@@ -333,6 +369,16 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
       {/* DETAIL VIEW */}
       {activeView === 'detail' && selectedPage && (
         <div className="space-y-6 animate-fadeIn">
+          {(() => {
+            console.error("PAGE PROFILE RENDERED");
+            console.error({
+              currentUserId: currentUser?.id,
+              ownerId: selectedPage?.owner_id,
+              isOwner: currentUser?.id === selectedPage?.owner_id,
+              allowMessages: selectedPage?.allow_messages
+            });
+            return null;
+          })()}
           <button 
             onClick={() => setActiveView('list')}
             className="flex items-center gap-1.5 text-xs font-black text-slate-500 hover:text-slate-900 border-none bg-transparent cursor-pointer transition-colors"
@@ -372,11 +418,11 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                      {selectedPage.description}
                    </p>
                  </div>
-                 <div className="flex gap-2">
+                 <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
                    <button 
                      onClick={handleFollowToggle}
                      disabled={followLoading}
-                     className={`${isFollowing ? 'bg-slate-200 text-slate-800 hover:bg-slate-300' : 'bg-[#2563eb] text-white hover:bg-emerald-700'} px-6 py-2.5 rounded-2xl text-sm font-black border-none cursor-pointer transition-all shadow-sm shrink-0 flex items-center gap-2`}
+                     className={`${isFollowing ? 'bg-slate-200 text-slate-800 hover:bg-slate-300' : 'bg-[#2563eb] text-white hover:bg-blue-700'} h-[42px] px-6 rounded-[16px] text-sm font-black border-none cursor-pointer transition-all shadow-sm flex items-center justify-center gap-2 flex-1 md:flex-none`}
                    >
                      {isFollowing ? (
                        <>
@@ -387,9 +433,19 @@ export default function PagesModule({ currentUser, currentLanguage }: PagesModul
                        isEn ? 'Follow' : 'فالو کریں'
                      )}
                    </button>
+                   {selectedPage.owner_id !== currentUser?.id && selectedPage.allow_messages !== false && (
+                     <button 
+                       onClick={handleMessage}
+                       className="h-[42px] px-6 bg-white border-[1.5px] border-emerald-600 text-emerald-600 hover:bg-emerald-50 rounded-[16px] text-sm font-black cursor-pointer transition-all flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none"
+                     >
+                       <MessageSquare className="w-4 h-4" />
+                       {isEn ? 'Message' : 'پیغام'}
+                     </button>
+                   )}
                    <button 
                      onClick={handleShare}
-                     className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-2xl text-sm font-black border-none cursor-pointer transition-all"
+                     className="h-[42px] w-[42px] shrink-0 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full flex items-center justify-center border-none cursor-pointer transition-all"
+                     title={isEn ? 'Share' : 'شیئر کریں'}
                    >
                      <Share2 className="w-4 h-4" />
                    </button>

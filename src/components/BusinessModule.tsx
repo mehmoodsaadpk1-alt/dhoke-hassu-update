@@ -120,6 +120,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
   const [formGallery, setFormGallery] = useState<string[]>([]);
   const [formOwnerName, setFormOwnerName] = useState('');
   const [formOpeningHours, setFormOpeningHours] = useState('09:00 AM - 10:00 PM');
+  const [formAllowMessages, setFormAllowMessages] = useState(true);
 
   // Form errors & success
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -313,6 +314,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
       shortDescription: formDescription?.substring(0, 85) + '...',
       featured: false,
       openingHours: formOpeningHours,
+      allowMessages: formAllowMessages,
       ownerName: formOwnerName,
       ownerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
       ownerBio: isEn 
@@ -336,6 +338,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
     setFormCoverImage('');
     setFormGallery([]);
     setFormOpeningHours('09:00 AM - 10:00 PM');
+    setFormAllowMessages(true);
 
     setTimeout(() => {
       setSuccess(false);
@@ -535,7 +538,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 {cat === 'Education' && (isEn ? 'Education 🎓' : 'تعلیم 🎓')}
                 {cat === 'Real Estate' && (isEn ? 'Real Estate 🏢' : 'رئیل اسٹیٹ 🏢')}
                 {cat === 'Home Services' && (isEn ? 'Home Services 🛠️' : 'ہوم سروسز 🛠️')}
-                {cat === 'Other' && (isEn ? 'Other 📦' : 'دیگر ������')}
+                {cat === 'Other' && (isEn ? 'Other 📦' : 'دیگر 📦')}
               </button>
             ))}
           </div>
@@ -1018,14 +1021,16 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                 {isEn ? 'Call Store' : 'رابطہ کریں'}
               </button>
 
-              <button
-                onClick={() => handleMessage(currentBusiness)}
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
-                id="business-detail-message"
-              >
-                <MessageSquare className="w-4 h-4" />
-                {isEn ? 'Message Chat' : 'چیٹ پیغام'}
-              </button>
+              {currentBusiness.allowMessages !== false && (
+                <button
+                  onClick={() => handleMessage(currentBusiness)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow hover:shadow-md transition-all cursor-pointer font-bold border-0"
+                  id="business-detail-message"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  {isEn ? 'Message Chat' : 'چیٹ پیغام'}
+                </button>
+              )}
             </div>
 
             {/* Interactive Wall & Review Tabs */}
@@ -1319,6 +1324,29 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100 transition-all"
                     id="input-bus-hours"
                   />
+                </div>
+
+                {/* Allow Messages Toggle */}
+                <div className="flex items-center gap-3 bg-white p-4 border border-slate-200 rounded-2xl mt-4">
+                  <div className="flex-1">
+                    <label className="text-sm font-bold text-slate-900 block">
+                      {isEn ? 'Allow Users to Message' : 'صارفین کو پیغام بھیجنے کی اجازت دیں'}
+                    </label>
+                    <p className="text-xs text-slate-500 font-medium">
+                      {isEn ? 'Users can start a chat directly from your business page.' : 'صارفین آپ کے کاروباری صفحہ سے براہ راست چیٹ شروع کر سکتے ہیں۔'}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormAllowMessages(!formAllowMessages)}
+                    className={`w-12 h-6 rounded-full transition-colors relative border-0 cursor-pointer ${
+                      formAllowMessages ? 'bg-emerald-500' : 'bg-slate-300'
+                    }`}
+                  >
+                    <div className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white transition-transform ${
+                      formAllowMessages ? 'left-[calc(100%-1.25rem)]' : 'left-1'
+                    }`} />
+                  </button>
                 </div>
               </div>
 

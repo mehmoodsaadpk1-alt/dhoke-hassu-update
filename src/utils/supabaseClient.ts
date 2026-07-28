@@ -846,75 +846,43 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
   if (!isSupabaseConfigured || !supabase) return fallback;
   try {
     let result = null;
+    let query1 = supabase
+      .from('posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (groupId) {
+      query1 = query1.eq('group_id', groupId);
+    } else {
+      query1 = query1.is('group_id', null);
+    }
+
     try {
-      let query1 = supabase
-        .from('posts')
-        .select(`
-          *,
-          profiles:user_id (
-            user_id,
-            full_name,
-            profile_photo,
-            area
-          ),
-          areas:area_id (
-            id,
-            name,
-            latitude,
-            longitude
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (groupId) {
-        query1 = query1.eq('group_id', groupId);
-      } else {
-        query1 = query1.is('group_id', null);
-      }
-
       result = await Promise.race([
         query1,
         new Promise<any>((_, reject) => 
-          setTimeout(() => reject(new Error('Posts Request Timeout')), 2500)
+          setTimeout(() => reject(new Error('Posts Request Timeout')), 3500)
         )
       ]);
-    } catch (e) {
-      console.warn("First select attempt with area_id failed, falling back to query without area_id:", e);
-    }
+    } catch(e) {}
 
     let data = result?.data;
     let error = result?.error;
 
     if (error || !data) {
-      console.log("Retrying posts fetch without areas join...");
-      let retryQuery = supabase
-        .from('posts')
-        .select(`
-          *,
-          profiles:user_id (
-            user_id,
-            full_name,
-            profile_photo,
-            area
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (groupId) {
-        retryQuery = retryQuery.eq('group_id', groupId);
-      } else {
-        retryQuery = retryQuery.is('group_id', null);
-      }
-
-      const retryResult = await Promise.race([
-        retryQuery,
-        new Promise<any>((_, reject) => 
-          setTimeout(() => reject(new Error('Posts Request Timeout')), 2500)
-        )
-      ]);
-      data = retryResult?.data;
-      error = retryResult?.error;
+      console.warn("Error fetching posts:", error?.message);
+      return fallback;
     }
+
+    // Fetch profiles manually to avoid PGRST200
+    const userIds = Array.from(new Set(data.map((p: any) => p.user_id).filter(Boolean)));
+    let profilesData: any[] = [];
+    if (userIds.length > 0) {
+      const { data: pData } = await supabase.from('profiles').select('*').in('user_id', userIds);
+      if (pData) profilesData = pData;
+    }
+    const profilesMap = new Map();
+    profilesData.forEach(p => profilesMap.set(p.user_id, p));
 
     if (error || !data) {
       console.warn("Error fetching posts:", error?.message);
@@ -951,10 +919,10 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
       if (!tableName) return;
       
       try {
-        // Include the related profile (author) data for each shared entity
+        // Fetch raw entity data first without relations to avoid PGRST200 errors
         const { data: entityData } = await supabase
           .from(tableName)
-          .select('*, profiles(*), groups(id, name, privacy, coverImage, logo_url, cover_url, group_members(count))')
+          .select('*')
           .in('id', ids);
         if (entityData) {
           entityData.forEach(e => {
@@ -975,8 +943,8 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
     // -----------------------------
 
     return data.map((p: any) => {
-      const profile = Array.isArray(p.profiles) ? p.profiles[0] : (p.profiles || p.profiles_user_id || p.author_profile);
-      const areaJoined = Array.isArray(p.areas) ? p.areas[0] : p.areas;
+      const profile = profilesMap.get(p.user_id) || p.author_profile;
+      const areaJoined = null;
       let contentClean = p.text_content || '';
       let lfImages: string[] = [];
       const lfMatch = contentClean.match(/\[LF_IMAGES:(.*?)\]/);
@@ -4750,11 +4718,6 @@ export const dbGetPages = async (): Promise<any[]> => {
   }
   const { data, error } = await supabase.from('pages').select('*').order('created_at', { ascending: false });
   if (error) {
-    if (error.message?.includes('schema cache') || error.code === '42P01' || error.message?.includes('does not exist')) {
-      console.warn('Pages table not found. Falling back to local storage.');
-      const raw = localStorage.getItem('dhoke_pages');
-      return raw ? JSON.parse(raw) : [];
-    }
     console.error('Error fetching pages:', error);
     return [];
   }
@@ -4793,7 +4756,7 @@ export async function dbGetUserFollowedPages(userId: string): Promise<string[]> 
       .eq('user_id', userId)
       .eq('role', 'Follower');
     if (error) {
-      console.warn('Error fetching followed pages:', error);
+      console.error('Error fetching followed pages:', error);
       return [];
     }
     return (data || []).map((row: any) => row.page_id);
@@ -5081,7 +5044,7 @@ export const dbNotifyGroupAdmins = async (
   const { data: admins } = await supabase.from('group_members')
     .select('user_id')
     .eq('group_id', groupId)
-    .in('role', ['Admin', 'Owner']);
+    .in('role', ['Admin', 'Owner', 'admin', 'owner', 'super_admin', 'moderator']);
     
   const adminIds = new Set(admins?.map(a => a.user_id) || []);
   if (ownerId) adminIds.add(ownerId);
@@ -5118,14 +5081,30 @@ export const dbLeaveGroup = async (groupId: string, userId: string): Promise<boo
 export const dbGetGroupMembers = async (groupId: string): Promise<any[]> => {
   if (!isSupabaseConfigured) return [];
   const { data, error } = await supabase.from('group_members')
-    .select('*, profiles(*)')
-    .eq('group_id', groupId)
-    .order('created_at', { ascending: false });
+    .select('*')
+    .eq('group_id', groupId);
   if (error) {
     console.error('Error fetching group members:', error);
     return [];
   }
-  return data || [];
+  
+  if (!data || data.length === 0) return [];
+  
+  // Fetch profiles manually to avoid PGRST200 relationship error
+  const userIds = data.map(m => m.user_id);
+  const { data: profilesData } = await supabase.from('profiles')
+    .select('*')
+    .in('user_id', userIds);
+    
+  const profilesMap = new Map();
+  if (profilesData) {
+    profilesData.forEach(p => profilesMap.set(p.user_id, p));
+  }
+  
+  return data.map(m => ({
+    ...m,
+    profiles: profilesMap.get(m.user_id) || null
+  }));
 };
 
 export const dbGetUserGroupRole = async (groupId: string, userId: string): Promise<{ role: string, status: string } | null> => {
@@ -5134,7 +5113,7 @@ export const dbGetUserGroupRole = async (groupId: string, userId: string): Promi
     .select('role, status')
     .eq('group_id', groupId)
     .eq('user_id', userId)
-    .single();
+    .maybeSingle();
   if (error || !data) {
     return null;
   }
@@ -5173,15 +5152,31 @@ export const dbRemoveGroupMember = async (groupId: string, userId: string): Prom
 export const dbGetGroupRequests = async (groupId: string): Promise<any[]> => {
   if (!isSupabaseConfigured) return [];
   const { data, error } = await supabase.from('group_members')
-    .select('*, profiles(*)')
+    .select('*')
     .eq('group_id', groupId)
-    .eq('status', 'Pending')
-    .order('created_at', { ascending: false });
+    .eq('status', 'Pending');
   if (error) {
     console.error('Error fetching group requests:', error);
     return [];
   }
-  return data || [];
+  
+  if (!data || data.length === 0) return [];
+  
+  // Fetch profiles manually to avoid PGRST200 relationship error
+  const userIds = data.map(m => m.user_id);
+  const { data: profilesData } = await supabase.from('profiles')
+    .select('*')
+    .in('user_id', userIds);
+    
+  const profilesMap = new Map();
+  if (profilesData) {
+    profilesData.forEach(p => profilesMap.set(p.user_id, p));
+  }
+  
+  return data.map(m => ({
+    ...m,
+    profiles: profilesMap.get(m.user_id) || null
+  }));
 };
 
 export const dbUpdateGroupRequestStatus = async (groupId: string, userId: string, status: string): Promise<boolean> => {
@@ -5271,12 +5266,12 @@ export const dbFollowPage = async (pageId: string, userId: string): Promise<bool
     localStorage.setItem(key, 'true');
     return true;
   }
-  const { error } = await supabase.from('page_roles').insert({
+  const { error } = await supabase.from('page_roles').upsert({
     page_id: pageId,
     user_id: userId,
     role: 'Follower'
-  });
-  if (error && error.code !== '23505') { // ignore duplicate
+  }, { onConflict: 'page_id,user_id', ignoreDuplicates: true });
+  if (error) {
     console.error('Error following page:', error);
     return false;
   }
@@ -5331,16 +5326,7 @@ export const dbCheckPageFollow = async (pageId: string, userId: string): Promise
 };
 
 export const dbGetGroupPostsAdvanced = async (groupId: string): Promise<any[]> => {
-  if (!isSupabaseConfigured) {
-    const raw = localStorage.getItem('dhoke_group_posts_adv_' + groupId);
-    return raw ? JSON.parse(raw) : [];
-  }
-  const { data, error } = await supabase.from('group_posts').select('*').eq('group_id', groupId).order('created_at', { ascending: false });
-  if (error) {
-    console.error('Error fetching advanced group posts:', error);
-    return [];
-  }
-  return data || [];
+  return await dbGetPosts([], groupId);
 };
 
 export const dbCreateGroupPostAdvanced = async (postData: any): Promise<any | null> => {
