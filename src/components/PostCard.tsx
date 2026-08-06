@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MessageCircle, Share2, Send, CheckCircle, Eye, Users } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Send, CheckCircle, Eye, Users, ThumbsUp, CornerDownRight, X } from 'lucide-react';
 import ClickableAvatar from './ClickableAvatar';
 import TvsBadge from './TvsBadge';
 import RichText from './RichText';
@@ -17,7 +17,8 @@ interface PostCardProps {
   isLiked: boolean;
   likeCount: number;
   onLike: (postId: string) => void;
-  onComment: (postId: string, commentText: string) => void;
+  onComment: (postId: string, commentText: string, parentId?: string | null) => void;
+  onCommentLikeToggle?: (postId: string, commentId: string) => void;
   isEntityVerified: (authorName: string) => boolean;
   getTvsBadgeType: (authorName: string) => 'gold' | 'blue' | 'gray';
   onImageClick?: (images: string[]) => void;
@@ -33,6 +34,7 @@ const PostCardComponent = ({
   likeCount,
   onLike,
   onComment,
+  onCommentLikeToggle,
   isEntityVerified,
   getTvsBadgeType,
   onImageClick,
@@ -43,7 +45,9 @@ const PostCardComponent = ({
   const isEn = currentLanguage === 'en';
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [currentUserData, setCurrentUserData] = useState<{avatar?: string, name?: string} | null>(null);
+  const [replyParentId, setReplyParentId] = useState<string | null>(null);
+  const [replyingToAuthor, setReplyingToAuthor] = useState<string | null>(null);
+  const [currentUserData, setCurrentUserData] = useState<{avatar?: string, name?: string, id?: string} | null>(null);
 
   // Group membership state for shared group posts
   const [isMember, setIsMember] = useState(false);
@@ -58,6 +62,7 @@ const PostCardComponent = ({
         if (data?.user) {
           const profile = await dbGetUserProfile(data.user.id);
           setCurrentUserData({
+            id: data.user.id,
             name: profile?.fullName || data.user.user_metadata?.fullName || 'User',
             avatar: profile?.profilePhoto || profile?.avatar || data.user.user_metadata?.avatar_url
           });
@@ -69,8 +74,10 @@ const PostCardComponent = ({
 
   const handleAddComment = () => {
     if (!commentText?.trim()) return;
-    onComment(post.id, commentText);
+    onComment(post.id, commentText, replyParentId);
     setCommentText('');
+    setReplyParentId(null);
+    setReplyingToAuthor(null);
   };
 
   const postRef = useRef<HTMLDivElement>(null);
@@ -291,7 +298,7 @@ const PostCardComponent = ({
           </div>
         </div>
 
-        <div className="px-4 pb-4 pt-1 text-right font-['Noto_Sans_Arabic']" dir="rtl">
+        <div className={`px-4 pb-4 pt-1 font-['Noto_Sans_Arabic'] ${isEn ? 'text-left' : 'text-right'}`} dir={isEn ? 'ltr' : 'rtl'}>
           {title && <h3 className="font-bold text-slate-900 text-lg mb-2">{title}</h3>}
           {content && <RichText text={content} className="text-[15px] font-medium text-slate-800 mb-2 leading-relaxed whitespace-pre-wrap" />}
         </div>
@@ -351,6 +358,7 @@ const PostCardComponent = ({
         }
         isLiked={isLiked}
         likesCount={likeCount}
+        currentLanguage={currentLanguage}
         commentsCount={post.commentsCount || (post.comments || []).length}
         sharesCount={post.sharesCount || post.shares || 0}
         onLike={() => onLike(post.id)}
@@ -375,45 +383,123 @@ const PostCardComponent = ({
           isExpanded && (
             <div className="space-y-4">
               <div className="space-y-3">
-                {(post.comments || []).map((comment: any) => {
-                  const avatar = comment.user?.profilePhoto || comment.user?.photo || comment.user?.avatar || comment.author?.profilePhoto || comment.author?.avatar || comment.avatar;
-                  return (
-                    <div
-                      key={comment.id || Math.random().toString()}
-                      className="flex gap-3 items-start text-slate-800 bg-slate-50 p-3 rounded-xl"
-                      dir="ltr"
-                    >
-                      <ClickableAvatar
-                        userId={comment.userId}
-                        name={comment.author}
-                        avatar={avatar}
-                        size={32}
-                        className="border border-slate-100 shrink-0"
-                      />
-                      <div className="space-y-0.5 flex-1 text-left">
-                        <div className="flex items-center gap-1.5 justify-start">
-                          <h5 className="font-semibold text-sm text-slate-900 flex items-center gap-1 justify-start">
-                            <ClickableAvatar
-                              userId={comment.userId}
-                              name={comment.author}
-                              nameOnly={true}
-                              nameClassName="font-semibold text-sm text-slate-900"
-                            />
-                            {isEntityVerified(comment.author) && (
-                              <TvsBadge badgeType={getTvsBadgeType(comment.author)} />
-                            )}
-                          </h5>
-                          <span className="text-xs text-slate-400">•</span>
-                          <span className="text-xs text-slate-500">{comment.time}</span>
+                {(() => {
+                  const allComments: any[] = post.comments || [];
+                  const topLevelComments = allComments.filter((c: any) => !c.parentId);
+
+                  const renderCommentItem = (comment: any, isReply = false) => {
+                    const avatar = comment.user?.profilePhoto || comment.user?.photo || comment.user?.avatar || comment.author?.profilePhoto || comment.author?.avatar || comment.avatar;
+                    const likedBy: string[] = Array.isArray(comment.likedBy) ? comment.likedBy : [];
+                    const currentUserId = currentUserData?.id || currentUser?.id;
+                    const isLikedByMe = currentUserId ? likedBy.includes(currentUserId) : false;
+                    const likesCount = comment.likesCount ?? likedBy.length;
+
+                    return (
+                      <div
+                        key={comment.id || Math.random().toString()}
+                        className={`flex gap-2.5 items-start text-slate-800 bg-slate-50 p-2.5 rounded-xl transition-all ${isReply ? 'ms-7 border-s-2 border-slate-300 ps-3' : ''}`}
+                        dir="ltr"
+                      >
+                        <ClickableAvatar
+                          userId={comment.userId}
+                          name={comment.author}
+                          avatar={avatar}
+                          size={isReply ? 26 : 32}
+                          className="border border-slate-100 shrink-0 mt-0.5"
+                        />
+                        <div className="space-y-1 flex-1 text-left">
+                          <div className="flex items-center gap-1.5 flex-wrap justify-start">
+                            <h5 className="font-semibold text-xs text-slate-900 flex items-center gap-1 justify-start">
+                              <ClickableAvatar
+                                userId={comment.userId}
+                                name={comment.author}
+                                nameOnly={true}
+                                nameClassName="font-bold text-xs text-slate-900"
+                              />
+                              {isEntityVerified(comment.author) && (
+                                <TvsBadge badgeType={getTvsBadgeType(comment.author)} />
+                              )}
+                            </h5>
+                            <span className="text-[10px] text-slate-400">•</span>
+                            <span className="text-[11px] text-slate-400 font-medium">{comment.time}</span>
+                          </div>
+
+                          <RichText content={comment.content} className={`text-xs text-slate-700 leading-relaxed font-normal block ${isEn ? 'text-left' : 'text-right'}`} />
+
+                          {/* Comment Actions (Like & Reply) */}
+                          <div className="flex items-center gap-3 pt-1 text-[11px] font-bold text-slate-500 justify-start">
+                            <button
+                              onClick={() => {
+                                if (onCommentLikeToggle) {
+                                  onCommentLikeToggle(post.id, comment.id);
+                                }
+                              }}
+                              className={`flex items-center gap-1 cursor-pointer transition-colors ${
+                                isLikedByMe ? 'text-[#1877F2] font-black' : 'hover:text-slate-800'
+                              }`}
+                            >
+                              <ThumbsUp className={`w-3 h-3 ${isLikedByMe ? 'fill-current' : ''}`} />
+                              <span>{isEn ? 'Like' : 'لائیک'}</span>
+                              {likesCount > 0 && <span className="text-[10px] font-bold ms-0.5">({likesCount})</span>}
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setReplyParentId(comment.parentId || comment.id);
+                                setReplyingToAuthor(comment.author);
+                                setCommentText(`@${comment.author} `);
+                              }}
+                              className="flex items-center gap-1 cursor-pointer hover:text-slate-800 transition-colors"
+                            >
+                              <CornerDownRight className="w-3 h-3" />
+                              <span>{isEn ? 'Reply' : 'جواب'}</span>
+                            </button>
+                          </div>
                         </div>
-                        <RichText content={comment.content} className="text-sm text-slate-700 leading-relaxed font-normal block" />
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  };
+
+                  if (allComments.length === 0) {
+                    return null;
+                  }
+
+                  return topLevelComments.map((topComment: any) => {
+                    const nestedReplies = allComments.filter((c: any) => c.parentId === topComment.id);
+                    return (
+                      <div key={topComment.id || Math.random().toString()} className="space-y-1.5">
+                        {renderCommentItem(topComment, false)}
+                        {nestedReplies.length > 0 && (
+                          <div className="space-y-1.5">
+                            {nestedReplies.map((reply: any) => renderCommentItem(reply, true))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  });
+                })()}
               </div>
 
-                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2" dir="ltr">
+                {/* Reply Indicator Bar */}
+                {replyingToAuthor && (
+                  <div className="flex items-center justify-between bg-blue-50 px-3 py-1.5 rounded-lg text-xs font-semibold text-blue-700 mb-1" dir="ltr">
+                    <span>
+                      {isEn ? `Replying to @${replyingToAuthor}` : `@${replyingToAuthor} کو جواب دے رہے ہیں`}
+                    </span>
+                    <button
+                      onClick={() => {
+                        setReplyParentId(null);
+                        setReplyingToAuthor(null);
+                        setCommentText('');
+                      }}
+                      className="text-blue-500 hover:text-blue-800 p-0.5"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2" dir={isEn ? 'ltr' : 'rtl'}>
                   <div className="w-[34px] h-[34px] rounded-full bg-slate-200 overflow-hidden shrink-0 mt-0.5 border border-slate-100 shadow-sm">
                     <img 
                       src={currentUserData?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData?.name || 'User')}&background=random`} 
@@ -426,15 +512,21 @@ const PostCardComponent = ({
                       value={commentText}
                       onChange={(val) => setCommentText(val)}
                       placeholder={isEn ? 'Write a comment...' : 'تبصرہ کریں...'}
-                      className="w-full ps-4 pe-10 py-2.5 text-[14px] bg-transparent border-0 focus:ring-0 focus:outline-none transition-all font-medium leading-tight resize-none m-0 min-h-[40px] text-slate-800"
+                      className={`w-full ${isEn ? 'ps-3.5 pe-10' : 'pe-3.5 ps-10'} py-2 text-[14px] bg-transparent border-0 focus:ring-0 focus:outline-none transition-all font-medium leading-tight resize-none m-0 min-h-[38px] text-slate-800`}
                       rows={Math.max(1, Math.min(4, commentText.split('\n').length))}
                     />
                     <button
                       onClick={handleAddComment}
                       disabled={!commentText.trim()}
-                      className={`absolute end-1 bottom-1 p-1.5 rounded-full transition-all flex items-center justify-center ${commentText.trim() ? 'bg-blue-600 text-white cursor-pointer hover:bg-blue-700 hover:scale-105 active:scale-95' : 'bg-transparent text-slate-400 cursor-default'}`}
+                      title={isEn ? 'Send' : 'ارسال کریں'}
+                      aria-label={isEn ? 'Send Comment' : 'تبصرہ ارسال کریں'}
+                      className={`absolute ${isEn ? 'end-1.5 right-1.5' : 'start-1.5 left-1.5'} bottom-1.5 w-7 h-7 rounded-full transition-all flex items-center justify-center shrink-0 ${
+                        commentText.trim() 
+                          ? 'bg-blue-600 text-white cursor-pointer hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-xs' 
+                          : 'bg-slate-200/60 text-slate-400 cursor-default'
+                      }`}
                     >
-                      <Send className="w-4 h-4 ms-0.5" />
+                      <Send className={`w-3.5 h-3.5 ${isEn ? 'ms-0.5' : 'me-0.5 -scale-x-100'}`} />
                     </button>
                   </div>
                 </div>

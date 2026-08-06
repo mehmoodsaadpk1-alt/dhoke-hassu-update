@@ -1025,6 +1025,94 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
   }
 }
 
+export async function dbAddPostComment(postId: string, newComment: any): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) return false;
+  try {
+    const { data: postData, error: fetchErr } = await supabase
+      .from('posts')
+      .select('comments, commentsCount')
+      .eq('id', postId)
+      .single();
+
+    if (fetchErr) {
+      console.warn("dbAddPostComment fetch warning:", fetchErr.message);
+    }
+
+    const existingComments: any[] = Array.isArray(postData?.comments) ? postData.comments : [];
+    const updatedComments = [...existingComments, newComment];
+    const updatedCount = updatedComments.length;
+
+    const { error: updateErr } = await supabase
+      .from('posts')
+      .update({
+        comments: updatedComments,
+        commentsCount: updatedCount
+      })
+      .eq('id', postId);
+
+    if (updateErr) {
+      console.error("dbAddPostComment update error:", updateErr.message);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Exception in dbAddPostComment:", err);
+    return false;
+  }
+}
+
+export async function dbToggleCommentLike(
+  postId: string,
+  commentId: string,
+  userId: string
+): Promise<{ liked: boolean; comments: any[] }> {
+  if (!isSupabaseConfigured || !supabase || !postId || !commentId || !userId) {
+    return { liked: false, comments: [] };
+  }
+  try {
+    const { data: postData } = await supabase
+      .from('posts')
+      .select('comments')
+      .eq('id', postId)
+      .single();
+
+    const comments: any[] = Array.isArray(postData?.comments) ? postData.comments : [];
+    let liked = false;
+
+    const updatedComments = comments.map((c: any) => {
+      if (c.id === commentId) {
+        const likedBy: string[] = Array.isArray(c.likedBy) ? c.likedBy : [];
+        const isAlreadyLiked = likedBy.includes(userId);
+        let nextLikedBy: string[];
+        if (isAlreadyLiked) {
+          nextLikedBy = likedBy.filter((id) => id !== userId);
+          liked = false;
+        } else {
+          nextLikedBy = [...likedBy, userId];
+          liked = true;
+        }
+        return {
+          ...c,
+          likedBy: nextLikedBy,
+          likesCount: nextLikedBy.length
+        };
+      }
+      return c;
+    });
+
+    await supabase
+      .from('posts')
+      .update({ comments: updatedComments })
+      .eq('id', postId);
+
+    return { liked, comments: updatedComments };
+  } catch (err: any) {
+    console.error('[dbToggleCommentLike] Exception:', err?.message || err);
+    return { liked: false, comments: [] };
+  }
+}
+
 export async function dbSavePost(post: any): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
   try {
@@ -1339,6 +1427,47 @@ export async function dbGetPostLikeCounts(postIds: string[]): Promise<Record<str
   } catch (err: any) {
     console.warn('[dbGetPostLikeCounts] Exception:', err?.message || err);
     return {};
+  }
+}
+
+export interface PostLikeUser {
+  userId: string;
+  fullName: string;
+  username?: string;
+  avatarUrl?: string;
+  createdAt: string;
+  verified?: boolean;
+}
+
+/** Fetch users who liked a specific post, ordered by created_at DESC (most recent first). */
+export async function dbGetPostLikes(postId: string): Promise<PostLikeUser[]> {
+  if (!isSupabaseConfigured || !supabase || !postId) return [];
+  try {
+    const { data, error } = await supabase
+      .from('post_likes')
+      .select('created_at, user_id, profiles(user_id, full_name, username, profile_photo, verified)')
+      .eq('post_id', postId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.warn('[dbGetPostLikes] Error:', error.message);
+      return [];
+    }
+
+    return (data || []).map((row: any) => {
+      const p = row.profiles || {};
+      return {
+        userId: row.user_id || p.user_id,
+        fullName: p.full_name || p.username || 'User',
+        username: p.username || undefined,
+        avatarUrl: p.profile_photo || undefined,
+        createdAt: row.created_at,
+        verified: !!p.verified
+      };
+    });
+  } catch (err: any) {
+    console.warn('[dbGetPostLikes] Exception:', err?.message || err);
+    return [];
   }
 }
 

@@ -1,13 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 /**
  * Renders a styled, accessible link for a mention.
- * Uses react-router navigation to avoid full page reload.
+ * Uses window.history navigation for seamless SPA routing without requiring React Router context.
  */
 export default function MentionLink({ type, identifier, display }) {
-  const navigate = useNavigate();
-
   const handleClick = (e) => {
     e.preventDefault();
     let path = '';
@@ -24,7 +21,10 @@ export default function MentionLink({ type, identifier, display }) {
       default:
         break;
     }
-    navigate(path);
+    if (path) {
+      window.history.pushState({}, '', path);
+      window.dispatchEvent(new Event('popstate'));
+    }
   };
 
   return (

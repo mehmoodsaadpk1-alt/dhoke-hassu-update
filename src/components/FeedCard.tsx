@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MoreHorizontal, ThumbsUp, MessageCircle, Share2 } from 'lucide-react';
 import ClickableAvatar from './ClickableAvatar';
 import TvsBadge from './TvsBadge';
+import { LikeHoverTooltip, LikeUsersModal } from './LikeHoverPopup';
+import { dbGetPostLikes, PostLikeUser } from '../utils/supabaseClient';
 
 interface FeedCardProps {
   id: string;
@@ -25,6 +27,7 @@ interface FeedCardProps {
   onShare?: () => void;
   
   commentsSection?: React.ReactNode;
+  currentLanguage?: 'en' | 'ur';
 }
 
 export default function FeedCard({
@@ -48,12 +51,71 @@ export default function FeedCard({
   onCommentToggle,
   onShare,
   
-  commentsSection
+  commentsSection,
+  currentLanguage = 'ur'
 }: FeedCardProps) {
+  const isEn = currentLanguage === 'en';
+
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [likedUsers, setLikedUsers] = useState<PostLikeUser[] | null>(null);
+  const [isLoadingLikes, setIsLoadingLikes] = useState(false);
+
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const cacheRef = useRef<PostLikeUser[] | null>(null);
+
+  // Invalidate cache when post ID, like status or like count changes
+  useEffect(() => {
+    cacheRef.current = null;
+    setLikedUsers(null);
+  }, [id, isLiked, likesCount]);
+
+  const loadLikes = async () => {
+    if (cacheRef.current !== null) {
+      setLikedUsers(cacheRef.current);
+      return;
+    }
+    setIsLoadingLikes(true);
+    const users = await dbGetPostLikes(id);
+    cacheRef.current = users;
+    setLikedUsers(users);
+    setIsLoadingLikes(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => {
+      setShowTooltip(true);
+      loadLikes();
+    }, 250);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    leaveTimerRef.current = setTimeout(() => {
+      setShowTooltip(false);
+    }, 200);
+  };
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    cacheRef.current = null;
+    setLikedUsers(null);
+    if (onLike) onLike();
+  };
+
+  const handleCountClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowTooltip(false);
+    setIsModalOpen(true);
+    loadLikes();
+  };
+
   return (
-    <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 overflow-hidden transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir="rtl">
+    <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir={isEn ? 'ltr' : 'rtl'}>
       <div className="flex items-start justify-between p-4 pb-3" dir="ltr">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 text-left">
           <ClickableAvatar
             userId={authorId}
             name={authorName}
@@ -76,7 +138,7 @@ export default function FeedCard({
               </h4>
               {badge}
             </div>
-            <p className="text-[11px] text-slate-500 font-medium mt-0.5 opacity-80">
+            <p className="text-[11px] text-slate-500 font-medium mt-0.5 opacity-80 text-left">
               {timestamp}
               {location && <span className="ms-1.5 inline-flex items-center gap-0.5"><span className="text-[10px]">📍</span> {location}</span>}
             </p>
@@ -88,29 +150,63 @@ export default function FeedCard({
         </button>
       </div>
       
-      <div className="w-full text-right" dir="rtl">
+      <div className={`w-full overflow-hidden ${isEn ? 'text-left' : 'text-right'}`} dir={isEn ? 'ltr' : 'rtl'}>
         {children}
       </div>
 
       {showActions && (
-        <div className="flex items-center justify-start gap-1 px-4 py-2 border-t border-slate-100 w-full bg-white">
-          <button
-            onClick={onLike}
-            className={`flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-bold transition-all cursor-pointer ${
-              isLiked ? 'text-[#1877F2] bg-blue-50/50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-            }`}
+        <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 px-4 py-2 border-t border-slate-100 w-full bg-white relative rounded-b-[24px]">
+          
+          {/* Like Button & Hover Container */}
+          <div
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
-            <ThumbsUp className={`w-[18px] h-[18px] ${isLiked ? 'fill-current' : ''}`} />
-            <span>لائیک</span>
-            {likesCount > 0 && <span className="text-[11px] font-semibold ms-1 opacity-80">({likesCount})</span>}
-          </button>
+            {showTooltip && (
+              <LikeHoverTooltip
+                likesCount={likesCount}
+                likedUsers={likedUsers}
+                isLoading={isLoadingLikes}
+                onOpenModal={() => {
+                  setShowTooltip(false);
+                  setIsModalOpen(true);
+                  loadLikes();
+                }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                isEn={isEn}
+              />
+            )}
+
+            <div className="flex items-center">
+              <button
+                onClick={handleLikeClick}
+                className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-bold transition-all cursor-pointer ${
+                  isLiked ? 'text-[#1877F2] bg-blue-50/50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                <ThumbsUp className={`w-[18px] h-[18px] ${isLiked ? 'fill-current' : ''}`} />
+                <span>{isEn ? 'Like' : 'لائیک'}</span>
+              </button>
+
+              {likesCount > 0 && (
+                <button
+                  onClick={handleCountClick}
+                  className="text-[11px] font-semibold text-slate-500 hover:text-[#1877F2] hover:underline px-1 py-2 cursor-pointer transition-colors"
+                >
+                  ({likesCount})
+                </button>
+              )}
+            </div>
+          </div>
           
           <button
             onClick={onCommentToggle}
             className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
           >
             <MessageCircle className="w-[18px] h-[18px]" />
-            <span>کمنٹ</span>
+            <span>{isEn ? 'Comment' : 'کمنٹ'}</span>
             {commentsCount > 0 && <span className="text-[11px] font-semibold ms-1 opacity-80">({commentsCount})</span>}
           </button>
           
@@ -119,11 +215,21 @@ export default function FeedCard({
             className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-all cursor-pointer"
           >
             <Share2 className="w-[18px] h-[18px] -scale-x-100" />
-            <span>شیئر</span>
+            <span>{isEn ? 'Share' : 'شیئر'}</span>
             {sharesCount > 0 && <span className="text-[11px] font-semibold ms-1 opacity-80">({sharesCount})</span>}
           </button>
         </div>
       )}
+
+      {/* Full Likes Modal */}
+      <LikeUsersModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        likesCount={likesCount}
+        likedUsers={likedUsers || []}
+        isLoading={isLoadingLikes}
+        isEn={isEn}
+      />
 
       {commentsSection && (
         <div className="px-4 pb-4 border-t border-slate-100 pt-3">

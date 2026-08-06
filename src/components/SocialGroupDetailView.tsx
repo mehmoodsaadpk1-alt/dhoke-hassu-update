@@ -6,7 +6,7 @@ import {
 import { Group, User } from '../types';
 import type { Post } from '../types';
 import { AppTabs, AppButton } from './ui';
-import { dbTriggerNotification, dbNotifyGroupAdmins, dbCheckGroupMembership, dbJoinGroup, dbLeaveGroup, dbGetPosts, dbSavePost, dbTogglePostLike, dbGetUserPostLikes, dbGetPostLikeCounts, dbGetUserGroupRole } from '../utils/supabaseClient';
+import { dbTriggerNotification, dbNotifyGroupAdmins, dbCheckGroupMembership, dbJoinGroup, dbLeaveGroup, dbGetPosts, dbSavePost, dbAddPostComment, dbTogglePostLike, dbGetUserPostLikes, dbGetPostLikeCounts, dbGetUserGroupRole } from '../utils/supabaseClient';
 import PostComposer from './PostComposer';
 import PostCard from './PostCard';
 import GroupManagementPanel from './GroupManagementPanel';
@@ -193,20 +193,20 @@ export default function SocialGroupDetailView({
     setLikeCounts(prev => ({ ...prev, [postId]: likeCount }));
   };
 
-  const handleComment = (postId: string, commentText: string) => {
+  const handleComment = async (postId: string, commentText: string) => {
+    const newComment = {
+      id: `c-${Date.now()}`,
+      author: currentUser?.fullName || 'Member',
+      avatar:
+        currentUser?.profilePhoto ||
+        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120',
+      content: commentText,
+      time: 'Just now',
+      userId: currentUser?.id,
+    };
     setGroupPosts(prev =>
       prev.map(p => {
         if (p.id !== postId) return p;
-        const newComment = {
-          id: `c-${Date.now()}`,
-          author: currentUser?.fullName || 'Member',
-          avatar:
-            currentUser?.profilePhoto ||
-            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120',
-          content: commentText,
-          time: 'Just now',
-          userId: currentUser?.id,
-        };
         return {
           ...p,
           comments: [...(p.comments || []), newComment],
@@ -214,6 +214,7 @@ export default function SocialGroupDetailView({
         };
       })
     );
+    await dbAddPostComment(postId, newComment);
   };
 
   const isEntityVerified = (_name: string) => false;

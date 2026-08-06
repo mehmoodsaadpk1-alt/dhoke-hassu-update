@@ -108,6 +108,8 @@ import {
   dbDeleteStory,
   dbGetPosts,
   dbSavePost,
+  dbAddPostComment,
+  dbToggleCommentLike,
   dbUploadPostImage,
   dbUploadPostVideo,
   dbDeletePost,
@@ -383,19 +385,22 @@ export function DesktopSidebar({
   navigate,
   unreadChatCount,
 }: DesktopSidebarProps) {
+  const isUrdu = currentLanguage === 'ur';
   return (
     <aside 
       id="desktop-sidebar"
-      className="hidden md:flex flex-col fixed top-0 left-0 bottom-0 w-[72px] lg:w-[240px] bg-white border-e border-slate-200 z-50 h-screen shadow-sm shrink-0 transition-all duration-300"
+      className={`hidden md:flex flex-col fixed top-0 bottom-0 w-[72px] lg:w-[240px] bg-white z-50 h-screen shadow-sm shrink-0 transition-all duration-300 ${
+        isUrdu ? 'right-0 border-s border-slate-200' : 'left-0 border-e border-slate-200'
+      }`}
     >
       {/* Brand Logo & Slogan Area */}
-      <div className="p-4 lg:p-5 border-b border-slate-100 flex items-center justify-center lg:justify-start gap-3.5 shrink-0 h-20">
+      <div className="p-4 lg:p-5 border-b border-slate-100 flex items-center justify-start gap-3.5 shrink-0 h-20" dir="ltr">
         <div className="p-2.5 bg-emerald-600 text-white rounded-2xl shadow-md shrink-0 transition-transform hover:scale-105 duration-200">
           <svg className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
         </div>
-        <div className="hidden lg:block truncate min-w-0">
+        <div className="hidden lg:block truncate min-w-0 text-left">
           <h1 className="text-base font-black text-slate-950 tracking-tight leading-none uppercase">
             {t.appName}
           </h1>
@@ -413,37 +418,45 @@ export function DesktopSidebar({
             <button
               key={item.id}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center justify-center lg:justify-start gap-3 p-2 rounded-2xl transition-all duration-200 group relative cursor-pointer ${
+              className={`w-full flex items-center justify-start p-2 rounded-2xl transition-all duration-200 group relative cursor-pointer ${
                 active 
-                  ? 'bg-emerald-50/80 border-s-4 border-emerald-600 ps-1 lg:ps-1.5 font-bold shadow-xs' 
+                  ? (isUrdu ? 'bg-emerald-50/80 border-e-4 border-emerald-600 font-bold shadow-xs' : 'bg-emerald-50/80 border-s-4 border-emerald-600 font-bold shadow-xs')
                   : 'hover:bg-slate-50'
               }`}
               id={`sidebar-btn-${item.id}`}
-              title={currentLanguage === 'en' ? item.labelEn : item.labelUr}
+              title={isUrdu ? item.labelUr : item.labelEn}
             >
-              {/* Soft background circle for icon with colorful design */}
-              <div 
-                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
-                  active 
-                    ? `${item.activeBgClass}` 
-                    : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
-                }`}
-              >
-                <item.icon className="w-5 h-5 stroke-[2.2]" />
-              </div>
+              {isUrdu ? (
+                // URDU: Text Label FIRST (on left), Icon SECOND (on right) -> ہوم 🏠
+                <div className="flex items-center gap-3 w-full justify-end" dir="rtl">
+                  <span className={`text-[13px] font-['Noto_Sans_Arabic'] font-bold transition-colors leading-tight text-right hidden lg:block ${
+                    active ? item.activeTextClass : 'text-slate-600 font-bold group-hover:text-slate-950'
+                  }`}>
+                    {item.labelUr}
+                  </span>
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
+                    active ? `${item.activeBgClass}` : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
+                  }`}>
+                    <item.icon className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                </div>
+              ) : (
+                // ENGLISH: Icon FIRST (on left), Text Label SECOND (on right) -> 🏠 Home
+                <div className="flex items-center gap-3 w-full justify-start" dir="ltr">
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
+                    active ? `${item.activeBgClass}` : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
+                  }`}>
+                    <item.icon className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <span className={`text-xs font-sans font-semibold transition-colors leading-tight text-left hidden lg:block ${
+                    active ? item.activeTextClass : 'text-slate-600 font-bold group-hover:text-slate-950'
+                  }`}>
+                    {item.labelEn}
+                  </span>
+                </div>
+              )}
 
-              {/* Text Label */}
-              <div className="hidden lg:flex flex-col min-w-0 text-start">
-                <span className={`text-xs transition-colors font-semibold leading-tight ${
-                  active 
-                    ? item.activeTextClass 
-                    : 'text-slate-600 font-bold group-hover:text-slate-950'
-                }`}>
-                  {currentLanguage === 'en' ? item.labelEn : item.labelUr}
-                </span>
-              </div>
-
-              {/* Badge for Chat */}
+              {/* Badge */}
               {item.id === 'chat' ? (
                 unreadChatCount > 0 && (
                   <span className="absolute end-1 lg:end-4 top-1 lg:top-auto px-1.5 py-0.5 bg-red-500 text-white text-[9px] font-black rounded-full leading-none flex items-center justify-center min-w-[14px]">
@@ -2174,7 +2187,7 @@ export default function AppShell({
     });
   };
 
-  const handleCommentAdd = (postId: string, commentText?: string) => {
+  const handleCommentAdd = async (postId: string, commentText?: string, parentId?: string | null) => {
     const text = commentText || commentInputs[postId] || '';
     if (!text?.trim()) return;
 
@@ -2183,7 +2196,11 @@ export default function AppShell({
       author: profileData.fullName,
       avatar: profileData.profilePhoto,
       content: text,
-      time: 'Just now'
+      time: 'Just now',
+      userId: profileData.userId,
+      parentId: parentId || null,
+      likesCount: 0,
+      likedBy: []
     };
 
     analytics.track("post_comment", { entity_type: 'post',
@@ -2209,6 +2226,39 @@ export default function AppShell({
     }));
 
     setCommentInputs(prev => ({ ...prev, [postId]: '' }));
+
+    // Persist comment to public.posts table in Supabase so it remains after refresh
+    await dbAddPostComment(postId, newComment);
+  };
+
+  const handleCommentLikeToggle = async (postId: string, commentId: string) => {
+    if (!profileData.userId) return;
+    const currentUserId = profileData.userId;
+
+    // Optimistic UI update
+    setPosts(prevPosts => prevPosts.map(post => {
+      if (post.id === postId) {
+        const updatedComments = (post.comments || []).map((c: any) => {
+          if (c.id === commentId) {
+            const likedBy: string[] = Array.isArray(c.likedBy) ? c.likedBy : [];
+            const isLiked = likedBy.includes(currentUserId);
+            const nextLikedBy = isLiked 
+              ? likedBy.filter(id => id !== currentUserId)
+              : [...likedBy, currentUserId];
+            return {
+              ...c,
+              likedBy: nextLikedBy,
+              likesCount: nextLikedBy.length
+            };
+          }
+          return c;
+        });
+        return { ...post, comments: updatedComments };
+      }
+      return post;
+    }));
+
+    await dbToggleCommentLike(postId, commentId, currentUserId);
   };
 
   const renderPost = (post: any) => {
@@ -2224,7 +2274,8 @@ export default function AppShell({
         currentLanguage={currentLanguage}
         currentUser={profileData}
         onLike={handleLikePost}
-        onComment={(postId, text) => handleCommentAdd(postId, text)}
+        onComment={(postId, text, parentId) => handleCommentAdd(postId, text, parentId)}
+        onCommentLikeToggle={(postId, commentId) => handleCommentLikeToggle(postId, commentId)}
         isEntityVerified={isEntityVerified}
         getTvsBadgeType={getTvsBadgeType}
           onShareRequest={(type, id, preview) => setShareModalData({ isOpen: true, entityType: type as ShareEntityType, entityId: id, preview })}
@@ -3812,8 +3863,12 @@ export default function AppShell({
         unreadChatCount={unreadChatCount}
       />
 
-      {/* 2. MAIN CONTAINER (Header + Scrollable Main Content on the right) */}
-      <div className="h-full flex flex-col min-w-0 overflow-hidden relative ml-0 md:ml-[72px] lg:ml-[240px] transition-all duration-300">
+      {/* 2. MAIN CONTAINER (Header + Scrollable Main Content) */}
+      <div className={`h-full flex flex-col min-w-0 overflow-hidden relative transition-all duration-300 ${
+        currentLanguage === 'ur' 
+          ? 'mr-0 md:mr-[72px] lg:mr-[240px] ml-0' 
+          : 'ml-0 md:ml-[72px] lg:ml-[240px] mr-0'
+      }`}>
         
         {/* MOBILE & DESKTOP HEADER */}
         <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>

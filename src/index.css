@@ -159,20 +159,18 @@ input:focus, textarea:focus, select:focus {
 
 /* The outer wrapper that fills the viewport */
 .videos-module-root {
-  /* Full dynamic viewport height */
   width: 100%;
-  height: 100dvh;  /* dvh = no address-bar bounce on mobile */
+  height: 100dvh;
   overflow: hidden;
   background: #000;
 }
-/* On desktop (sidebar present) restore to full area */
 @media (min-width: 768px) {
   .videos-module-root {
     height: 100%;
   }
 }
 
-/* The inner root of ShortsFeed — fills its parent fully */
+/* The inner root of ShortsFeed */
 .shorts-feed-root {
   width: 100%;
   height: 100%;
@@ -181,53 +179,38 @@ input:focus, textarea:focus, select:focus {
   position: relative;
 }
 
-/* ─── The magic snap scroll container ──────────────────────────────────── */
+/* The snap scroll container */
 .shorts-scroll-container {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;           /* force scroll even with single video */
+  overflow-y: scroll;
   overflow-x: hidden;
-
-  /* CSS Scroll Snap — mandatory forces landing on a snap point */
   scroll-snap-type: y mandatory;
-
-  /* Prevent iOS rubber-band bounce propagating to the page body */
   overscroll-behavior-y: contain;
-
-  /* Smooth on desktop, instant on mobile for TikTok feel */
   scroll-behavior: auto;
-
-  /* Hide the scrollbar on all browsers */
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE 11 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   background: #000;
-
-  /* GPU layer for 60fps */
   will-change: scroll-position;
-  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 .shorts-scroll-container::-webkit-scrollbar {
-  display: none;                  /* Chrome / Safari / Edge */
+  display: none;
 }
 
-/* ─── Each video slide ──────────────────────────────────────────────────── */
+/* Each video slide */
 .shorts-snap-item {
   width: 100%;
-  height: 100%;            /* inherits from container which is 100dvh */
+  height: 100%;
   flex-shrink: 0;
-
-  /* Snap ALIGN — start = top of each item aligns to top of container */
   scroll-snap-align: start;
-
-  /* scroll-snap-stop: always → prevents fast-flick skipping multiple videos */
   scroll-snap-stop: always;
-
   position: relative;
   background: #000;
   overflow: hidden;
 }
 
-/* ─── Scrollbar-hide utility (for any other elements) ────────────────────── */
+/* Scrollbar-hide utility */
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -236,24 +219,16 @@ input:focus, textarea:focus, select:focus {
   display: none;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   WATCH TAB MOBILE UX OVERRIDES
-   ─────────────────────────────────────────────────────────────────────────
-   Hide global floating UI elements like navigation menus and action buttons
-   when the Watch tab is active to provide a distraction-free full-screen
-   experience on mobile devices.
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* WATCH TAB MOBILE UX OVERRIDES */
 @media (max-width: 767px) {
   body.watch-mode-active #mobile-bottom-navigation {
     display: none !important;
   }
   
-  /* Hide the Upload and Short Text floating buttons (or any global fixed/floating buttons) */
-  body.watch-mode-active .fixed:not(.videos-module-root .fixed):not(#more-drawer-panel):not(.z-\\[110\\]):not(#story-viewer-modal):not(.z-50) {
+  body.watch-mode-active .fixed:not(.videos-module-root .fixed):not(#more-drawer-panel):not(.z-\[110\]):not(#story-viewer-modal):not(.z-50) {
     display: none !important;
   }
   
-  /* Specifically hide common wrapper classes for floating action buttons */
   body.watch-mode-active button.fixed,
   body.watch-mode-active .fixed.bottom-4,
   body.watch-mode-active .fixed.bottom-5,
@@ -262,7 +237,28 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* RTL Specific Styles */
+/* LTR & RTL Direction & Alignment Rules */
+[dir="ltr"] body,
+[dir="ltr"] #root {
+  direction: ltr;
+  text-align: left;
+}
+
+[dir="ltr"] input[type="text"],
+[dir="ltr"] input[type="email"],
+[dir="ltr"] input[type="password"],
+[dir="ltr"] input[type="tel"],
+[dir="ltr"] textarea {
+  text-align: left;
+  direction: ltr;
+}
+
+[dir="rtl"] body,
+[dir="rtl"] #root {
+  direction: rtl;
+  text-align: right;
+}
+
 [dir="rtl"] .lucide-arrow-left,
 [dir="rtl"] .lucide-chevron-left,
 [dir="rtl"] .lucide-chevron-right,

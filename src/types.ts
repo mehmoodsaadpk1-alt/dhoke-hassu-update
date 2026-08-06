@@ -220,6 +220,10 @@ export interface Comment {
   content: string;
   time: string;
   userId?: string;
+  parentId?: string | null;
+  likesCount?: number;
+  likedBy?: string[];
+  replies?: Comment[];
 }
 
 /**
