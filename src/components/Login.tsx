@@ -98,7 +98,9 @@ export default function Login({
         email: email,
         area: profile.area || data.user.user_metadata?.area || 'Dhoke Hassu',
         mobileNumber: profile.mobileNumber || undefined,
-        verified: profile.verified || false
+        verified: profile.verified || false,
+        profilePhoto: profile.profilePhoto || undefined,
+        coverPhoto: profile.coverPhoto || undefined
       };
 
       onLoginSuccess(loggedInUser);
@@ -128,7 +130,7 @@ export default function Login({
   };
 
   return (
-    <div className="w-full max-w-md bg-white overflow-hidden flex flex-col min-h-screen md:min-h-0 sm:rounded-[36px] md:rounded-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative md:py-8" dir="rtl">
+    <div className="w-full max-w-md bg-white overflow-hidden flex flex-col min-h-screen md:min-h-0 sm:rounded-[36px] md:rounded-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative md:py-8" dir="ltr">
       
       {/* --- DESKTOP CORNER MANDALAS --- */}
       <div className="hidden md:block absolute top-0 left-0 w-40 h-40 opacity-40 pointer-events-none -translate-x-12 -translate-y-12 z-0">
@@ -148,10 +150,10 @@ export default function Login({
           <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30 shadow-lg mb-3">
             <LeafIcon className="w-8 h-8 text-white drop-shadow-md" />
           </div>
-          <h1 className="text-3xl font-extrabold font-['Noto_Sans_Arabic'] text-white drop-shadow-md text-center" dir="rtl">
+          <h1 className="text-3xl font-extrabold font-['Noto_Sans_Arabic'] text-white drop-shadow-md text-center" dir="ltr">
             خوش آمدید
           </h1>
-          <p className="text-sm font-medium text-green-100 font-['Noto_Sans_Arabic'] mt-1 tracking-wide" dir="rtl">
+          <p className="text-sm font-medium text-green-100 font-['Noto_Sans_Arabic'] mt-1 tracking-wide" dir="ltr">
             ڈھوک حسو کنیکٹ
           </p>
         </div>
@@ -211,7 +213,7 @@ export default function Login({
             <button
               type="submit"
               className="w-full bg-[#348A54] hover:bg-[#2A7649] text-white rounded-full py-3 text-sm font-bold shadow-md hover:shadow-lg transition-all font-['Noto_Sans_Arabic']"
-              dir="rtl"
+              dir="ltr"
             >
               لاگ ان کریں
             </button>
@@ -223,7 +225,7 @@ export default function Login({
               type="button"
               onClick={onNavigateToForgotPassword}
               className="text-xs font-bold text-slate-600 hover:text-[#348A54] transition-colors font-['Noto_Sans_Arabic']"
-              dir="rtl"
+              dir="ltr"
             >
               پاس ورڈ بھول گئے؟ Forgot Password?
             </button>
@@ -242,7 +244,7 @@ export default function Login({
           type="button"
           onClick={handleGoogleSignIn}
           className="w-full bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-800 rounded-full py-3 text-sm font-bold shadow-sm hover:shadow transition-all font-['Noto_Sans_Arabic'] flex items-center justify-center gap-2"
-          dir="rtl"
+          dir="ltr"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -270,7 +272,7 @@ export default function Login({
           <button
             onClick={onNavigateToSignup}
             className="text-lg font-bold text-[#348A54] hover:underline cursor-pointer font-['Noto_Sans_Arabic']"
-            dir="rtl"
+            dir="ltr"
           >
             نیا اکاؤنٹ بنائیں
           </button>
@@ -284,7 +286,7 @@ export default function Login({
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
             className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-[#348A54] font-bold transition-all font-['Noto_Sans_Arabic']"
-            dir="rtl"
+            dir="ltr"
           >
             <ShieldCheck className="w-4 h-4" />
             ایڈمن پینل (Admin Panel)

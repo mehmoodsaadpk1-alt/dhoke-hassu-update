@@ -15,6 +15,7 @@ import { supabase, isSupabaseConfigured, dbSaveUserProfile } from './utils/supab
 import { analytics } from './services/AnalyticsService';
 import LocationSetupWizard from './components/LocationSetupWizard';
 import AnalyticsDebugPanel from './components/AnalyticsDebugPanel';
+import { AdminProvider } from './contexts/AdminContext';
 
 export default function App() {
   console.log('App rendered');
@@ -498,257 +499,257 @@ export default function App() {
     );
   }
 
-  if (currentPath.startsWith('/admin')) {
-    return (
-      <React.Suspense fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 flex-col gap-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500 font-bold animate-pulse text-sm">
-            {currentLanguage === 'en' ? 'Loading Admin Dashboard...' : 'ایڈمن ڈیش بورڈ لوڈ ہو رہا ہے...'}
-          </p>
-        </div>
-      }>
-        <AdminDashboard 
-          currentLanguage={currentLanguage} 
-          onExitAdmin={() => {
-            window.history.pushState({}, '', '/');
-            setCurrentPath('/');
-          }}
-        />
-      </React.Suspense>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col justify-between">
-      {authState !== 'LOGGED_IN' ? (
-        /* PREMIUM AUTHENTICATION CONTAINER (Mobile & Desktop) */
-        <div className={`flex-1 flex flex-col min-h-screen relative overflow-hidden ${authState === 'LOGIN' ? 'bg-[url("/login-bg.jpg")] bg-cover bg-center bg-no-repeat bg-fixed' : 'bg-slate-50 md:bg-[#e8f5e9]'}`} dir="ltr">
-          
-          {/* Overlay for readability if image is too bright, optional but good for contrast */}
-          {authState === 'LOGIN' && (
-            <div className="absolute inset-0 bg-black/20 md:bg-black/40 pointer-events-none z-0" />
-          )}
-
-          {/* Mobile Background Blobs */}
-          <div className={`md:hidden absolute top-0 start-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
-          <div className={`md:hidden absolute bottom-0 end-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
-
-          {/* Desktop Background Patterns & Geometry */}
-          <div className={`hidden md:block absolute inset-0 opacity-[0.15] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none mix-blend-multiply ${authState === 'LOGIN' ? 'hidden' : ''}`} />
-          <div className={`hidden md:block absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
-          <div className={`hidden md:block absolute -bottom-[20%] -left-[10%] w-[800px] h-[800px] bg-gradient-to-tr from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
-
-          {/* Desktop Header */}
-          <header className="hidden md:flex relative z-10 w-full px-12 py-6 justify-between items-center bg-white/40 backdrop-blur-md border-b border-white/50 shadow-sm">
-            <div className="flex flex-col items-start">
-              <div className="flex items-center text-[#2A7649] font-extrabold text-3xl tracking-tighter">
-                <span>D</span>
-                <span className="relative">
-                  H
-                  <svg className="absolute -top-2 -right-2 w-4 h-4 text-[#308B54] drop-shadow-sm transform rotate-12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C7.03 2 3 6.03 3 11V22H14C18.97 22 23 17.97 23 13C23 8.03 18.97 2 12 2ZM19 13C19 15.76 16.76 18 14 18H7V11C7 8.24 9.24 6 12 6C14.76 6 17 8.24 17 11V13C17 14.1 16.1 15 15 15C13.9 15 13 14.1 13 13V11H11V13C11 15.21 12.79 17 15 17C17.21 17 19 15.21 19 13V11C19 9.34 17.66 8 16 8C14.34 8 13 9.34 13 11V14.5C13 15.33 12.33 16 11.5 16C10.67 16 10 15.33 10 14.5V11C10 7.69 12.69 5 16 5C19.86 5 23 8.14 23 12V13Z" />
-                    <path d="M17.42 2.58C17.24 2.58 17.06 2.59 16.89 2.61C18.57 3.55 19.89 5.05 20.57 6.86C20.85 6.09 21 5.27 21 4.42C21 3.51 20.8 2.64 20.45 1.84C19.57 2.31 18.53 2.58 17.42 2.58Z" opacity="0.3"/>
-                  </svg>
-                </span>
-              </div>
-              <span className="text-slate-800 font-bold text-xs tracking-widest mt-0.5">Connect</span>
-            </div>
-            <nav className="flex items-center gap-8 font-['Noto_Sans_Arabic'] font-bold text-slate-800" dir="rtl">
-              <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط کی پالیسی</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">رابطہ</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
-            </nav>
-          </header>
-
-          <main className="relative z-10 w-full flex-1 flex justify-center items-center p-0 md:p-8">
-            {authState === 'LOGIN' && (
-              <Login
-                onLoginSuccess={handleLoginSuccess}
-                onNavigateToSignup={() => setAuthState('SIGNUP')}
-                currentLanguage={currentLanguage}
-                onLanguageChange={setCurrentLanguage}
-                onNavigateToForgotPassword={() => {
-                  setForgotError('');
-                  setResetSuccess(false);
-                  setAuthState('FORGOT_PASSWORD');
-                }}
-              />
-            )}
-
-            {authState === 'SIGNUP' && (
-              <Signup
-                onSignupSuccess={handleSignupSuccess}
-                onNavigateToLogin={() => setAuthState('LOGIN')}
-                currentLanguage={currentLanguage}
-                onLanguageChange={setCurrentLanguage}
-              />
-            )}
-
-            {authState === 'FORGOT_PASSWORD' && (
-              <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden p-8 transform transition-all">
-                <div className="flex justify-between items-center mb-6">
-                  <button
-                    onClick={() => setAuthState('LOGIN')}
-                    className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 font-bold transition-colors"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    {t.backToLogin}
-                  </button>
-                  
-                  <button
-                    onClick={() => setCurrentLanguage(currentLanguage === 'en' ? 'ur' : 'en')}
-                    className="flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-700 text-xs rounded-full font-semibold"
-                  >
-                    <Globe className="w-3.5 h-3.5" />
-                    {t.languageToggle}
-                  </button>
-                </div>
-
-                <div className="text-center mb-6">
-                  <div className="inline-flex p-3 bg-blue-50 text-primary rounded-2xl mb-3">
-                    <KeyRound className="w-6 h-6" />
-                  </div>
-                  <h1 className="text-xl font-bold text-slate-900 leading-tight">
-                    {t.forgotTitle}
-                  </h1>
-                  <p className="text-xs text-slate-500 mt-1.5 px-2">
-                    {t.forgotSubtitle}
-                  </p>
-                </div>
-
-                {forgotError && (
-                  <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
-                    {forgotError}
-                  </div>
-                )}
-
-                {resetSuccess ? (
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-xs text-green-700 font-bold flex flex-col items-center gap-2 text-center">
-                    <CheckCircle className="w-8 h-8 text-action animate-bounce" />
-                    <p>{currentLanguage === 'en' ? 'Reset instructions sent! Redirecting back...' : 'پاس ورڈ دوبارہ ترتیب دینے کی تفصیلات بھیج دی گئی ہیں! واپس بھیجا جا رہا ہے...'}</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        {t.mobileNumber}
-                      </label>
-                      <input
-                        type="email"
-                        value={forgotEmail}
-                        onChange={(e) => setForgotEmail(e.target.value)}
-                        placeholder={t.mobilePlaceholder}
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl text-xs shadow-md hover:shadow-lg transition-all"
-                    >
-                      {t.sendResetBtn}
-                    </button>
-                  </form>
-                )}
-              </div>
-            )}
-
-            {authState === 'RESET_PASSWORD' && (
-              <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden p-8 transform transition-all">
-                <div className="text-center mb-6">
-                  <div className="inline-flex p-3 bg-blue-50 text-primary rounded-2xl mb-3">
-                    <KeyRound className="w-6 h-6" />
-                  </div>
-                  <h1 className="text-xl font-bold text-slate-900 leading-tight">
-                    {currentLanguage === 'en' ? 'Set New Password' : 'نیا پاس ورڈ سیٹ کریں'}
-                  </h1>
-                  <p className="text-xs text-slate-500 mt-1.5 px-2">
-                    {currentLanguage === 'en' ? 'Please enter your new password below' : 'براہ کرم نیچے اپنا نیا پاس ورڈ درج کریں'}
-                  </p>
-                </div>
-
-                {resetPasswordError && (
-                  <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
-                    {resetPasswordError}
-                  </div>
-                )}
-
-                {resetPasswordSuccess ? (
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-xs text-green-700 font-bold flex flex-col items-center gap-2 text-center">
-                    <CheckCircle className="w-8 h-8 text-action animate-bounce" />
-                    <p>{currentLanguage === 'en' ? 'Password updated successfully! Redirecting...' : 'پاس ورڈ کامیابی سے اپ ڈیٹ ہو گیا! بھیجا جا رہا ہے...'}</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleResetPasswordSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        {currentLanguage === 'en' ? 'New Password' : 'نیا پاس ورڈ'}
-                      </label>
-                      <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-2">
-                        {currentLanguage === 'en' ? 'Confirm New Password' : 'نئے پاس ورڈ کی تصدیق کریں'}
-                      </label>
-                      <input
-                        type="password"
-                        value={confirmNewPassword}
-                        onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl text-xs shadow-md hover:shadow-lg transition-all"
-                    >
-                      {currentLanguage === 'en' ? 'Update Password' : 'پاس ورڈ تبدیل کریں'}
-                    </button>
-                  </form>
-                )}
-              </div>
-            )}
-          </main>
-          
-          {/* Desktop Footer */}
-          <footer className="hidden md:flex relative z-10 w-full px-12 py-6 flex-row justify-between items-center bg-white/40 backdrop-blur-md border-t border-white/50 text-slate-700 text-sm font-bold">
-            <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-[#2A7649] transition-colors">About Us</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">Terms of Use</a>
-            </div>
-            <div className="flex items-center gap-6 font-['Noto_Sans_Arabic']" dir="rtl">
-              <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">رازداری کی پالیسی</a>
-              <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط استعمال</a>
-            </div>
-          </footer>
-        </div>
-      ) : (
-        /* 3. LOGGED IN STATE - MOUNTS THE MAIN APP SHELL */
-        <>
-          <AppShell
-            user={user!}
-            onLogout={handleLogout}
-            currentLanguage={currentLanguage}
-            onLanguageChange={setCurrentLanguage}
-            onUpdateUser={updateUser}
+    <AdminProvider>
+      {currentPath.startsWith('/admin') ? (
+        <React.Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center bg-slate-50 flex-col gap-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-500 font-bold animate-pulse text-sm">
+              {currentLanguage === 'en' ? 'Loading Admin Dashboard...' : 'ایڈمن ڈیش بورڈ لوڈ ہو رہا ہے...'}
+            </p>
+          </div>
+        }>
+          <AdminDashboard 
+            currentLanguage={currentLanguage} 
+            onExitAdmin={() => {
+              window.history.pushState({}, '', '/');
+              setCurrentPath('/');
+            }}
           />
-        </>
-      )}
+        </React.Suspense>
+      ) : (
+      <div className="min-h-screen flex flex-col justify-between">
+        {authState !== 'LOGGED_IN' ? (
+          /* PREMIUM AUTHENTICATION CONTAINER (Mobile & Desktop) */
+          <div className={`flex-1 flex flex-col min-h-screen relative overflow-hidden ${authState === 'LOGIN' ? 'bg-[url("/login-bg.jpg")] bg-cover bg-center bg-no-repeat bg-fixed' : 'bg-slate-50 md:bg-[#e8f5e9]'}`} dir="ltr">
+            
+            {/* Overlay for readability if image is too bright, optional but good for contrast */}
+            {authState === 'LOGIN' && (
+              <div className="absolute inset-0 bg-black/20 md:bg-black/40 pointer-events-none z-0" />
+            )}
 
-      {/* Developer Analytics Debug Panel */}
-      <AnalyticsDebugPanel />
-    </div>
+            {/* Mobile Background Blobs */}
+            <div className={`md:hidden absolute top-0 start-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -translate-x-12 -translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+            <div className={`md:hidden absolute bottom-0 end-0 w-72 h-72 bg-green-100/30 rounded-full blur-3xl translate-x-12 translate-y-12 ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+
+            {/* Desktop Background Patterns & Geometry */}
+            <div className={`hidden md:block absolute inset-0 opacity-[0.15] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none mix-blend-multiply ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+            <div className={`hidden md:block absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+            <div className={`hidden md:block absolute -bottom-[20%] -left-[10%] w-[800px] h-[800px] bg-gradient-to-tr from-[#2A7649]/20 to-transparent rounded-full blur-3xl pointer-events-none ${authState === 'LOGIN' ? 'hidden' : ''}`} />
+
+            {/* Desktop Header */}
+            <header className="hidden md:flex relative z-10 w-full px-12 py-6 justify-between items-center bg-white/40 backdrop-blur-md border-b border-white/50 shadow-sm">
+              <div className="flex flex-col items-start">
+                <div className="flex items-center text-[#2A7649] font-extrabold text-3xl tracking-tighter">
+                  <span>D</span>
+                  <span className="relative">
+                    H
+                    <svg className="absolute -top-2 -right-2 w-4 h-4 text-[#308B54] drop-shadow-sm transform rotate-12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2C7.03 2 3 6.03 3 11V22H14C18.97 22 23 17.97 23 13C23 8.03 18.97 2 12 2ZM19 13C19 15.76 16.76 18 14 18H7V11C7 8.24 9.24 6 12 6C14.76 6 17 8.24 17 11V13C17 14.1 16.1 15 15 15C13.9 15 13 14.1 13 13V11H11V13C11 15.21 12.79 17 15 17C17.21 17 19 15.21 19 13V11C19 9.34 17.66 8 16 8C14.34 8 13 9.34 13 11V14.5C13 15.33 12.33 16 11.5 16C10.67 16 10 15.33 10 14.5V11C10 7.69 12.69 5 16 5C19.86 5 23 8.14 23 12V13Z" />
+                      <path d="M17.42 2.58C17.24 2.58 17.06 2.59 16.89 2.61C18.57 3.55 19.89 5.05 20.57 6.86C20.85 6.09 21 5.27 21 4.42C21 3.51 20.8 2.64 20.45 1.84C19.57 2.31 18.53 2.58 17.42 2.58Z" opacity="0.3"/>
+                    </svg>
+                  </span>
+                </div>
+                <span className="text-slate-800 font-bold text-xs tracking-widest mt-0.5">Connect</span>
+              </div>
+              <nav className="flex items-center gap-8 font-['Noto_Sans_Arabic'] font-bold text-slate-800" dir="ltr">
+                <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط کی پالیسی</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">رابطہ</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
+              </nav>
+            </header>
+
+            <main className="relative z-10 w-full flex-1 flex justify-center items-center p-0 md:p-8">
+              {authState === 'LOGIN' && (
+                <Login
+                  onLoginSuccess={handleLoginSuccess}
+                  onNavigateToSignup={() => setAuthState('SIGNUP')}
+                  currentLanguage={currentLanguage}
+                  onLanguageChange={setCurrentLanguage}
+                  onNavigateToForgotPassword={() => {
+                    setForgotError('');
+                    setResetSuccess(false);
+                    setAuthState('FORGOT_PASSWORD');
+                  }}
+                />
+              )}
+
+              {authState === 'SIGNUP' && (
+                <Signup
+                  onSignupSuccess={handleSignupSuccess}
+                  onNavigateToLogin={() => setAuthState('LOGIN')}
+                  currentLanguage={currentLanguage}
+                  onLanguageChange={setCurrentLanguage}
+                />
+              )}
+
+              {authState === 'FORGOT_PASSWORD' && (
+                <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden p-8 transform transition-all">
+                  <div className="flex justify-between items-center mb-6">
+                    <button
+                      onClick={() => setAuthState('LOGIN')}
+                      className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 font-bold transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      {t.backToLogin}
+                    </button>
+                    
+                    <button
+                      onClick={() => setCurrentLanguage(currentLanguage === 'en' ? 'ur' : 'en')}
+                      className="flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-700 text-xs rounded-full font-semibold"
+                    >
+                      <Globe className="w-3.5 h-3.5" />
+                      {t.languageToggle}
+                    </button>
+                  </div>
+
+                  <div className="text-center mb-6">
+                    <div className="inline-flex p-3 bg-blue-50 text-primary rounded-2xl mb-3">
+                      <KeyRound className="w-6 h-6" />
+                    </div>
+                    <h1 className="text-xl font-bold text-slate-900 leading-tight">
+                      {t.forgotTitle}
+                    </h1>
+                    <p className="text-xs text-slate-500 mt-1.5 px-2">
+                      {t.forgotSubtitle}
+                    </p>
+                  </div>
+
+                  {forgotError && (
+                    <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
+                      {forgotError}
+                    </div>
+                  )}
+
+                  {resetSuccess ? (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-xs text-green-700 font-bold flex flex-col items-center gap-2 text-center">
+                      <CheckCircle className="w-8 h-8 text-action animate-bounce" />
+                      <p>{currentLanguage === 'en' ? 'Reset instructions sent! Redirecting back...' : 'پاس ورڈ دوبارہ ترتیب دینے کی تفصیلات بھیج دی گئی ہیں! واپس بھیجا جا رہا ہے...'}</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-2">
+                          {t.mobileNumber}
+                        </label>
+                        <input
+                          type="email"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          placeholder={t.mobilePlaceholder}
+                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl text-xs shadow-md hover:shadow-lg transition-all"
+                      >
+                        {t.sendResetBtn}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
+
+              {authState === 'RESET_PASSWORD' && (
+                <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden p-8 transform transition-all">
+                  <div className="text-center mb-6">
+                    <div className="inline-flex p-3 bg-blue-50 text-primary rounded-2xl mb-3">
+                      <KeyRound className="w-6 h-6" />
+                    </div>
+                    <h1 className="text-xl font-bold text-slate-900 leading-tight">
+                      {currentLanguage === 'en' ? 'Set New Password' : 'نیا پاس ورڈ سیٹ کریں'}
+                    </h1>
+                    <p className="text-xs text-slate-500 mt-1.5 px-2">
+                      {currentLanguage === 'en' ? 'Please enter your new password below' : 'براہ کرم نیچے اپنا نیا پاس ورڈ درج کریں'}
+                    </p>
+                  </div>
+
+                  {resetPasswordError && (
+                    <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
+                      {resetPasswordError}
+                    </div>
+                  )}
+
+                  {resetPasswordSuccess ? (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-xs text-green-700 font-bold flex flex-col items-center gap-2 text-center">
+                      <CheckCircle className="w-8 h-8 text-action animate-bounce" />
+                      <p>{currentLanguage === 'en' ? 'Password updated successfully! Redirecting...' : 'پاس ورڈ کامیابی سے اپ ڈیٹ ہو گیا! بھیجا جا رہا ہے...'}</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleResetPasswordSubmit} className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-2">
+                          {currentLanguage === 'en' ? 'New Password' : 'نیا پاس ورڈ'}
+                        </label>
+                        <input
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-2">
+                          {currentLanguage === 'en' ? 'Confirm New Password' : 'نئے پاس ورڈ کی تصدیق کریں'}
+                        </label>
+                        <input
+                          type="password"
+                          value={confirmNewPassword}
+                          onChange={(e) => setConfirmNewPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 focus:outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full py-2.5 px-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl text-xs shadow-md hover:shadow-lg transition-all"
+                      >
+                        {currentLanguage === 'en' ? 'Update Password' : 'پاس ورڈ تبدیل کریں'}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
+            </main>
+            
+            {/* Desktop Footer */}
+            <footer className="hidden md:flex relative z-10 w-full px-12 py-6 flex-row justify-between items-center bg-white/40 backdrop-blur-md border-t border-white/50 text-slate-700 text-sm font-bold">
+              <div className="flex items-center gap-6">
+                <a href="#" className="hover:text-[#2A7649] transition-colors">About Us</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">Terms of Use</a>
+              </div>
+              <div className="flex items-center gap-6 font-['Noto_Sans_Arabic']" dir="ltr">
+                <a href="#" className="hover:text-[#2A7649] transition-colors">ہماری بابت</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">رازداری کی پالیسی</a>
+                <a href="#" className="hover:text-[#2A7649] transition-colors">شرائط استعمال</a>
+              </div>
+            </footer>
+          </div>
+        ) : (
+          /* 3. LOGGED IN STATE - MOUNTS THE MAIN APP SHELL */
+          <>
+            <AppShell
+              user={user!}
+              onLogout={handleLogout}
+              currentLanguage={currentLanguage}
+              onLanguageChange={setCurrentLanguage}
+              onUpdateUser={updateUser}
+            />
+          </>
+        )}
+
+        {/* Developer Analytics Debug Panel */}
+        <AnalyticsDebugPanel />
+      </div>
+      )}
+    </AdminProvider>
   );
 }

@@ -124,6 +124,7 @@ import AdminStoriesView from './AdminStoriesView';
 import AdminStoryAds from './AdminStoryAds';
 import AnalyticsDashboard from './AnalyticsDashboard';
 import { useAdStore } from '../store/adStore';
+import { useAdmin } from '../contexts/AdminContext';
 // Helper to parse a YYYY-MM-DD string as a local date (no timezone shift)
 const parseLocalDate = (dateStr: string): Date => {
   const parts = dateStr?.split('-');
@@ -179,11 +180,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   });
 
   // Admin authentication state
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
-    return sessionStorage.getItem('admin_authenticated') === 'true';
-  });
-  const [adminPassword, setAdminPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const { isAdmin, loading: adminLoading } = useAdmin();
 
   // Loaded database states
   const [users, setUsers] = useState<User[]>([]);
@@ -626,7 +623,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
   };
 
   useEffect(() => {
-    if (!isAdminLoggedIn) return;
+    if (!isAdmin) return;
     
     const loadData = async () => {
       setLoading(true);
@@ -640,7 +637,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
     };
     
     loadData();
-  }, [isAdminLoggedIn]);
+  }, [isAdmin]);
 
   // Sync route path changes to window location path
   const navigateTo = (path: string) => {
@@ -693,29 +690,7 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
     document.body.style.overflow = '';
   };
 
-  const handleAdminLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (adminPassword === '090405726') {
-      setIsAdminLoggedIn(true);
-      sessionStorage.setItem('admin_authenticated', 'true');
-      setLoginError('');
-      setLoading(true);
-      try {
-        await fetchAllData();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setLoginError(isEn ? 'Invalid passcode credentials.' : 'غلط پاس ورڈ۔ دوبارہ کوشش کریں۔');
-    }
-  };
-
   const handleAdminLogout = () => {
-    setIsAdminLoggedIn(false);
-    sessionStorage.removeItem('admin_authenticated');
-    setAdminPassword('');
     onExitAdmin();
   };
 
@@ -1537,48 +1512,38 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
     </div>
   );
 
-  if (!isAdminLoggedIn) {
+  if (adminLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans text-slate-850">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-              {isEn ? 'Admin Access' : 'ایڈمن رسائی'}
-            </h1>
-            <p className="text-xs text-slate-500 mt-2">
-              {isEn ? 'Enter the administrative passcode to continue.' : 'آگے بڑھنے کے لیے ایڈمن پاس کوڈ درج کریں۔'}
-            </p>
+      <div className="flex-1 flex flex-col items-center justify-center p-8 bg-slate-50 min-h-screen gap-4">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-slate-500 font-bold animate-pulse text-sm">
+          {isEn ? 'Verifying admin access...' : 'ایڈمن رسائی کی تصدیق ہو رہی ہے...'}
+        </p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 bg-slate-50 min-h-screen">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg border border-slate-200 text-center">
+          <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Shield className="w-8 h-8" />
           </div>
-          <form onSubmit={handleAdminLogin} className="space-y-6">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-2">
-                {isEn ? 'Passcode' : 'پاس کوڈ'}
-              </label>
-              <input
-                type="password"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-emerald-500 focus:bg-white"
-              />
-            </div>
-            {loginError && (
-              <p className="text-xs text-red-600 font-bold bg-red-50 p-3 rounded-2xl">{loginError}</p>
-            )}
-            <button
-              type="submit"
-              className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-sm transition-all shadow-md cursor-pointer"
-            >
-              {isEn ? 'Secure Login' : 'لاگ ان کریں'}
-            </button>
-            <button
-              type="button"
-              onClick={onExitAdmin}
-              className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-sm transition-all cursor-pointer"
-            >
-              {isEn ? 'Return to Main App' : 'واپس جائیں'}
-            </button>
-          </form>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            {isEn ? 'Access Denied' : 'رسائی سے انکار'}
+          </h2>
+          <p className="text-slate-500 mb-8">
+            {isEn 
+              ? 'You do not have administrator privileges to view this dashboard.' 
+              : 'آپ کو اس ڈیش بورڈ کو دیکھنے کے لیے ایڈمنسٹریٹر کے حقوق حاصل نہیں ہیں۔'}
+          </p>
+          <button
+            onClick={onExitAdmin}
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors cursor-pointer"
+          >
+            {isEn ? 'Return to Application' : 'ایپلیکیشن پر واپس جائیں'}
+          </button>
         </div>
       </div>
     );

@@ -237,9 +237,11 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* LTR & RTL Direction & Alignment Rules */
+/* LTR & RTL Direction & Alignment Rules - Unified Left-Aligned Production UI */
 [dir="ltr"] body,
-[dir="ltr"] #root {
+[dir="ltr"] #root,
+[dir="rtl"] body,
+[dir="rtl"] #root {
   direction: ltr;
   text-align: left;
 }
@@ -248,31 +250,14 @@ input:focus, textarea:focus, select:focus {
 [dir="ltr"] input[type="email"],
 [dir="ltr"] input[type="password"],
 [dir="ltr"] input[type="tel"],
-[dir="ltr"] textarea {
-  text-align: left;
-  direction: ltr;
-}
-
-[dir="rtl"] body,
-[dir="rtl"] #root {
-  direction: rtl;
-  text-align: right;
-}
-
-[dir="rtl"] .lucide-arrow-left,
-[dir="rtl"] .lucide-chevron-left,
-[dir="rtl"] .lucide-chevron-right,
-[dir="rtl"] .lucide-send {
-  transform: scaleX(-1);
-}
-
+[dir="ltr"] textarea,
 [dir="rtl"] input[type="text"],
 [dir="rtl"] input[type="email"],
 [dir="rtl"] input[type="password"],
 [dir="rtl"] input[type="tel"],
 [dir="rtl"] textarea {
-  text-align: right;
-  direction: rtl;
+  text-align: left;
+  direction: ltr;
 }
 
 [dir="rtl"] .ltr-text {

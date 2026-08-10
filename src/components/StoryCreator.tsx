@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Image as ImageIcon, X, Type, Palette, Send, Settings, Check, Download } from 'lucide-react';
-import { dbSaveStory, dbUploadStoryMedia, supabase } from '../utils/supabaseClient';
+import { dbSaveStory, supabase } from '../utils/supabaseClient';
 import { Story } from '../types';
 
 interface StoryCreatorProps {
@@ -68,15 +68,36 @@ export default function StoryCreator({ user, isEn, onClose, onComplete }: StoryC
       
       if ((mediaType === 'photo' || mediaType === 'video') && mediaFile) {
         console.log("[STORY] Upload Started", mediaFile.name);
-        const uploadedUrl = await dbUploadStoryMedia(mediaFile);
-        if (!uploadedUrl) {
-          throw new Error("Failed to upload image to storage.");
-        }
-        console.log("[STORY] Upload Success", "Media uploaded to storage:", uploadedUrl);
+        console.log("[STORY] Upload Provider: Supabase Storage");
         
-        finalUrl = uploadedUrl;
-        mediaUrls = [finalUrl];
-        console.log("[STORY] Public URL Generated", finalUrl);
+        try {
+          const extension = mediaFile.name.split('.').pop() || (mediaType === 'video' ? 'mp4' : 'jpg');
+          const fileName = `stories/${validUserId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${extension}`;
+          
+          const { data, error } = await supabase.storage.from('posts').upload(fileName, mediaFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+          if (error) {
+            console.error("[STORY] Supabase Storage upload error:", error);
+            throw new Error(error.message || "Failed to upload to Supabase");
+          }
+
+          const { data: urlData } = supabase.storage.from('posts').getPublicUrl(fileName);
+          if (!urlData || !urlData.publicUrl) {
+            throw new Error("Could not generate public URL from Supabase");
+          }
+
+          console.log("[STORY] Upload Success");
+          console.log("[STORY] Public URL Generated:", urlData.publicUrl);
+          
+          finalUrl = urlData.publicUrl;
+          mediaUrls = [finalUrl];
+        } catch (uploadErr: any) {
+          console.error("[STORY] Supabase Upload Failed", uploadErr);
+          throw new Error(uploadErr.message || "Failed to upload image to storage.");
+        }
       }
 
       const newStory: Story = {

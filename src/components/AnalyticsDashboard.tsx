@@ -354,15 +354,15 @@ export default function AnalyticsDashboard({ isEn }: AnalyticsDashboardProps) {
         </div>
 
         <div className="flex gap-4 opacity-50 pointer-events-none">
-          <div className="flex flex-col text-right">
+          <div className="flex flex-col text-left">
             <span className="text-[10px] font-bold text-slate-500 uppercase">{isEn ? 'Live Users' : 'صارفین'}</span>
             <span className="text-sm font-black text-slate-800">--</span>
           </div>
-          <div className="flex flex-col text-right">
+          <div className="flex flex-col text-left">
             <span className="text-[10px] font-bold text-slate-500 uppercase">{isEn ? 'Active Chats' : 'چیٹس'}</span>
             <span className="text-sm font-black text-slate-800">--</span>
           </div>
-          <div className="flex flex-col text-right">
+          <div className="flex flex-col text-left">
             <span className="text-[10px] font-bold text-slate-500 uppercase">{isEn ? 'New Posts' : 'پوسٹس'}</span>
             <span className="text-sm font-black text-slate-800">--</span>
           </div>

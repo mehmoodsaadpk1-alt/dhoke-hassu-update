@@ -16,12 +16,12 @@ export default function GroupManagementPanel({ group, currentUser, isEn, onBack,
   const [activeTab, setActiveTab] = useState<'info' | 'members' | 'requests' | 'danger'>(initialTab || 'info');
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-20 md:pb-0 animate-in fade-in duration-300" dir={isEn ? 'ltr' : 'rtl'}>
+    <div className="bg-slate-50 min-h-screen pb-20 md:pb-0 animate-in fade-in duration-300" dir="ltr">
       {/* Header */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-4">
           <button onClick={onBack} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-            <ArrowLeft className={`w-5 h-5 text-slate-700 ${!isEn && 'rotate-180'}`} />
+            <ArrowLeft className="w-5 h-5 text-slate-700" />
           </button>
           <div>
             <h1 className="text-lg font-black text-slate-900">{isEn ? 'Manage Group' : 'گروپ کا انتظام'}</h1>

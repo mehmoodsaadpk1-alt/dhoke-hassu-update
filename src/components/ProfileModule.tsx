@@ -1344,7 +1344,7 @@ export default function ProfileModule({
       )}
 
       {/* PROFILE HEADER MOCKUP DESIGN */}
-      <div className="bg-white rounded-[32px] sm:rounded-[36px] shadow-sm overflow-hidden relative border border-slate-100 font-['Noto_Sans_Arabic']" dir="rtl">
+      <div className="bg-white rounded-[32px] sm:rounded-[36px] shadow-sm overflow-hidden relative border border-slate-100 font-['Noto_Sans_Arabic']" dir="ltr">
         
         {/* Cover Photo */}
         <div className="h-40 sm:h-56 relative overflow-hidden flex items-start justify-center pt-5 bg-slate-200">
@@ -1407,7 +1407,7 @@ export default function ProfileModule({
           </div>
 
           {/* Cell 2: Statistics Grid (Mobile: Middle, Desktop: Right) */}
-          <div className="w-full text-start md:col-start-2 md:row-start-1 md:row-span-2 mt-1 md:mt-2" dir="rtl">
+          <div className="w-full text-start md:col-start-2 md:row-start-1 md:row-span-2 mt-1 md:mt-2" dir="ltr">
             <h3 className="text-xs font-bold text-slate-400 mb-2">{currentLanguage === 'en' ? 'Statistics' : 'اعداد و شمار'}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
               <div className="bg-emerald-50/50 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 border border-emerald-100/50 shadow-sm cursor-default">
@@ -1455,11 +1455,11 @@ export default function ProfileModule({
             <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100 w-full text-left">
               <h3 className="text-xs font-bold text-slate-400 mb-2">{currentLanguage === 'en' ? 'About Me' : 'میرے بارے میں'}</h3>
               {profileData.bio ? (
-                <p className="text-[14px] text-slate-700 leading-relaxed whitespace-pre-wrap text-left" dir="rtl">
+                <p className="text-[14px] text-slate-700 leading-relaxed whitespace-pre-wrap text-left" dir="ltr">
                   {profileData.bio}
                 </p>
               ) : (
-                <p className="text-[13px] text-slate-400 leading-relaxed italic text-left" dir="rtl">
+                <p className="text-[13px] text-slate-400 leading-relaxed italic text-left" dir="ltr">
                   {currentLanguage === 'en' ? 'No bio added yet.' : 'ابھی تک بائیو شامل نہیں کی گئی۔'}
                 </p>
               )}

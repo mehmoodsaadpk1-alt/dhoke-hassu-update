@@ -207,7 +207,7 @@ export default function Signup({
   };
 
   return (
-    <div className="w-full max-w-md bg-white overflow-hidden flex flex-col min-h-screen md:min-h-0 sm:rounded-[36px] md:rounded-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative md:py-8" dir="rtl">
+    <div className="w-full max-w-md bg-white overflow-hidden flex flex-col min-h-screen md:min-h-0 sm:rounded-[36px] md:rounded-2xl md:shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative md:py-8" dir="ltr">
       
       {/* --- DESKTOP CORNER MANDALAS --- */}
       <div className="hidden md:block absolute top-0 left-0 w-40 h-40 opacity-40 pointer-events-none -translate-x-12 -translate-y-12 z-0">
@@ -228,10 +228,10 @@ export default function Signup({
               <path d="M17.42 2.58C17.24 2.58 17.06 2.59 16.89 2.61C18.57 3.55 19.89 5.05 20.57 6.86C20.85 6.09 21 5.27 21 4.42C21 3.51 20.8 2.64 20.45 1.84C19.57 2.31 18.53 2.58 17.42 2.58Z" opacity="0.3"/>
             </svg>
           </div>
-          <h1 className="text-2xl font-extrabold font-['Noto_Sans_Arabic'] text-white drop-shadow-md text-center" dir="rtl">
+          <h1 className="text-2xl font-extrabold font-['Noto_Sans_Arabic'] text-white drop-shadow-md text-center" dir="ltr">
             اکاؤنٹ بنائیں
           </h1>
-          <p className="text-xs font-medium text-green-100 font-['Noto_Sans_Arabic'] tracking-wide" dir="rtl">
+          <p className="text-xs font-medium text-green-100 font-['Noto_Sans_Arabic'] tracking-wide" dir="ltr">
             راولپنڈی کے مقامی نیٹ ورک میں شامل ہوں
           </p>
         </div>
@@ -245,7 +245,7 @@ export default function Signup({
           <h1 className="text-2xl font-extrabold font-['Noto_Sans_Arabic'] text-slate-900 drop-shadow-sm">
             {currentLanguage === 'en' ? 'Create an Account' : 'اکاؤنٹ بنائیں'}
           </h1>
-          <p className="text-sm font-medium opacity-90 text-slate-500 mt-2 font-['Noto_Sans_Arabic']" dir="rtl">
+          <p className="text-sm font-medium opacity-90 text-slate-500 mt-2 font-['Noto_Sans_Arabic']" dir="ltr">
             {currentLanguage === 'en' ? 'Join Dhoke Hassu Connect' : 'ڈھوک حسو کنیکٹ میں شامل ہوں'}
           </p>
         </div>

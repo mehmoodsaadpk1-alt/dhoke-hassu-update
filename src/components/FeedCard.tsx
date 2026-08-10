@@ -113,7 +113,7 @@ export default function FeedCard({
   };
 
   return (
-    <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir={isEn ? 'ltr' : 'rtl'}>
+    <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir="ltr">
       <div className="flex items-start justify-between p-4 pb-3" dir="ltr">
         <div className="flex items-center gap-3 text-left">
           <ClickableAvatar
@@ -150,7 +150,7 @@ export default function FeedCard({
         </button>
       </div>
       
-      <div className={`w-full overflow-hidden ${isEn ? 'text-left' : 'text-right'}`} dir={isEn ? 'ltr' : 'rtl'}>
+      <div className="w-full overflow-hidden text-left" dir="ltr">
         {children}
       </div>
 

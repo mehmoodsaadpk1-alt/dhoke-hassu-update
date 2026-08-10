@@ -49,12 +49,14 @@ import AdBannerCard from './AdBannerCard';
 import { useAdRotator } from '../hooks/useAdRotator';
 import { getCurrentUserLocation } from '../utils/locationService';
 
+import { useAdmin } from '../contexts/AdminContext';
+
 export function isUserAdminOrModerator(user?: User): boolean {
   if (!user) return false;
   const email = user.email?.toLowerCase() || '';
   const role = (user as any).role?.toLowerCase() || '';
   const fullName = user.fullName?.toLowerCase() || '';
-  return email.includes('admin') || email.includes('moderator') || role.includes('admin') || role.includes('moderator') || fullName.includes('admin') || fullName.includes('moderator') || sessionStorage.getItem('admin_authenticated') === 'true';
+  return email.includes('admin') || email.includes('moderator') || role.includes('admin') || role.includes('moderator') || fullName.includes('admin') || fullName.includes('moderator');
 }
 
 // Web Audio API double chime synthesizer for Critical and High priority alerts
@@ -210,7 +212,8 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
 
   // Legacy ad load removed – ads are handled via useAdRotator hook
 
-  const isAdmin = isUserAdminOrModerator(currentUser);
+  const { isAdmin: isContextAdmin } = useAdmin();
+  const isAdmin = isContextAdmin || isUserAdminOrModerator(currentUser);
   const isModerator = isAdmin || (currentUser?.fullName?.toLowerCase().includes('moderator') || currentUser?.email?.toLowerCase().includes('moderator'));
 
   // Search, Filters & Sorting
@@ -427,7 +430,7 @@ const alertsBannerMap = useAdRotator('Local Alerts', 1, 1, 'Banner');
     if (activeView === 'history' && !isExpired) return false;
 
     // Check status moderation
-    const adminCheck = isUserAdminOrModerator(currentUser);
+    const adminCheck = isContextAdmin || isUserAdminOrModerator(currentUser);
     const isOwner = currentUser && (item.postedBy === currentUser.fullName);
     if (!adminCheck && !isOwner && item.status === 'Pending') return false;
     if (!adminCheck && !isOwner && item.status === 'Rejected') return false;

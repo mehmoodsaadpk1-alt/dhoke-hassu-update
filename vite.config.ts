@@ -8,10 +8,19 @@ import fs from 'fs';
 const viteEnvKeys = Object.keys(process.env).filter(key => key.startsWith('VITE_') || key.startsWith('NEXT_PUBLIC_'));
 if (viteEnvKeys.length > 0) {
   const envContent = viteEnvKeys.map(key => `${key}="${process.env[key]}"`).join('\n');
-  fs.writeFileSync(path.resolve(__dirname, '.env'), envContent);
-  console.log('Successfully generated .env from process.env keys:', viteEnvKeys);
+  const envPath = path.resolve(__dirname, '.env');
+  let currentContent = '';
+  try {
+    currentContent = fs.readFileSync(envPath, 'utf8');
+  } catch (e) {
+    // File doesn't exist yet
+  }
+  
+  if (currentContent !== envContent) {
+    fs.writeFileSync(envPath, envContent);
+    console.log('Successfully generated .env from process.env keys:', viteEnvKeys);
+  }
 }
-
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
@@ -42,3 +51,4 @@ export default defineConfig(() => {
     },
   };
 });
+// Force Vite restart 

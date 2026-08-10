@@ -152,7 +152,7 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
       <div className="absolute bottom-0 left-0 right-0 p-4 pb-12 z-20 pointer-events-none" dir="ltr">
         
         {/* Left Info Section */}
-        <div className="absolute bottom-12 left-4 right-16 text-white pointer-events-auto flex flex-col items-start text-right" dir="rtl">
+        <div className="absolute bottom-12 left-4 right-16 text-white pointer-events-auto flex flex-col items-start text-left" dir="ltr">
           {/* Caption */}
           <div className="mb-1">
             <h2 className="text-xl font-bold drop-shadow-md leading-tight">

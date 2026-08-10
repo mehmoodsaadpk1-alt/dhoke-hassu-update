@@ -258,7 +258,7 @@ export default function StoryViewer({ stories, initialIdx, onClose, viewerId, on
     dbLogStoryAdAnalytics(currentStory.id, 'click');
     
     const ctaType = currentStory.ctaType || 'Website';
-    const ctaValue = currentStory.ctaValue || currentStory.ctaLink || '';
+    const ctaValue = currentStory.ctaLink || currentStory.ctaValue || '';
     
     if (!ctaValue) return;
 

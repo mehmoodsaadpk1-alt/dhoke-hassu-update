@@ -389,9 +389,7 @@ export function DesktopSidebar({
   return (
     <aside 
       id="desktop-sidebar"
-      className={`hidden md:flex flex-col fixed top-0 bottom-0 w-[72px] lg:w-[240px] bg-white z-50 h-screen shadow-sm shrink-0 transition-all duration-300 ${
-        isUrdu ? 'right-0 border-s border-slate-200' : 'left-0 border-e border-slate-200'
-      }`}
+      className="hidden md:flex flex-col fixed top-0 bottom-0 w-[72px] lg:w-[240px] bg-white z-50 h-screen shadow-sm shrink-0 transition-all duration-300 left-0 border-e border-slate-200"
     >
       {/* Brand Logo & Slogan Area */}
       <div className="p-4 lg:p-5 border-b border-slate-100 flex items-center justify-start gap-3.5 shrink-0 h-20" dir="ltr">
@@ -420,41 +418,24 @@ export function DesktopSidebar({
               onClick={() => navigate(item.path)}
               className={`w-full flex items-center justify-start p-2 rounded-2xl transition-all duration-200 group relative cursor-pointer ${
                 active 
-                  ? (isUrdu ? 'bg-emerald-50/80 border-e-4 border-emerald-600 font-bold shadow-xs' : 'bg-emerald-50/80 border-s-4 border-emerald-600 font-bold shadow-xs')
+                  ? 'bg-emerald-50/80 border-s-4 border-emerald-600 font-bold shadow-xs'
                   : 'hover:bg-slate-50'
               }`}
               id={`sidebar-btn-${item.id}`}
               title={isUrdu ? item.labelUr : item.labelEn}
             >
-              {isUrdu ? (
-                // URDU: Text Label FIRST (on left), Icon SECOND (on right) -> ہوم 🏠
-                <div className="flex items-center gap-3 w-full justify-end" dir="rtl">
-                  <span className={`text-[13px] font-['Noto_Sans_Arabic'] font-bold transition-colors leading-tight text-right hidden lg:block ${
-                    active ? item.activeTextClass : 'text-slate-600 font-bold group-hover:text-slate-950'
-                  }`}>
-                    {item.labelUr}
-                  </span>
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
-                    active ? `${item.activeBgClass}` : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
-                  }`}>
-                    <item.icon className="w-5 h-5 stroke-[2.2]" />
-                  </div>
+              <div className="flex items-center gap-3 w-full justify-start" dir="ltr">
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
+                  active ? `${item.activeBgClass}` : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
+                }`}>
+                  <item.icon className="w-5 h-5 stroke-[2.2]" />
                 </div>
-              ) : (
-                // ENGLISH: Icon FIRST (on left), Text Label SECOND (on right) -> 🏠 Home
-                <div className="flex items-center gap-3 w-full justify-start" dir="ltr">
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
-                    active ? `${item.activeBgClass}` : `${item.bgClass} group-hover:scale-105 group-hover:shadow-md`
-                  }`}>
-                    <item.icon className="w-5 h-5 stroke-[2.2]" />
-                  </div>
-                  <span className={`text-xs font-sans font-semibold transition-colors leading-tight text-left hidden lg:block ${
-                    active ? item.activeTextClass : 'text-slate-600 font-bold group-hover:text-slate-950'
-                  }`}>
-                    {item.labelEn}
-                  </span>
-                </div>
-              )}
+                <span className={`text-[13px] ${isUrdu ? "font-['Noto_Sans_Arabic']" : ''} font-bold transition-colors leading-tight text-left hidden lg:block ${
+                  active ? item.activeTextClass : 'text-slate-600 font-bold group-hover:text-slate-950'
+                }`}>
+                  {isUrdu ? item.labelUr : item.labelEn}
+                </span>
+              </div>
 
               {/* Badge */}
               {item.id === 'chat' ? (
@@ -1487,8 +1468,17 @@ export default function AppShell({
           dbGetAllStoryAds()
         ]);
 
-        let finalStories = fetchedStories.length > 0 ? [...fetchedStories] : [...stories];
+        // Active client-side expiration filter to prevent expired stories from lingering in UI
+        const nowIso = new Date().toISOString();
+        const validCachedStories = stories.filter((s: Story) => {
+          if (s.isArchived) return false;
+          // Preserve legacy records that might have no expiresAt, otherwise check expiration
+          if (!s.expiresAt) return true;
+          return s.expiresAt >= nowIso;
+        });
 
+        // Use newly fetched stories if available, otherwise fallback to the locally filtered cache
+        let finalStories = fetchedStories.length > 0 ? [...fetchedStories] : validCachedStories;
         if (fetchedAds && fetchedAds.length > 0) {
           const mappedAds = fetchedAds.filter((a: any) => a.active).map((a: any) => ({
             id: a.id,
@@ -1501,7 +1491,7 @@ export default function AppShell({
             isAd: true,
             ctaLink: a.cta_link,
             ctaType: a.cta_type || 'Website',
-            ctaValue: a.cta_value || a.cta_link || '',
+            ctaValue: a.cta_link || a.cta_value || '',
             ctaText: a.cta_text,
             duration: a.duration,
             createdAt: Date.now()
@@ -1512,7 +1502,7 @@ export default function AppShell({
         }
 
         if (fetchedStories.length === 0) {
-          for (const s of stories) {
+          for (const s of finalStories) {
             await dbSaveStory(s);
           }
         }
@@ -1699,7 +1689,13 @@ export default function AppShell({
 
   const groupedUserStories = React.useMemo(() => {
     const map = new Map<string, Story[]>();
+    const nowIso = new Date().toISOString();
+    
     stories.forEach(story => {
+      // Active UI filter for expiration
+      if (story.isArchived) return;
+      if (story.expiresAt && story.expiresAt < nowIso) return;
+      
       if (!map.has(story.userId)) map.set(story.userId, []);
       map.get(story.userId)!.push(story);
     });
@@ -4078,7 +4074,7 @@ export default function AppShell({
           
           {/* Welcome/Banner component visible at top of Feed */}
           {activeTab === 'feed' && !quickAction && (
-              <div className="bg-[#488e63] bg-gradient-to-b from-[#3d855a] to-[#26623e] -mx-4 sm:-mx-6 -mt-6 mb-6 px-6 pt-10 pb-12 text-white relative rounded-b-[40px] shadow-md z-10 flex flex-col justify-center items-center font-['Noto_Sans_Arabic']" dir="rtl">
+              <div className="bg-[#488e63] bg-gradient-to-b from-[#3d855a] to-[#26623e] -mx-4 sm:-mx-6 -mt-6 mb-6 px-6 pt-10 pb-12 text-white relative rounded-b-[40px] shadow-md z-10 flex flex-col justify-center items-center font-['Noto_Sans_Arabic']" dir="ltr">
                 <div className="absolute inset-0 opacity-15 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] pointer-events-none rounded-b-[40px]"></div>
                 
                 <div className="relative z-10 text-center space-y-2 mt-4">

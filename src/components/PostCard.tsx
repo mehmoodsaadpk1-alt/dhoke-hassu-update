@@ -253,7 +253,7 @@ const PostCardComponent = ({
 
             {/* Leave Confirmation Modal */}
             {showLeaveConfirm && (
-              <div className="absolute end-4 top-14 bg-white rounded-xl shadow-lg border border-slate-100 p-4 z-10 w-64 animate-in fade-in zoom-in-95" dir={isEn ? 'ltr' : 'rtl'}>
+              <div className="absolute end-4 top-14 bg-white rounded-xl shadow-lg border border-slate-100 p-4 z-10 w-64 animate-in fade-in zoom-in-95" dir="ltr">
                 <h4 className="font-bold text-slate-900 mb-1">{isEn ? 'Leave Group?' : 'گروپ چھوڑیں؟'}</h4>
                 <p className="text-xs text-slate-500 mb-4">{isEn ? 'Are you sure you want to leave this group?' : 'کیا آپ واقعی اس گروپ کو چھوڑنا چاہتے ہیں؟'}</p>
                 <div className="flex items-center justify-end gap-2">
@@ -298,7 +298,7 @@ const PostCardComponent = ({
           </div>
         </div>
 
-        <div className={`px-4 pb-4 pt-1 font-['Noto_Sans_Arabic'] ${isEn ? 'text-left' : 'text-right'}`} dir={isEn ? 'ltr' : 'rtl'}>
+        <div className="px-4 pb-4 pt-1 font-['Noto_Sans_Arabic'] text-left" dir="ltr">
           {title && <h3 className="font-bold text-slate-900 text-lg mb-2">{title}</h3>}
           {content && <RichText text={content} className="text-[15px] font-medium text-slate-800 mb-2 leading-relaxed whitespace-pre-wrap" />}
         </div>
@@ -424,7 +424,7 @@ const PostCardComponent = ({
                             <span className="text-[11px] text-slate-400 font-medium">{comment.time}</span>
                           </div>
 
-                          <RichText content={comment.content} className={`text-xs text-slate-700 leading-relaxed font-normal block ${isEn ? 'text-left' : 'text-right'}`} />
+                          <RichText content={comment.content} className={`text-xs text-slate-700 leading-relaxed font-normal block text-left`} />
 
                           {/* Comment Actions (Like & Reply) */}
                           <div className="flex items-center gap-3 pt-1 text-[11px] font-bold text-slate-500 justify-start">
@@ -499,7 +499,7 @@ const PostCardComponent = ({
                   </div>
                 )}
 
-                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2" dir={isEn ? 'ltr' : 'rtl'}>
+                <div className="flex gap-2.5 items-end pt-2 border-t border-slate-100 mt-2" dir="ltr">
                   <div className="w-[34px] h-[34px] rounded-full bg-slate-200 overflow-hidden shrink-0 mt-0.5 border border-slate-100 shadow-sm">
                     <img 
                       src={currentUserData?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData?.name || 'User')}&background=random`} 

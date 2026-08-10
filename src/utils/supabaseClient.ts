@@ -350,10 +350,27 @@ export async function dbGetStories(currentUserId: string, fallback: Story[] = []
       const author = profile.full_name ?? s.author_profile?.full_name ?? s.author ?? 'User';
       const avatar = profile.profile_photo ?? s.author_profile?.profile_photo ?? s.avatar ?? '';
       
-      const type = s.media_type || s.type || 'photo';
-      let videoUrl = s.video_url || s.videoUrl || (type === 'video' ? (s.image || '') : '');
-      if (videoUrl && !videoUrl.startsWith('http')) {
+      let type = s.media_type || s.type || 'photo';
+      if (type === 'image') type = 'photo';
+
+      let imageUrl = s.image;
+      if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('content') && !imageUrl.startsWith('#')) {
+        imageUrl = supabase!.storage.from('posts').getPublicUrl(imageUrl).data.publicUrl;
+      }
+
+      let videoUrl = s.video_url || s.videoUrl || (type === 'video' ? (imageUrl || '') : '');
+      if (videoUrl && !videoUrl.startsWith('http') && !videoUrl.startsWith('content')) {
         videoUrl = supabase!.storage.from('posts').getPublicUrl(videoUrl).data.publicUrl;
+      }
+      
+      let mediaUrls = s.media_urls || s.mediaUrls;
+      if (Array.isArray(mediaUrls)) {
+        mediaUrls = mediaUrls.map((url: string) => {
+          if (url && !url.startsWith('http') && !url.startsWith('content') && !url.startsWith('#')) {
+            return supabase!.storage.from('posts').getPublicUrl(url).data.publicUrl;
+          }
+          return url;
+        });
       }
 
       return {
@@ -365,12 +382,12 @@ export async function dbGetStories(currentUserId: string, fallback: Story[] = []
         time: new Date(s.createdAt || s.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         viewed: false, 
         type: type,
-        image: s.image,
+        image: imageUrl,
         text: s.text,
         bgColor: s.bgColor || s.bg_color,
         createdAt: s.createdAt || s.created_at,
         userId: userId,
-        mediaUrls: s.media_urls || s.mediaUrls,
+        mediaUrls: mediaUrls,
         bgMusicUrl: s.bg_music_url,
         musicVolume: s.music_volume,
         privacy: s.privacy,
@@ -415,10 +432,27 @@ export async function dbGetArchivedStories(userId: string): Promise<Story[]> {
       const author = profile.full_name ?? s.author_profile?.full_name ?? s.author ?? 'User';
       const avatar = profile.profile_photo ?? s.author_profile?.profile_photo ?? s.avatar ?? '';
       
-      const type = s.media_type || s.type || 'photo';
-      let videoUrl = s.video_url || s.videoUrl || (type === 'video' ? (s.image || '') : '');
-      if (videoUrl && !videoUrl.startsWith('http')) {
+      let type = s.media_type || s.type || 'photo';
+      if (type === 'image') type = 'photo';
+
+      let imageUrl = s.image;
+      if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('content') && !imageUrl.startsWith('#')) {
+        imageUrl = supabase!.storage.from('posts').getPublicUrl(imageUrl).data.publicUrl;
+      }
+
+      let videoUrl = s.video_url || s.videoUrl || (type === 'video' ? (imageUrl || '') : '');
+      if (videoUrl && !videoUrl.startsWith('http') && !videoUrl.startsWith('content')) {
         videoUrl = supabase!.storage.from('posts').getPublicUrl(videoUrl).data.publicUrl;
+      }
+      
+      let mediaUrls = s.media_urls || s.mediaUrls;
+      if (Array.isArray(mediaUrls)) {
+        mediaUrls = mediaUrls.map((url: string) => {
+          if (url && !url.startsWith('http') && !url.startsWith('content') && !url.startsWith('#')) {
+            return supabase!.storage.from('posts').getPublicUrl(url).data.publicUrl;
+          }
+          return url;
+        });
       }
 
       return {
@@ -430,12 +464,12 @@ export async function dbGetArchivedStories(userId: string): Promise<Story[]> {
         time: new Date(s.createdAt || s.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         viewed: false,
         type: type,
-        image: s.image,
+        image: imageUrl,
         text: s.text,
         bgColor: s.bgColor || s.bg_color,
         createdAt: s.createdAt || s.created_at,
         userId: userId,
-        mediaUrls: s.media_urls || s.mediaUrls,
+        mediaUrls: mediaUrls,
         bgMusicUrl: s.bg_music_url,
         musicVolume: s.music_volume,
         privacy: s.privacy,
@@ -546,33 +580,40 @@ export async function dbArchiveStory(storyId: string): Promise<boolean> {
 export async function dbLogStoryView(storyId: string, viewerId: string): Promise<void> {
   const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str));
   console.log("[DB] dbLogStoryView called with:", { storyId, viewerId });
-  if (!isUUID(storyId)) {
-    console.warn("[DB] dbLogStoryView skipped due to non-UUID:", storyId);
-    return;
-  }
+
   try {
-    const { error, data } = await supabase!.from('story_views').insert({ story_id: storyId, viewer_id: viewerId });
-    if (error) {
-      console.error("[DB] dbLogStoryView INSERT ERROR:", error);
-    } else {
-      console.log("[DB] dbLogStoryView INSERT SUCCESS:", data);
-      // Fetch story to notify owner
-      const { data: story } = await supabase!.from('stories').select('user_id').eq('id', storyId).single();
-      if (story && story.user_id !== viewerId) {
-        // Fetch viewer info
-        const { data: viewer } = await supabase!.from('profiles').select('full_name').eq('id', viewerId).single();
-        if (viewer) {
-          await dbTriggerNotification(
-            story.user_id,
-            viewerId,
-            'story_view',
-            'New Story View',
-            `${viewer.full_name} viewed your story`,
-            'story',
-            storyId
-          );
+    // 1. Always increment the global counter (supports both old text IDs and new UUID story IDs)
+    await supabase!.rpc('increment_story_views', { p_story_id: storyId });
+
+    // 2. Only insert into story_views if the storyId is a valid UUID, to avoid 22P02 database type errors
+    if (isUUID(storyId)) {
+      const { error, data } = await supabase!.from('story_views').insert({ story_id: storyId, viewer_id: viewerId });
+      if (error) {
+        if (error.code !== '23505') { // Ignore unique violation on duplicate view
+          console.error("[DB] dbLogStoryView INSERT ERROR:", error);
+        }
+      } else {
+        console.log("[DB] dbLogStoryView INSERT SUCCESS:", data);
+        // Fetch story to notify owner
+        const { data: story } = await supabase!.from('stories').select('user_id').eq('id', storyId).single();
+        if (story && story.user_id !== viewerId) {
+          // Fetch viewer info
+          const { data: viewer } = await supabase!.from('profiles').select('full_name').eq('id', viewerId).single();
+          if (viewer) {
+            await dbTriggerNotification(
+              story.user_id,
+              viewerId,
+              'story_view',
+              'New Story View',
+              `${viewer.full_name} viewed your story`,
+              'story',
+              storyId
+            );
+          }
         }
       }
+    } else {
+      console.warn("[DB] dbLogStoryView skipped story_views insert due to non-UUID:", storyId);
     }
   } catch (e) {
     console.error("[DB] dbLogStoryView EXCEPTION:", e);

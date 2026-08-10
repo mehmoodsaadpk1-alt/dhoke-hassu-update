@@ -36,6 +36,8 @@ import { BusinessItem, Language, AdItem, User } from '../types';
 import { dbGetActiveAds, dbUploadServiceImage } from '../utils/supabaseClient';
 import AdBannerCard from './AdBannerCard';
 import { useAdRotator } from '../hooks/useAdRotator';
+import { getAreaColor, getAreas } from '../utils/locationData';
+import { useAdmin } from '../contexts/AdminContext';
 import { getCurrentUserLocation } from '../utils/locationService';
 import { isEntityVerified } from '../utils/verification';
 
@@ -108,6 +110,8 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
   
   // Image zoom modal
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+
+  const { isAdmin: isContextAdmin } = useAdmin();
 
   // Form states for registering business
   const [formName, setFormName] = useState('');
@@ -429,7 +433,7 @@ const businessBannerMap = useAdRotator('Businesses', 1, 1, 'Banner');
                     (currentUser as any)?.role?.toLowerCase().includes('moderator') || 
                     currentUser?.fullName?.toLowerCase().includes('admin') || 
                     currentUser?.fullName?.toLowerCase().includes('moderator') || 
-                    sessionStorage.getItem('admin_authenticated') === 'true';
+                    isContextAdmin;
     const isOwner = currentUser && (bus.ownerName === currentUser.fullName || bus.contact === currentUser.mobileNumber);
     if (!isAdmin && !isOwner && bus.status === 'Pending') return false;
     if (!isAdmin && !isOwner && bus.status === 'Rejected') return false;
