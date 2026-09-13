@@ -543,7 +543,7 @@ const PostCardComponent = ({
           )}
         </div>
         
-        {post.postType === 'share' && post.sharedOriginalEntity && (
+        {post.postType === 'share' && (
           <div className="mx-4 mb-3 border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 relative cursor-pointer hover:border-blue-300 transition-colors">
             {renderSharedEntity()}
           </div>

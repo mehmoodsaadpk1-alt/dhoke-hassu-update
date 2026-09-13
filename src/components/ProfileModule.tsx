@@ -357,39 +357,51 @@ export default function ProfileModule({
 
         ctx.drawImage(img, dx, dy, dWidth, dHeight);
 
-        const croppedUrl = canvas.toDataURL('image/jpeg', 0.9);
-        
-        try {
-          const { dbUploadAvatar, dbSaveUserProfile } = await import('../utils/supabaseClient');
-          // Upload the base64 to Supabase Storage and get a public URL
-          const uploadedUrl = await dbUploadAvatar(profileData.id, croppedUrl);
-          
-          if (uploadedUrl) {
-            const updatedUser = { ...profileData, profilePhoto: uploadedUrl };
-            
-            // Immediately save to Database
-            await dbSaveUserProfile(updatedUser);
-            
-            // Update local AppShell and Global App.tsx state so all avatars immediately refresh!
-            setProfileData(updatedUser);
-            onUpdateUser(updatedUser);
-
-            if (activeSubView === 'edit') {
-              setEditAvatar(uploadedUrl);
-            }
-            
-            alert(currentLanguage === 'en' ? 'Profile picture updated!' : 'پروفائل تصویر اپڈیٹ ہو گئی!');
-          } else {
-            alert(currentLanguage === 'en' ? 'Failed to upload image' : 'تصویر اپلوڈ نہیں ہو سکی');
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            alert(currentLanguage === 'en' ? 'Failed to process image' : 'تصویر پروسیس کرنے میں ناکامی');
+            return;
           }
-        } catch (e) {
-          console.error("Failed to upload avatar", e);
-          alert("Error uploading avatar");
-        }
+          
+          try {
+            const { dbSaveUserProfile } = await import('../utils/supabaseClient');
+            const { uploadToB2, deleteFromB2 } = await import('../utils/b2Storage');
+            
+            // Delete old avatar if it's in B2
+            if (profileData.profilePhoto) {
+              await deleteFromB2(profileData.profilePhoto);
+            }
 
-        // Reset
-        setSelectedImage(null);
-        setShowAvatarModal(false);
+            // Upload the blob to B2 Edge Function
+            const uploadedUrl = await uploadToB2(blob, `profiles/${profileData.id}/avatar`);
+            
+            if (uploadedUrl) {
+              const updatedUser = { ...profileData, profilePhoto: uploadedUrl };
+              
+              // Immediately save to Database
+              await dbSaveUserProfile(updatedUser);
+              
+              // Update local AppShell and Global App.tsx state so all avatars immediately refresh!
+              setProfileData(updatedUser);
+              onUpdateUser(updatedUser);
+
+              if (activeSubView === 'edit') {
+                setEditAvatar(uploadedUrl);
+              }
+              
+              alert(currentLanguage === 'en' ? 'Profile picture updated!' : 'پروفائل تصویر اپڈیٹ ہو گئی!');
+            } else {
+              alert(currentLanguage === 'en' ? 'Failed to upload image' : 'تصویر اپلوڈ نہیں ہو سکی');
+            }
+          } catch (e) {
+            console.error("Failed to upload avatar", e);
+            alert("Error uploading avatar");
+          }
+
+          // Reset
+          setSelectedImage(null);
+          setShowAvatarModal(false);
+        }, 'image/jpeg', 0.9);
       };
       img.src = selectedImage;
     }
@@ -595,8 +607,15 @@ export default function ProfileModule({
 
     setUploadingCover(true);
     try {
-      const { dbUploadPostImage } = await import('../utils/supabaseClient');
-      const uploadedUrl = await dbUploadPostImage(file);
+      const { uploadToB2, deleteFromB2 } = await import('../utils/b2Storage');
+      
+      // Delete old cover if it's in B2
+      if (profileData.coverPhoto) {
+        await deleteFromB2(profileData.coverPhoto);
+      }
+
+      const uploadedUrl = await uploadToB2(file, `profiles/${profileData.id}/cover`);
+      
       if (uploadedUrl) {
         setEditCover(uploadedUrl);
         alert(currentLanguage === 'en' ? 'Cover uploaded successfully!' : 'کور کامیابی سے اپ لوڈ ہو گیا!');

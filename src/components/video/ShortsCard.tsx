@@ -5,7 +5,7 @@ import { VideoPlayer } from './VideoPlayer';
 import { useVideoPreload } from '../../hooks/useVideoPreload';
 import { CheckCircle2, Music, Hash, Eye, MoreVertical } from 'lucide-react';
 import { analytics } from '../../services/AnalyticsService';
-import { getOptimizedVideoUrl } from '../../utils/cloudinary';
+import { supabase } from '../../utils/supabaseClient';
 
 const viewedVideosInSession = new Set<string>();
 
@@ -52,7 +52,7 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
   const [showOptions, setShowOptions] = useState(false);
 
   // We optimize the video url here so the preloader fetches exactly what the player uses
-  const optimizedUrl = React.useMemo(() => getOptimizedVideoUrl(video.video_url), [video.video_url]);
+  const optimizedUrl = React.useMemo(() => video.video_url, [video.video_url]);
   
   const { shouldMountVideo, preloadType } = useVideoPreload(optimizedUrl, index, activeIndex);
 
@@ -153,37 +153,11 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
         
         {/* Left Info Section */}
         <div className="absolute bottom-12 left-4 right-16 text-white pointer-events-auto flex flex-col items-start text-left" dir="ltr">
-          {/* Caption */}
-          <div className="mb-1">
-            <h2 className="text-xl font-bold drop-shadow-md leading-tight">
-              {caption}
-            </h2>
-          </div>
-          
-          {/* Username */}
-          <div 
-            className="flex items-center space-x-1 cursor-pointer hover:underline"
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              if ((window as any).openUserProfile) {
-                (window as any).openUserProfile(video.profiles?.full_name || 'Creator', video.profiles?.profile_photo, video.user_id);
-              }
-            }}
-          >
-            <span className="text-sm font-medium drop-shadow-md">
-              {video.profiles?.full_name || 'Creator'}
-            </span>
-            {video.profiles?.is_verified && <CheckCircle2 size={12} className="text-blue-400 fill-current" />}
-          </div>
-        </div>
-
-        {/* Right Actions Section */}
-        <div className="absolute bottom-12 right-4 pointer-events-auto flex flex-col items-center space-y-4" dir="ltr">
-          
-          {/* Avatar and Follow Button */}
-          <div className="relative mb-2 flex flex-col items-center">
+          {/* Creator Info Header (Avatar + Name + Follow) */}
+          <div className="flex items-center space-x-2 mb-2">
+            {/* Avatar */}
             <div 
-              className="w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-gray-800 cursor-pointer shadow-lg"
+              className="w-9 h-9 rounded-full overflow-hidden bg-gray-800 flex-shrink-0 border border-white/20 shadow-md cursor-pointer"
               onClick={(e) => { 
                 e.stopPropagation(); 
                 if ((window as any).openUserProfile) {
@@ -194,22 +168,53 @@ export const ShortsCard: React.FC<ShortsCardProps> = React.memo(({
               {video.profiles?.profile_photo ? (
                 <img src={video.profiles.profile_photo} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center font-bold text-lg text-white">
+                <div className="w-full h-full flex items-center justify-center font-bold text-sm text-white">
                   {video.profiles?.full_name?.charAt(0) || 'U'}
                 </div>
               )}
             </div>
+
+            {/* Username and Badge */}
+            <div 
+              className="flex items-center space-x-1 cursor-pointer hover:underline"
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                if ((window as any).openUserProfile) {
+                  (window as any).openUserProfile(video.profiles?.full_name || 'Creator', video.profiles?.profile_photo, video.user_id);
+                }
+              }}
+            >
+              <span className="text-[15px] font-semibold drop-shadow-md">
+                {video.profiles?.full_name || 'Creator'}
+              </span>
+              {video.profiles?.is_verified && <CheckCircle2 size={12} className="text-blue-400 fill-current" />}
+            </div>
+
+            {/* Follow Button */}
             {currentUserId !== video.user_id && followStatus !== 'blocked' && followStatus === 'none' && (
-              <button 
-                onClick={handleFollowToggle}
-                disabled={isFollowLoading}
-                className="absolute -bottom-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-md z-10 hover:bg-red-700 transition-colors"
-                style={{ transform: 'translateY(2px)' }}
-              >
-                {isFollowLoading ? '...' : 'فالو'}
-              </button>
+              <>
+                <span className="text-white/70 text-xs px-1">•</span>
+                <button 
+                  onClick={handleFollowToggle}
+                  disabled={isFollowLoading}
+                  className="bg-transparent text-white border border-white/80 px-2.5 py-0.5 rounded-full text-xs font-semibold hover:bg-white/20 transition-colors shadow-sm"
+                >
+                  {isFollowLoading ? '...' : 'Follow'}
+                </button>
+              </>
             )}
           </div>
+
+          {/* Caption */}
+          <div>
+            <h2 className="text-[15px] drop-shadow-md leading-snug font-normal text-white/95 line-clamp-3">
+              {caption}
+            </h2>
+          </div>
+        </div>
+
+        {/* Right Actions Section */}
+        <div className="absolute bottom-12 right-4 pointer-events-auto flex flex-col items-center space-y-4" dir="ltr">
 
           <ShortsActions
             videoId={video.id}

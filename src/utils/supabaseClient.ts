@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import { uploadImage, uploadVideo } from './cloudinary';
+import { uploadToB2, deleteFromB2 } from './b2Storage';
 import { 
   User, Story, Post, Comment, JobItem, JobApplication, 
   PropertyItem, BuySellItem, BusinessItem, ServiceItem, 
@@ -16,6 +16,17 @@ import {
   AdItem, Poll, PollOption, PollVote, PollComment, PollCommentLike,
   PollCommentReport, PollView, PollShare, Group
 } from '../types';
+
+export async function uploadImage(file: File | Blob): Promise<string | null> {
+  const path = `media/${Date.now()}-${(file as File).name || 'image.jpg'}`;
+  return uploadToB2(file, path);
+}
+
+export async function uploadVideo(file: File | Blob): Promise<string | null> {
+  const path = `media/${Date.now()}-${(file as File).name || 'video.mp4'}`;
+  return uploadToB2(file, path);
+}
+
 import type { Notification } from '../types';
 
 // Read Supabase configuration from environment variables
@@ -915,6 +926,16 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
       return fallback;
     }
 
+    // Shuffle the fetched posts randomly for Community Feed
+    if (data && data.length > 0) {
+      const shuffled = [...data];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      data = shuffled;
+    }
+
     // Fetch profiles manually to avoid PGRST200
     const userIds = Array.from(new Set(data.map((p: any) => p.user_id).filter(Boolean)));
     let profilesData: any[] = [];
@@ -960,11 +981,20 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
       if (!tableName) return;
       
       try {
+        // Filter valid UUIDs to prevent PostgreSQL syntax errors breaking the whole batch
+        const validIds = ids.filter(id => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id));
+        if (!validIds.length) return;
+        
         // Fetch raw entity data first without relations to avoid PGRST200 errors
-        const { data: entityData } = await supabase
+        const { data: entityData, error: fetchErr } = await supabase
           .from(tableName)
           .select('*')
-          .in('id', ids);
+          .in('id', validIds);
+          
+        if (fetchErr) {
+          console.error(`[dbGetPosts] Error fetching shared entities for ${tableName}:`, fetchErr);
+        }
+        
         if (entityData) {
           entityData.forEach(e => {
             console.log(`[RUNTIME VERIFICATION] Loaded Shared Entity:`, { type, id: e.id, data: e });
@@ -979,8 +1009,30 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
             sharedEntitiesData[`${type}_${e.id}`] = e;
           });
         }
-      } catch(e) {}
+      } catch(e) {
+        console.error(`[dbGetPosts] Exception fetching shared entities for ${tableName}:`, e);
+      }
     }));
+
+    // Fetch missing profiles for shared entities so we can display their real author names
+    const extraUserIds = new Set<string>();
+    Object.values(sharedEntitiesData).forEach(e => {
+      const uid = e.user_id || e.author_id;
+      if (uid && !profilesMap.has(uid)) {
+        extraUserIds.add(uid);
+      }
+    });
+
+    if (extraUserIds.size > 0) {
+      try {
+        const { data: extraProfiles } = await supabase.from('profiles').select('*').in('user_id', Array.from(extraUserIds));
+        if (extraProfiles) {
+          extraProfiles.forEach(p => profilesMap.set(p.user_id, p));
+        }
+      } catch (e) {
+        console.error("Error fetching extra profiles for shared entities:", e);
+      }
+    }
     // -----------------------------
 
     return data.map((p: any) => {
@@ -1003,8 +1055,15 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
         const entity = sharedEntity;
         
         if (type === 'post' || type === 'poll' || type === 'alert' || type === 'share' || type === 'general') {
-          // Prefer the profile's full_name for the original author
-          const entProfile = Array.isArray(entity.profiles) ? entity.profiles[0] : (entity.profiles || entity.profiles_user_id);
+          // Look up profile in profilesMap to get the real author details
+          const uid = entity.user_id || entity.author_id;
+          const mapProfile = uid ? profilesMap.get(uid) : null;
+          const entProfile = mapProfile || (Array.isArray(entity.profiles) ? entity.profiles[0] : (entity.profiles || entity.profiles_user_id));
+          
+          if (mapProfile && !entity.profiles) {
+            entity.profiles = mapProfile;
+          }
+
           title = entProfile?.full_name ?? entity.author ?? 'User';
           subtitle = entity.time || (entity.created_at ? new Date(entity.created_at).toLocaleDateString() : '');
           content = entity.content || entity.text_content || '';
@@ -1318,7 +1377,7 @@ export async function dbUploadVoiceMessage(
   audioBlob: Blob
 ): Promise<string | null> {
   try {
-    return await uploadVideo(audioBlob); // Cloudinary uses video for audio
+    return await uploadVideo(audioBlob);
   } catch (err) {
     console.error("[CHAT ERROR] Exception in dbUploadVoiceMessage:", err);
     return null;
@@ -3077,7 +3136,7 @@ INSERT INTO storage.buckets (id, name, public) VALUES ('poll_covers', 'poll_cove
   }
 }
 
-// Upload poll cover to Cloudinary
+// Upload poll cover to B2
 export async function dbUploadPollCover(file: File, filename: string): Promise<string | null> {
   // Validate file type
   const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
@@ -4668,7 +4727,7 @@ export async function dbUploadAdBanner(file: File, filename: string): Promise<st
     const url = await uploadImage(file);
     if (url) return url;
   } catch (err) {
-    console.warn("Exception during Cloudinary upload, falling back to base64 encoding:", err);
+    console.warn("Exception during B2 upload, falling back to base64 encoding:", err);
   }
 
   // Local fallback: convert to base64 DataURL

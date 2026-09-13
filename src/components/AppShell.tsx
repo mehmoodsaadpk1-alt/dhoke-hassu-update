@@ -154,7 +154,6 @@ import {
   dbGetPostLikeCounts,
   dbGetTotalUnreadMessages
 } from '../utils/supabaseClient';
-import { getOptimizedVideoUrl } from '../utils/cloudinary';
 import { videoProcessingService } from '../services/VideoProcessingService';
 import { detectBrowserLocation, findNearestArea, STATIC_AREAS } from '../utils/locationService';
 import AdBannerCard from './AdBannerCard';
@@ -2080,7 +2079,9 @@ export default function AppShell({
    */
   const handleLikePost = async (postId: string) => {
     const currentlyLiked = !!likedPosts[postId];
-    const currentCount = postLikes[postId] ?? 0;
+    const targetPost = posts.find(p => p.id === postId);
+    const initialCount = targetPost?.likes || 0;
+    const currentCount = postLikes[postId] ?? initialCount;
 
     // Optimistic update — instant UI response
     setLikedPosts(prev => ({ ...prev, [postId]: !currentlyLiked }));
@@ -2193,7 +2194,7 @@ export default function AppShell({
       avatar: profileData.profilePhoto,
       content: text,
       time: 'Just now',
-      userId: profileData.userId,
+      userId: profileData?.user_id || profileData?.id || 'anonymous',
       parentId: parentId || null,
       likesCount: 0,
       likedBy: []
@@ -2228,8 +2229,9 @@ export default function AppShell({
   };
 
   const handleCommentLikeToggle = async (postId: string, commentId: string) => {
-    if (!profileData.userId) return;
-    const currentUserId = profileData.userId;
+    const targetUserId = profileData?.user_id || profileData?.id;
+    if (!targetUserId) return;
+    const currentUserId = targetUserId;
 
     // Optimistic UI update
     setPosts(prevPosts => prevPosts.map(post => {
@@ -3769,7 +3771,7 @@ export default function AppShell({
             ) : story.type === 'video' || story.videoUrl || story.video_url || (story.mediaUrls && story.mediaUrls[0]?.match(/\.(mp4|webm|mov)$/i)) ? (
               <div className="w-full h-full relative">
                 <video 
-                  src={getOptimizedVideoUrl(story.videoUrl || story.video_url || story.mediaUrls?.[0] || story.image)} 
+                  src={story.videoUrl || story.video_url || story.mediaUrls?.[0] || story.image} 
                   autoPlay
                   playsInline
                   loop

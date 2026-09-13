@@ -5,7 +5,7 @@ import {
   dbDeleteStoryPermanent, 
   dbDeleteHighlight 
 } from '../utils/supabaseClient';
-import { deleteMedia } from '../utils/cloudinary';
+import { deleteFromB2 } from '../utils/b2Storage';
 import { 
   Eye, RefreshCw, Trash2, Calendar, LayoutGrid, Search, 
   Filter, ChevronLeft, ChevronRight, PlayCircle, Image as ImageIcon,
@@ -112,13 +112,9 @@ export default function AdminStoriesView({ currentLanguage }: AdminStoriesViewPr
     // 1. Delete from Supabase
     const success = await dbDeleteStoryPermanent(story.id);
     
-    // 2. Delete from Cloudinary if media exists
+    // 2. Delete from B2 if media exists
     if (success && story.image) {
-      const publicId = extractPublicId(story.image);
-      const isVideo = story.type === 'video' || story.image.includes('/video/upload/');
-      if (publicId) {
-        await deleteMedia(publicId, isVideo ? 'video' : 'image');
-      }
+      await deleteFromB2(story.image);
     }
 
     // 3. Update UI

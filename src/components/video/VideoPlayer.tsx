@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, PictureInPicture, Heart, AlertCircle, RefreshCw } from 'lucide-react';
 import { videoAnalyticsService } from '../../services/VideoAnalyticsService';
-import { getOptimizedVideoUrl } from '../../utils/cloudinary';
 import { videoCacheService } from '../../services/VideoCacheService';
 import { analytics } from '../../services/AnalyticsService';
 
@@ -67,7 +66,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = React.memo(({
   const [showControls, setShowControls] = useState(true);
   
   const [hasError, setHasError] = useState(false);
-  const optimizedInitialSrc = useMemo(() => getOptimizedVideoUrl(src), [src]);
+  const optimizedInitialSrc = useMemo(() => src, [src]);
   const [cachedUrl, setCachedUrl] = useState<string>(optimizedInitialSrc);
   const [activeSrc, setActiveSrc] = useState<string>('');
   const [visibilityRatio, setVisibilityRatio] = useState(0);

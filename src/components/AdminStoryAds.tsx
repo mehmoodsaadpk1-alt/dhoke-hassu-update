@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { dbGetAllStoryAds, dbSaveStoryAd, dbDeleteStoryAd, dbUploadAdBanner } from '../utils/supabaseClient';
 import { supabase } from '../utils/supabaseClient';
-import { getOptimizedVideoUrl } from '../utils/cloudinary';
 import { Plus, Edit2, Trash2, Pause, Play, BarChart2, Eye, MousePointerClick, FastForward, XCircle, Upload } from 'lucide-react';
 
 interface AdminStoryAdsProps {
@@ -176,7 +175,7 @@ export default function AdminStoryAds({ currentLanguage }: AdminStoryAdsProps) {
             <div key={ad.id} className="bg-white border border-slate-200 rounded-3xl p-5 flex gap-5 shadow-sm">
               <div className="w-24 h-40 shrink-0 bg-slate-900 rounded-2xl overflow-hidden relative shadow-inner border border-slate-100">
                 {ad.media_type === 'video' ? (
-                  <video src={getOptimizedVideoUrl(ad.media_url)} className="w-full h-full object-cover opacity-80" />
+                  <video src={ad.media_url} className="w-full h-full object-cover opacity-80" />
                 ) : (
                   <img src={ad.media_url} className="w-full h-full object-cover opacity-80" />
                 )}

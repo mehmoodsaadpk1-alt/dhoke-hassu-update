@@ -24,7 +24,8 @@ import {
   UploadCloud, 
   X, 
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  MessageSquare
 } from 'lucide-react';
 import { JobItem, JobApplication, Language, AdItem } from '../types';
 import { dbGetActiveAds } from '../utils/supabaseClient';
@@ -35,6 +36,17 @@ import { getCurrentUserLocation } from '../utils/locationService';
 import { analytics } from '../services/AnalyticsService';
 
 const viewedJobs = new Set<string>();
+
+const normalizeWhatsAppNumber = (phone: string): string => {
+  if (!phone) return '';
+  let cleaned = phone.replace(/[\s\-\(\)]/g, '');
+  if (cleaned.startsWith('+92')) {
+    cleaned = cleaned.substring(1);
+  } else if (cleaned.startsWith('0')) {
+    cleaned = '92' + cleaned.substring(1);
+  }
+  return cleaned;
+};
 
 interface JobsModuleProps {
   jobs: JobItem[];
@@ -112,13 +124,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
   // ----------------- APPLY FORM MODAL STATES -----------------
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applyingJob, setApplyingJob] = useState<JobItem | null>(null);
-  const [applyFormName, setApplyFormName] = useState('');
-  const [applyFormContact, setApplyFormContact] = useState('');
-  const [applyFormMessage, setApplyFormMessage] = useState('');
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [applyErrors, setApplyErrors] = useState<Record<string, string>>({});
-  const [applySuccess, setApplySuccess] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
 
   // ----------------- TOAST/ALERT STATES -----------------
   const [shareToast, setShareToast] = useState<string | null>(null);
@@ -152,115 +158,11 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
   };
 
   const openApplyModal = (job: JobItem) => {
-    // Check duplicate first
-    const alreadyApplied = applications.some(app => app.jobId === job.id);
-    if (alreadyApplied) {
-      alert(isEn 
-        ? 'Duplicate Prevention: You have already applied to this job opportunity!' 
-        : 'رکورڈ کی حفاظت: آپ اس ملازمت کے لیے پہلے ہی درخواست جمع کرا چکے ہیں!'
-      );
-      return;
-    }
-
     setApplyingJob(job);
-    setApplyFormName('');
-    setApplyFormContact('');
-    setApplyFormMessage('');
-    setUploadedFileName(null);
-    setApplyErrors({});
-    setApplySuccess(false);
+    setShowPhone(false);
     setApplyModalOpen(true);
   };
 
-  // Drag & drop handlers
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      setUploadedFileName(file.name);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setUploadedFileName(e.target.files[0].name);
-    }
-  };
-
-  const submitApplication = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!applyingJob) return;
-
-    const newErrors: Record<string, string> = {};
-    if (!applyFormName?.trim()) {
-      newErrors.name = isEn ? 'Name is required' : 'نام درج کرنا لازمی ہے';
-    }
-    if (!applyFormContact?.trim()) {
-      newErrors.contact = isEn ? 'Contact number is required' : 'رابطہ نمبر درج کرنا لازمی ہے';
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setApplyErrors(newErrors);
-      return;
-    }
-
-    const newApplication: JobApplication = {
-      id: `app-${Date.now()}`,
-      jobId: applyingJob.id,
-      jobTitle: applyingJob.title,
-      company: applyingJob.company,
-      applicantName: applyFormName,
-      contactNumber: applyFormContact,
-      resumeName: uploadedFileName || undefined,
-      message: applyFormMessage || undefined,
-      appliedDate: new Date().toLocaleDateString(isEn ? 'en-US' : 'ur-PK', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }),
-      status: 'Applied'
-    };
-
-    setApplications([newApplication, ...applications]);
-    setApplySuccess(true);
-      
-    analytics.track("job_apply", { entity_type: 'job',
-      module: "jobs",
-      entity_id: applyingJob.id
-    });
-      
-    analytics.track("job_contact", { entity_type: 'job',
-      module: "jobs",
-      entity_id: applyingJob.id,
-      metadata: {
-        contact_type: 'chat'
-      }
-    });
-
-    setTimeout(() => {
-      setApplyModalOpen(false);
-      setApplySuccess(false);
-      
-      if ((window as any).openChat) {
-        const firstMsg = isEn
-          ? `Hi, I'm applying for the job "${applyingJob.title}" at "${applyingJob.company}".\n\nName: ${applyFormName}\nContact: ${applyFormContact}\nMessage: ${applyFormMessage || 'N/A'}`
-          : `السلام علیکم، میں "${applyingJob.company}" میں نوکری "${applyingJob.title}" کے لیے درخواست دے رہا ہوں۔\n\nنام: ${applyFormName}\nرابطہ: ${applyFormContact}\nتفصیل: ${applyFormMessage || 'لاگو نہیں'}`;
-        (window as any).openChat(applyingJob.contact || applyingJob.postedBy || 'employer', applyingJob.company, '', firstMsg);
-      } else if (onNavigateToApplications) {
-        onNavigateToApplications();
-      }
-    }, 2000);
-  };
 
   const handlePostJobSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1103,134 +1005,73 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-start">
-              {applySuccess ? (
-                <div className="p-8 text-center space-y-3" id="apply-success-box">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle className="w-8 h-8" />
-                  </div>
-                  <h4 className="text-base font-bold text-emerald-800">
-                    {isEn ? 'Application Submitted Successfully!' : 'درخواست کامیابی سے جمع ہو گئی ہے!'}
-                  </h4>
-                  <p className="text-xs text-emerald-600 leading-relaxed">
-                    {isEn 
-                      ? 'Your profile details have been securely logged. The employer has been notified!' 
-                      : 'آپ کی تفصیلات کامیابی سے درج کر لی گئی ہیں۔ آجر کو مطلع کر دیا گیا ہے!'}
-                  </p>
+            <div className="p-6 text-center space-y-6">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Phone className="w-8 h-8" />
+              </div>
+              
+              <div className="space-y-2">
+                <h4 className="text-xl font-black text-slate-900">
+                  {isEn ? 'Contact Employer Directly' : 'براہ راست رابطہ کریں'}
+                </h4>
+                <p className="text-sm text-slate-500">
+                  {isEn 
+                    ? 'Reach out to the job poster to apply for this position.' 
+                    : 'اس نوکری کے لیے آجر سے فون یا میسج پر رابطہ کریں۔'}
+                </p>
+              </div>
+
+              {applyingJob.contact ? (
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <a
+                    href={`tel:${applyingJob.contact}`}
+                    onClick={() => setShowPhone(true)}
+                    className="flex-1 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-xs transition-all flex items-center justify-center gap-2 no-underline"
+                  >
+                    <Phone className="w-5 h-5" />
+                    <span>{isEn ? 'Call' : 'کال کریں'}</span>
+                  </a>
+                  
+                  <a
+                    href={`https://wa.me/${normalizeWhatsAppNumber(applyingJob.contact)}?text=${encodeURIComponent(
+                      isEn 
+                        ? `Assalam o Alaikum, I am interested in your job post: ${applyingJob.title} on Dhoke Hassu Connect.`
+                        : `السلام علیکم، مجھے ڈھوک حسو کنیکٹ پر آپ کی نوکری "${applyingJob.title}" میں دلچسپی ہے۔`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setApplyModalOpen(false)}
+                    className="flex-1 py-3.5 px-4 bg-[#25d366] hover:bg-[#128c7e] text-white font-extrabold text-sm rounded-2xl shadow-xs transition-all flex items-center justify-center gap-2 no-underline cursor-pointer"
+                  >
+                    <MessageSquare className="w-5 h-5" />
+                    <span>{isEn ? 'WhatsApp' : 'واٹس ایپ'}</span>
+                  </a>
                 </div>
               ) : (
-                <form onSubmit={submitApplication} className="space-y-4" id="modal-apply-form">
-                  
-                  {/* Name field */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      {isEn ? 'Full Name' : 'درخواست دہندہ کا نام'} <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={applyFormName}
-                      onChange={(e) => setApplyFormName(e.target.value)}
-                      placeholder={isEn ? 'e.g., Muhammad Ali' : 'مثال کے طور پر: محمد علی'}
-                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.name ? 'border-red-400' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all`}
-                    />
-                    {applyErrors.name && <p className="text-[10px] text-red-500 font-bold">{applyErrors.name}</p>}
-                  </div>
-
-                  {/* Contact Number field */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      {isEn ? 'Contact Mobile Number' : 'رابطہ موبائل نمبر'} <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={applyFormContact}
-                      onChange={(e) => setApplyFormContact(e.target.value)}
-                      placeholder={isEn ? 'e.g., 0300-5551122' : 'مثال کے طور پر: 03005551122'}
-                      className={`w-full px-4 py-2.5 bg-slate-50 border ${applyErrors.contact ? 'border-red-400' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all`}
-                    />
-                    {applyErrors.contact && <p className="text-[10px] text-red-500 font-bold">{applyErrors.contact}</p>}
-                  </div>
-
-                  {/* Resume Upload field (Drag-and-Drop + Manual Click) */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      {isEn ? 'Upload Resume / CV (Optional)' : 'ملازمت کی درخواست / سی وی (اختیاری)'}
-                    </label>
-                    
-                    <div
-                      onDragOver={handleDragOver}
-                      onDragLeave={handleDragLeave}
-                      onDrop={handleDrop}
-                      className={`border-2 border-dashed rounded-2xl p-4 text-center transition-all cursor-pointer ${
-                        isDragging 
-                          ? 'border-emerald-500 bg-emerald-50/50' 
-                          : uploadedFileName 
-                          ? 'border-emerald-400 bg-emerald-50/20' 
-                          : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
-                      }`}
-                    >
-                      <input
-                        type="file"
-                        id="resume-file-picker"
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                      <label htmlFor="resume-file-picker" className="cursor-pointer block space-y-2">
-                        <UploadCloud className={`w-8 h-8 mx-auto ${uploadedFileName ? 'text-emerald-500' : 'text-slate-400'}`} />
-                        <div className="text-xs">
-                          {uploadedFileName ? (
-                            <span className="font-bold text-emerald-700 flex items-center justify-center gap-1.5">
-                              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                              {uploadedFileName}
-                            </span>
-                          ) : (
-                            <p className="text-slate-500">
-                              <span className="font-bold text-emerald-600">{isEn ? 'Click to upload' : 'بٹن دبائیں'}</span> {isEn ? 'or drag and drop your CV here' : 'یا اپنی سی وی کی فائل یہاں کھینچ کر لائیں'}
-                            </p>
-                          )}
-                        </div>
-                        <p className="text-[10px] text-slate-400">PDF, DOC, DOCX, PNG, JPG (Max 5MB)</p>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Short Message field */}
-                  <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      {isEn ? 'Short Message to Employer' : 'آجر کے نام مختصر پیغام'}
-                    </label>
-                    <textarea
-                      value={applyFormMessage}
-                      onChange={(e) => setApplyFormMessage(e.target.value)}
-                      placeholder={isEn ? 'Briefly mention why you are a good fit for this job...' : 'مختصر بیان کریں کہ آپ اس نوکری کے لیے کیوں موزوں ہیں...'}
-                      rows={3}
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-100/50 transition-all resize-none"
-                    />
-                  </div>
-
-                  {/* Submit and Cancel Buttons */}
-                  <div className="flex items-center gap-2 pt-3">
-                    <button
-                      type="submit"
-                      className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-xs cursor-pointer border-0"
-                      id="btn-submit-application"
-                    >
-                      {isEn ? 'Submit Application' : 'درخواست جمع کروائیں'}
-                    </button>
-                    
-                    <button
-                      type="button"
-                      onClick={() => setApplyModalOpen(false)}
-                      className="px-4 py-3 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-2xl text-xs font-bold cursor-pointer"
-                    >
-                      {isEn ? 'Cancel' : 'کینسل کریں'}
-                    </button>
-                  </div>
-                </form>
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl">
+                  <p className="text-sm font-bold text-amber-800">
+                    {isEn ? 'Contact number not available.' : 'رابطہ نمبر دستیاب نہیں ہے۔'}
+                  </p>
+                </div>
               )}
+              
+              {showPhone && applyingJob.contact && (
+                <div className="mt-2 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl animate-fade-in">
+                  <p className="text-[10px] text-emerald-600 font-extrabold uppercase tracking-wider mb-1">
+                    {isEn ? 'Employer Phone Number' : 'آجر کا فون نمبر'}
+                  </p>
+                  <p className="text-xl font-black text-emerald-900 tracking-wider">
+                    {applyingJob.contact}
+                  </p>
+                </div>
+              )}
+              
+              <button
+                onClick={() => setApplyModalOpen(false)}
+                className="w-full mt-4 py-3 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-2xl text-xs font-bold cursor-pointer transition-all bg-white"
+              >
+                {isEn ? 'Cancel' : 'کینسل کریں'}
+              </button>
             </div>
           </div>
         </div>

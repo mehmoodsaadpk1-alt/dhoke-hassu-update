@@ -1,5 +1,5 @@
 import { supabase } from '../utils/supabaseClient';
-import { uploadImage, uploadVideo as cloudinaryUploadVideo } from '../utils/cloudinary';
+import { uploadToB2, deleteFromB2 } from '../utils/b2Storage';
 
 /**
  * Storage Abstraction Layer for Video Files.
@@ -22,9 +22,12 @@ class VideoStorageProvider {
    */
   async uploadVideo(userId: string, file: File, onProgress?: (progress: number) => void): Promise<StorageUploadResult> {
     try {
-      const url = await cloudinaryUploadVideo(file, onProgress);
-      if (!url) throw new Error("Cloudinary upload failed");
+      const path = `watch/${userId}/video_${Date.now()}`;
+      if (onProgress) onProgress(10); // Simulated start progress
+      const url = await uploadToB2(file, path);
+      if (!url) throw new Error("B2 video upload failed");
       
+      if (onProgress) onProgress(100);
       return {
         path: url,
         url: url
@@ -39,9 +42,12 @@ class VideoStorageProvider {
    */
   async uploadThumbnail(userId: string, file: File, onProgress?: (progress: number) => void): Promise<StorageUploadResult> {
     try {
-      const url = await uploadImage(file, onProgress);
-      if (!url) throw new Error("Cloudinary upload failed");
+      const path = `watch/${userId}/thumb_${Date.now()}`;
+      if (onProgress) onProgress(10); // Simulated start progress
+      const url = await uploadToB2(file, path);
+      if (!url) throw new Error("B2 thumbnail upload failed");
       
+      if (onProgress) onProgress(100);
       return {
         path: url,
         url: url
@@ -55,15 +61,14 @@ class VideoStorageProvider {
    * Deletes a video file from storage
    */
   async deleteVideo(path: string): Promise<boolean> {
-    // Return true for Cloudinary, or implement deleteMedia(path)
-    return true;
+    return await deleteFromB2(path);
   }
 
   /**
    * Deletes a thumbnail file from storage
    */
   async deleteThumbnail(path: string): Promise<boolean> {
-    return true;
+    return await deleteFromB2(path);
   }
 
   /**
@@ -80,7 +85,7 @@ class VideoStorageProvider {
    * Required for rolling back uploads if database insert fails.
    */
   async deleteFile(path: string): Promise<void> {
-    // No-op for now. 
+    await deleteFromB2(path);
   }
 }
 
