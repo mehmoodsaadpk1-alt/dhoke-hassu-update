@@ -109,13 +109,7 @@ import {
 } from '../utils/supabaseClient';
 import {
   mockPosts,
-  mockJobs,
-  mockProperties,
-  mockBusinesses,
   mockServices,
-  mockAlerts,
-  mockEvents,
-  mockDeals,
   mockGroups
 } from '../mockData';
 import AdminCommunityFeed from './AdminCommunityFeed';
@@ -383,45 +377,45 @@ export default function AdminDashboard({ currentLanguage, onExitAdmin }: AdminDa
           servicesRes, propertiesRes, dealsRes, alertsRes, groupsRes, pagesRes,
           pollsRes, promosRes, verificationsRes, adsRes
         ] = await Promise.all([
-          dbGetPosts(mockPosts).catch(err => {
-            console.error("[AdminPanel debug] posts fetch crashed, using mockPosts", err);
-            return mockPosts;
+          dbGetPosts([]).catch(err => {
+            console.error("[AdminPanel debug] posts fetch crashed", err);
+            return [];
           }),
-          dbGetEvents(mockEvents).catch(err => {
-            console.error("[AdminPanel debug] events fetch crashed, using mockEvents", err);
-            return mockEvents;
+          dbGetEvents([]).catch(err => {
+            console.error("[AdminPanel debug] events fetch crashed, using empty array", err);
+            return [];
           }),
-          dbGetBusinesses(mockBusinesses).catch(err => {
-            console.error("[AdminPanel debug] businesses fetch crashed, using mockBusinesses", err);
-            return mockBusinesses;
+          dbGetBusinesses([]).catch(err => {
+            console.error("[AdminPanel debug] businesses fetch crashed, using empty array", err);
+            return [];
           }),
-          dbGetJobs(mockJobs).catch(err => {
-            console.error("[AdminPanel debug] jobs fetch crashed, using mockJobs", err);
-            return mockJobs;
+          dbGetJobs([]).catch(err => {
+            console.error("[AdminPanel debug] jobs fetch crashed", err);
+            return [];
           }),
           dbGetMarketplaceListings([]).catch(err => {
             console.error("[AdminPanel debug] marketplace fetch crashed", err);
             return [];
           }),
-          dbGetServices(mockServices).catch(err => {
-            console.error("[AdminPanel debug] services fetch crashed, using mockServices", err);
-            return mockServices;
+          dbGetServices([]).catch(err => {
+            console.error("[AdminPanel debug] services fetch crashed", err);
+            return [];
           }),
-          dbGetProperties(mockProperties).catch(err => {
-            console.error("[AdminPanel debug] properties fetch crashed, using mockProperties", err);
-            return mockProperties;
+          dbGetProperties([]).catch(err => {
+            console.error("[AdminPanel debug] properties fetch crashed, using empty array", err);
+            return [];
           }),
-          dbGetDeals(mockDeals).catch(err => {
-            console.error("[AdminPanel debug] deals fetch crashed, using mockDeals", err);
-            return mockDeals;
+          dbGetDeals([]).catch(err => {
+            console.error("[AdminPanel debug] deals fetch crashed, using empty array", err);
+            return [];
           }),
-          dbGetAlerts(mockAlerts).catch(err => {
-            console.error("[AdminPanel debug] alerts fetch crashed, using mockAlerts", err);
-            return mockAlerts;
+          dbGetAlerts([]).catch(err => {
+            console.error("[AdminPanel debug] alerts fetch crashed, using empty array", err);
+            return [];
           }),
-          dbGetGroups(mockGroups).catch(err => {
-            console.error("[AdminPanel debug] groups fetch crashed, using mockGroups", err);
-            return mockGroups;
+          dbGetGroups([]).catch(err => {
+            console.error("[AdminPanel debug] groups fetch crashed, using empty array", err);
+            return [];
           }),
           dbGetPages().catch(err => {
             console.error("[AdminPanel debug] pages fetch crashed", err);
@@ -3444,7 +3438,7 @@ CREATE POLICY "Allow anyone to manage ads" ON public.ads FOR ALL USING (true) WI
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-black text-slate-500 uppercase">Total Amount Charged (PKR) *</label>
+                    <label className="text-[10px] font-black text-slate-500 uppercase">Total Amount Charged (Rs.) *</label>
                     <input
                       type="number"
                       required

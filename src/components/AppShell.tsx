@@ -54,14 +54,8 @@ import { translations } from '../translations';
 import { 
   mockStories, 
   mockPosts, 
-  mockJobs, 
-  mockProperties, 
   mockBuySell, 
-  mockBusinesses,
   mockServices,
-  mockAlerts,
-  mockEvents,
-  mockDeals,
   mockGroups
 } from '../mockData';
 import PremiumAdPopup from './PremiumAdPopup';
@@ -754,16 +748,16 @@ export default function AppShell({
 
   const handleNavigateToModule = (module: string, itemId: string) => {
     if (module === 'business') {
-      setSelectedBusinessId(itemId || mockBusinesses[0]?.id || null);
+      setSelectedBusinessId(itemId || businesses[0]?.id || null);
       setCurrentPath(`/business/detail?businessId=${itemId}`);
     } else if (module === 'marketplace') {
-      setSelectedMarketplaceItemId(itemId || mockBuySell[0]?.id || null);
+      setSelectedMarketplaceItemId(itemId || null);
       setCurrentPath(`/marketplace/detail?id=${itemId}`);
     } else if (module === 'property') {
-      setSelectedPropertyId(itemId || mockProperties[0]?.id || null);
+      setSelectedPropertyId(itemId || properties[0]?.id || null);
       setCurrentPath(`/property/detail?propertyId=${itemId}`);
     } else if (module === 'jobs') {
-      setSelectedJobId(itemId || mockJobs[0]?.id || null);
+      setSelectedJobId(itemId || jobs[0]?.id || null);
       setCurrentPath(`/jobs/detail?id=${itemId}`);
     }
   };
@@ -1015,10 +1009,10 @@ export default function AppShell({
     return path;
   });
 
-  const [jobs, setJobs] = useState<JobItem[]>(mockJobs);
+  const [jobs, setJobs] = useState<JobItem[]>([]);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('id') || (mockJobs[0]?.id || null);
+    return params.get('id') || null;
   });
 
   const [businesses, setBusinesses] = useState<BusinessItem[]>([]);
@@ -1027,10 +1021,10 @@ export default function AppShell({
     return params.get('businessId') || null;
   });
 
-  const [properties, setProperties] = useState<PropertyItem[]>(mockProperties);
+  const [properties, setProperties] = useState<PropertyItem[]>([]);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('propertyId') || (mockProperties[0]?.id || null);
+    return params.get('propertyId') || null;
   });
 
   const handleReportProperty = (id: string) => {
@@ -1041,10 +1035,10 @@ export default function AppShell({
     setProperties(prev => prev.map(p => p.id === id ? { ...p, unavailable: !p.unavailable } : p));
   };
 
-  const [marketplaceItems, setMarketplaceItems] = useState<BuySellItem[]>(mockBuySell);
+  const [marketplaceItems, setMarketplaceItems] = useState<BuySellItem[]>([]);
   const [selectedMarketplaceItemId, setSelectedMarketplaceItemId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('itemId') || (mockBuySell[0]?.id || null);
+    return params.get('itemId') || null;
   });
 
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -1061,21 +1055,21 @@ export default function AppShell({
 
   const [selectedAlertId, setSelectedAlertId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('alertId') || (mockAlerts[0]?.id || null);
+    return params.get('alertId') || null;
   });
 
   const [events, setEvents] = useState<EventItem[]>(() => {
     try {
       const saved = localStorage.getItem('dhoke_connect_events');
-      return saved ? JSON.parse(saved) : mockEvents;
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return mockEvents;
+      return [];
     }
   });
 
   const [selectedEventId, setSelectedEventId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('eventId') || (mockEvents[0]?.id || null);
+    return params.get('eventId') || null;
   });
 
   React.useEffect(() => {
@@ -1085,15 +1079,15 @@ export default function AppShell({
   const [deals, setDeals] = useState<DealItem[]>(() => {
     try {
       const saved = localStorage.getItem('dhoke_connect_deals');
-      return saved ? JSON.parse(saved) : mockDeals;
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return mockDeals;
+      return [];
     }
   });
 
   const [selectedDealId, setSelectedDealId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('dealId') || (mockDeals[0]?.id || null);
+    return params.get('dealId') || null;
   });
 
   React.useEffect(() => {
@@ -1103,9 +1097,9 @@ export default function AppShell({
   const [groups, setGroups] = useState<GroupItem[]>(() => {
     try {
       const saved = localStorage.getItem('dhoke_connect_groups');
-      return saved ? JSON.parse(saved) : mockGroups;
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return mockGroups;
+      return [];
     }
   });
 
@@ -1512,10 +1506,6 @@ export default function AppShell({
         const fetchedPosts = await dbGetPosts([]);
         if (fetchedPosts.length > 0) {
           setPosts(fetchedPosts);
-        } else {
-          for (const p of posts) {
-            await dbSavePost(p);
-          }
         }
 
         // Load like state from DB
@@ -1552,30 +1542,18 @@ export default function AppShell({
         const fetchedJobs = await dbGetJobs([]);
         if (fetchedJobs.length > 0) {
           setJobs(fetchedJobs);
-        } else {
-          for (const j of jobs) {
-            await dbSaveJob(j);
-          }
         }
 
         // Load Properties
         const fetchedProperties = await dbGetProperties([]);
         if (fetchedProperties.length > 0) {
           setProperties(fetchedProperties);
-        } else {
-          for (const p of properties) {
-            await dbSaveProperty(p);
-          }
         }
 
         // Load Marketplace Items
         const fetchedMarketplace = await dbGetMarketplaceItems([]);
         if (fetchedMarketplace.length > 0) {
           setMarketplaceItems(fetchedMarketplace);
-        } else {
-          for (const m of marketplaceItems) {
-            await dbSaveMarketplaceItem(m);
-          }
         }
 
         const isSeeded = localStorage.getItem('dh_connect_mock_data_seeded') === 'true';
@@ -1584,72 +1562,33 @@ export default function AppShell({
         const fetchedBusinesses = await dbGetBusinesses([]);
         if (fetchedBusinesses.length > 0 || isSeeded) {
           setBusinesses(fetchedBusinesses);
-        } else {
-          for (const b of mockBusinesses) {
-            await dbSaveBusiness(b);
-          }
-          const refetched = await dbGetBusinesses([]);
-          setBusinesses(refetched.length > 0 ? refetched : mockBusinesses);
         }
 
         // Load Services
         const fetchedServices = await dbGetServices([]);
         if (fetchedServices.length > 0 || isSeeded) {
           setServices(fetchedServices);
-        } else {
-          for (const s of mockServices) {
-            await dbSaveService(s);
-          }
-          const refetched = await dbGetServices([]);
-          setServices(refetched.length > 0 ? refetched : mockServices);
         }
 
         const fetchedAlerts = await dbGetAlerts([]);
-        const hasMockAlerts = fetchedAlerts.some(a => a.id.startsWith('a'));
-        if (!hasMockAlerts && !isSeeded) {
-          for (const a of mockAlerts) {
-            await dbSaveAlert(a);
-          }
-          const refetchedAlerts = await dbGetAlerts([]);
-          setAlerts(refetchedAlerts.length > 0 ? refetchedAlerts : mockAlerts);
-        } else {
-          setAlerts(fetchedAlerts);
-        }
+        setAlerts(fetchedAlerts);
 
         // Load Events
         const fetchedEvents = await dbGetEvents([]);
         if (fetchedEvents.length > 0 || isSeeded) {
           setEvents(fetchedEvents);
-        } else {
-          for (const e of events) {
-            await dbSaveEvent(e);
-          }
-          const refetched = await dbGetEvents([]);
-          setEvents(refetched.length > 0 ? refetched : events);
         }
 
         // Load Deals
         const fetchedDeals = await dbGetDeals([]);
         if (fetchedDeals.length > 0 || isSeeded) {
           setDeals(fetchedDeals);
-        } else {
-          for (const d of deals) {
-            await dbSaveDeal(d);
-          }
-          const refetched = await dbGetDeals([]);
-          setDeals(refetched.length > 0 ? refetched : deals);
         }
 
         // Load Groups
         const fetchedGroups = await dbGetGroups([]);
         if (fetchedGroups.length > 0 || isSeeded) {
           setGroups(fetchedGroups);
-        } else {
-          for (const g of groups) {
-            await dbSaveGroup(g);
-          }
-          const refetched = await dbGetGroups([]);
-          setGroups(refetched.length > 0 ? refetched : groups);
         }
 
         localStorage.setItem('dh_connect_mock_data_seeded', 'true');
@@ -2295,17 +2234,22 @@ export default function AppShell({
     let bgColor = 'bg-emerald-50';
 
     if (quickAction === 'jobs') {
-      items = mockJobs;
+      items = jobs;
       title = t.jobs;
       iconColor = 'text-emerald-600';
       bgColor = 'bg-emerald-50';
+    } else if (quickAction === 'business') {
+      items = businesses;
+      title = t.businessDirectory;
+      iconColor = 'text-emerald-600';
+      bgColor = 'bg-emerald-50';
     } else if (quickAction === 'property') {
-      items = mockProperties;
+      items = properties;
       title = t.property;
       iconColor = 'text-emerald-600';
       bgColor = 'bg-emerald-50';
     } else if (quickAction === 'buy-sell') {
-      items = mockBuySell;
+      items = marketplaceItems;
       title = t.buySell;
       iconColor = 'text-green-600';
       bgColor = 'bg-green-50';
@@ -3196,7 +3140,7 @@ export default function AppShell({
           </div>
           <div className="p-3.5 bg-rose-50/50 border border-rose-100 rounded-2xl space-y-1 text-center hover:bg-rose-50 transition-all">
             <span className="text-[10px] font-bold text-rose-600 block">{currentLanguage === 'en' ? 'Active Events' : 'تقاریب'}</span>
-            <span className="text-xl font-black text-slate-900 block">{mockEvents.length}</span>
+            <span className="text-xl font-black text-slate-900 block">{events.length}</span>
           </div>
         </div>
       </div>

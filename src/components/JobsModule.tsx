@@ -777,7 +777,7 @@ const jobsAdMap = useAdRotator('Jobs', 200, jobsFeedAdInterval, 'Feed');
                     type="text"
                     value={formSalary}
                     onChange={(e) => setFormSalary(e.target.value)}
-                    placeholder={isEn ? 'e.g., PKR 30,000 / month' : 'مثال کے طور پر: 30,000 روپے ماہانہ'}
+                    placeholder={isEn ? 'e.g., Rs. 30,000 / month' : 'مثال کے طور پر: 30,000 روپے ماہانہ'}
                     className={`w-full px-4 py-2.5 bg-slate-50 border ${postErrors.salary ? 'border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-emerald-500'} rounded-2xl text-sm focus:outline-none focus:bg-white focus:ring-2 transition-all`}
                   />
                   {postErrors.salary && <p className="text-[11px] text-red-500 font-bold">{postErrors.salary}</p>}

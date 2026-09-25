@@ -105,7 +105,7 @@ const INITIAL_NOTIFICATIONS: Notification[] = [
     id: 'notif-4',
     type: 'job',
     title: 'New Job in Dhoke Hassu | نئی نوکری کا موقع',
-    message: 'Bashir Hardware is hiring a part-time delivery rider. PKR 25,000 + Fuel allowance.',
+    message: 'Bashir Hardware is hiring a part-time delivery rider. Rs. 25,000 + Fuel allowance.',
     timeAgo: '12 hours ago',
     read: true,
     relatedId: 'job-1',

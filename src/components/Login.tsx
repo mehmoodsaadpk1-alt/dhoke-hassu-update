@@ -9,6 +9,8 @@ import { Language, User } from '../types';
 import { translations } from '../translations';
 import { supabase, isSupabaseConfigured, dbGetUserProfile } from '../utils/supabaseClient';
 import { AppInput, AppButton, AppDivider } from './ui';
+import QRLogin from './QRLogin';
+import { QrCode } from 'lucide-react';
 
 // Leaf icon for the DH logo
 const LeafIcon = ({ className }: { className?: string }) => (
@@ -45,6 +47,7 @@ export default function Login({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isQRMode, setIsQRMode] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -170,14 +173,18 @@ export default function Login({
         </div>
         
         {/* Alerts */}
-        {error && (
+        {error && !isQRMode && (
           <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        {isQRMode ? (
+          <QRLogin onCancel={() => setIsQRMode(false)} />
+        ) : (
+          <>
+            <form onSubmit={handleLogin} className="space-y-5">
           {/* Email / Phone Field */}
           <div className="space-y-0">
             <DualLabel en="Email or Phone Number" ur="ای میل یا فون نمبر" />
@@ -267,6 +274,17 @@ export default function Login({
           Google سے لاگ ان کریں
         </button>
 
+        {/* QR Login Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsQRMode(true)}
+          className="w-full mt-4 bg-slate-50 border border-[#348A54] hover:bg-green-50 text-[#348A54] rounded-full py-3 text-sm font-bold shadow-sm hover:shadow transition-all font-['Noto_Sans_Arabic'] flex items-center justify-center gap-2"
+          dir="ltr"
+        >
+          <QrCode className="w-5 h-5" />
+          Login with QR Code (PC)
+        </button>
+
         {/* Create Account link */}
         <div className="text-center mt-8 pb-4 flex-1 flex flex-col justify-end">
           <button
@@ -292,6 +310,8 @@ export default function Login({
             ایڈمن پینل (Admin Panel)
           </button>
         </div>
+        </>
+        )}
       </div>
     </div>
   );

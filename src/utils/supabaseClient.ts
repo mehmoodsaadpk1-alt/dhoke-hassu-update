@@ -901,6 +901,7 @@ export async function dbGetPosts(fallback: Post[], groupId?: string): Promise<Po
     let query1 = supabase
       .from('posts')
       .select('*')
+      .gt('created_at', '2026-09-19T00:00:00Z')
       .order('created_at', { ascending: false });
 
     if (groupId) {
@@ -4950,7 +4951,9 @@ export const dbGetPages = async (): Promise<any[]> => {
     console.error('Error fetching pages:', error);
     return [];
   }
-  return data || [];
+  // Filter out existing spam pages that cannot be deleted via Anon Key due to RLS
+  const spamIds = ['c81383dc-7ac0-4995-8efe-a6386eb16825', '2beec6c0-a9cf-42f1-88ec-13b7339c1171'];
+  return (data || []).filter(p => !spamIds.includes(p.id));
 };
 // ---------------------------------------------------------------------------
 // User Search and Social Groups services (used by MentionTextarea)

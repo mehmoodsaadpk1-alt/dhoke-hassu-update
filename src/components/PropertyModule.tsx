@@ -148,7 +148,7 @@ export default function PropertyModule({
       createType: "Property Category",
       createPurpose: "Rent / Sale",
       createPrice: "Price",
-      createPricePlaceholder: "e.g., PKR 25,000 / month or PKR 1.2 Crore",
+      createPricePlaceholder: "e.g., Rs. 25,000 / month or Rs. 1.2 Crore",
       createArea: "Area (e.g., 5 Marla)",
       createRooms: "Number of Rooms (Optional)",
       createRoomsPlaceholder: "e.g., 2 Bed, 1 Lounge",

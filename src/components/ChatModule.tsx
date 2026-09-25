@@ -154,113 +154,7 @@ interface ChatModuleProps {
   navigate: (path: string, paramId?: string) => void;
 }
 
-// Default initial conversations to populate localStorage
-const INITIAL_CONVERSATIONS: Conversation[] = [
-  {
-    contact: '0321-5551234',
-    name: 'Malik Shakeel',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120',
-    lastMessage: 'Assalam-o-Alaikum! G bhai, aap ka suit tayyar ho gya hai. Aap jb chahein le skte hain.',
-    time: '10:30 AM',
-    timestamp: Date.now() - 30 * 60 * 1000,
-    unreadCount: 2,
-    isOnline: true,
-    messages: [
-      {
-        id: 'm1_1',
-        sender: 'me',
-        text: 'Bhai, mera tailor suit kb tk tayyar ho ga?',
-        time: '10:15 AM',
-        timestamp: Date.now() - 45 * 60 * 1000,
-      },
-      {
-        id: 'm1_2',
-        sender: 'them',
-        text: 'Assalam-o-Alaikum! G bhai, aap ka suit tayyar ho gya hai. Aap jb chahein le skte hain.',
-        time: '10:30 AM',
-        timestamp: Date.now() - 30 * 60 * 1000,
-      }
-    ]
-  },
-  {
-    contact: '0344-1234567',
-    name: 'Ayesha Siddiqui',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120',
-    lastMessage: 'Thank you for inquiring about the medical camp. It starts at 9 AM this Sunday.',
-    time: 'Yesterday',
-    timestamp: Date.now() - 24 * 60 * 60 * 1000,
-    unreadCount: 0,
-    isOnline: false,
-    messages: [
-      {
-        id: 'm2_1',
-        sender: 'me',
-        text: 'Hello, free medical camp me pediatric doctors honge?',
-        time: 'Yesterday 3:45 PM',
-        timestamp: Date.now() - 25 * 60 * 60 * 1000,
-      },
-      {
-        id: 'm2_2',
-        sender: 'them',
-        text: 'Thank you for inquiring about the medical camp. It starts at 9 AM this Sunday.',
-        time: 'Yesterday 4:00 PM',
-        timestamp: Date.now() - 24 * 60 * 60 * 1000,
-      }
-    ]
-  },
-  {
-    contact: '0345-1234567',
-    name: 'Chaudhary Kamran',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=120',
-    lastMessage: 'Bhai, tubewell thik ho gya hai. Paani subah 6 baje aa jaye ga.',
-    time: '2 days ago',
-    timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,
-    unreadCount: 0,
-    isOnline: true,
-    messages: [
-      {
-        id: 'm3_1',
-        sender: 'me',
-        text: 'Kamran bhai, paani ka kya masla chal rha hai Street 4 me?',
-        time: '2 days ago',
-        timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000 - 60 * 60 * 1000,
-      },
-      {
-        id: 'm3_2',
-        sender: 'them',
-        text: 'Bhai, tubewell thik ho gya hai. Paani subah 6 baje aa jaye ga.',
-        time: '2 days ago',
-        timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,
-      }
-    ]
-  },
-  {
-    contact: '0315-9876543',
-    name: 'Waseem Akram',
-    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=120',
-    lastMessage: 'Bike ki price final 90,000 ho jaye gi. Agr lena hai to btaein.',
-    time: '3 days ago',
-    timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000,
-    unreadCount: 0,
-    isOnline: false,
-    messages: [
-      {
-        id: 'm4_1',
-        sender: 'me',
-        text: 'Waseem bhai, motorcycle available hai? Aur final price kya hai?',
-        time: '3 days ago',
-        timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000 - 30 * 60 * 1000,
-      },
-      {
-        id: 'm4_2',
-        sender: 'them',
-        text: 'Bike ki price final 90,000 ho jaye gi. Agr lena hai to btaein.',
-        time: '3 days ago',
-        timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000,
-      }
-    ]
-  }
-];
+const INITIAL_CONVERSATIONS: Conversation[] = [];
 
 // Helper to map name to mock contact phone number in offline mode
 const resolveMockContact = (cParam: string): string => {
@@ -1711,7 +1605,7 @@ export default function ChatModule({
         return isEn ? "You're welcome! Feel free to visit the shop anytime before 9:00 PM." : "خوش آمدید! رات 9 بجے سے پہلے کسی بھی وقت دکان تشریف لے آئیں۔";
       }
       if (msg.includes('price') || msg.includes('kya rate') || msg.includes('stitching') || msg.includes('silo')) {
-        return isEn ? "Simple suit stitching starts from 1,200 PKR. Designer suit stitching rates are slightly higher." : "سادہ سوٹ کی سلائی 1200 روپے سے شروع ہوتی ہے۔ ڈیزائنر سوٹس کے ریٹس مختلف ہیں۔";
+        return isEn ? "Simple suit stitching starts from 1,200 Rs.. Designer suit stitching rates are slightly higher." : "سادہ سوٹ کی سلائی 1200 روپے سے شروع ہوتی ہے۔ ڈیزائنر سوٹس کے ریٹس مختلف ہیں۔";
       }
       return isEn ? "Ji bilkul, main check kar k aap ko mazeed update bhejta hun. JazakAllah!" : "جی بالکل، میں چیک کر کے آپ کو مزید اپڈیٹ بھیجتا ہوں۔ جزاک اللہ!";
     }

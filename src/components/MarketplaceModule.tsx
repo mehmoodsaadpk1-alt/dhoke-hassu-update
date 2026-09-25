@@ -461,7 +461,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                               {item.title}
                             </h3>
                             <div className="text-[#2E7D32] font-bold text-base mb-2">
-                              {item.price ? `PKR ${item.price.toLocaleString()}` : (item.priceText || 'Negotiable')}
+                              {item.price ? `Rs. ${item.price.toLocaleString()}` : (item.priceText || 'Negotiable')}
                             </div>
                           </div>
 
@@ -579,7 +579,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  {currentLanguage === 'en' ? 'Price (PKR)' : 'قیمت'}
+                  {currentLanguage === 'en' ? 'Price (Rs.)' : 'قیمت'}
                 </label>
                 <input
                   type="number"
@@ -805,7 +805,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                   </span>
                 </div>
                 <div className="text-2xl font-black text-[#2E7D32] whitespace-nowrap">
-                  {selectedItem.price ? `PKR ${selectedItem.price.toLocaleString()}` : (selectedItem.priceText || 'Negotiable')}
+                  {selectedItem.price ? `Rs. ${selectedItem.price.toLocaleString()}` : (selectedItem.priceText || 'Negotiable')}
                 </div>
               </div>
 
@@ -941,7 +941,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                 <div>
                   <h2 className="text-sm font-bold text-slate-800 line-clamp-1">{selectedItem.title}</h2>
                   <p className="text-xs font-bold text-[#2E7D32]">
-                    {selectedItem.price ? `PKR ${selectedItem.price.toLocaleString()}` : (selectedItem.priceText || 'Negotiable')}
+                    {selectedItem.price ? `Rs. ${selectedItem.price.toLocaleString()}` : (selectedItem.priceText || 'Negotiable')}
                   </p>
                 </div>
               </div>
@@ -1033,7 +1033,7 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
                     <div>
                       <h3 className="font-bold text-sm text-slate-800 line-clamp-1">{item.title}</h3>
                       <p className="text-xs text-[#2E7D32] font-semibold mt-0.5">
-                        {item.price ? `PKR ${item.price.toLocaleString()}` : (item.priceText || 'Negotiable')}
+                        {item.price ? `Rs. ${item.price.toLocaleString()}` : (item.priceText || 'Negotiable')}
                       </p>
                       <div className="flex gap-2 items-center text-[10px] text-slate-400 mt-1.5">
                         <span className="flex items-center gap-0.5"><Eye className="w-3 h-3" /> {item.views || 0}</span>

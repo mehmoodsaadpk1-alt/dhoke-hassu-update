@@ -539,7 +539,7 @@ export default function ProfileModule({
         id: 'saved-2',
         type: 'property',
         title: '5 Marla House near Dhoke Hassu Ground',
-        subtitle: 'PKR 35,000 / month',
+        subtitle: 'Rs. 35,000 / month',
         area: 'Dhoke Hassu',
         image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=300'
       }
