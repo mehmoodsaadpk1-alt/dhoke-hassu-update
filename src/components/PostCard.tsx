@@ -222,7 +222,7 @@ const PostCardComponent = ({
                   <span className="text-xl font-bold text-slate-400">🏘</span>
                 )}
               </div>
-              <div className="flex flex-col overflow-hidden text-left">
+              <div className="flex flex-col overflow-hidden text-start">
                 <h4 className="text-[15px] font-black text-slate-900 truncate flex items-center gap-1 justify-start group-hover:text-emerald-600 transition-colors">{groupData.name}</h4>
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mt-0.5 justify-start">
                   <span className="flex items-center gap-1"><Users className="w-3 h-3"/> {localMemberCount !== null ? localMemberCount : (groupData.group_members?.[0]?.count || 0)} {isEn ? 'Members' : 'ممبران'}</span>
@@ -284,7 +284,7 @@ const PostCardComponent = ({
             size={36}
             className="shrink-0 ring-1 ring-slate-100 shadow-xs"
           />
-          <div className="text-left flex-1">
+          <div className="text-start flex-1">
             <h5 className="text-sm font-bold text-slate-900 leading-tight flex items-center gap-1 justify-start">
               <ClickableAvatar
                 userId={entity.author_id || entity.user_id || title}
@@ -294,11 +294,11 @@ const PostCardComponent = ({
               />
               {entity.verified && <CheckCircle className="w-3.5 h-3.5 text-blue-500 fill-blue-500/10" />}
             </h5>
-            <p className="text-[11px] font-medium text-slate-500 mt-0.5 text-left">{subtitle}</p>
+            <p className="text-[11px] font-medium text-slate-500 mt-0.5 text-start">{subtitle}</p>
           </div>
         </div>
 
-        <div className="px-4 pb-4 pt-1 font-['Noto_Sans_Arabic'] text-left" dir="ltr">
+        <div className="px-4 pb-4 pt-1 font-['Noto_Sans_Arabic'] text-start bidi-isolate" dir="auto">
           {title && <h3 className="font-bold text-slate-900 text-lg mb-2">{title}</h3>}
           {content && <RichText text={content} className="text-[15px] font-medium text-slate-800 mb-2 leading-relaxed whitespace-pre-wrap" />}
         </div>
@@ -407,7 +407,7 @@ const PostCardComponent = ({
                           size={isReply ? 26 : 32}
                           className="border border-slate-100 shrink-0 mt-0.5"
                         />
-                        <div className="space-y-1 flex-1 text-left">
+                        <div className="space-y-1 flex-1 text-start">
                           <div className="flex items-center gap-1.5 flex-wrap justify-start">
                             <h5 className="font-semibold text-xs text-slate-900 flex items-center gap-1 justify-start">
                               <ClickableAvatar
@@ -424,7 +424,7 @@ const PostCardComponent = ({
                             <span className="text-[11px] text-slate-400 font-medium">{comment.time}</span>
                           </div>
 
-                          <RichText content={comment.content} className={`text-xs text-slate-700 leading-relaxed font-normal block text-left`} />
+                          <RichText content={comment.content} className={`text-xs text-slate-700 leading-relaxed font-normal block text-start bidi-isolate`} dir="auto" />
 
                           {/* Comment Actions (Like & Reply) */}
                           <div className="flex items-center gap-3 pt-1 text-[11px] font-bold text-slate-500 justify-start">

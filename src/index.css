@@ -32,7 +32,7 @@
   --color-slate-950: #111827;
 
   /* Font Scale Overrides */
-  --font-sans: "Inter", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-sans: "Inter", "Noto Nastaliq Urdu", "Noto Sans Arabic", system-ui, sans-serif;
 
   /* Border Radii Overrides */
   --radius-sm: 10px;
@@ -237,31 +237,42 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* LTR & RTL Direction & Alignment Rules - Unified Left-Aligned Production UI */
+/* RTL Support and Isolation Utilities */
+.bidi-isolate {
+  unicode-bidi: isolate;
+}
+
 [dir="ltr"] body,
-[dir="ltr"] #root,
+[dir="ltr"] #root {
+  direction: ltr;
+  text-align: left;
+}
+
 [dir="rtl"] body,
 [dir="rtl"] #root {
-  direction: ltr;
-  text-align: left;
+  direction: rtl;
+  text-align: right;
 }
 
-[dir="ltr"] input[type="text"],
-[dir="ltr"] input[type="email"],
-[dir="ltr"] input[type="password"],
-[dir="ltr"] input[type="tel"],
-[dir="ltr"] textarea,
-[dir="rtl"] input[type="text"],
-[dir="rtl"] input[type="email"],
-[dir="rtl"] input[type="password"],
-[dir="rtl"] input[type="tel"],
-[dir="rtl"] textarea {
-  text-align: left;
-  direction: ltr;
+/* Ensure structural containers can remain LTR if desired */
+.force-ltr {
+  direction: ltr !important;
+  text-align: left !important;
 }
 
+/* Technical inputs must always remain LTR regardless of app language */
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="url"],
+.force-ltr-input {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* For mixed text that needs to force LTR display inline */
 [dir="rtl"] .ltr-text {
   direction: ltr;
   display: inline-block;
-  text-align: left;
+  unicode-bidi: isolate;
 }

@@ -1398,7 +1398,7 @@ export default function ProfileModule({
         <div className="px-4 sm:px-8 pb-6 relative grid grid-cols-1 md:grid-cols-[320px_1fr] gap-x-8 gap-y-4" dir="ltr">
           
           {/* Cell 1: Avatar & Name */}
-          <div className="w-full flex flex-col relative z-10 items-start text-left md:col-start-1 md:row-start-1" dir="ltr">
+          <div className="w-full flex flex-col relative z-10 items-start text-start md:col-start-1 md:row-start-1">
             
             {/* Avatar Frame (Left Side LTR) */}
             <div className="w-[110px] h-[110px] sm:w-[150px] sm:h-[150px] rounded-full border-[4px] sm:border-[5px] border-white bg-slate-100 overflow-hidden shadow-lg shrink-0 relative mt-[-55px] sm:mt-[-75px] mb-1">
@@ -1412,7 +1412,7 @@ export default function ProfileModule({
             </div>
 
             {/* Name & Title */}
-            <div className="mt-1 w-full text-left">
+            <div className="mt-1 w-full text-start">
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight flex items-center justify-start gap-1.5">
                 {profileData.fullName}
                 {(profileData.verified || isEntityVerified(profileData.fullName)) && (
@@ -1469,16 +1469,16 @@ export default function ProfileModule({
           </div>
 
           {/* Cell 3: Bio & Social */}
-          <div className="w-full flex flex-col items-start text-left md:col-start-1 md:row-start-2" dir="ltr">
+          <div className="w-full flex flex-col items-start text-start md:col-start-1 md:row-start-2">
             {/* Bio */}
-            <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100 w-full text-left">
+            <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100 w-full text-start">
               <h3 className="text-xs font-bold text-slate-400 mb-2">{currentLanguage === 'en' ? 'About Me' : 'میرے بارے میں'}</h3>
               {profileData.bio ? (
-                <p className="text-[14px] text-slate-700 leading-relaxed whitespace-pre-wrap text-left" dir="ltr">
+                <p className="text-[14px] text-slate-700 leading-relaxed whitespace-pre-wrap text-start bidi-isolate" dir="auto">
                   {profileData.bio}
                 </p>
               ) : (
-                <p className="text-[13px] text-slate-400 leading-relaxed italic text-left" dir="ltr">
+                <p className="text-[13px] text-slate-400 leading-relaxed italic text-start bidi-isolate" dir="auto">
                   {currentLanguage === 'en' ? 'No bio added yet.' : 'ابھی تک بائیو شامل نہیں کی گئی۔'}
                 </p>
               )}

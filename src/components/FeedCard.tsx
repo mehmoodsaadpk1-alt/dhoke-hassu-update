@@ -115,7 +115,7 @@ export default function FeedCard({
   return (
     <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir="ltr">
       <div className="flex items-start justify-between p-4 pb-3" dir="ltr">
-        <div className="flex items-center gap-3 text-left">
+        <div className="flex items-center gap-3 text-start">
           <ClickableAvatar
             userId={authorId}
             name={authorName}
@@ -123,7 +123,7 @@ export default function FeedCard({
             size={44}
             className="border-2 border-slate-50 shrink-0"
           />
-          <div className="text-left">
+          <div className="text-start">
             <div className="flex items-center gap-1.5 justify-start">
               <h4 className="font-bold text-slate-900 text-[15px] flex items-center gap-1">
                 <ClickableAvatar
@@ -138,7 +138,7 @@ export default function FeedCard({
               </h4>
               {badge}
             </div>
-            <p className="text-[11px] text-slate-500 font-medium mt-0.5 opacity-80 text-left">
+            <p className="text-[11px] text-slate-500 font-medium mt-0.5 opacity-80 text-start">
               {timestamp}
               {location && <span className="ms-1.5 inline-flex items-center gap-0.5"><span className="text-[10px]">📍</span> {location}</span>}
             </p>
@@ -150,7 +150,7 @@ export default function FeedCard({
         </button>
       </div>
       
-      <div className="w-full overflow-hidden text-left" dir="ltr">
+      <div className="w-full overflow-hidden text-start bidi-isolate" dir="auto">
         {children}
       </div>
 

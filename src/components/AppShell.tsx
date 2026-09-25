@@ -533,7 +533,7 @@ export function MobileBottomNav({
     <>
       <nav 
         id="mobile-bottom-navigation"
-        className="md:hidden fixed bottom-0 start-0 end-0 bg-white border-t border-slate-200/80 py-2 px-1 flex justify-around items-center z-40 shadow-2xl overflow-x-hidden"
+        className="md:hidden fixed bottom-0 start-0 end-0 bg-white border-t border-slate-200/80 py-2 px-1 flex justify-around items-center z-40 shadow-2xl overflow-x-hidden force-ltr"
       >
         {/* Render Direct items */}
         {directItems.map((item) => {
@@ -3806,14 +3806,10 @@ export default function AppShell({
       />
 
       {/* 2. MAIN CONTAINER (Header + Scrollable Main Content) */}
-      <div className={`h-full flex flex-col min-w-0 overflow-hidden relative transition-all duration-300 ${
-        currentLanguage === 'ur' 
-          ? 'mr-0 md:mr-[72px] lg:mr-[240px] ml-0' 
-          : 'ml-0 md:ml-[72px] lg:ml-[240px] mr-0'
-      }`}>
+      <div className={`h-full flex flex-col min-w-0 overflow-hidden relative transition-all duration-300 ml-0 md:ml-[72px] lg:ml-[240px]`}>
         
         {/* MOBILE & DESKTOP HEADER */}
-        <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>
+        <header className={`bg-white border-b border-slate-200/80 shrink-0 h-16 items-center justify-between px-4 sm:px-6 z-40 force-ltr ${activeTab === 'videos' ? 'hidden md:flex' : 'flex'}`}>
           <div className="w-full flex items-center justify-between gap-4">
             
             {/* Brand Logo & Slogan (Only visible on Mobile since Desktop has it in sidebar) */}
