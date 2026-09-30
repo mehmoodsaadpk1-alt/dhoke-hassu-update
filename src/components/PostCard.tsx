@@ -12,7 +12,6 @@ import { supabase, dbGetUserProfile, dbCheckGroupMembership, dbJoinGroup, dbLeav
 const viewedPostsInSession = new Set<string>();
 
 interface PostCardProps {
-
   post: any;
   isLiked: boolean;
   likeCount: number;
@@ -25,6 +24,8 @@ interface PostCardProps {
   /** 'en' | 'ur'. Defaults to 'en' */
   currentLanguage?: 'en' | 'ur';
   onShareRequest?: (type: string, id: string, preview?: any) => void;
+  onDelete?: (postId: string) => void;
+  onEdit?: (postId: string, currentContent: string) => void;
   currentUser?: any;
 }
 
@@ -40,6 +41,8 @@ const PostCardComponent = ({
   onImageClick,
   currentLanguage = 'en',
   onShareRequest,
+  onDelete,
+  onEdit,
   currentUser
 }: PostCardProps) => {
   const isEn = currentLanguage === 'en';
@@ -332,13 +335,20 @@ const PostCardComponent = ({
     <div ref={postRef}>
       <FeedCard
         id={post.id}
-        authorId={post.userId}
+        authorId={post.userId || post.author_id}
         authorName={post.author}
         authorAvatar={post.avatar}
         timestamp={post.time}
         location={post.area}
         isVerified={isEntityVerified(post.author)}
         tvsBadgeType={getTvsBadgeType(post.author)}
+        canDelete={
+          (post.userId && post.userId === (currentUserData?.id || currentUser?.id || currentUser?.user_id)) ||
+          (post.author && post.author === (currentUserData?.name || currentUser?.fullName)) ||
+          false
+        }
+        onDelete={onDelete ? () => onDelete(post.id) : undefined}
+        onEdit={onEdit ? () => onEdit(post.id, post.content || '') : undefined}
         badge={
           post.postType === 'share' ? (
             <div className="flex flex-col text-slate-500 font-medium ms-1 text-[13px] leading-snug">

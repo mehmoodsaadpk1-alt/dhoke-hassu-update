@@ -71,6 +71,8 @@ export default function PostComposer({
   const [composerCamActive, setComposerCamActive] = useState(false);
   const [showEmojiTray, setShowEmojiTray] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
+  const postButtonRef = useRef<HTMLButtonElement>(null);
 
   const composerVideoRef = useRef<HTMLVideoElement>(null);
   const composerFileInputRef = useRef<HTMLInputElement>(null);
@@ -140,12 +142,20 @@ export default function PostComposer({
 
   const handleCreatePost = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    if (isSubmittingRef.current) return; // SYNCHRONOUS SUBMISSION LOCK
     if (!newPostText?.trim() && composerAttachedPhotos.length === 0) {
       alert(t.postRequired);
       return;
     }
 
+    isSubmittingRef.current = true;
     setIsSubmitting(true);
+
+    // Immediately disable the button in the DOM for instant visual feedback
+    if (postButtonRef.current) {
+      postButtonRef.current.disabled = true;
+      postButtonRef.current.classList.add('opacity-40', 'cursor-not-allowed');
+    }
     try {
       let imageUrl = '';
       if (composerAttachedPhotos.length > 0) {
@@ -207,7 +217,14 @@ export default function PostComposer({
       console.error('Error creating post:', err);
       alert(isEn ? 'Error creating post' : 'پوسٹ بناتے وقت خرابی');
     } finally {
+      isSubmittingRef.current = false;
       setIsSubmitting(false);
+      
+      // Re-enable the button in the DOM
+      if (postButtonRef.current) {
+        postButtonRef.current.disabled = false;
+        postButtonRef.current.classList.remove('opacity-40', 'cursor-not-allowed');
+      }
     }
   };
 
@@ -334,6 +351,7 @@ export default function PostComposer({
             </div>
 
             <button
+              ref={postButtonRef}
               type="button"
               onClick={handleCreatePost}
               disabled={(!newPostText?.trim() && composerAttachedPhotos.length === 0) || isSubmitting}

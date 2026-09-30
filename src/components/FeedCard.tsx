@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MoreHorizontal, ThumbsUp, MessageCircle, Share2 } from 'lucide-react';
+import { MoreHorizontal, ThumbsUp, MessageCircle, Share2, Trash2, Edit2, Copy, Bookmark, AlertTriangle } from 'lucide-react';
 import ClickableAvatar from './ClickableAvatar';
 import TvsBadge from './TvsBadge';
 import { LikeHoverTooltip, LikeUsersModal } from './LikeHoverPopup';
@@ -25,6 +25,9 @@ interface FeedCardProps {
   onLike?: () => void;
   onCommentToggle?: () => void;
   onShare?: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
+  canDelete?: boolean;
   
   commentsSection?: React.ReactNode;
   currentLanguage?: 'en' | 'ur';
@@ -50,6 +53,9 @@ export default function FeedCard({
   onLike,
   onCommentToggle,
   onShare,
+  onDelete,
+  onEdit,
+  canDelete,
   
   commentsSection,
   currentLanguage = 'ur'
@@ -60,6 +66,7 @@ export default function FeedCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likedUsers, setLikedUsers] = useState<PostLikeUser[] | null>(null);
   const [isLoadingLikes, setIsLoadingLikes] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
   const leaveTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -112,6 +119,17 @@ export default function FeedCard({
     loadLikes();
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setShowMenu(false);
+    if (showMenu) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showMenu]);
+
   return (
     <div className="bg-white rounded-[24px] shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 w-full max-w-full relative font-['Noto_Sans_Arabic'] mb-4" dir="ltr">
       <div className="flex items-start justify-between p-4 pb-3" dir="ltr">
@@ -145,9 +163,108 @@ export default function FeedCard({
           </div>
         </div>
         
-        <button className="text-slate-400 hover:text-slate-600 transition-colors p-1 cursor-pointer mt-1">
-          <MoreHorizontal className="w-5 h-5" />
-        </button>
+        <div className="relative">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }} 
+            className="text-slate-400 hover:text-slate-600 transition-colors p-1 cursor-pointer mt-1"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
+          
+          {showMenu && (
+            <div className="absolute end-0 top-full mt-1 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-50 animate-in fade-in zoom-in-95" dir={isEn ? "ltr" : "rtl"}>
+              {canDelete && onEdit ? (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      onEdit();
+                    }}
+                    className="w-full text-start px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                    {isEn ? 'Edit Post' : 'ترمیم کریں'}
+                  </button>
+              ) : null}
+
+              {canDelete && onDelete ? (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      onDelete();
+                    }}
+                    className="w-full text-start px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    {isEn ? 'Delete Post' : 'پوسٹ ڈیلیٹ کریں'}
+                  </button>
+              ) : null}
+              
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  navigator.clipboard.writeText(`${window.location.origin}/post/${id}`);
+                  alert(isEn ? 'Link copied to clipboard!' : 'لنک کاپی ہو گیا!');
+                }}
+                className="w-full text-start px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-bold flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <Copy className="w-4 h-4" />
+                {isEn ? 'Copy Link' : 'لنک کاپی کریں'}
+              </button>
+
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'Dhoke Hassu Connect Post',
+                      url: `${window.location.origin}/post/${id}`
+                    }).catch(console.error);
+                  } else {
+                    navigator.clipboard.writeText(`${window.location.origin}/post/${id}`);
+                    alert(isEn ? 'Link copied to clipboard!' : 'لنک کاپی ہو گیا!');
+                  }
+                }}
+                className="w-full text-start px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-bold flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <Share2 className="w-4 h-4" />
+                {isEn ? 'Share Post' : 'شیئر کریں'}
+              </button>
+
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                  alert(isEn ? 'Post saved!' : 'پوسٹ محفوظ ہو گئی!');
+                }}
+                className="w-full text-start px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-bold flex items-center gap-2 cursor-pointer transition-colors border-t border-slate-100"
+              >
+                <Bookmark className="w-4 h-4" />
+                {isEn ? 'Save Post' : 'محفوظ کریں'}
+              </button>
+
+              {!canDelete && (
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowMenu(false);
+                    alert(isEn ? 'Post reported. Thank you.' : 'رپورٹ ہو گئی ہے۔ شکریہ۔');
+                  }}
+                  className="w-full text-start px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 cursor-pointer transition-colors"
+                >
+                  <AlertTriangle className="w-4 h-4" />
+                  {isEn ? 'Report Post' : 'رپورٹ کریں'}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       
       <div className="w-full overflow-hidden text-start bidi-isolate" dir="auto">

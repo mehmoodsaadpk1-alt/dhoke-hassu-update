@@ -28,6 +28,7 @@ import {
   PlusCircle, 
   X,
   Plus,
+  RefreshCw,
 } from 'lucide-react';
 import { analytics } from '../services/AnalyticsService';
 import { 
@@ -47,7 +48,8 @@ import {
   Clock,
   Award,
   Upload,
-  CheckCircle
+  CheckCircle,
+  Edit2
 } from 'lucide-react';
 import { Language, NavigationTab, User, Post, JobItem, BusinessItem, PropertyItem, BuySellItem, ServiceItem, AlertItem, EventItem, DealItem, Story, Comment, GroupItem, AdItem, Poll, PollOption } from '../types';
 import { translations } from '../translations';
@@ -1351,6 +1353,8 @@ export default function AppShell({
   const [composerVideoPreview, setComposerVideoPreview] = useState<string | null>(null);
   const [composerPostType, setComposerPostType] = useState<'status' | 'reminder' | 'general'>('general');
   const [isSubmittingPost, setIsSubmittingPost] = useState(false);
+  const isSubmittingPostRef = React.useRef(false);
+  const statusPostButtonRef = React.useRef<HTMLButtonElement>(null);
   const [composerLocation, setComposerLocation] = useState<string | null>(null);
   const [composerAreaId, setComposerAreaId] = useState<string | null>(null);
   const [composerLatitude, setComposerLatitude] = useState<number | null>(null);
@@ -1400,6 +1404,12 @@ export default function AppShell({
   // Persistent & seedable Posts state with comments
   // Persistent Posts state (No local caching to prevent deleted data leaking)
   const [posts, setPosts] = useState<Post[]>([]);
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
+  const [editPostContent, setEditPostContent] = useState<string>('');
+  const [isSavingEdit, setIsSavingEdit] = useState<boolean>(false);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   React.useEffect(() => {
     localStorage.removeItem('dh_posts_list_v2'); // Force clear old cache
@@ -2010,6 +2020,62 @@ export default function AppShell({
     alert(t.postSuccess);
   };
 
+  const handleDeletePost = (postId: string) => {
+    console.log("Delete button clicked. Setting deleteTarget to:", postId);
+    setDeleteTarget(postId);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeletePost = async () => {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
+    try {
+      const success = await dbDeletePost(deleteTarget);
+      if (success) {
+        setPosts(prev => prev.filter(p => p.id !== deleteTarget));
+        setDeleteDialogOpen(false);
+        setDeleteTarget(null);
+        alert(isEn ? 'Post deleted successfully.' : 'پوسٹ کامیابی سے ڈیلیٹ ہو گئی۔');
+      } else {
+        alert(isEn ? 'Failed to delete post.' : 'پوسٹ ڈیلیٹ کرنے میں ناکامی۔');
+      }
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      alert(isEn ? 'Failed to delete post.' : 'پوسٹ ڈیلیٹ کرنے میں ناکامی۔');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleEditPost = (postId: string, currentContent: string) => {
+    setEditingPostId(postId);
+    setEditPostContent(currentContent);
+  };
+
+  const handleSaveEditPost = async () => {
+    if (!editingPostId) return;
+    const postToEdit = posts.find(p => p.id === editingPostId);
+    if (!postToEdit) return;
+
+    setIsSavingEdit(true);
+    try {
+      const updatedPost = { ...postToEdit, content: editPostContent };
+      const success = await dbSavePost(updatedPost);
+      if (success) {
+        setPosts(prev => prev.map(p => p.id === editingPostId ? updatedPost : p));
+        setEditingPostId(null);
+        setEditPostContent('');
+      } else {
+        alert(isEn ? 'Failed to update post.' : 'پوسٹ اپ ڈیٹ کرنے میں ناکامی۔');
+      }
+    } catch (err) {
+      console.error('Error updating post:', err);
+      alert(isEn ? 'Failed to update post.' : 'پوسٹ اپ ڈیٹ کرنے میں ناکامی۔');
+    } finally {
+      setIsSavingEdit(false);
+    }
+  };
+
   /**
    * Toggle like/unlike for a post.
    * - Optimistic UI update happens immediately.
@@ -2211,6 +2277,8 @@ export default function AppShell({
         currentLanguage={currentLanguage}
         currentUser={profileData}
         onLike={handleLikePost}
+        onDelete={handleDeletePost}
+        onEdit={handleEditPost}
         onComment={(postId, text, parentId) => handleCommentAdd(postId, text, parentId)}
         onCommentLikeToggle={(postId, commentId) => handleCommentLikeToggle(postId, commentId)}
         isEntityVerified={isEntityVerified}
@@ -2476,7 +2544,17 @@ export default function AppShell({
 
   const handleCreateComposerPost = async () => {
     if (!composerText?.trim() && !composerImage && !composerVideo) return;
+    if (isSubmittingPostRef.current) return;
+    
+    isSubmittingPostRef.current = true;
     setIsSubmittingPost(true);
+    
+    // Direct DOM manipulation for instantaneous button disable
+    if (statusPostButtonRef.current) {
+      statusPostButtonRef.current.disabled = true;
+      statusPostButtonRef.current.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+
     setComposerUploadError('');
     setComposerUploadProgress(0);
     
@@ -2610,7 +2688,13 @@ export default function AppShell({
         alert(err.message || 'Error creating post');
       }
     } finally {
+      isSubmittingPostRef.current = false;
       setIsSubmittingPost(false);
+      
+      if (statusPostButtonRef.current) {
+        statusPostButtonRef.current.disabled = false;
+        statusPostButtonRef.current.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
     }
   };
 
@@ -3316,9 +3400,10 @@ export default function AppShell({
             </button>
           </div>
           <button 
-            type="submit" 
+            ref={statusPostButtonRef}
+            type="button" 
             onClick={handleCreateComposerPost}
-            disabled={!composerText.trim() && !composerImagePreview && !composerVideoPreview}
+            disabled={(!composerText.trim() && !composerImagePreview && !composerVideoPreview) || isSubmittingPost}
             className="px-6 py-2 bg-gradient-to-r from-emerald-600 to-emerald-600 hover:from-emerald-700 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentLanguage === 'en' ? 'Post' : 'پوسٹ کریں'}
@@ -3335,20 +3420,10 @@ export default function AppShell({
       <PostComposer
         currentUser={profileData}
         currentLanguage={currentLanguage}
-        newPostText={newPostText}
-        setNewPostText={setNewPostText}
-        composerAttachedPhotos={composerAttachedPhotos}
-        setComposerAttachedPhotos={setComposerAttachedPhotos}
-        postUploading={postUploading}
-        handleCreatePost={() => {
-          if (groupId) {
-            handleCreatePost(groupId);
-          } else {
-            handleCreatePost();
-          }
+        groupId={groupId}
+        onPostCreated={(post) => {
+          setPosts(prev => [post, ...prev]);
         }}
-        showEmojiTray={showEmojiTray}
-        setShowEmojiTray={setShowEmojiTray}
       />
     );
   };
@@ -3786,6 +3861,119 @@ export default function AppShell({
         currentLanguage={currentLanguage}
         onShareComplete={() => setShareModalData(prev => ({ ...prev, isOpen: false }))}
       />
+    );
+  };
+
+  const renderDeleteConfirmModal = () => {
+    console.log("renderDeleteConfirmModal called, deleteDialogOpen:", deleteDialogOpen, "target:", deleteTarget);
+    if (!deleteDialogOpen || !deleteTarget) return null;
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+        <div className="bg-white rounded-[24px] shadow-2xl w-full max-w-sm overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
+              <Trash2 className="w-5 h-5 text-red-500" />
+              {currentLanguage === 'en' ? 'Delete Post?' : 'پوسٹ ڈیلیٹ کریں؟'}
+            </h3>
+            <button 
+              onClick={() => { setDeleteDialogOpen(false); setDeleteTarget(null); }}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300 transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="p-6 bg-white text-slate-600 text-center">
+            {currentLanguage === 'en' ? 'Are you sure you want to delete this post? This action cannot be undone.' : 'کیا آپ واقعی اس پوسٹ کو ڈیلیٹ کرنا چاہتے ہیں؟ یہ کارروائی واپس نہیں کی جا سکتی۔'}
+          </div>
+          
+          <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-3">
+            <button
+              onClick={() => { setDeleteDialogOpen(false); setDeleteTarget(null); }}
+              className="px-5 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
+              disabled={isDeleting}
+            >
+              {currentLanguage === 'en' ? 'Cancel' : 'منسوخ کریں'}
+            </button>
+            <button
+              onClick={confirmDeletePost}
+              disabled={isDeleting}
+              className="px-5 py-2.5 rounded-xl font-bold bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer shadow-md"
+            >
+              {isDeleting ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  {currentLanguage === 'en' ? 'Deleting...' : 'ڈیلیٹ ہو رہا ہے...'}
+                </>
+              ) : (
+                currentLanguage === 'en' ? 'Delete Post' : 'پوسٹ ڈیلیٹ کریں'
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderEditPostModal = () => {
+    if (!editingPostId) return null;
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
+        <div className="bg-white rounded-[24px] shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
+              <Edit2 className="w-5 h-5 text-blue-500" />
+              {currentLanguage === 'en' ? 'Edit Post' : 'پوسٹ میں ترمیم کریں'}
+            </h3>
+            <button 
+              onClick={() => {
+                setEditingPostId(null);
+                setEditPostContent('');
+              }}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300 transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="p-4 overflow-y-auto flex-1 bg-white">
+            <AppTextarea 
+              value={editPostContent}
+              onChange={(e) => setEditPostContent(e.target.value)}
+              placeholder={currentLanguage === 'en' ? "What's on your mind?" : 'آپ کے ذہن میں کیا ہے؟'}
+              className="w-full min-h-[150px] border-none bg-slate-50 focus:bg-white resize-none text-base p-4 rounded-xl"
+              autoFocus
+            />
+          </div>
+          
+          <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-3">
+            <button
+              onClick={() => {
+                setEditingPostId(null);
+                setEditPostContent('');
+              }}
+              className="px-5 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
+              disabled={isSavingEdit}
+            >
+              {currentLanguage === 'en' ? 'Cancel' : 'منسوخ کریں'}
+            </button>
+            <button
+              onClick={handleSaveEditPost}
+              disabled={isSavingEdit || !editPostContent.trim()}
+              className="px-5 py-2.5 rounded-xl font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer shadow-md"
+            >
+              {isSavingEdit ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  {currentLanguage === 'en' ? 'Saving...' : 'محفوظ ہو رہا ہے...'}
+                </>
+              ) : (
+                currentLanguage === 'en' ? 'Save Changes' : 'تبدیلیاں محفوظ کریں'
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
     );
   };
 
@@ -5412,7 +5600,8 @@ export default function AppShell({
                           </button>
                           <button 
                             onClick={handleCreateComposerPost}
-                            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors"
+                            disabled={isSubmittingPost}
+                            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             Retry
                           </button>
@@ -5858,6 +6047,8 @@ export default function AppShell({
           navigate={navigate}
         />
       )}
+      {renderDeleteConfirmModal()}
+      {renderEditPostModal()}
       {renderShareModal()}
 
       {/* Trust & Verification System (TVS) Modal */}
