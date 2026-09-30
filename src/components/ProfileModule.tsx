@@ -1198,9 +1198,13 @@ export default function ProfileModule({
                   className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-semibold text-slate-800"
                 >
                   <option value="Dhoke Hassu">Dhoke Hassu</option>
-                  <option value="Dhoke Khabba">Dhoke Khabba</option>
-                  <option value="Satellite Town">Satellite Town</option>
-                  <option value="Other">Other</option>
+                    <option value="Chota Chowk">Chota Chowk</option>
+                    <option value="Alamabad">Alamabad</option>
+                    <option value="Gulshan Datta">Gulshan Datta</option>
+                    <option value="Allama Iqbal Colony">Allama Iqbal Colony</option>
+                    <option value="Mehrabad">Mehrabad</option>
+                    <option value="Dhoke Darziyan">Dhoke Darziyan</option>
+                    <option value="Other">Other</option>
                 </select>
               </div>
 

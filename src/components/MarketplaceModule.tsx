@@ -253,6 +253,8 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
   // Handle Form Submission
   const handlePostAd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isPosting) return;
+    
     const errors: Record<string, string> = {};
     if (!formTitle?.trim()) errors.title = 'Title is required';
     if (!formDescription?.trim()) errors.description = 'Description is required';
@@ -265,28 +267,51 @@ const marketplaceBannerMap = useAdRotator('Marketplace', 1, 1, 'Banner');
     }
 
     setIsPosting(true);
-    const success = await createItem({
-      title: formTitle,
-      description: formDescription,
-      price: formPrice ? parseFloat(formPrice) : undefined,
-      priceText: formPrice ? undefined : formPriceText,
-      category: formCategory,
-      condition: formCondition,
-      location: formLocation
-    }, formImages);
+    try {
+      const descriptionWithContact = formContact?.trim() 
+        ? `${formDescription}\n\nContact Details: ${formContact}` 
+        : formDescription;
 
-    setIsPosting(false);
-    if (success) {
-      // Reset form
-      setFormTitle('');
-      setFormDescription('');
-      setFormPrice('');
-      setFormPriceText('Negotiable');
-      setFormImages([]);
-      setFormContact('');
-      navigate('/marketplace');
-    } else {
-      alert('Failed to publish listing. Please try again.');
+      const success = await createItem({
+        title: formTitle,
+        description: descriptionWithContact,
+        price: formPrice ? parseFloat(formPrice) : undefined,
+        priceText: formPrice ? undefined : formPriceText,
+        category: formCategory,
+        condition: formCondition,
+        location: formLocation
+      }, formImages);
+
+      if (success) {
+        // Reset form
+        setFormTitle('');
+        setFormDescription('');
+        setFormPrice('');
+        setFormPriceText('Negotiable');
+        setFormImages([]);
+        setFormContact('');
+        navigate('/marketplace');
+      } else {
+        alert('Failed to publish listing in local mode. Please try again.');
+      }
+    } catch (error: any) {
+      console.error("Publishing error caught in UI:", error);
+      const msg = error.message || '';
+      if (msg.startsWith('auth:')) {
+        alert(msg.replace('auth:', 'Authentication Error:\n'));
+      } else if (msg.startsWith('validation:')) {
+        alert(msg.replace('validation:', 'Validation Error:\n'));
+      } else if (msg.startsWith('upload:')) {
+        alert(msg.replace('upload:', 'Upload Error:\n'));
+      } else if (msg.startsWith('db:')) {
+        alert(msg.replace('db:', 'Database Error:\n'));
+      } else if (msg.startsWith('network:')) {
+        alert(msg.replace('network:', 'Network Error:\n'));
+      } else {
+        alert('An unexpected error occurred while publishing. Please try again.');
+      }
+    } finally {
+      setIsPosting(false);
     }
   };
 

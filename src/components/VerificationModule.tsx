@@ -66,13 +66,13 @@ interface VerificationModuleProps {
 
 const LOCAL_AREAS = [
   'Dhoke Hassu',
-  'Pirwadhai',
-  'Satellite Town',
-  'Dhoke Khabba',
-  'Kashmir Road',
-  'Saddar',
-  'Chungi No. 22',
-  'Faizabad'
+  'Chota Chowk',
+  'Alamabad',
+  'Gulshan Datta',
+  'Allama Iqbal Colony',
+  'Mehrabad',
+  'Dhoke Darziyan',
+  'Other'
 ];
 
 const PRESETS = {

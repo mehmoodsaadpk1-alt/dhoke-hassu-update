@@ -29,17 +29,41 @@ export async function uploadToB2(file: File | Blob, path: string): Promise<strin
 
     if (error) {
       console.error('Failed to invoke b2-upload Edge Function:', error);
-      return null;
+      return await uploadToSupabaseFallback(file, path);
     }
 
     if (data?.success && data.url) {
       return data.url;
     } else {
       console.error('B2 upload returned an error:', data?.error);
-      return null;
+      return await uploadToSupabaseFallback(file, path);
     }
   } catch (err) {
     console.error('Exception calling b2-upload Edge Function:', err);
+    return await uploadToSupabaseFallback(file, path);
+  }
+}
+
+async function uploadToSupabaseFallback(file: File | Blob, path: string): Promise<string | null> {
+  console.log("Falling back to Supabase Storage for", path);
+  try {
+    // Use the 'posts' bucket since it is confirmed to exist and have RLS policies for user uploads
+    const bucketName = 'posts';
+    
+    const { error } = await supabase.storage.from(bucketName).upload(path, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+    
+    if (error) {
+      console.error("Supabase fallback upload failed:", error);
+      return null;
+    }
+    
+    const { data: publicUrlData } = supabase.storage.from(bucketName).getPublicUrl(path);
+    return publicUrlData.publicUrl;
+  } catch (err) {
+    console.error("Exception in Supabase fallback:", err);
     return null;
   }
 }

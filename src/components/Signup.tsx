@@ -320,10 +320,14 @@ export default function Signup({
             label={t.selectArea}
             leadingIcon={<MapPin className="w-4 h-4" />}
           >
-            <option value="Dhoke Hassu">{t.areaDhokeHassu}</option>
-            <option value="Dhoke Khabba">{t.areaDhokeKhabba}</option>
-            <option value="Satellite Town">{t.areaSatelliteTown}</option>
-            <option value="Other">{t.areaOther}</option>
+            <option value="Dhoke Hassu">Dhoke Hassu</option>
+            <option value="Chota Chowk">Chota Chowk</option>
+            <option value="Alamabad">Alamabad</option>
+            <option value="Gulshan Datta">Gulshan Datta</option>
+            <option value="Allama Iqbal Colony">Allama Iqbal Colony</option>
+            <option value="Mehrabad">Mehrabad</option>
+            <option value="Dhoke Darziyan">Dhoke Darziyan</option>
+            <option value="Other">Other</option>
           </AppSelect>
 
           {/* Gender Dropdown */}

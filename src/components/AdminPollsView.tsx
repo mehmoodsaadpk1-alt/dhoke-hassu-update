@@ -342,7 +342,7 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
     if (list.length === 0 && totalVotesSum > 0 && selectedAnalyticsPoll) {
       const mockList: PollVote[] = [];
       const genders = ['Male', 'Female', 'Prefer not to say'];
-      const areas = ['Dhoke Hassu', 'Dhoke Khabba', 'Satellite Town', 'Other'];
+      const areas = ['Dhoke Hassu', 'Chota Chowk', 'Alamabad', 'Gulshan Datta', 'Allama Iqbal Colony', 'Mehrabad', 'Dhoke Darziyan', 'Other'];
       const dobs = ['1995-05-15', '2005-08-22', '1988-12-02', '2010-04-10', '1960-07-25'];
       const devices: ('Desktop' | 'Android' | 'iPhone' | 'Tablet' | 'Browser')[] = ['Desktop', 'Android', 'iPhone', 'Tablet', 'Browser'];
       
@@ -980,9 +980,13 @@ export default function AdminPollsView({ polls, onUpdatePolls, currentLanguage, 
                     >
                       <option value="All">All Areas</option>
                       <option value="Dhoke Hassu">Dhoke Hassu</option>
-                      <option value="Dhoke Khabba">Dhoke Khabba</option>
-                      <option value="Satellite Town">Satellite Town</option>
-                      <option value="Other">Other</option>
+                        <option value="Chota Chowk">Chota Chowk</option>
+                        <option value="Alamabad">Alamabad</option>
+                        <option value="Gulshan Datta">Gulshan Datta</option>
+                        <option value="Allama Iqbal Colony">Allama Iqbal Colony</option>
+                        <option value="Mehrabad">Mehrabad</option>
+                        <option value="Dhoke Darziyan">Dhoke Darziyan</option>
+                        <option value="Other">Other</option>
                     </select>
                   </div>
 

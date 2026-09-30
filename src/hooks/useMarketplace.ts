@@ -136,7 +136,7 @@ export function useMarketplace(currentUser: User | null) {
     itemData: Omit<MarketplaceItem, 'id' | 'posted_by' | 'posted_at' | 'is_sold' | 'views'>,
     images: (File | string)[]
   ) => {
-    if (!currentUser) return false;
+    if (!currentUser) throw new Error('auth:Please sign in to publish a listing.');
     const newItemId = isSupabaseConfigured ? undefined : `item-${Date.now()}`;
     
     const itemToSave: Partial<MarketplaceItem> = {
@@ -169,7 +169,7 @@ export function useMarketplace(currentUser: User | null) {
                 if (!uploadedUrl.startsWith('http') || uploadedUrl.includes('unsplash.com')) continue; // Skip presets
                 await dbDeleteMarketplaceImage(uploadedUrl);
               }
-              return false;
+              throw new Error("upload:Failed to upload one or more images. Please try again.");
             }
             uploadedUrls.push(url);
           }
@@ -189,7 +189,7 @@ export function useMarketplace(currentUser: User | null) {
             if (!uploadedUrl.startsWith('http') || uploadedUrl.includes('unsplash.com')) continue;
             await dbDeleteMarketplaceImage(uploadedUrl);
           }
-          return false;
+          throw new Error(`db:Database error: ${error?.message || 'Unknown database error'}`);
         }
 
         // 3. Save references to the uploaded images in the database.
@@ -209,7 +209,7 @@ export function useMarketplace(currentUser: User | null) {
               if (!uploadedUrl.startsWith('http') || uploadedUrl.includes('unsplash.com')) continue;
               await dbDeleteMarketplaceImage(uploadedUrl);
             }
-            return false;
+            throw new Error("db:Failed to save image references. Please try again.");
           }
         }
         await fetchItems();
@@ -223,14 +223,17 @@ export function useMarketplace(currentUser: User | null) {
           }
         });
         return true;
-      } catch (err) {
+      } catch (err: any) {
         console.error("Exception creating marketplace item:", err);
+        if (err.message && (err.message.startsWith('auth:') || err.message.startsWith('upload:') || err.message.startsWith('db:'))) {
+          throw err;
+        }
         // Cleanup uploaded images on general exception
         for (const uploadedUrl of uploadedUrls) {
           if (!uploadedUrl.startsWith('http') || uploadedUrl.includes('unsplash.com')) continue;
           await dbDeleteMarketplaceImage(uploadedUrl);
         }
-        return false;
+        throw new Error(`network:Network or unexpected error: ${err.message || 'Unknown error'}`);
       }
     } else {
       // Offline mode
@@ -277,7 +280,7 @@ export function useMarketplace(currentUser: User | null) {
 
   // Chat message sender
   const sendMessage = async (itemId: string, content: string, sellerUserId?: string, itemTitle?: string) => {
-    if (!currentUser) return false;
+    if (!currentUser) throw new Error('auth:Please sign in to publish a listing.');
 
     const chatMsg: Partial<ItemChat> = {
       item_id: itemId,
@@ -375,7 +378,7 @@ export function useMarketplace(currentUser: User | null) {
 
   // Bookmark Toggle
   const toggleFavorite = async (itemId: string) => {
-    if (!currentUser) return false;
+    if (!currentUser) throw new Error('auth:Please sign in to publish a listing.');
     const isFav = favorites.includes(itemId);
     const newFavorites = isFav
       ? favorites.filter(id => id !== itemId)
@@ -428,7 +431,7 @@ export function useMarketplace(currentUser: User | null) {
 
   // Report Item
   const reportItem = async (itemId: string, reason: string) => {
-    if (!currentUser) return false;
+    if (!currentUser) throw new Error('auth:Please sign in to publish a listing.');
     if (isSupabaseConfigured && supabase) {
       return dbReportMarketplaceItem({
         item_id: itemId,
@@ -488,7 +491,7 @@ export function useMarketplace(currentUser: User | null) {
 
   // Delete Listing
   const deleteItem = async (itemId: string) => {
-    if (!currentUser) return false;
+    if (!currentUser) throw new Error('auth:Please sign in to publish a listing.');
     const itemToDelete = items.find(item => item.id === itemId);
     if (!itemToDelete) return false;
 
